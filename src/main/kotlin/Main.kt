@@ -1,4 +1,3 @@
-import androidx.compose.desktop.ui.tooling.preview.Preview
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
@@ -9,14 +8,12 @@ import androidx.compose.ui.window.Window
 import androidx.compose.ui.window.application
 
 @Composable
-@Preview
 fun App() {
     Box(
         modifier = Modifier
             .fillMaxSize()
-            .background(Color(25, 25, 25, 255)) // тут цвет фона окна
+            .background(Color(25, 25, 25, 255)), // тут цвет фона окна
     ) {
-        // содержимое окна //
     }
 }
 
