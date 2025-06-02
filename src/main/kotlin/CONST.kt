@@ -5,4 +5,4 @@ enum class AppStatus(val n: Int) {
     HABIT_STATISTICS(3)
 }
 
-val app_status: AppStatus = AppStatus.LOADING
+var app_status: AppStatus = AppStatus.LOADING

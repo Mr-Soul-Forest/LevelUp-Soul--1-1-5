@@ -4,11 +4,14 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="dff8a00b-53e4-46b0-90df-0d2702d17777" name="Changes" comment="alpha0.0 add window and background&#10;&#10;Добавлено новое окно в программу.&#10;Реализована поддержка фона окна с настройкой цвета и прозрачности.">
-      <change afterPath="$PROJECT_DIR$/src/main/kotlin/BlueFireFlame.kt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/kotlin/CONST.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
+    <list default="true" id="dff8a00b-53e4-46b0-90df-0d2702d17777" name="Changes" comment="alpha0.0 add intro visuals and effects&#10;&#10;Добавлен пульсирующий синий круг.&#10;Добавлен текст &quot;Fire Forest Souls представляет&quot;.&#10;Реализована анимация появления троеточия.">
+      <change afterPath="$PROJECT_DIR$/.idea/codeStyles/Project.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/codeStyles/codeStyleConfig.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/kotlin/AvarageColor.kt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/kotlin/LoadingTextAnimation.kt" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/build.gradle.kts" beforeDir="false" afterPath="$PROJECT_DIR$/build.gradle.kts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/kotlin/CONST.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/kotlin/CONST.kt" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/kotlin/Main.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/kotlin/Main.kt" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -87,8 +90,13 @@
     "Kotlin.MainKt.executor": "Run",
     "RunOnceActivity.ShowReadmeOnStart": "true",
     "RunOnceActivity.git.unshallow": "true",
+    "SHARE_PROJECT_CONFIGURATION_FILES": "true",
     "git-widget-placeholder": "main",
-    "settings.editor.selected.configurable": "application.passwordSafe"
+    "last_opened_file_path": "/home/stepan/Projects/Kotlin/LevelUp-Soul",
+    "project.structure.last.edited": "SDKs",
+    "project.structure.proportion": "0.15",
+    "project.structure.side.proportion": "0.2",
+    "settings.editor.selected.configurable": "reference.settingsdialog.project.gradle"
   }
 }]]></component>
   <component name="RunManager">
@@ -136,7 +144,15 @@
       <option name="project" value="LOCAL" />
       <updated>1748769987577</updated>
     </task>
-    <option name="localTasksCounter" value="4" />
+    <task id="LOCAL-00004" summary="alpha0.0 add intro visuals and effects&#10;&#10;Добавлен пульсирующий синий круг.&#10;Добавлен текст &quot;Fire Forest Souls представляет&quot;.&#10;Реализована анимация появления троеточия.">
+      <option name="closed" value="true" />
+      <created>1748853835896</created>
+      <option name="number" value="00004" />
+      <option name="presentableId" value="LOCAL-00004" />
+      <option name="project" value="LOCAL" />
+      <updated>1748853835896</updated>
+    </task>
+    <option name="localTasksCounter" value="5" />
     <servers />
   </component>
   <component name="UpdateCopyrightCheckinHandler">
@@ -157,7 +173,8 @@
     <option name="CHECK_CODE_CLEANUP_BEFORE_PROJECT_COMMIT" value="true" />
     <MESSAGE value="alpha0.0: init kotlin-compose project" />
     <MESSAGE value="alpha0.0 add window and background&#10;&#10;Добавлено новое окно в программу.&#10;Реализована поддержка фона окна с настройкой цвета и прозрачности." />
-    <option name="LAST_COMMIT_MESSAGE" value="alpha0.0 add window and background&#10;&#10;Добавлено новое окно в программу.&#10;Реализована поддержка фона окна с настройкой цвета и прозрачности." />
+    <MESSAGE value="alpha0.0 add intro visuals and effects&#10;&#10;Добавлен пульсирующий синий круг.&#10;Добавлен текст &quot;Fire Forest Souls представляет&quot;.&#10;Реализована анимация появления троеточия." />
+    <option name="LAST_COMMIT_MESSAGE" value="alpha0.0 add intro visuals and effects&#10;&#10;Добавлен пульсирующий синий круг.&#10;Добавлен текст &quot;Fire Forest Souls представляет&quot;.&#10;Реализована анимация появления троеточия." />
     <option name="OPTIMIZE_IMPORTS_BEFORE_PROJECT_COMMIT" value="true" />
     <option name="REFORMAT_BEFORE_PROJECT_COMMIT" value="true" />
     <option name="REARRANGE_BEFORE_PROJECT_COMMIT" value="true" />
