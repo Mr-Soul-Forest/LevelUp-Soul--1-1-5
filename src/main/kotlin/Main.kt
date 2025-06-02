@@ -22,7 +22,7 @@ fun Loading() {
             verticalArrangement = Arrangement.Center
         ) {
             BlueFireFlame()
-            Spacer(modifier = Modifier.height(40.dp)) // отступ
+            Spacer(modifier = Modifier.height(40.dp))
             LoadingTextAnimation()
         }
     }
