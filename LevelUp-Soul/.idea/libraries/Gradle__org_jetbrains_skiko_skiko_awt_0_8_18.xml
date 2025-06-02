@@ -1,0 +1,10 @@
+<component name="libraryTable">
+  <library name="Gradle: org.jetbrains.skiko:skiko-awt:0.8.18" type="java-imported" external-system-id="GRADLE">
+    <properties groupId="org.jetbrains.skiko" artifactId="skiko-awt" version="0.8.18" baseVersion="0.8.18" />
+    <CLASSES>
+      <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.jetbrains.skiko/skiko-awt/0.8.18/4057f3b15af20ac9c728ba88a5c160299dca8e1a/skiko-awt-0.8.18.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES />
+  </library>
+</component>
