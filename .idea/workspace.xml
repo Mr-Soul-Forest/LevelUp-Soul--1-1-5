@@ -4,15 +4,9 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="dff8a00b-53e4-46b0-90df-0d2702d17777" name="Changes" comment="alpha0.0 add intro visuals and effects&#10;&#10;Добавлен пульсирующий синий круг.&#10;Добавлен текст &quot;Fire Forest Souls представляет&quot;.&#10;Реализована анимация появления троеточия.">
-      <change afterPath="$PROJECT_DIR$/.idea/codeStyles/Project.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/codeStyles/codeStyleConfig.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/kotlin/AvarageColor.kt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/kotlin/LoadingTextAnimation.kt" afterDir="false" />
+    <list default="true" id="dff8a00b-53e4-46b0-90df-0d2702d17777" name="Changes" comment="alpha0.0 change intro text color&#10;&#10;Изменён цвет текста &quot;Fire Forest Souls представляет&quot; для улучшения визуального восприятия.">
+      <change beforePath="$PROJECT_DIR$/.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/.gitignore" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/build.gradle.kts" beforeDir="false" afterPath="$PROJECT_DIR$/build.gradle.kts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/kotlin/CONST.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/kotlin/CONST.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/kotlin/Main.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/kotlin/Main.kt" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -66,12 +60,12 @@
     &quot;assignee&quot;: &quot;Fire-Forest-Souls&quot;
   }
 }</component>
-  <component name="GithubPullRequestsUISettings">{
-  &quot;selectedUrlAndAccountId&quot;: {
-    &quot;url&quot;: &quot;https://github.com/Fire-Forest-Souls-studio/LevelUp-Soul&quot;,
-    &quot;accountId&quot;: &quot;595d9c6b-8f2f-48c8-9791-a2e0cd43c74f&quot;
+  <component name="GithubPullRequestsUISettings"><![CDATA[{
+  "selectedUrlAndAccountId": {
+    "url": "https://github.com/Fire-Forest-Souls-studio/LevelUp-Soul",
+    "accountId": "22dfa082-beab-4a7e-aff3-1169e67959c1"
   }
-}</component>
+}]]></component>
   <component name="MaliciousPackageCheckinHandlerState">
     <option name="packageCheck" value="true" />
   </component>
@@ -152,7 +146,15 @@
       <option name="project" value="LOCAL" />
       <updated>1748853835896</updated>
     </task>
-    <option name="localTasksCounter" value="5" />
+    <task id="LOCAL-00005" summary="alpha0.0 change intro text color&#10;&#10;Изменён цвет текста &quot;Fire Forest Souls представляет&quot; для улучшения визуального восприятия.">
+      <option name="closed" value="true" />
+      <created>1748867240282</created>
+      <option name="number" value="00005" />
+      <option name="presentableId" value="LOCAL-00005" />
+      <option name="project" value="LOCAL" />
+      <updated>1748867240282</updated>
+    </task>
+    <option name="localTasksCounter" value="6" />
     <servers />
   </component>
   <component name="UpdateCopyrightCheckinHandler">
@@ -174,7 +176,8 @@
     <MESSAGE value="alpha0.0: init kotlin-compose project" />
     <MESSAGE value="alpha0.0 add window and background&#10;&#10;Добавлено новое окно в программу.&#10;Реализована поддержка фона окна с настройкой цвета и прозрачности." />
     <MESSAGE value="alpha0.0 add intro visuals and effects&#10;&#10;Добавлен пульсирующий синий круг.&#10;Добавлен текст &quot;Fire Forest Souls представляет&quot;.&#10;Реализована анимация появления троеточия." />
-    <option name="LAST_COMMIT_MESSAGE" value="alpha0.0 add intro visuals and effects&#10;&#10;Добавлен пульсирующий синий круг.&#10;Добавлен текст &quot;Fire Forest Souls представляет&quot;.&#10;Реализована анимация появления троеточия." />
+    <MESSAGE value="alpha0.0 change intro text color&#10;&#10;Изменён цвет текста &quot;Fire Forest Souls представляет&quot; для улучшения визуального восприятия." />
+    <option name="LAST_COMMIT_MESSAGE" value="alpha0.0 change intro text color&#10;&#10;Изменён цвет текста &quot;Fire Forest Souls представляет&quot; для улучшения визуального восприятия." />
     <option name="OPTIMIZE_IMPORTS_BEFORE_PROJECT_COMMIT" value="true" />
     <option name="REFORMAT_BEFORE_PROJECT_COMMIT" value="true" />
     <option name="REARRANGE_BEFORE_PROJECT_COMMIT" value="true" />
