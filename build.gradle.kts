@@ -36,3 +36,9 @@ compose.desktop {
         }
     }
 }
+
+sourceSets {
+    val main by getting {
+        kotlin.srcDir("src/main/kotlin")
+    }
+}

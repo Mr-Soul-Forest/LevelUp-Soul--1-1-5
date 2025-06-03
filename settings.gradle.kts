@@ -21,4 +21,4 @@ dependencyResolutionManagement {
     }
 }
 
-rootProject.name = "LevelUp_Soul"
+rootProject.name = "LevelUp-Soul"
