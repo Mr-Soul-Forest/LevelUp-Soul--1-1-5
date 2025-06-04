@@ -4,18 +4,11 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="56610d4b-2e59-4e69-903b-566a92ea1e82" name="Changes" comment="alpha0.0 add Linux build support&#10;&#10;Добавлена поддержка компиляции под Linux.&#10;Обновлены пути, зависимости и инструкции для сборки.">
-      <change afterPath="$PROJECT_DIR$/.idea/runConfigurations/Linux_DEB.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/runConfigurations/Linux_run.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/.gitignore" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/.name" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/kotlinc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/kotlinc.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
+    <list default="true" id="56610d4b-2e59-4e69-903b-566a92ea1e82" name="Changes" comment="alpha0.0 add cross-platform save system&#10;&#10;Реализована система сохранения данных для Linux, Windows и MacOS.&#10;Обеспечена единая логика сохранения и загрузки на всех платформах.">
+      <change afterPath="$PROJECT_DIR$/src/main/kotlin/GetOS.kt" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/build.gradle.kts" beforeDir="false" afterPath="$PROJECT_DIR$/build.gradle.kts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/settings.gradle.kts" beforeDir="false" afterPath="$PROJECT_DIR$/settings.gradle.kts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/kotlin/CONST.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/kotlin/CONST.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/kotlin/Main.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/kotlin/Main.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/kotlin/Loading.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/kotlin/Loading.kt" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -47,6 +40,13 @@
       </state>
     </system>
   </component>
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="Kotlin File" />
+      </list>
+    </option>
+  </component>
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
@@ -70,22 +70,22 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent"><![CDATA[{
-  "keyToString": {
-    "Gradle.Build LevelUp-Soul.executor": "Run",
-    "Gradle.LevelUp-Soul [run].executor": "Run",
-    "Gradle.Linux DEB.executor": "Run",
-    "Gradle.Linux run.executor": "Run",
-    "Gradle.desktop.executor": "Run",
-    "Kotlin.MainKt.executor": "Run",
-    "RunOnceActivity.ShowReadmeOnStart": "true",
-    "RunOnceActivity.git.unshallow": "true",
-    "SHARE_PROJECT_CONFIGURATION_FILES": "true",
-    "git-widget-placeholder": "main",
-    "last_opened_file_path": "/home/stepan/Projects/Kotlin/LevelUp-Soul",
-    "settings.editor.selected.configurable": "configurable.group.appearance"
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;Gradle.Build LevelUp-Soul.executor&quot;: &quot;Run&quot;,
+    &quot;Gradle.LevelUp-Soul [run].executor&quot;: &quot;Run&quot;,
+    &quot;Gradle.Linux DEB.executor&quot;: &quot;Run&quot;,
+    &quot;Gradle.Linux run.executor&quot;: &quot;Run&quot;,
+    &quot;Gradle.desktop.executor&quot;: &quot;Run&quot;,
+    &quot;Kotlin.MainKt.executor&quot;: &quot;Run&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.git.unshallow&quot;: &quot;true&quot;,
+    &quot;SHARE_PROJECT_CONFIGURATION_FILES&quot;: &quot;true&quot;,
+    &quot;git-widget-placeholder&quot;: &quot;main&quot;,
+    &quot;last_opened_file_path&quot;: &quot;/home/stepan/Projects/Kotlin/LevelUp-Soul&quot;,
+    &quot;settings.editor.selected.configurable&quot;: &quot;configurable.group.appearance&quot;
   }
-}]]></component>
+}</component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
       <recent name="$PROJECT_DIR$/.idea/codeStyles" />
@@ -126,11 +126,28 @@
       <option name="project" value="LOCAL" />
       <updated>1748892862584</updated>
     </task>
-    <option name="localTasksCounter" value="2" />
+    <task id="LOCAL-00002" summary="alpha0.0 add cross-platform save system&#10;&#10;Реализована система сохранения данных для Linux, Windows и MacOS.&#10;Обеспечена единая логика сохранения и загрузки на всех платформах.">
+      <option name="closed" value="true" />
+      <created>1748972279651</created>
+      <option name="number" value="00002" />
+      <option name="presentableId" value="LOCAL-00002" />
+      <option name="project" value="LOCAL" />
+      <updated>1748972279651</updated>
+    </task>
+    <task id="LOCAL-00003" summary="alpha0.0 add cross-platform save system&#10;&#10;Реализована система сохранения данных для Linux, Windows и MacOS.&#10;Обеспечена единая логика сохранения и загрузки на всех платформах.">
+      <option name="closed" value="true" />
+      <created>1748972434977</created>
+      <option name="number" value="00003" />
+      <option name="presentableId" value="LOCAL-00003" />
+      <option name="project" value="LOCAL" />
+      <updated>1748972434977</updated>
+    </task>
+    <option name="localTasksCounter" value="4" />
     <servers />
   </component>
   <component name="VcsManagerConfiguration">
     <MESSAGE value="alpha0.0 add Linux build support&#10;&#10;Добавлена поддержка компиляции под Linux.&#10;Обновлены пути, зависимости и инструкции для сборки." />
-    <option name="LAST_COMMIT_MESSAGE" value="alpha0.0 add Linux build support&#10;&#10;Добавлена поддержка компиляции под Linux.&#10;Обновлены пути, зависимости и инструкции для сборки." />
+    <MESSAGE value="alpha0.0 add cross-platform save system&#10;&#10;Реализована система сохранения данных для Linux, Windows и MacOS.&#10;Обеспечена единая логика сохранения и загрузки на всех платформах." />
+    <option name="LAST_COMMIT_MESSAGE" value="alpha0.0 add cross-platform save system&#10;&#10;Реализована система сохранения данных для Linux, Windows и MacOS.&#10;Обеспечена единая логика сохранения и загрузки на всех платформах." />
   </component>
 </project>

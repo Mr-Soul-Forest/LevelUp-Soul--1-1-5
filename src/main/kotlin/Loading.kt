@@ -12,26 +12,24 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import java.io.File
 
-fun isDesktop(): Boolean {
-    val os = System.getProperty("os.name").lowercase()
-    return os.contains("win") || os.contains("mac") || os.contains("linux")
-}
-fun saveValue() {
+fun saveValueDesktop() {
     val file = File("LevelUp-Souls.FireForestSouls-saving")
     file.writeText(app_version.toString())
 }
-
-fun loadValue() {
+fun loadValueDesktop() {
     val file = File("LevelUp-Souls.FireForestSouls-saving")
-    println(if (file.exists()) file.readText().toLong() else 0L)
+    val oldAppVersion: Long = if (file.exists()) file.readText().toLong() else app_version
+//    if (old_app_version) {
+//        loading old type
+//    }
 }
 
 @Composable
 fun Loading() {
 
     if (isDesktop()) {
-        saveValue()
-        loadValue()
+        saveValueDesktop()
+        loadValueDesktop()
     }
 
     Box(

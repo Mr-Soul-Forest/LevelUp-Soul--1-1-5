@@ -16,8 +16,8 @@ repositories {
 
 dependencies {
     implementation(compose.desktop.currentOs)
+    implementation(compose.runtime) // Compose runtime для общей логики
 }
-
 
 compose.desktop {
     application {
@@ -34,11 +34,5 @@ compose.desktop {
                 // iconFile.set(project.file("src/main/resources/icon.png"))
             }
         }
-    }
-}
-
-sourceSets {
-    val main by getting {
-        kotlin.srcDir("src/main/kotlin")
     }
 }
