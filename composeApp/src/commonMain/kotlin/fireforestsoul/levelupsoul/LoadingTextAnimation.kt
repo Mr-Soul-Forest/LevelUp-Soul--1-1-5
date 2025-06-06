@@ -1,12 +1,13 @@
 package fireforestsoul.levelupsoul
 
 import androidx.compose.animation.core.*
-import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.text.TextStyle
+import androidx.compose.ui.unit.sp
+import androidx.compose.foundation.text.BasicText
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.unit.sp
 
 @Composable
 fun LoadingTextAnimation() {
@@ -21,13 +22,15 @@ fun LoadingTextAnimation() {
         )
     )
 
-    Text(
+    BasicText(
         text =
             if (ellipsis < 4.0f) "Fire Forest Souls представляет" + ".".repeat(ellipsis.toInt())
             else "Fire Forest Souls представляет" + " ".repeat(6 - ellipsis.toInt()),
-        fontSize = 10.sp,
-        fontWeight = FontWeight.Thin,
-        fontFamily = FontFamily.Monospace,
-        color = averageColor(getBlueFireColor())
+        style = TextStyle(
+            fontSize = 10.sp,
+            fontWeight = FontWeight.Thin,
+            fontFamily = FontFamily.Monospace,
+            color = averageColor(getBlueFireColor())
+        )
     )
 }

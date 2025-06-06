@@ -12,27 +12,15 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
-import java.io.File
 
-fun saveValueDesktop() {
-    val file = File("LevelUp-Souls.FireForestSouls-saving")
-    file.writeText(app_version.toString())
-}
-
-fun loadValueDesktop() {
-    val file = File("LevelUp-Souls.FireForestSouls-saving")
-    val oldAppVersion: Long = if (file.exists()) file.readText().toLong() else app_version
-//    if (old_app_version) {
-//        loading old type
-//    }
-}
+expect fun saveValue()
+expect fun loadValue()
 
 @Composable
 fun Loading() {
-    if (isDesktop()) {
-        saveValueDesktop()
-        loadValueDesktop()
-    }
+
+    saveValue()
+    loadValue()
 
     Box(
         modifier = Modifier
