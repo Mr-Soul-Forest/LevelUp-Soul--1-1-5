@@ -10,12 +10,17 @@ fun initStorage(appContext: Context) {
 }
 
 private val prefs: SharedPreferences
-    get() = context!!.getSharedPreferences("LevelUp-Soul.FireForestSouls-saving", Context.MODE_PRIVATE)
+    get() = context!!.getSharedPreferences(save_file_name, Context.MODE_PRIVATE)
 
 actual fun saveValue() {
     prefs.edit().putLong("app_version", app_version).apply()
 }
 
 actual fun loadValue() {
-    val oldAppVersion: Long = if (prefs.contains("app_version")) prefs.getLong("app_version", app_version) else app_version
+    val oldAppVersion: Long =
+        if (prefs.contains("app_version")) prefs.getLong("app_version", app_version) else app_version
+//    if (oldAppVersion) {
+//        loading old type
+//    }
+
 }

@@ -12,3 +12,5 @@ var app_status: AppStatus = AppStatus.LOADING
 //alpha(000) beta(001) version(010)
 //t.x.x.x.x
 const val app_version: Long = 0 //000.000.000.000.000
+
+const val save_file_name = "LevelUp-Soul.FireForestSouls-saving"
