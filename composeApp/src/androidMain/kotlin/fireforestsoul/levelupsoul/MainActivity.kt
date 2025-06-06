@@ -17,6 +17,11 @@ class MainActivity : ComponentActivity() {
             App()
         }
     }
+
+    override fun onStop() {
+        super.onStop()
+        saveValue()
+    }
 }
 
 @Preview

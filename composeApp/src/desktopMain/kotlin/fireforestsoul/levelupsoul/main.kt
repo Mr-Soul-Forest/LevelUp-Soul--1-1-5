@@ -5,7 +5,10 @@ import androidx.compose.ui.window.application
 
 fun main() = application {
     Window(
-        onCloseRequest = ::exitApplication,
+        onCloseRequest = {
+            saveValue()
+            exitApplication()
+        },
         title = "LevelUp-Soul",
     ) {
         App()

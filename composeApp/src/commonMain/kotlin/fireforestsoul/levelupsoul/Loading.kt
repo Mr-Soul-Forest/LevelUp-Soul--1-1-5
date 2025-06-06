@@ -16,12 +16,10 @@ import androidx.compose.ui.unit.dp
 expect fun saveValue()
 expect fun loadValue()
 
+private var coutFilesLoad = 0
+
 @Composable
 fun Loading() {
-
-    saveValue()
-    loadValue()
-
     Box(
         modifier = Modifier
             .fillMaxSize()
@@ -38,4 +36,8 @@ fun Loading() {
             LoadingTextAnimation()
         }
     }
+
+    if (coutFilesLoad == 1)
+        loadValue()
+    coutFilesLoad++
 }
