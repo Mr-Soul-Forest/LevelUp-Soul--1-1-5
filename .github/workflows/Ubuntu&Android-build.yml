@@ -1,4 +1,4 @@
-name: Build Release Packages (Manual Trigger)
+name: Android&Ubuntu build
 
 on:
   workflow_dispatch:
