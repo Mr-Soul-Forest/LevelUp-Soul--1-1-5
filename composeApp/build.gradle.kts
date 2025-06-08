@@ -122,7 +122,9 @@ compose.desktop {
                 TargetFormat.Deb,
                 TargetFormat.AppImage,
                 TargetFormat.Rpm,
-                TargetFormat.Exe
+                TargetFormat.Exe,
+                TargetFormat.Dmg,
+                TargetFormat.Pkg,
             )
             packageName = "LevelUpSoul"
             packageVersion = "1.0.0"
