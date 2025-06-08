@@ -22,6 +22,15 @@ jobs:
         sudo apt-get update
         sudo apt-get install -y libfuse2 appstream jq
 
+    - name: Install dependencies for AppImage build
+      run: |
+        sudo apt-get update
+        sudo apt-get install -y libfuse2
+        # Загрузим и распакуем appimagetool в /usr/local/bin
+        wget -qO appimagetool.tar.xz https://github.com/AppImage/AppImageKit/releases/download/continuous/appimagetool-x86_64.AppImage
+        chmod +x appimagetool.tar.xz
+        sudo mv appimagetool.tar.xz /usr/local/bin/appimagetool
+
     - name: Grant execution permission to Gradlew
       run: chmod +x ./gradlew
 

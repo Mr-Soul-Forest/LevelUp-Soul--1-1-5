@@ -124,7 +124,6 @@ compose.desktop {
                     org.gradle.internal.os.OperatingSystem.LINUX -> arrayOf(
                         TargetFormat.Deb,
                         TargetFormat.AppImage,
-                        TargetFormat.Rpm,
                     )
                     org.gradle.internal.os.OperatingSystem.MAC_OS -> arrayOf(
                         TargetFormat.Dmg,
@@ -150,13 +149,9 @@ compose.desktop {
                 iconFile.set(project.file("src/desktopMain/resources/icon.ico"))
             }
 
-            modules = arrayListOf(
-                "java.base",
-                "java.desktop",
-                "java.logging",
-                "java.sql",
-                "jdk.unsupported"
-            )
+            linuxRpm {
+                includeRuntime = false
+            }
         }
     }
 }
