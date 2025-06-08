@@ -40,7 +40,7 @@ jobs:
     - name: Prepare release folder
       run: |
         mkdir -p release/latest
-        find composeApp/build/ -type f \( -iname '*.deb' -o -iname '*.AppImage' -o -iname '*.jar' -iname '*.apk'\) -exec cp {} release/latest/ \;
+        find composeApp/build/ -type f \( -iname '*.deb' -o -iname '*.AppImage' -o -iname '*.jar' -iname '*.apk' \) -exec cp {} release/latest/ \;
 
     - name: Commit release artifacts
       run: |
