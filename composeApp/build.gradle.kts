@@ -116,8 +116,15 @@ compose.desktop {
         mainClass = "fireforestsoul.levelupsoul.MainKt"
 
         nativeDistributions {
-            targetFormats(TargetFormat.Dmg, TargetFormat.Msi, TargetFormat.Deb)
-            packageName = "LevelUp Soul"
+            targetFormats(
+                TargetFormat.Dmg,
+                TargetFormat.Msi,
+                TargetFormat.Deb,
+                TargetFormat.AppImage,
+                TargetFormat.Rpm,
+                TargetFormat.Exe
+            )
+            packageName = "LevelUpSoul"
             packageVersion = "1.0.0"
 
             linux {
