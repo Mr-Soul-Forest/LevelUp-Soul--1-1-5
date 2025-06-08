@@ -149,6 +149,14 @@ compose.desktop {
             windows {
                 iconFile.set(project.file("src/desktopMain/resources/icon.ico"))
             }
+
+            modules = arrayListOf(
+                "java.base",
+                "java.desktop",
+                "java.logging",
+                "java.sql",
+                "jdk.unsupported"
+            )
         }
     }
 }
