@@ -84,6 +84,9 @@ android {
     namespace = "fireforestsoul.levelupsoul"
     compileSdk = libs.versions.android.compileSdk.get().toInt()
 
+    lint {
+        checkReleaseBuilds = false
+    }
     defaultConfig {
         applicationId = "fireforestsoul.levelupsoul"
         minSdk = libs.versions.android.minSdk.get().toInt()
@@ -117,15 +120,23 @@ compose.desktop {
 
         nativeDistributions {
             targetFormats(
-                TargetFormat.Dmg,
-                TargetFormat.Msi,
-                TargetFormat.Deb,
-                TargetFormat.AppImage,
-                TargetFormat.Rpm,
-                TargetFormat.Exe,
-                TargetFormat.Dmg,
-                TargetFormat.Pkg,
+                *when (org.gradle.internal.os.OperatingSystem.current()) {
+                    org.gradle.internal.os.OperatingSystem.LINUX -> arrayOf(
+                        TargetFormat.Deb,
+                        TargetFormat.AppImage,
+                        TargetFormat.Rpm,
+                    )
+                    org.gradle.internal.os.OperatingSystem.MAC_OS -> arrayOf(
+                        TargetFormat.Dmg,
+                        TargetFormat.Pkg
+                    )
+                    else -> arrayOf( //Windows
+                        TargetFormat.Msi,
+                        TargetFormat.Exe
+                    )
+                }
             )
+
             packageName = "LevelUpSoul"
             packageVersion = "1.0.0"
 
