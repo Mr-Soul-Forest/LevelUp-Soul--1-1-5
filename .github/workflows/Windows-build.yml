@@ -27,15 +27,15 @@ jobs:
 
       - name: Prepare release folder
         run: |
-          mkdir -p release/latest
-          find composeApp/build/ -type f \( -iname '*.msi' -o -iname '*.exe' -o -iname '*.jar' \) -exec cp {} release/latest/ \;
+          mkdir release\latest
+          powershell -Command "Get-ChildItem -Path 'composeApp\build\' -Recurse -Include '*.msi','*.exe','*.jar' | Copy-Item -Destination 'release\latest\' -Force"
+        shell: powershell
 
       - name: Upload build artifacts
         uses: actions/upload-artifact@v4
         with:
-          name: release-packages-ubuntu
+          name: release-packages-windows
           path: |
-            composeApp/build/**/*.msi
-            composeApp/build/**/*.exe
-            composeApp/build/**/*.jar
-
+            composeApp\build\**\*.msi
+            composeApp\build\**\*.exe
+            composeApp\build\**\*.jar
