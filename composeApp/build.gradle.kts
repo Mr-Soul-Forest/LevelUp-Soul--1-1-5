@@ -93,15 +93,25 @@ android {
         targetSdk = libs.versions.android.targetSdk.get().toInt()
         versionCode = 1
         versionName = "1.0"
+        setProperty("archivesBaseName", "LevelUpSoul-alpha$versionName")
     }
     packaging {
         resources {
             excludes += "/META-INF/{AL2.0,LGPL2.1}"
         }
     }
+    signingConfigs {
+        create("release") {
+            storeFile = file("src/androidMain/keystore.jks")
+            storePassword = "xxx"
+            keyAlias = "xxx"
+            keyPassword = "xxx"
+        }
+    }
     buildTypes {
         getByName("release") {
             isMinifyEnabled = false
+            signingConfig = signingConfigs.getByName("release")
         }
     }
     compileOptions {
