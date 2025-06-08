@@ -1,0 +1,44 @@
+name: MacOS Build
+
+on:
+  workflow_dispatch: # запуск вручную
+
+jobs:
+  build-macos:
+    runs-on: macos-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Set up Java 21
+        uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: 21
+
+      - name: Grant execute permission for Gradlew
+        run: chmod +x ./gradlew
+
+      - name: Build Release DMG
+        run: ./gradlew packageReleaseDmg
+
+      - name: Build Release PKG
+        run: ./gradlew packageReleasePkg
+
+      - name: Build Release JAR
+        run: ./gradlew packageReleaseJar
+
+      - name: Prepare release folder
+        run: |
+          mkdir -p release/latest
+          find composeApp/build/ -type f \( -iname '*.dmg' -o -iname '*.pkg' -o -iname '*.jar' \) -exec cp {} release/latest/ \;
+
+      - name: Upload build artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: release-packages-macos
+          path: |
+            composeApp/build/**/*.dmg
+            composeApp/build/**/*.pkg
+            composeApp/build/**/*.jar
