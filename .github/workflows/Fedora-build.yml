@@ -1,0 +1,40 @@
+name: Fedora build
+
+on:
+  workflow_dispatch:
+
+jobs:
+  build-fedora:
+    name: Build on Fedora
+    runs-on: ubuntu-latest
+
+    container:
+      image: fedora:latest # используем контейнер с Fedora
+      options: --privileged
+
+    steps:
+      - name: Install required tools
+        run: |
+          dnf install -y git java-21-openjdk-devel
+
+      - name: Set up JDK 21
+        uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: '21'
+
+      - name: Checkout repo
+        uses: actions/checkout@v4
+
+      - name: Verify Java version
+        run: java -version
+
+      - name: Build RPM
+        run: ./gradlew packageReleaseRpm
+
+      - name: Upload build artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: release-packages-fedora
+          path: |
+            composeApp/build/**/*.rpm
