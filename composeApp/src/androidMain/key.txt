@@ -1,7 +1,0 @@
-            storePassword = "Hotdog_Fugu_Blackredfire"
-            keyAlias = "my-key-alias"
-            keyPassword = "Hotdog_Fugu_Blackredfire"
-
-            storePassword = "xxx"
-            keyAlias = "xxx"
-            keyPassword = "xxx"
