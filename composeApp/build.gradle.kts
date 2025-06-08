@@ -143,10 +143,10 @@ compose.desktop {
                 iconFile.set(project.file("src/desktopMain/resources/app_icon.png"))
             }
             macOS {
-                iconFile.set(project.file("src/desktopMain/resources/icon.icns"))
+                iconFile.set(project.file("src/desktopMain/resources/app_icon.icns"))
             }
             windows {
-                iconFile.set(project.file("src/desktopMain/resources/icon.ico"))
+                iconFile.set(project.file("src/desktopMain/resources/app_icon.ico"))
             }
         }
     }
