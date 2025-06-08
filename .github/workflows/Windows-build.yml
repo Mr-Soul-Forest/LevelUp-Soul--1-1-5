@@ -1,0 +1,41 @@
+name: Build on Windows
+
+on:
+  workflow_dispatch:
+
+jobs:
+  build-windows:
+    runs-on: windows-latest
+
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: Setup Java 21
+        uses: actions/setup-java@v3
+        with:
+          distribution: temurin
+          java-version: 21
+
+      - name: Build MSI
+        run: ./gradlew packageReleaseMsi
+
+      - name: Build EXE
+        run: ./gradlew packageReleaseExe
+
+      - name: Build JAR
+        run: ./gradlew packageReleaseJar
+
+      - name: Prepare release folder
+        run: |
+          mkdir -p release/latest
+          find composeApp/build/ -type f \( -iname '*.msi' -o -iname '*.exe' -o -iname '*.jar' \) -exec cp {} release/latest/ \;
+
+      - name: Upload build artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: release-packages-ubuntu
+          path: |
+            composeApp/build/**/*.msi
+            composeApp/build/**/*.exe
+            composeApp/build/**/*.jar
+
