@@ -15,7 +15,7 @@ jobs:
     steps:
       - name: Install required tools
         run: |
-          dnf install -y git java-21-openjdk-devel gradle
+          dnf install -y git java-21-openjdk-devel
 
       - name: Checkout repo
         uses: actions/checkout@v4
