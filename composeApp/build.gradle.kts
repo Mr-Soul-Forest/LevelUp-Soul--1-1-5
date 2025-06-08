@@ -148,10 +148,6 @@ compose.desktop {
             windows {
                 iconFile.set(project.file("src/desktopMain/resources/icon.ico"))
             }
-
-            linuxRpm {
-                includeRuntime = false
-            }
         }
     }
 }
