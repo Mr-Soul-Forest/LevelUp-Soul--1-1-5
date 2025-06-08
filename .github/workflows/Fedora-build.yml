@@ -17,6 +17,12 @@ jobs:
         run: |
           dnf install -y git java-21-openjdk-devel
 
+      - name: Set up JDK 21
+        uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: '21'
+
       - name: Checkout repo
         uses: actions/checkout@v4
 
