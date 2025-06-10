@@ -16,10 +16,8 @@ import androidx.compose.ui.unit.dp
 expect fun saveValue()
 expect fun loadValue()
 
-private var coutFilesLoad = 0
-
 @Composable
-fun Loading() {
+fun LoadingContent() {
     Box(
         modifier = Modifier
             .fillMaxSize()
@@ -36,8 +34,18 @@ fun Loading() {
             LoadingTextAnimation()
         }
     }
+}
 
-    if (coutFilesLoad == 1)
+private var countFilesLoad = 0
+
+fun loading() {
+    if (countFilesLoad == 1)
         loadValue()
-    coutFilesLoad++
+    else if (countFilesLoad > 1 && countFilesLoad - 2 < habits.size) {
+        habits[countFilesLoad - 2].updateDate()
+    }
+    else
+        app_status = AppStatus.TABLE
+
+    countFilesLoad++
 }
