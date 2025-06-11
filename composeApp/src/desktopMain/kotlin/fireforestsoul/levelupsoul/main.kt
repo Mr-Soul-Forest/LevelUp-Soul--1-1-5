@@ -1,5 +1,6 @@
 package fireforestsoul.levelupsoul
 
+import androidx.compose.runtime.remember
 import androidx.compose.ui.window.Window
 import androidx.compose.ui.window.application
 import androidx.compose.ui.res.painterResource
@@ -14,6 +15,7 @@ fun main() = application {
         title = "LevelUp-Soul",
         icon = painterResource("app_icon.png")
     ) {
-        App()
+        val viewModel = remember { AppViewModel() }
+        App(viewModel)
     }
 }

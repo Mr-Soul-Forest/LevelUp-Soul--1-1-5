@@ -136,10 +136,12 @@ compose.desktop {
                         TargetFormat.Deb,
                         TargetFormat.AppImage,
                     )
+
                     org.gradle.internal.os.OperatingSystem.MAC_OS -> arrayOf(
                         TargetFormat.Dmg,
                         TargetFormat.Pkg
                     )
+
                     else -> arrayOf( //Windows
                         TargetFormat.Msi,
                         TargetFormat.Exe
@@ -161,4 +163,8 @@ compose.desktop {
             }
         }
     }
+}
+
+compose.resources {
+    packageOfResClass = "fireforestsoul.levelupsoul"
 }

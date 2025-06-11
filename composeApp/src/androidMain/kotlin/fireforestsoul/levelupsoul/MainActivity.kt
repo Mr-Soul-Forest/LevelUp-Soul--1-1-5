@@ -6,6 +6,7 @@ import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.runtime.remember
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -14,7 +15,8 @@ class MainActivity : ComponentActivity() {
         initStorage(applicationContext)
 
         setContent {
-            App()
+            val viewModel = remember { AppViewModel() }
+            App(viewModel)
         }
     }
 

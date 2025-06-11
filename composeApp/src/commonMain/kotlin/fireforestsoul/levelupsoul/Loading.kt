@@ -38,14 +38,14 @@ fun LoadingContent() {
 
 private var countFilesLoad = 0
 
-fun loading() {
+fun loading(viewModel: AppViewModel) {
     if (countFilesLoad == 1)
         loadValue()
     else if (countFilesLoad > 1 && countFilesLoad - 2 < habits.size) {
         habits[countFilesLoad - 2].updateDate()
     }
-    else
-        app_status = AppStatus.TABLE
+    else if (countFilesLoad != 0)
+        viewModel.setStatus(AppStatus.TABLE)
 
     countFilesLoad++
 }

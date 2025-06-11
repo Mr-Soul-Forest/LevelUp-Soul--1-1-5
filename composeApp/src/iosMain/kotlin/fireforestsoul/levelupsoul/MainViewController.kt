@@ -3,6 +3,7 @@ package fireforestsoul.levelupsoul
 import androidx.compose.ui.window.ComposeUIViewController
 import platform.UIKit.UIApplicationDidEnterBackgroundNotification
 import platform.Foundation.NSNotificationCenter
+import androidx.compose.runtime.remember
 
 fun setupSaveOnBackground() {
     NSNotificationCenter.defaultCenter.addObserverForName(
@@ -16,5 +17,6 @@ fun setupSaveOnBackground() {
 
 fun MainViewController() = ComposeUIViewController {
     setupSaveOnBackground()
-    App()
+    val viewModel = remember { AppViewModel() }
+    App(viewModel)
 }

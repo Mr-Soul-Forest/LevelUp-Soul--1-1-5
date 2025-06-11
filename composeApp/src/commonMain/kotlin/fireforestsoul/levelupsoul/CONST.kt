@@ -7,8 +7,6 @@ enum class AppStatus(val n: Int) {
     HABIT_STATISTICS(3)
 }
 
-var app_status: AppStatus = AppStatus.LOADING
-
 //alpha(000) beta(001) version(010)
 //t.x.x.x.x
 const val app_version: Long = 1000000 //000.000.001.000.000
