@@ -3,6 +3,7 @@ package fireforestsoul.levelupsoul
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -32,6 +33,9 @@ import androidx.compose.foundation.layout.systemBars
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.foundation.layout.*
+import androidx.compose.ui.draw.blur
+import androidx.compose.ui.unit.Dp
+import androidx.lifecycle.ViewModel
 import kotlinx.datetime.Clock
 import kotlinx.datetime.DateTimeUnit
 import kotlinx.datetime.TimeZone
@@ -40,9 +44,11 @@ import kotlinx.datetime.toLocalDateTime
 import kotlin.math.max
 
 var UI_color = Color(40, 40, 40, 255)
+val textNoSeeColor = Color(100, 100, 100, 255)
+val textSeeUiColor = Color(200, 200, 200, 255)
 
 @Composable
-fun TableContent() {
+fun TableContent(viewModel: AppViewModel, blur: Dp = 0.dp) {
     Box(
         modifier = Modifier
             .background(UI_color)
@@ -50,7 +56,8 @@ fun TableContent() {
     )
     Scaffold(
         modifier = Modifier
-            .padding(WindowInsets.systemBars.asPaddingValues()),
+            .padding(WindowInsets.systemBars.asPaddingValues())
+            .blur(blur),
         topBar = {
             Box(
                 modifier = Modifier
@@ -162,16 +169,14 @@ fun TableContent() {
         }
     ) { paddingValues ->
         //main content
-        val firstCellSizeX = 200.dp
+        val firstCellSizeX = 160.dp
         val firstCellSizeY = 40.dp
         val nextCellSizeX = firstCellSizeY
         val nextCellSizeY = firstCellSizeY
-        val textNoSeeColor = Color(100, 100, 100, 255)
-        val textSeeUiColor = Color(200, 200, 200, 255)
         val spacedCell = 3.dp
         val sizeOfBorder = 1.dp
         val roundedBorder = 7.5.dp
-        val firstSellFontSize = 17.sp
+        val firstSellFontSize = 16.sp
         val firstSellSmallFontSize = 9.sp
         val dataSellFontSize = 11.sp
         val verticalScroll = rememberScrollState()
@@ -252,6 +257,7 @@ fun TableContent() {
                             for (x in 0 until maxCellX) {
                                 Column(
                                     horizontalAlignment = Alignment.CenterHorizontally,
+                                    verticalArrangement = Arrangement.Center,
                                     modifier = Modifier.size(nextCellSizeX, nextCellSizeY)
                                 ) {
                                     Text(
@@ -303,17 +309,24 @@ fun TableContent() {
                                         if (x < habits[y].habitDay.size) {
                                             Box(
                                                 modifier = Modifier
-                                                    .width(nextCellSizeX),
+                                                    .width(nextCellSizeX)
+                                                    .height(nextCellSizeY * 7 / 16)
+                                                    .clickable {
+                                                        set_habit_day_today_x = habits[y].habitDay.size - 1 - x
+                                                        set_habit_day_today_y = y
+                                                        viewModel.setStatus(AppStatus.SET_HABIT_DAY_TODAY)
+                                                    },
                                                 contentAlignment = Alignment.Center
                                             ) {
                                                 Text(
-                                                    text = habits[y].habitDay[x].today.toString(),
-                                                    color = if (habits[y].habitDay[x].correctly) textSeeUiColor else textNoSeeColor,
+                                                    text = habits[y].habitDay[habits[y].habitDay.size - 1 - x].today.toString(),
+                                                    color = if (habits[y].habitDay[habits[y].habitDay.size - 1 - x].correctly) textSeeUiColor else textNoSeeColor,
                                                     fontWeight = FontWeight.Normal,
                                                     fontSize = firstSellFontSize
                                                 )
                                             }
                                         }
+                                        else break
                                     }
                                 }
                                 Text(

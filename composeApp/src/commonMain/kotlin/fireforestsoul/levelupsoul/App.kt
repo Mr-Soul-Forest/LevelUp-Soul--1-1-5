@@ -1,8 +1,8 @@
 package fireforestsoul.levelupsoul
 
 import androidx.compose.runtime.*
+import androidx.compose.ui.unit.dp
 import kotlinx.coroutines.delay
-import org.jetbrains.compose.resources.painterResource
 import org.jetbrains.compose.ui.tooling.preview.Preview
 
 @Composable
@@ -12,7 +12,11 @@ fun App(viewModel: AppViewModel) {
 
     when (appStatus) {
         AppStatus.LOADING -> LoadingContent()
-        AppStatus.TABLE -> TableContent()
+        AppStatus.TABLE -> TableContent(viewModel)
+        AppStatus.SET_HABIT_DAY_TODAY -> {
+            TableContent(viewModel, 10.dp)
+            SetHabitDayToday(viewModel)
+        }
         else -> LoadingContent()
     }
 

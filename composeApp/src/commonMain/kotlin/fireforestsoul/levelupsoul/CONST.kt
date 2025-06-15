@@ -1,10 +1,13 @@
 package fireforestsoul.levelupsoul
 
-enum class AppStatus(val n: Int) {
-    LOADING(0),
-    TABLE(1),
-    CREATE_HABIT(2),
-    HABIT_STATISTICS(3)
+import androidx.compose.ui.unit.dp
+
+enum class AppStatus() {
+    LOADING,
+    TABLE,
+    SET_HABIT_DAY_TODAY,
+    CREATE_HABIT,
+    HABIT_STATISTICS
 }
 
 //alpha(000) beta(001) version(010)
