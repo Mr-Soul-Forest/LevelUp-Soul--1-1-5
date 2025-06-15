@@ -32,15 +32,11 @@ import androidx.compose.foundation.layout.systemBars
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.foundation.layout.*
-import androidx.compose.ui.text.intl.Locale
 import kotlinx.datetime.Clock
 import kotlinx.datetime.DateTimeUnit
 import kotlinx.datetime.TimeZone
-import kotlinx.datetime.format
-import kotlinx.datetime.format.DateTimeFormat
 import kotlinx.datetime.minus
 import kotlinx.datetime.toLocalDateTime
-import kotlin.math.min
 import kotlin.math.max
 
 var UI_color = Color(40, 40, 40, 255)
@@ -244,7 +240,7 @@ fun TableContent() {
                         .fillMaxSize()
                 ) {
                     Column(
-                        horizontalAlignment = Alignment.CenterHorizontally,
+                        horizontalAlignment = Alignment.Start,
                         verticalArrangement = Arrangement.spacedBy(spacedCell),
                     ) {
                         //dates
@@ -253,12 +249,7 @@ fun TableContent() {
                             horizontalArrangement = Arrangement.spacedBy(spacedCell),
                             modifier = Modifier.height(nextCellSizeY)
                         ) {
-                            var maxDays = 0
-                            for (habit in habits) {
-                                maxDays = max(habit.habitDay.size, maxDays)
-                            }
-
-                            for (x in 0 until min(maxDays, maxCellX)) {
+                            for (x in 0 until maxCellX) {
                                 Column(
                                     horizontalAlignment = Alignment.CenterHorizontally,
                                     modifier = Modifier.size(nextCellSizeX, nextCellSizeY)
@@ -271,7 +262,7 @@ fun TableContent() {
                                             )).dayOfMonth.toString(),
                                         color = textNoSeeColor,
                                         fontWeight = FontWeight.Bold,
-                                        fontSize = dataSellFontSize,
+                                        fontSize = dataSellFontSize
                                     )
                                     Text(
                                         text = (Clock.System.now()
@@ -281,9 +272,56 @@ fun TableContent() {
                                             )).dayOfWeek.toString().take(3),
                                         color = textNoSeeColor,
                                         fontWeight = FontWeight.Bold,
-                                        fontSize = dataSellFontSize,
+                                        fontSize = dataSellFontSize
                                     )
                                 }
+                            }
+                        }
+                        //results
+                        for (y in 0 until habits.size) {
+                            Column(
+                                verticalArrangement = Arrangement.Center,
+                                horizontalAlignment = Alignment.CenterHorizontally,
+                                modifier = Modifier
+                                    .height(nextCellSizeY)
+                                    .border(
+                                        sizeOfBorder,
+                                        color = textNoSeeColor,
+                                        shape = RoundedCornerShape(roundedBorder)
+                                    )
+                            ) {
+                                Row(
+                                    verticalAlignment = Alignment.CenterVertically,
+                                    horizontalArrangement = Arrangement.spacedBy(spacedCell),
+                                ) {
+                                    var maxDays = 0
+                                    for (habit in habits) {
+                                        maxDays = max(habit.habitDay.size, maxDays)
+                                    }
+
+                                    for (x in 0 until maxDays) {
+                                        if (x < habits[y].habitDay.size) {
+                                            Box(
+                                                modifier = Modifier
+                                                    .width(nextCellSizeX),
+                                                contentAlignment = Alignment.Center
+                                            ) {
+                                                Text(
+                                                    text = habits[y].habitDay[x].today.toString(),
+                                                    color = if (habits[y].habitDay[x].correctly) textSeeUiColor else textNoSeeColor,
+                                                    fontWeight = FontWeight.Normal,
+                                                    fontSize = firstSellFontSize
+                                                )
+                                            }
+                                        }
+                                    }
+                                }
+                                Text(
+                                    text = habits[y].nameOfUnitsOfDimension,
+                                    color = textNoSeeColor,
+                                    fontWeight = FontWeight.Normal,
+                                    fontSize = firstSellSmallFontSize
+                                )
                             }
                         }
                     }

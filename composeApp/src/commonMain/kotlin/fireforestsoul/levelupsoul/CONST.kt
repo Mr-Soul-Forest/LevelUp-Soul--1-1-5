@@ -14,7 +14,7 @@ const val app_version: Long = 1000000 //000.000.001.000.000
 const val save_file_name = "LevelUp-Soul.FireForestSouls-saving"
 
 var habits: MutableList<Habit> = mutableListOf(
-    Habit(nameOfHabit = "First"),
+    Habit(nameOfHabit = "First", nameOfUnitsOfDimension = "count works", typeOfGoalHabits = TypeOfGoalHabits.NO_MORE, needGoal = 1.0, needDays = 3),
     Habit(nameOfHabit = "Second"),
     Habit(),
     Habit(nameOfHabit = "1"),
