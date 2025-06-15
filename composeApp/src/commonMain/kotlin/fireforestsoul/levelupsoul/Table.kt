@@ -2,8 +2,10 @@ package fireforestsoul.levelupsoul
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
+import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
@@ -27,11 +29,12 @@ import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.foundation.layout.asPaddingValues
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.systemBars
+import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.verticalScroll
+import androidx.compose.foundation.layout.*
+import kotlin.math.min
 
 var UI_color = Color(40, 40, 40, 255)
-var text_no_see_color = Color(100, 100, 100, 255)
-var text_see_UI_color = Color(200, 200, 200, 255)
-
 
 @Composable
 fun TableContent() {
@@ -153,12 +156,77 @@ fun TableContent() {
             }
         }
     ) { paddingValues ->
-        Box(
+        val firstCellSizeX = 200.dp
+        val firstCellSizeY = 40.dp
+        val nextCellSizeX = firstCellSizeY
+        val nextCellSizeY = firstCellSizeY
+        val textNoSeeColor = Color(100, 100, 100, 255)
+        val textSeeUiColor = Color(200, 200, 200, 255)
+        val spacedCell = 3.dp
+        val sizeOfBorder = 1.dp
+        val roundedBorder = 7.5.dp
+        val firstSellFontSize = 17.sp
+        val firstSellSmallFontSize = 9.sp
+        val verticalScroll = rememberScrollState()
+        val horizontalScroll = rememberScrollState()
+        val startSellY = verticalScroll.value / nextCellSizeY.value.toInt()
+        val startSellX = verticalScroll.value / nextCellSizeY.value.toInt()
+
+        BoxWithConstraints(
             modifier = Modifier
                 .fillMaxSize()
                 .padding(paddingValues)
                 .background(Color(25, 25, 25))
+                .verticalScroll(verticalScroll)
         ) {
+            val maxCellX = (maxWidth / nextCellSizeX).toInt()
+            val maxCellY = (maxHeight / nextCellSizeY).toInt()
+
+            Column(
+                horizontalAlignment = Alignment.CenterHorizontally,
+                verticalArrangement = Arrangement.spacedBy(spacedCell),
+                modifier = Modifier.width(firstCellSizeX)
+            ) {
+                Box(
+                    modifier = Modifier.size(firstCellSizeX, firstCellSizeY),
+                    contentAlignment = Alignment.Center
+                ) {
+                    Text(
+                        text = "Habits",
+                        color = textNoSeeColor,
+                        fontWeight = FontWeight.ExtraBold,
+                        fontSize = firstSellFontSize
+                    )
+                }
+                for (y in startSellY until min(habits.size, maxCellY)) {
+                    Box(
+                        modifier = Modifier
+                            .size(firstCellSizeX, firstCellSizeY)
+                            .border(sizeOfBorder, color = textNoSeeColor, shape = RoundedCornerShape(roundedBorder)),
+                        contentAlignment = Alignment.Center
+                    ) {
+                        Column(
+                            horizontalAlignment = Alignment.CenterHorizontally
+                        ) {
+                            Text(
+                                text = habits[y].nameOfHabit,
+                                color = textSeeUiColor,
+                                fontWeight = FontWeight.Normal,
+                                fontSize = firstSellFontSize,
+                            )
+                            val needOrCanMore = habits[y].needGoal - habits[y].habitDay[habits[y].habitDay.size - 1].totalOfAPeriod
+                            Text(
+                                text = if (habits[y].typeOfGoalHabits == TypeOfGoalHabits.NOT_LITTLE)
+                                    "Need $needOrCanMore more"
+                                else "You can have $needOrCanMore more",
+                                color = textNoSeeColor,
+                                fontWeight = FontWeight.Normal,
+                                fontSize = firstSellSmallFontSize,
+                            )
+                        }
+                    }
+                }
+            }
         }
     }
 }
