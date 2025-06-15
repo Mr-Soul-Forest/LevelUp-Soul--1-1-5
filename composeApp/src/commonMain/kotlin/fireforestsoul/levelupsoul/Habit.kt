@@ -6,8 +6,8 @@ import kotlinx.datetime.TimeZone
 import kotlinx.datetime.toLocalDateTime
 
 class Habit(
-    var nameOfHabit: String = "Новая привычка",
-    var nameOfUnitsOfDimension: String = "Например: км",
+    var nameOfHabit: String = "New habit",
+    var nameOfUnitsOfDimension: String = "km",
     var typeOfGoalHabits: TypeOfGoalHabits = TypeOfGoalHabits.NOT_LITTLE,
     var needGoal: Double = 1.0,
     var needDays: Int = 1

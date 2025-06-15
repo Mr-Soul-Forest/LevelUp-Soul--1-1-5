@@ -29,5 +29,6 @@ class MainActivity : ComponentActivity() {
 @Preview
 @Composable
 fun AppAndroidPreview() {
-    App()
+    val viewModel = remember { AppViewModel() }
+    App(viewModel)
 }

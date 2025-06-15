@@ -12,6 +12,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
+import kotlinx.datetime.LocalDate
 
 expect fun saveValue()
 expect fun loadValue()
@@ -39,13 +40,17 @@ fun LoadingContent() {
 private var countFilesLoad = 0
 
 fun loading(viewModel: AppViewModel) {
-    if (countFilesLoad == 1)
+    if (countFilesLoad == 1) {
         loadValue()
+        habits[0].startDate = LocalDate(2025,6,5)
+        habits[0].lastDate = habits[0].startDate
+    }
     else if (countFilesLoad > 1 && countFilesLoad - 2 < habits.size) {
         habits[countFilesLoad - 2].updateDate()
     }
-    else if (countFilesLoad != 0)
+    else if (countFilesLoad != 0) {
         viewModel.setStatus(AppStatus.TABLE)
+    }
 
     countFilesLoad++
 }
