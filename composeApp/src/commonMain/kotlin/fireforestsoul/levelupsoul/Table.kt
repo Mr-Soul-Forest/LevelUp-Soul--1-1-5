@@ -32,7 +32,16 @@ import androidx.compose.foundation.layout.systemBars
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.foundation.layout.*
+import androidx.compose.ui.text.intl.Locale
+import kotlinx.datetime.Clock
+import kotlinx.datetime.DateTimeUnit
+import kotlinx.datetime.TimeZone
+import kotlinx.datetime.format
+import kotlinx.datetime.format.DateTimeFormat
+import kotlinx.datetime.minus
+import kotlinx.datetime.toLocalDateTime
 import kotlin.math.min
+import kotlin.math.max
 
 var UI_color = Color(40, 40, 40, 255)
 
@@ -156,6 +165,7 @@ fun TableContent() {
             }
         }
     ) { paddingValues ->
+        //main content
         val firstCellSizeX = 200.dp
         val firstCellSizeY = 40.dp
         val nextCellSizeX = firstCellSizeY
@@ -167,62 +177,114 @@ fun TableContent() {
         val roundedBorder = 7.5.dp
         val firstSellFontSize = 17.sp
         val firstSellSmallFontSize = 9.sp
+        val dataSellFontSize = 11.sp
         val verticalScroll = rememberScrollState()
-        val horizontalScroll = rememberScrollState()
-        val startSellY = verticalScroll.value / nextCellSizeY.value.toInt()
-        val startSellX = verticalScroll.value / nextCellSizeY.value.toInt()
 
         BoxWithConstraints(
             modifier = Modifier
                 .fillMaxSize()
                 .padding(paddingValues)
                 .background(Color(25, 25, 25))
-                .verticalScroll(verticalScroll)
         ) {
-            val maxCellX = (maxWidth / nextCellSizeX).toInt()
-            val maxCellY = (maxHeight / nextCellSizeY).toInt()
+            val maxCellX = (maxWidth / nextCellSizeX).toInt() + 2
 
-            Column(
-                horizontalAlignment = Alignment.CenterHorizontally,
-                verticalArrangement = Arrangement.spacedBy(spacedCell),
-                modifier = Modifier.width(firstCellSizeX)
+            Row(
+                verticalAlignment = Alignment.CenterVertically,
+                horizontalArrangement = Arrangement.spacedBy(spacedCell),
+                modifier = Modifier.verticalScroll(verticalScroll)
             ) {
-                Box(
-                    modifier = Modifier.size(firstCellSizeX, firstCellSizeY),
-                    contentAlignment = Alignment.Center
+                //first column
+                Column(
+                    horizontalAlignment = Alignment.CenterHorizontally,
+                    verticalArrangement = Arrangement.spacedBy(spacedCell),
+                    modifier = Modifier.width(firstCellSizeX)
                 ) {
-                    Text(
-                        text = "Habits",
-                        color = textNoSeeColor,
-                        fontWeight = FontWeight.ExtraBold,
-                        fontSize = firstSellFontSize
-                    )
-                }
-                for (y in startSellY until min(habits.size, maxCellY)) {
                     Box(
-                        modifier = Modifier
-                            .size(firstCellSizeX, firstCellSizeY)
-                            .border(sizeOfBorder, color = textNoSeeColor, shape = RoundedCornerShape(roundedBorder)),
+                        modifier = Modifier.size(firstCellSizeX, firstCellSizeY),
                         contentAlignment = Alignment.Center
-                    ) {
-                        Column(
-                            horizontalAlignment = Alignment.CenterHorizontally
+                    ) {}
+                    for (y in 0 until habits.size) {
+                        Box(
+                            modifier = Modifier
+                                .size(firstCellSizeX, firstCellSizeY)
+                                .border(
+                                    sizeOfBorder,
+                                    color = textNoSeeColor,
+                                    shape = RoundedCornerShape(roundedBorder)
+                                ),
+                            contentAlignment = Alignment.Center
                         ) {
-                            Text(
-                                text = habits[y].nameOfHabit,
-                                color = textSeeUiColor,
-                                fontWeight = FontWeight.Normal,
-                                fontSize = firstSellFontSize,
-                            )
-                            val needOrCanMore = habits[y].needGoal - habits[y].habitDay[habits[y].habitDay.size - 1].totalOfAPeriod
-                            Text(
-                                text = if (habits[y].typeOfGoalHabits == TypeOfGoalHabits.NOT_LITTLE)
-                                    "Need $needOrCanMore more"
-                                else "You can have $needOrCanMore more",
-                                color = textNoSeeColor,
-                                fontWeight = FontWeight.Normal,
-                                fontSize = firstSellSmallFontSize,
-                            )
+                            Column(
+                                horizontalAlignment = Alignment.CenterHorizontally
+                            ) {
+                                Text(
+                                    text = habits[y].nameOfHabit,
+                                    color = textSeeUiColor,
+                                    fontWeight = FontWeight.Normal,
+                                    fontSize = firstSellFontSize,
+                                )
+                                val needOrCanMore =
+                                    habits[y].needGoal - habits[y].habitDay[habits[y].habitDay.size - 1].totalOfAPeriod
+                                Text(
+                                    text = if (habits[y].typeOfGoalHabits == TypeOfGoalHabits.NOT_LITTLE)
+                                        "Need $needOrCanMore more"
+                                    else "You can have $needOrCanMore more",
+                                    color = textNoSeeColor,
+                                    fontWeight = FontWeight.Normal,
+                                    fontSize = firstSellSmallFontSize,
+                                )
+                            }
+                        }
+                    }
+                }
+
+                //main table body
+                Box(
+                    modifier = Modifier
+                        .fillMaxSize()
+                ) {
+                    Column(
+                        horizontalAlignment = Alignment.CenterHorizontally,
+                        verticalArrangement = Arrangement.spacedBy(spacedCell),
+                    ) {
+                        //dates
+                        Row(
+                            verticalAlignment = Alignment.CenterVertically,
+                            horizontalArrangement = Arrangement.spacedBy(spacedCell),
+                            modifier = Modifier.height(nextCellSizeY)
+                        ) {
+                            var maxDays = 0
+                            for (habit in habits) {
+                                maxDays = max(habit.habitDay.size, maxDays)
+                            }
+
+                            for (x in 0 until min(maxDays, maxCellX)) {
+                                Column(
+                                    horizontalAlignment = Alignment.CenterHorizontally,
+                                    modifier = Modifier.size(nextCellSizeX, nextCellSizeY)
+                                ) {
+                                    Text(
+                                        text = (Clock.System.now()
+                                            .toLocalDateTime(TimeZone.currentSystemDefault()).date.minus(
+                                                x,
+                                                DateTimeUnit.DAY
+                                            )).dayOfMonth.toString(),
+                                        color = textNoSeeColor,
+                                        fontWeight = FontWeight.Bold,
+                                        fontSize = dataSellFontSize,
+                                    )
+                                    Text(
+                                        text = (Clock.System.now()
+                                            .toLocalDateTime(TimeZone.currentSystemDefault()).date.minus(
+                                                x,
+                                                DateTimeUnit.DAY
+                                            )).dayOfWeek.toString().take(3),
+                                        color = textNoSeeColor,
+                                        fontWeight = FontWeight.Bold,
+                                        fontSize = dataSellFontSize,
+                                    )
+                                }
+                            }
                         }
                     }
                 }
