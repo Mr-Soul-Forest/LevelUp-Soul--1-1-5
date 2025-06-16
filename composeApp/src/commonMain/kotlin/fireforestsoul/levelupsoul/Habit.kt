@@ -14,8 +14,8 @@ class Habit(
 ) {
 
     var startDate: LocalDate = Clock.System.now().toLocalDateTime(TimeZone.currentSystemDefault()).date
-    var habitDay: MutableList<HabitDay> = MutableList(1) { HabitDay(0.0) }
     var lastDate: LocalDate = startDate
+    var habitDay: MutableList<HabitDay> = MutableList(1) { HabitDay(0.0) }
 
     fun updateDate() {
         val today = Clock.System.now().toLocalDateTime(TimeZone.currentSystemDefault()).date

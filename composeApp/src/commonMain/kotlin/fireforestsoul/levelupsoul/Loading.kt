@@ -42,8 +42,8 @@ private var countFilesLoad = 0
 fun loading(viewModel: AppViewModel) {
     if (countFilesLoad == 1) {
         loadValue()
-        habits[0].startDate = LocalDate(2025,6,5)
         habits[0].lastDate = habits[0].startDate
+        habits[0].startDate = LocalDate(2025,6,5)
     }
     else if (countFilesLoad > 1 && countFilesLoad - 2 < habits.size) {
         habits[countFilesLoad - 2].updateDate()
