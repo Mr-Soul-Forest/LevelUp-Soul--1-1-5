@@ -33,6 +33,10 @@ import androidx.compose.foundation.layout.systemBars
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.foundation.layout.*
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.draw.blur
 import androidx.compose.ui.unit.Dp
 import androidx.lifecycle.ViewModel
@@ -46,6 +50,9 @@ import kotlin.math.max
 var UI_color = Color(40, 40, 40, 255)
 val textNoSeeColor = Color(100, 100, 100, 255)
 val textSeeUiColor = Color(200, 200, 200, 255)
+
+expect fun export()
+expect fun import()
 
 @Composable
 fun TableContent(viewModel: AppViewModel, blur: Dp = 0.dp) {
@@ -85,7 +92,7 @@ fun TableContent(viewModel: AppViewModel, blur: Dp = 0.dp) {
                     verticalAlignment = Alignment.CenterVertically,
                     horizontalArrangement = Arrangement.End
                 ) {
-                    IconButton(onClick = { println("Export") }) {
+                    IconButton(onClick = { export() }) {
                         Image(
                             painter = painterResource(Res.drawable.export),
                             contentDescription = "Export habits",
@@ -94,7 +101,11 @@ fun TableContent(viewModel: AppViewModel, blur: Dp = 0.dp) {
                                 .size(28.dp),
                         )
                     }
-                    IconButton(onClick = { println("Import") }) {
+                    IconButton(onClick = {
+                        import()
+                        countFilesLoad = 0
+                        viewModel.setStatus(AppStatus.LOADING)
+                    }) {
                         Image(
                             painter = painterResource(Res.drawable.import),
                             contentDescription = "Import habits",
@@ -325,8 +336,7 @@ fun TableContent(viewModel: AppViewModel, blur: Dp = 0.dp) {
                                                     fontSize = firstSellFontSize
                                                 )
                                             }
-                                        }
-                                        else break
+                                        } else break
                                     }
                                 }
                                 Text(

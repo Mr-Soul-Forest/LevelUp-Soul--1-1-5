@@ -36,7 +36,7 @@ class Habit(
 
     fun updateHabitDay(index: Int) {
         habitDay[index].totalOfAPeriod = 0.0
-        for (i in (index - needDays)..index) {
+        for (i in (index - needDays + 1)..index) {
             if (i >= 0)
                 habitDay[index].totalOfAPeriod += habitDay[i].today
         }
