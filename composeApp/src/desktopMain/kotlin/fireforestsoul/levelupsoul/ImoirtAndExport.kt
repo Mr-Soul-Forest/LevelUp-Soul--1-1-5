@@ -1,9 +1,5 @@
 package fireforestsoul.levelupsoul
 
-import androidx.compose.ui.window.Window
-import androidx.compose.ui.window.application
-import androidx.compose.runtime.*
-import androidx.compose.material3.*
 import java.io.File
 import javax.swing.JFileChooser
 
@@ -18,7 +14,8 @@ actual fun export() {
     }
 }
 
-actual fun import() {
+actual fun import(onImported: () -> Unit)
+{
     val chooser = JFileChooser()
     val result = chooser.showOpenDialog(null)
     if (result == JFileChooser.APPROVE_OPTION) {
@@ -27,4 +24,5 @@ actual fun import() {
             out.print(selectedFile.readText())
         }
     }
+    onImported()
 }

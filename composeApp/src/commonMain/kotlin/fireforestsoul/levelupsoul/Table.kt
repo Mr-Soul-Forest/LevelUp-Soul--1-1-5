@@ -33,13 +33,8 @@ import androidx.compose.foundation.layout.systemBars
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.foundation.layout.*
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.draw.blur
 import androidx.compose.ui.unit.Dp
-import androidx.lifecycle.ViewModel
 import kotlinx.datetime.Clock
 import kotlinx.datetime.DateTimeUnit
 import kotlinx.datetime.TimeZone
@@ -52,7 +47,7 @@ val textNoSeeColor = Color(100, 100, 100, 255)
 val textSeeUiColor = Color(200, 200, 200, 255)
 
 expect fun export()
-expect fun import()
+expect fun import(onImported: () -> Unit)
 
 @Composable
 fun TableContent(viewModel: AppViewModel, blur: Dp = 0.dp) {
@@ -92,7 +87,10 @@ fun TableContent(viewModel: AppViewModel, blur: Dp = 0.dp) {
                     verticalAlignment = Alignment.CenterVertically,
                     horizontalArrangement = Arrangement.End
                 ) {
-                    IconButton(onClick = { export() }) {
+                    IconButton(onClick = {
+                        saveValue()
+                        export()
+                    }) {
                         Image(
                             painter = painterResource(Res.drawable.export),
                             contentDescription = "Export habits",
@@ -102,9 +100,11 @@ fun TableContent(viewModel: AppViewModel, blur: Dp = 0.dp) {
                         )
                     }
                     IconButton(onClick = {
-                        import()
-                        countFilesLoad = 0
-                        viewModel.setStatus(AppStatus.LOADING)
+                        saveValue()
+                        import {
+                            countFilesLoad = 0
+                            viewModel.setStatus(AppStatus.LOADING)
+                        }
                     }) {
                         Image(
                             painter = painterResource(Res.drawable.import),
@@ -265,7 +265,7 @@ fun TableContent(viewModel: AppViewModel, blur: Dp = 0.dp) {
                             horizontalArrangement = Arrangement.spacedBy(spacedCell),
                             modifier = Modifier.height(nextCellSizeY)
                         ) {
-                            for (x in 0 until maxCellX) {
+                            for (x in 0 until max(maxCellX, 10)) {
                                 Column(
                                     horizontalAlignment = Alignment.CenterHorizontally,
                                     verticalArrangement = Arrangement.Center,
