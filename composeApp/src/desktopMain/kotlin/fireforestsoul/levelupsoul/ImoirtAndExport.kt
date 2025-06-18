@@ -4,7 +4,6 @@ import java.io.File
 import javax.swing.JFileChooser
 
 actual fun export() {
-    saveValue()
     val chooser = JFileChooser()
     chooser.dialogTitle = "Сохранить файл"
     val result = chooser.showSaveDialog(null)

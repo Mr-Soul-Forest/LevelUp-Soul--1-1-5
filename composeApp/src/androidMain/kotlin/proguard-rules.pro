@@ -1,0 +1,2 @@
+-keep public class androidx.core.content.FileProvider
+-keep public class * extends androidx.core.content.FileProvider

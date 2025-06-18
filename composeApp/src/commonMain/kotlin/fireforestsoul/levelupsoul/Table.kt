@@ -87,32 +87,34 @@ fun TableContent(viewModel: AppViewModel, blur: Dp = 0.dp) {
                     verticalAlignment = Alignment.CenterVertically,
                     horizontalArrangement = Arrangement.End
                 ) {
-                    IconButton(onClick = {
-                        saveValue()
-                        export()
-                    }) {
-                        Image(
-                            painter = painterResource(Res.drawable.export),
-                            contentDescription = "Export habits",
-                            modifier = Modifier
-                                .clip(RoundedCornerShape(10.dp))
-                                .size(28.dp),
-                        )
-                    }
-                    IconButton(onClick = {
-                        saveValue()
-                        import {
-                            countFilesLoad = 0
-                            viewModel.setStatus(AppStatus.LOADING)
+                    if ("Android" !in getPlatform().name) {
+                        IconButton(onClick = {
+                            saveValue()
+                            export()
+                        }) {
+                            Image(
+                                painter = painterResource(Res.drawable.export),
+                                contentDescription = "Export habits",
+                                modifier = Modifier
+                                    .clip(RoundedCornerShape(10.dp))
+                                    .size(28.dp),
+                            )
                         }
-                    }) {
-                        Image(
-                            painter = painterResource(Res.drawable.import),
-                            contentDescription = "Import habits",
-                            modifier = Modifier
-                                .clip(RoundedCornerShape(10.dp))
-                                .size(28.dp),
-                        )
+                        IconButton(onClick = {
+                            saveValue()
+                            import {
+                                countFilesLoad = 0
+                                viewModel.setStatus(AppStatus.LOADING)
+                            }
+                        }) {
+                            Image(
+                                painter = painterResource(Res.drawable.import_icon),
+                                contentDescription = "Import habits",
+                                modifier = Modifier
+                                    .clip(RoundedCornerShape(10.dp))
+                                    .size(28.dp),
+                            )
+                        }
                     }
                     IconButton(onClick = { println("Add habit") }) {
                         Image(

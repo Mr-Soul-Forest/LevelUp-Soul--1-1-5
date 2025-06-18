@@ -4,7 +4,7 @@ import android.content.Context
 import android.content.SharedPreferences
 import kotlinx.datetime.LocalDate
 
-private var context: Context? = null
+var context: Context? = null
 
 fun initStorage(appContext: Context) {
     context = appContext

@@ -55,10 +55,13 @@ kotlin {
 
     sourceSets {
         val desktopMain by getting
+        val androidMain by getting
 
         androidMain.dependencies {
+            implementation("androidx.core:core-ktx:1.12.0")
             implementation(compose.preview)
             implementation(libs.androidx.activity.compose)
+            implementation("org.json:json:20231013")
         }
         commonMain.dependencies {
             implementation(compose.runtime)
@@ -111,8 +114,12 @@ android {
     }
     buildTypes {
         getByName("release") {
-            isMinifyEnabled = false
+            isMinifyEnabled = true
             signingConfig = signingConfigs.getByName("release")
+            proguardFiles(
+                getDefaultProguardFile("proguard-android-optimize.txt"),
+                "src/androidMain/proguard-rules.pro"
+            )
         }
     }
     compileOptions {
