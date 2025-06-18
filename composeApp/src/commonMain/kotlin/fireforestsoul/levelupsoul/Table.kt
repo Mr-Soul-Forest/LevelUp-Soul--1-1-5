@@ -223,6 +223,10 @@ fun TableContent(viewModel: AppViewModel, blur: Dp = 0.dp) {
         val dataSellFontSize = 11.sp
         val verticalScroll = rememberScrollState()
         val horizontalScroll = rememberScrollState()
+        var maxDays = 0
+        for (habit in habits) {
+            maxDays = max(habit.habitDay.size, maxDays)
+        }
 
         BoxWithConstraints(
             modifier = Modifier
@@ -248,12 +252,32 @@ fun TableContent(viewModel: AppViewModel, blur: Dp = 0.dp) {
                         contentAlignment = Alignment.Center
                     ) {}
                     for (y in 0 until habits.size) {
+                        val seeColor =
+                            if (habits[y].typeOfColorHabits == TypeOfColorHabits.SELECTED)
+                                habits[y].colorGood
+                            else Color(
+                                (habits[y].habitDay.size.toDouble() / maxDays.toDouble() * 200.0).toInt(),
+                                200,
+                                200
+                            )
+                        val noSeeColor = if (habits[y].typeOfColorHabits == TypeOfColorHabits.SELECTED)
+                            Color(
+                                habits[y].colorGood.red * 0.5F,
+                                habits[y].colorGood.green * 0.5F,
+                                habits[y].colorGood.blue * 0.5F
+                            )
+                        else Color(
+                            (habits[y].habitDay.size.toDouble() / maxDays.toDouble() * 100.0).toInt(),
+                            100,
+                            100
+                        )
+
                         Box(
                             modifier = Modifier
                                 .size(firstCellSizeX, firstCellSizeY)
                                 .border(
                                     sizeOfBorder,
-                                    color = textNoSeeColor,
+                                    color = noSeeColor,
                                     shape = RoundedCornerShape(roundedBorder)
                                 ),
                             contentAlignment = Alignment.Center
@@ -263,7 +287,7 @@ fun TableContent(viewModel: AppViewModel, blur: Dp = 0.dp) {
                             ) {
                                 Text(
                                     text = habits[y].nameOfHabit,
-                                    color = textSeeUiColor,
+                                    color = seeColor,
                                     fontWeight = FontWeight.Normal,
                                     fontSize = firstSellFontSize,
                                 )
@@ -273,7 +297,7 @@ fun TableContent(viewModel: AppViewModel, blur: Dp = 0.dp) {
                                     text = if (habits[y].typeOfGoalHabits == TypeOfGoalHabits.NOT_LITTLE)
                                         "Need $needOrCanMore more"
                                     else "You can have $needOrCanMore more",
-                                    color = textNoSeeColor,
+                                    color = noSeeColor,
                                     fontWeight = FontWeight.Normal,
                                     fontSize = firstSellSmallFontSize,
                                 )
@@ -329,6 +353,26 @@ fun TableContent(viewModel: AppViewModel, blur: Dp = 0.dp) {
                         }
                         //results
                         for (y in 0 until habits.size) {
+                            val seeColor =
+                                if (habits[y].typeOfColorHabits == TypeOfColorHabits.SELECTED)
+                                    habits[y].colorGood
+                                else Color(
+                                    (habits[y].habitDay.size.toDouble() / maxDays.toDouble() * 200.0).toInt(),
+                                    200,
+                                    200
+                                )
+                            val noSeeColor = if (habits[y].typeOfColorHabits == TypeOfColorHabits.SELECTED)
+                                Color(
+                                    habits[y].colorGood.red * 0.5F,
+                                    habits[y].colorGood.green * 0.5F,
+                                    habits[y].colorGood.blue * 0.5F
+                                )
+                            else Color(
+                                (habits[y].habitDay.size.toDouble() / maxDays.toDouble() * 100.0).toInt(),
+                                100,
+                                100
+                            )
+
                             Column(
                                 verticalArrangement = Arrangement.Center,
                                 horizontalAlignment = Alignment.CenterHorizontally,
@@ -336,7 +380,7 @@ fun TableContent(viewModel: AppViewModel, blur: Dp = 0.dp) {
                                     .height(nextCellSizeY)
                                     .border(
                                         sizeOfBorder,
-                                        color = textNoSeeColor,
+                                        color = noSeeColor,
                                         shape = RoundedCornerShape(roundedBorder)
                                     )
                             ) {
@@ -344,11 +388,6 @@ fun TableContent(viewModel: AppViewModel, blur: Dp = 0.dp) {
                                     verticalAlignment = Alignment.CenterVertically,
                                     horizontalArrangement = Arrangement.spacedBy(spacedCell),
                                 ) {
-                                    var maxDays = 0
-                                    for (habit in habits) {
-                                        maxDays = max(habit.habitDay.size, maxDays)
-                                    }
-
                                     for (x in 0 until maxDays) {
                                         if (x < habits[y].habitDay.size) {
                                             Box(
@@ -366,7 +405,7 @@ fun TableContent(viewModel: AppViewModel, blur: Dp = 0.dp) {
                                             ) {
                                                 Text(
                                                     text = habits[y].habitDay[habits[y].habitDay.size - 1 - x].today.toString(),
-                                                    color = if (habits[y].habitDay[habits[y].habitDay.size - 1 - x].correctly) textSeeUiColor else textNoSeeColor,
+                                                    color = if (habits[y].habitDay[habits[y].habitDay.size - 1 - x].correctly) seeColor else noSeeColor,
                                                     fontWeight = FontWeight.Normal,
                                                     fontSize = firstSellFontSize
                                                 )
@@ -376,7 +415,7 @@ fun TableContent(viewModel: AppViewModel, blur: Dp = 0.dp) {
                                 }
                                 Text(
                                     text = habits[y].nameOfUnitsOfDimension,
-                                    color = textNoSeeColor,
+                                    color = noSeeColor,
                                     fontWeight = FontWeight.Normal,
                                     fontSize = firstSellSmallFontSize
                                 )

@@ -1,5 +1,6 @@
 package fireforestsoul.levelupsoul
 
+import androidx.compose.ui.graphics.Color
 import kotlinx.datetime.LocalDate
 import kotlinx.datetime.Clock
 import kotlinx.datetime.TimeZone
@@ -10,7 +11,9 @@ class Habit(
     var nameOfUnitsOfDimension: String = "km",
     var typeOfGoalHabits: TypeOfGoalHabits = TypeOfGoalHabits.NOT_LITTLE,
     var needGoal: Double = 1.0,
-    var needDays: Int = 1
+    var needDays: Int = 1,
+    var typeOfColorHabits: TypeOfColorHabits = TypeOfColorHabits.ADAPTIVE,
+    var colorGood: Color = textSeeUiColor
 ) {
 
     var startDate: LocalDate = Clock.System.now().toLocalDateTime(TimeZone.currentSystemDefault()).date
