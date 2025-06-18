@@ -34,6 +34,8 @@ import androidx.compose.foundation.layout.systemBars
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.foundation.layout.*
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.draw.blur
 import androidx.compose.ui.unit.Dp
 import kotlinx.datetime.Clock
@@ -52,6 +54,8 @@ expect fun import(onImported: () -> Unit)
 
 @Composable
 fun TableContent(viewModel: AppViewModel, blur: Dp = 0.dp) {
+    val appStatus by viewModel.appStatus.collectAsState()
+
     Box(
         modifier = Modifier
             .background(UI_color)
@@ -90,8 +94,10 @@ fun TableContent(viewModel: AppViewModel, blur: Dp = 0.dp) {
                 ) {
                     if ("Android" !in getPlatform().name) {
                         IconButton(onClick = {
-                            saveValue()
-                            export()
+                            if (appStatus == AppStatus.TABLE) {
+                                saveValue()
+                                export()
+                            }
                         }) {
                             Image(
                                 painter = painterResource(Res.drawable.export),
@@ -102,10 +108,12 @@ fun TableContent(viewModel: AppViewModel, blur: Dp = 0.dp) {
                             )
                         }
                         IconButton(onClick = {
-                            saveValue()
-                            import {
-                                countFilesLoad = 0
-                                viewModel.setStatus(AppStatus.LOADING)
+                            if (appStatus == AppStatus.TABLE) {
+                                saveValue()
+                                import {
+                                    countFilesLoad = 0
+                                    viewModel.setStatus(AppStatus.LOADING)
+                                }
                             }
                         }) {
                             Image(
@@ -117,7 +125,11 @@ fun TableContent(viewModel: AppViewModel, blur: Dp = 0.dp) {
                             )
                         }
                     }
-                    IconButton(onClick = { println("Add habit") }) {
+                    IconButton(onClick = {
+                        if (appStatus == AppStatus.TABLE) {
+                            println("Add habit")
+                        }
+                    }) {
                         Image(
                             painter = painterResource(Res.drawable.add_habit),
                             contentDescription = "Create habits",
@@ -126,7 +138,11 @@ fun TableContent(viewModel: AppViewModel, blur: Dp = 0.dp) {
                                 .size(28.dp),
                         )
                     }
-                    IconButton(onClick = { println("Calendar") }) {
+                    IconButton(onClick = {
+                        if (appStatus == AppStatus.TABLE) {
+                            println("Calendar")
+                        }
+                    }) {
                         Image(
                             painter = painterResource(Res.drawable.calendar),
                             contentDescription = "Open calendar",
@@ -151,7 +167,11 @@ fun TableContent(viewModel: AppViewModel, blur: Dp = 0.dp) {
                     verticalAlignment = Alignment.CenterVertically,
                     horizontalArrangement = Arrangement.SpaceBetween
                 ) {
-                    IconButton(onClick = { println("Habits") }) {
+                    IconButton(onClick = {
+                        if (appStatus == AppStatus.TABLE) {
+                            println("Habits")
+                        }
+                    }) {
                         Image(
                             painter = painterResource(Res.drawable.habits),
                             contentDescription = "Habits",
@@ -160,7 +180,11 @@ fun TableContent(viewModel: AppViewModel, blur: Dp = 0.dp) {
                                 .size(28.dp),
                         )
                     }
-                    IconButton(onClick = { println("Groups") }) {
+                    IconButton(onClick = {
+                        if (appStatus == AppStatus.TABLE) {
+                            println("Groups")
+                        }
+                    }) {
                         Image(
                             painter = painterResource(Res.drawable.groups_of_habits),
                             contentDescription = "Groups of habits",
@@ -169,7 +193,11 @@ fun TableContent(viewModel: AppViewModel, blur: Dp = 0.dp) {
                                 .size(28.dp),
                         )
                     }
-                    IconButton(onClick = { println("Soul") }) {
+                    IconButton(onClick = {
+                        if (appStatus == AppStatus.TABLE) {
+                            println("Soul")
+                        }
+                    }) {
                         Image(
                             painter = painterResource(Res.drawable.soul_stat),
                             contentDescription = "Soul Stats",
@@ -328,9 +356,11 @@ fun TableContent(viewModel: AppViewModel, blur: Dp = 0.dp) {
                                                     .width(nextCellSizeX)
                                                     .height(nextCellSizeY * 7 / 16)
                                                     .clickable {
-                                                        set_habit_day_today_x = habits[y].habitDay.size - 1 - x
-                                                        set_habit_day_today_y = y
-                                                        viewModel.setStatus(AppStatus.SET_HABIT_DAY_TODAY)
+                                                        if (appStatus == AppStatus.TABLE) {
+                                                            set_habit_day_today_x = habits[y].habitDay.size - 1 - x
+                                                            set_habit_day_today_y = y
+                                                            viewModel.setStatus(AppStatus.SET_HABIT_DAY_TODAY)
+                                                        }
                                                     },
                                                 contentAlignment = Alignment.Center
                                             ) {
