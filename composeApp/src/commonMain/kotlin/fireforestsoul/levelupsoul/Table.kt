@@ -4,6 +4,7 @@ import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.horizontalScroll
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -193,6 +194,7 @@ fun TableContent(viewModel: AppViewModel, blur: Dp = 0.dp) {
         val firstSellSmallFontSize = 9.sp
         val dataSellFontSize = 11.sp
         val verticalScroll = rememberScrollState()
+        val horizontalScroll = rememberScrollState()
 
         BoxWithConstraints(
             modifier = Modifier
@@ -256,6 +258,7 @@ fun TableContent(viewModel: AppViewModel, blur: Dp = 0.dp) {
                 Box(
                     modifier = Modifier
                         .fillMaxSize()
+                        .horizontalScroll(horizontalScroll)
                 ) {
                     Column(
                         horizontalAlignment = Alignment.Start,
