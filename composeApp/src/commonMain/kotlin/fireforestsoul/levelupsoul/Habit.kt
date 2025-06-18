@@ -32,11 +32,6 @@ class Habit(
         update()
     }
 
-    fun setHabitDay(date: LocalDate, value: Double) {
-        val index: Int = (date.toEpochDays() - startDate.toEpochDays())
-        habitDay[index].today = value
-    }
-
     fun updateHabitDay(index: Int) {
         habitDay[index].totalOfAPeriod = 0.0
         for (i in (index - needDays + 1)..index) {
@@ -46,7 +41,6 @@ class Habit(
         when (typeOfGoalHabits) {
             TypeOfGoalHabits.NO_MORE -> habitDay[index].correctly = (habitDay[index].totalOfAPeriod <= needGoal)
             TypeOfGoalHabits.NOT_LITTLE -> habitDay[index].correctly = (habitDay[index].totalOfAPeriod >= needGoal)
-            else -> habitDay[index].correctly = true
         }
     }
 
