@@ -3,6 +3,8 @@ package fireforestsoul.levelupsoul
 import android.content.Context
 import android.content.SharedPreferences
 import kotlinx.datetime.LocalDate
+import kotlin.text.toString
+import androidx.compose.ui.graphics.Color
 
 var context: Context? = null
 
@@ -23,6 +25,8 @@ actual fun saveValue() {
             putString("habits-$x-typeOfGoalHabits", habits[x].typeOfGoalHabits.toString())
             putString("habits-$x-needGoal", habits[x].needGoal.toString())
             putString("habits-$x-needDays", habits[x].needDays.toString())
+            putString("habits-$x-typeOfColorHabits", habits[x].typeOfColorHabits.toString())
+            putString("habits-$x-colorGood", habits[x].colorGood.value.toString(16))
             putString("habits-$x-startDate", habits[x].startDate.toString())
             putString("habits-$x-lastDate", habits[x].lastDate.toString())
             putString("habits-$x-habitDay-size", habits[x].habitDay.size.toString())
@@ -42,12 +46,19 @@ actual fun loadValue() {
         val habitsSize = prefs.getString("habits-size", null)?.toIntOrNull() ?: 0
         habits = MutableList(habitsSize) { Habit() }
         for (x in 0 until habitsSize) {
-            habits[x].nameOfHabit = prefs.getString("habits-$x-nameOfHabit", "") ?: ""
-            habits[x].nameOfUnitsOfDimension = prefs.getString("habits-$x-nameOfUnitsOfDimension", "") ?: ""
+            habits[x].nameOfHabit = prefs.getString("habits-$x-nameOfHabit", "New habit") ?: "New habit"
+            habits[x].nameOfUnitsOfDimension = prefs.getString("habits-$x-nameOfUnitsOfDimension", "km") ?: "km"
             habits[x].typeOfGoalHabits =
                 enumValueOf<TypeOfGoalHabits>(prefs.getString("habits-$x-typeOfGoalHabits", "NOT_LITTLE")!!)
-            habits[x].needGoal = prefs.getString("habits-$x-needGoal", "0.0")?.toDoubleOrNull() ?: 0.0
-            habits[x].needDays = prefs.getString("habits-$x-needDays", "0")?.toIntOrNull() ?: 0
+            habits[x].needGoal = prefs.getString("habits-$x-needGoal", "1.0")?.toDoubleOrNull() ?: 1.0
+            habits[x].needDays = prefs.getString("habits-$x-needDays", "1")?.toIntOrNull() ?: 1
+            if (oldAppVersion > 1000000) {
+                habits[x].typeOfColorHabits =
+                    enumValueOf<TypeOfColorHabits>(prefs.getString("habits-$x-typeOfColorHabits", "ADAPTIVE")!!)
+                habits[x].colorGood = Color(
+                    prefs.getString("habits-$x-colorGood", "ff000000")?.toULongOrNull(16) ?: 0xFF000000u
+                )
+            }
             habits[x].startDate =
                 prefs.getString("habits-$x-startDate", "2025-01-01")?.let { LocalDate.parse(it) } ?: LocalDate(
                     2025,

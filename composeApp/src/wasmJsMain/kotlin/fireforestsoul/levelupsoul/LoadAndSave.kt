@@ -1,5 +1,6 @@
 package fireforestsoul.levelupsoul
 
+import androidx.compose.ui.graphics.Color
 import kotlinx.browser.localStorage
 import kotlinx.datetime.LocalDate
 
@@ -12,6 +13,8 @@ actual fun saveValue() {
         localStorage.setItem("habits-$x-typeOfGoalHabits", habits[x].typeOfGoalHabits.toString())
         localStorage.setItem("habits-$x-needGoal", habits[x].needGoal.toString())
         localStorage.setItem("habits-$x-needDays", habits[x].needDays.toString())
+        localStorage.setItem("habits-$x-typeOfColorHabits", habits[x].typeOfColorHabits.toString())
+        localStorage.setItem("habits-$x-colorGood", habits[x].colorGood.value.toString(16))
         localStorage.setItem("habits-$x-startDate", habits[x].startDate.toString())
         localStorage.setItem("habits-$x-lastDate", habits[x].lastDate.toString())
         localStorage.setItem("habits-$x-habitDay-size", habits[x].habitDay.size.toString())
@@ -36,6 +39,10 @@ actual fun loadValue() {
                 habits[x].typeOfGoalHabits = enumValueOf<TypeOfGoalHabits>(localStorage.getItem("habits-$x-typeOfGoalHabits").toString())
                 habits[x].needGoal = localStorage.getItem("habits-$x-needGoal")?.toDouble()!!
                 habits[x].needDays = localStorage.getItem("habits-$x-needDays")?.toInt()!!
+                if (oldAppVersion > 1000000) {
+                    habits[x].typeOfColorHabits = enumValueOf<TypeOfColorHabits>(localStorage.getItem("habits-$x-typeOfColorHabits").toString())
+                    habits[x].colorGood = Color(localStorage.getItem("habits-$x-colorGood").toString().toULong(16))
+                }
                 habits[x].startDate = localStorage.getItem("habits-$x-startDate")?.let { LocalDate.parse(it) }!!
                 habits[x].lastDate = localStorage.getItem("habits-$x-lastDate")?.let { LocalDate.parse(it) }!!
                 val habitDaySize = localStorage.getItem("habits-$x-habitDay-size")?.toInt()!!
