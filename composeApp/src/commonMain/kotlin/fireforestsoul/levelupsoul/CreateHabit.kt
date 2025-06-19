@@ -2,6 +2,7 @@ package fireforestsoul.levelupsoul
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.horizontalScroll
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -21,6 +22,7 @@ import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonColors
 import androidx.compose.material3.DropdownMenu
 import androidx.compose.material3.DropdownMenuItem
+import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
@@ -42,6 +44,7 @@ import androidx.compose.ui.unit.sp
 @Composable
 fun CreateHabit(viewModel: AppViewModel) {
     val verticalScroll = rememberScrollState()
+    val horizontalScroll = rememberScrollState()
     var expanded0 by remember { mutableStateOf(false) }
     var expanded1 by remember { mutableStateOf(false) }
 
@@ -137,14 +140,15 @@ fun CreateHabit(viewModel: AppViewModel) {
                     //nameOfHabit
                     Row(
                         verticalAlignment = Alignment.CenterVertically,
-                        horizontalArrangement = Arrangement.spacedBy(spaceX)
+                        horizontalArrangement = Arrangement.spacedBy(spaceX),
+                        modifier = Modifier.horizontalScroll(horizontalScroll)
                     ) {
                         Text(
                             text = "Title: ",
                             fontSize = 16.sp,
                             color = textSeeUiColor
                         )
-                        TextField(
+                        OutlinedTextField(
                             value = nameOfHabit,
                             onValueChange = { nameOfHabit = it },
                             label = {
@@ -154,7 +158,7 @@ fun CreateHabit(viewModel: AppViewModel) {
                                     color = textNoSeeColor
                                 )
                             },
-                            keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Ascii),
+                            keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Text),
                             singleLine = true,
                             textStyle = TextStyle(
                                 fontSize = 16.sp,
@@ -178,7 +182,8 @@ fun CreateHabit(viewModel: AppViewModel) {
                     //colors
                     Row(
                         verticalAlignment = Alignment.CenterVertically,
-                        horizontalArrangement = Arrangement.spacedBy(spaceX)
+                        horizontalArrangement = Arrangement.spacedBy(spaceX),
+                        modifier = Modifier.horizontalScroll(horizontalScroll)
                     ) {
                         Text(
                             text = "Color: ",
@@ -247,7 +252,8 @@ fun CreateHabit(viewModel: AppViewModel) {
                     //type
                     Row(
                         verticalAlignment = Alignment.CenterVertically,
-                        horizontalArrangement = Arrangement.spacedBy(spaceX)
+                        horizontalArrangement = Arrangement.spacedBy(spaceX),
+                        modifier = Modifier.horizontalScroll(horizontalScroll)
                     ) {
                         Text(
                             text = "Type: ",
@@ -296,7 +302,8 @@ fun CreateHabit(viewModel: AppViewModel) {
                     //count
                     Row(
                         verticalAlignment = Alignment.CenterVertically,
-                        horizontalArrangement = Arrangement.spacedBy(spaceX)
+                        horizontalArrangement = Arrangement.spacedBy(spaceX),
+                        modifier = Modifier.horizontalScroll(horizontalScroll)
                     ) {
                         Text(
                             text = "Count: ",
@@ -343,7 +350,7 @@ fun CreateHabit(viewModel: AppViewModel) {
                                     color = textNoSeeColor
                                 )
                             },
-                            keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Ascii),
+                            keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Text),
                             singleLine = true,
                             textStyle = TextStyle(
                                 fontSize = 16.sp,
@@ -367,7 +374,8 @@ fun CreateHabit(viewModel: AppViewModel) {
                     //period
                     Row(
                         verticalAlignment = Alignment.CenterVertically,
-                        horizontalArrangement = Arrangement.spacedBy(spaceX)
+                        horizontalArrangement = Arrangement.spacedBy(spaceX),
+                        modifier = Modifier.horizontalScroll(horizontalScroll)
                     ) {
                         Text(
                             text = "Period: ",
