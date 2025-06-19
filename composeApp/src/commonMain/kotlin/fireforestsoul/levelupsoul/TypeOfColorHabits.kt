@@ -1,6 +1,6 @@
 package fireforestsoul.levelupsoul
 
-enum class TypeOfColorHabits {
+enum class TypeOfColorHabits() {
     ADAPTIVE,
     SELECTED
 }
