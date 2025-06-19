@@ -10,8 +10,10 @@ import androidx.compose.material3.SliderColors
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.runtime.*
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 
@@ -142,6 +144,71 @@ fun ColorPickerBox(
                         "Отмена",
                         fontSize = 16.sp,
                         color = Color(200, 150, 150)
+                    )
+                }
+            }
+        )
+    }
+}
+
+@Composable
+fun DeleteHabitConfirm(index: Int, onDeleteConfirmed: () -> Unit) {
+    var showDialog by remember { mutableStateOf(false) }
+
+    Box(
+        modifier = Modifier
+            .fillMaxWidth()
+            .background(Color(200,40,40), RoundedCornerShape(20.dp))
+            .height(48.dp),
+        contentAlignment = Alignment.Center
+    ) {
+        Text(
+            text = "\uD83D\uDDD1 Delete",
+            fontSize = 16.sp,
+            fontWeight = FontWeight.Bold,
+            color = textSeeUiColor,
+            modifier = Modifier
+                .clickable { showDialog = true }
+        )
+    }
+
+    if (showDialog) {
+        AlertDialog(
+            containerColor = Color.Black,
+            onDismissRequest = { showDialog = false },
+            title = {
+                Text(
+                    text = "\uD83D\uDDD1 Delete habit confirm",
+                    fontSize = 16.sp,
+                    fontWeight = FontWeight.Bold,
+                    color = textSeeUiColor,
+                )
+            },
+            text = {
+                Text(
+                    text = "Are you sure you want to remove the <${habits[index].nameOfHabit}>",
+                    fontSize = 16.sp,
+                    color = textSeeUiColor,
+                )
+            },
+            confirmButton = {
+                TextButton(onClick = {
+                    onDeleteConfirmed()
+                    showDialog = false
+                }) {
+                    Text(
+                        "\uD83D\uDDD1 Delete",
+                        fontSize = 16.sp,
+                        color = Color(200,150,150)
+                    )
+                }
+            },
+            dismissButton = {
+                TextButton(onClick = { showDialog = false }) {
+                    Text(
+                        "❌ Cancel",
+                        fontSize = 16.sp,
+                        color = Color(150,200,150),
                     )
                 }
             }

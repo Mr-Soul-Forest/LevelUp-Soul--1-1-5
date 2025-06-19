@@ -41,20 +41,19 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 
 @Composable
-fun CreateHabit(viewModel: AppViewModel) {
+fun EditHabit(viewModel: AppViewModel) {
     val verticalScroll = rememberScrollState()
     val horizontalScroll = rememberScrollState()
     var expanded0 by remember { mutableStateOf(false) }
     var expanded1 by remember { mutableStateOf(false) }
 
-    val habit = Habit()
-    var nameOfHabit by remember { mutableStateOf("") }
-    var typeOfColorHabits by remember { mutableStateOf(TypeOfColorHabits.ADAPTIVE) }
-    var colorGood by remember { mutableStateOf(habit.colorGood) }
-    var typeOfGoalHabits by remember { mutableStateOf(habit.typeOfGoalHabits) }
-    var needGoal by remember { mutableStateOf("") }
-    var nameOfUnitsOfDimension by remember { mutableStateOf("") }
-    var needDays by remember { mutableStateOf("") }
+    var nameOfHabit by remember { mutableStateOf(habits[habit_statistics_and_edit_x].nameOfHabit) }
+    var typeOfColorHabits by remember { mutableStateOf(habits[habit_statistics_and_edit_x].typeOfColorHabits) }
+    var colorGood by remember { mutableStateOf(habits[habit_statistics_and_edit_x].colorGood) }
+    var typeOfGoalHabits by remember { mutableStateOf(habits[habit_statistics_and_edit_x].typeOfGoalHabits) }
+    var needGoal by remember { mutableStateOf(habits[habit_statistics_and_edit_x].needGoal.toString()) }
+    var nameOfUnitsOfDimension by remember { mutableStateOf(habits[habit_statistics_and_edit_x].nameOfUnitsOfDimension) }
+    var needDays by remember { mutableStateOf(habits[habit_statistics_and_edit_x].needDays.toString()) }
 
     val spaceX = 4.dp
     val spaceY = 4.dp
@@ -76,7 +75,7 @@ fun CreateHabit(viewModel: AppViewModel) {
                     contentAlignment = Alignment.Center
                 ) {
                     Text(
-                        text = "Create habit",
+                        text = "Edit <${habits[habit_statistics_and_edit_x].nameOfHabit}>",
                         fontSize = 16.sp,
                         fontWeight = FontWeight.Bold,
                         color = textSeeUiColor,
@@ -107,18 +106,17 @@ fun CreateHabit(viewModel: AppViewModel) {
                         fontSize = 16.sp,
                         color = Color(150, 200, 150),
                         modifier = Modifier.clickable {
-                            habit.nameOfHabit = nameOfHabit
-                            habit.typeOfColorHabits = typeOfColorHabits
-                            habit.colorGood = colorGood
-                            habit.typeOfGoalHabits = typeOfGoalHabits
-                            habit.needGoal =
-                                (if (needGoal.toDoubleOrNull() != null) needGoal.toDoubleOrNull() else habit.needGoal)!!
-                            habit.nameOfUnitsOfDimension = nameOfUnitsOfDimension
-                            habit.needDays =
-                                (if (needDays.toIntOrNull() != null) needDays.toIntOrNull() else habit.needDays)!!
-                            habit.update()
-                            habits.add(habit)
-                            viewModel.setStatus(AppStatus.TABLE)
+                            habits[habit_statistics_and_edit_x].nameOfHabit = nameOfHabit
+                            habits[habit_statistics_and_edit_x].typeOfColorHabits = typeOfColorHabits
+                            habits[habit_statistics_and_edit_x].colorGood = colorGood
+                            habits[habit_statistics_and_edit_x].typeOfGoalHabits = typeOfGoalHabits
+                            habits[habit_statistics_and_edit_x].needGoal =
+                                (if (needGoal.toDoubleOrNull() != null) needGoal.toDoubleOrNull() else habits[habit_statistics_and_edit_x].needGoal)!!
+                            habits[habit_statistics_and_edit_x].nameOfUnitsOfDimension = nameOfUnitsOfDimension
+                            habits[habit_statistics_and_edit_x].needDays =
+                                (if (needDays.toIntOrNull() != null) needDays.toIntOrNull() else habits[habit_statistics_and_edit_x].needDays)!!
+                            habits[habit_statistics_and_edit_x].update()
+                            viewModel.setStatus(AppStatus.HABIT_STATISTICS)
                         }
                     )
                 }
@@ -151,7 +149,7 @@ fun CreateHabit(viewModel: AppViewModel) {
                             onValueChange = { nameOfHabit = it },
                             label = {
                                 Text(
-                                    "Example: ${habit.nameOfHabit}",
+                                    "Old: ${habits[habit_statistics_and_edit_x].nameOfHabit}",
                                     fontSize = 12.sp,
                                     color = textNoSeeColor
                                 )
@@ -240,8 +238,8 @@ fun CreateHabit(viewModel: AppViewModel) {
                     ) {
                         Text(
                             text = "Goal",
-                            fontSize = 16.sp,
                             fontWeight = FontWeight.Bold,
+                            fontSize = 16.sp,
                             color = textSeeUiColor,
                         )
                     }
@@ -314,7 +312,7 @@ fun CreateHabit(viewModel: AppViewModel) {
                                 onValueChange = { needGoal = it },
                                 label = {
                                     Text(
-                                        "Example: ${habit.needGoal}",
+                                        "Old: ${habits[habit_statistics_and_edit_x].needGoal}",
                                         fontSize = 12.sp,
                                         color = textNoSeeColor
                                     )
@@ -344,7 +342,7 @@ fun CreateHabit(viewModel: AppViewModel) {
                                 onValueChange = { nameOfUnitsOfDimension = it },
                                 label = {
                                     Text(
-                                        "Example: ${habit.nameOfUnitsOfDimension}",
+                                        "Old: ${habits[habit_statistics_and_edit_x].nameOfUnitsOfDimension}",
                                         fontSize = 12.sp,
                                         color = textNoSeeColor
                                     )
@@ -385,7 +383,7 @@ fun CreateHabit(viewModel: AppViewModel) {
                                 onValueChange = { needDays = it },
                                 label = {
                                     Text(
-                                        "Example: ${habit.needDays}",
+                                        "Old: ${habits[habit_statistics_and_edit_x].needDays}",
                                         fontSize = 12.sp,
                                         color = textNoSeeColor
                                     )
@@ -416,6 +414,12 @@ fun CreateHabit(viewModel: AppViewModel) {
                                 color = textSeeUiColor,
                             )
                         }
+                    }
+                    //Delete
+                    DeleteHabitConfirm(habit_statistics_and_edit_x) {
+                        habits.removeAt(habit_statistics_and_edit_x)
+                        habit_statistics_and_edit_x = 0
+                        viewModel.setStatus(AppStatus.TABLE)
                     }
                 }
             }

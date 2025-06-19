@@ -5,7 +5,8 @@ enum class AppStatus() {
     TABLE,
     SET_HABIT_DAY_TODAY,
     CREATE_HABIT,
-    HABIT_STATISTICS
+    HABIT_STATISTICS,
+    EDIT_HABIT
 }
 
 //alpha(000) beta(001) version(010)

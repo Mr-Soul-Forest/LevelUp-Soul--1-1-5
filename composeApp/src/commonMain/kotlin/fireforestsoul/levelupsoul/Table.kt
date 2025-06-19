@@ -212,9 +212,9 @@ fun TableContent(viewModel: AppViewModel, blur: Dp = 0.dp) {
         }
     ) { paddingValues ->
         //main content
-        val firstCellSizeX = 160.dp
+        val firstCellSizeX = 175.dp
         val firstCellSizeY = 40.dp
-        val nextCellSizeX = firstCellSizeY
+        val nextCellSizeX = 45.dp
         val nextCellSizeY = firstCellSizeY
         val spacedCell = 3.dp
         val sizeOfBorder = 1.dp
@@ -280,7 +280,11 @@ fun TableContent(viewModel: AppViewModel, blur: Dp = 0.dp) {
                                     sizeOfBorder,
                                     color = noSeeColor,
                                     shape = RoundedCornerShape(roundedBorder)
-                                ),
+                                )
+                                .clickable {
+                                    habit_statistics_and_edit_x = y
+                                    viewModel.setStatus(AppStatus.HABIT_STATISTICS)
+                                },
                             contentAlignment = Alignment.Center
                         ) {
                             Column(
@@ -290,7 +294,7 @@ fun TableContent(viewModel: AppViewModel, blur: Dp = 0.dp) {
                                     text = habits[y].nameOfHabit,
                                     color = seeColor,
                                     fontWeight = FontWeight.Normal,
-                                    fontSize = firstSellFontSize,
+                                    fontSize = firstSellFontSize
                                 )
                                 val needOrCanMore =
                                     habits[y].needGoal - habits[y].habitDay[habits[y].habitDay.size - 1].totalOfAPeriod

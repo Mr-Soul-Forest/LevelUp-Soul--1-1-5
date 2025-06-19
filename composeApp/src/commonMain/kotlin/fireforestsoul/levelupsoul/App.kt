@@ -18,7 +18,8 @@ fun App(viewModel: AppViewModel) {
             SetHabitDayToday(viewModel)
         }
         AppStatus.CREATE_HABIT -> CreateHabit(viewModel)
-        else -> LoadingContent()
+        AppStatus.HABIT_STATISTICS -> HabitStatistics(viewModel)
+        AppStatus.EDIT_HABIT -> EditHabit(viewModel)
     }
 
     LaunchedEffect(Unit) {
