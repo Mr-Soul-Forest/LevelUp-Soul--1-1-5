@@ -9,7 +9,6 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.KeyboardOptions
@@ -83,9 +82,9 @@ fun SetHabitDayToday(viewModel: AppViewModel) {
                         focusedTextColor = textSeeUiColor,
                         unfocusedTextColor = textNoSeeColor,
                         disabledTextColor = textNoSeeColor,
-                        focusedContainerColor = Color(25,25,25),
-                        unfocusedContainerColor = Color(25,25,25),
-                        disabledContainerColor = Color(25,25,25),
+                        focusedContainerColor = UI_dark_color,
+                        unfocusedContainerColor = UI_dark_color,
+                        disabledContainerColor = UI_dark_color,
                         cursorColor = textSeeUiColor,
                         focusedIndicatorColor = Color.Transparent,
                         unfocusedIndicatorColor = Color.Transparent,

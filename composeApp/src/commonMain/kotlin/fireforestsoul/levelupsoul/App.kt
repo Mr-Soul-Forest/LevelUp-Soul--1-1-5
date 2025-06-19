@@ -17,6 +17,7 @@ fun App(viewModel: AppViewModel) {
             TableContent(viewModel, 10.dp)
             SetHabitDayToday(viewModel)
         }
+        AppStatus.CREATE_HABIT -> CreateHabit(viewModel)
         else -> LoadingContent()
     }
 

@@ -48,6 +48,7 @@ import kotlin.math.max
 var UI_color = Color(40, 40, 40, 255)
 val textNoSeeColor = Color(100, 100, 100, 255)
 val textSeeUiColor = Color(200, 200, 200, 255)
+val UI_dark_color = Color(25, 25, 25)
 
 expect fun export()
 expect fun import(onImported: () -> Unit)
@@ -84,7 +85,7 @@ fun TableContent(viewModel: AppViewModel, blur: Dp = 0.dp) {
                         fontSize = 16.sp,
                         fontWeight = FontWeight.Bold,
                         fontFamily = FontFamily.Default,
-                        color = Color(200, 200, 200),
+                        color = textSeeUiColor,
                     )
                 }
                 Row(
@@ -127,7 +128,7 @@ fun TableContent(viewModel: AppViewModel, blur: Dp = 0.dp) {
                     }
                     IconButton(onClick = {
                         if (appStatus == AppStatus.TABLE) {
-                            println("Add habit")
+                            viewModel.setStatus(AppStatus.CREATE_HABIT)
                         }
                     }) {
                         Image(
@@ -232,7 +233,7 @@ fun TableContent(viewModel: AppViewModel, blur: Dp = 0.dp) {
             modifier = Modifier
                 .fillMaxSize()
                 .padding(paddingValues)
-                .background(Color(25, 25, 25))
+                .background(UI_dark_color)
         ) {
             val maxCellX = (maxWidth / nextCellSizeX).toInt() + 2
 
@@ -256,7 +257,7 @@ fun TableContent(viewModel: AppViewModel, blur: Dp = 0.dp) {
                             if (habits[y].typeOfColorHabits == TypeOfColorHabits.SELECTED)
                                 habits[y].colorGood
                             else Color(
-                                (habits[y].habitDay.size.toDouble() / maxDays.toDouble() * 200.0).toInt(),
+                                (habits[y].habitDay.size.toDouble() / maxDays.toDouble() * 255.0).toInt(),
                                 200,
                                 200
                             )
@@ -267,7 +268,7 @@ fun TableContent(viewModel: AppViewModel, blur: Dp = 0.dp) {
                                 habits[y].colorGood.blue * 0.5F
                             )
                         else Color(
-                            (habits[y].habitDay.size.toDouble() / maxDays.toDouble() * 100.0).toInt(),
+                            (habits[y].habitDay.size.toDouble() / maxDays.toDouble() * 127.5).toInt(),
                             100,
                             100
                         )
@@ -357,7 +358,7 @@ fun TableContent(viewModel: AppViewModel, blur: Dp = 0.dp) {
                                 if (habits[y].typeOfColorHabits == TypeOfColorHabits.SELECTED)
                                     habits[y].colorGood
                                 else Color(
-                                    (habits[y].habitDay.size.toDouble() / maxDays.toDouble() * 200.0).toInt(),
+                                    (habits[y].habitDay.size.toDouble() / maxDays.toDouble() * 255.0).toInt(),
                                     200,
                                     200
                                 )
@@ -368,7 +369,7 @@ fun TableContent(viewModel: AppViewModel, blur: Dp = 0.dp) {
                                     habits[y].colorGood.blue * 0.5F
                                 )
                             else Color(
-                                (habits[y].habitDay.size.toDouble() / maxDays.toDouble() * 100.0).toInt(),
+                                (habits[y].habitDay.size.toDouble() / maxDays.toDouble() * 127.5).toInt(),
                                 100,
                                 100
                             )

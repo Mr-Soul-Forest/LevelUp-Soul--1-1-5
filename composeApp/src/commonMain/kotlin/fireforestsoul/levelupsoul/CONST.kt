@@ -1,7 +1,5 @@
 package fireforestsoul.levelupsoul
 
-import androidx.compose.ui.unit.dp
-
 enum class AppStatus() {
     LOADING,
     TABLE,
