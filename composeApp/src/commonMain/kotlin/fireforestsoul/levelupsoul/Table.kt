@@ -378,7 +378,7 @@ fun TableContent(viewModel: AppViewModel, blur: Dp = 0.dp) {
 
                             Column(
                                 verticalArrangement = Arrangement.Center,
-                                horizontalAlignment = Alignment.CenterHorizontally,
+                                horizontalAlignment = Alignment.Start,
                                 modifier = Modifier
                                     .height(nextCellSizeY)
                                     .border(
@@ -395,40 +395,46 @@ fun TableContent(viewModel: AppViewModel, blur: Dp = 0.dp) {
                                         maxDays + countdownDate.toEpochDays() - Clock.System.now().toLocalDateTime(TimeZone.currentSystemDefault()).date.toEpochDays(),
                                         max(maxCellX, 10)
                                     )) {
-                                        Box(
-                                            modifier = Modifier
-                                                .width(nextCellSizeX)
-                                                .height(nextCellSizeY * 7 / 16),
-                                            contentAlignment = Alignment.Center
-                                        ) {
-                                            val xIndex =
-                                                habits[y].habitDay.size - 1 - x + (countdownDate.toEpochDays() - Clock.System.now()
-                                                    .toLocalDateTime(TimeZone.currentSystemDefault()).date.toEpochDays())
-                                            if (xIndex < habits[y].habitDay.size && xIndex >= 0) {
-                                                Text(
-                                                    text = habits[y].habitDay[xIndex].today.toString(),
-                                                    color = if (habits[y].habitDay[xIndex].correctly
-                                                    ) seeColor else noSeeColor,
-                                                    fontWeight = FontWeight.Normal,
-                                                    fontSize = firstSellFontSize,
-                                                    modifier = Modifier.clickable {
-                                                        if (appStatus == AppStatus.TABLE) {
-                                                            set_habit_day_today_x =xIndex
-                                                            set_habit_day_today_y = y
-                                                            viewModel.setStatus(AppStatus.SET_HABIT_DAY_TODAY)
+                                        val xIndex =
+                                            habits[y].habitDay.size - 1 - x + (countdownDate.toEpochDays() - Clock.System.now()
+                                                .toLocalDateTime(TimeZone.currentSystemDefault()).date.toEpochDays())
+                                        if (xIndex >= 0) {
+                                            Box(
+                                                modifier = Modifier
+                                                    .width(nextCellSizeX)
+                                                    .height(nextCellSizeY * 7 / 16),
+                                                contentAlignment = Alignment.Center
+                                            ) {
+                                                if (xIndex < habits[y].habitDay.size) {
+                                                    Text(
+                                                        text = habits[y].habitDay[xIndex].today.toString(),
+                                                        color = if (habits[y].habitDay[xIndex].correctly
+                                                        ) seeColor else noSeeColor,
+                                                        fontWeight = FontWeight.Normal,
+                                                        fontSize = firstSellFontSize,
+                                                        modifier = Modifier.clickable {
+                                                            if (appStatus == AppStatus.TABLE) {
+                                                                set_habit_day_today_x = xIndex
+                                                                set_habit_day_today_y = y
+                                                                viewModel.setStatus(AppStatus.SET_HABIT_DAY_TODAY)
+                                                            }
                                                         }
-                                                    }
-                                                )
+                                                    )
+                                                }
                                             }
                                         }
                                     }
                                 }
-                                Text(
-                                    text = habits[y].nameOfUnitsOfDimension,
-                                    color = noSeeColor,
-                                    fontWeight = FontWeight.Normal,
-                                    fontSize = firstSellSmallFontSize
-                                )
+                                Box(
+                                    modifier = Modifier.padding(spacedCell * 2)
+                                ) {
+                                    Text(
+                                        text = habits[y].nameOfUnitsOfDimension,
+                                        color = noSeeColor,
+                                        fontWeight = FontWeight.Normal,
+                                        fontSize = firstSellSmallFontSize
+                                    )
+                                }
                             }
                         }
                     }
