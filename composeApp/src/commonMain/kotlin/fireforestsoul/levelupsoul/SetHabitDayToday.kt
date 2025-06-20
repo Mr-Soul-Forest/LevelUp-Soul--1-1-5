@@ -12,6 +12,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.KeyboardOptions
+import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
 import androidx.compose.material3.TextFieldDefaults
@@ -61,7 +62,7 @@ fun SetHabitDayToday(viewModel: AppViewModel) {
                     fontSize = 16.sp,
                     color = textSeeUiColor
                 )
-                TextField(
+                OutlinedTextField(
                     value = inputText,
                     onValueChange = { inputText = it },
                     label = { Text(

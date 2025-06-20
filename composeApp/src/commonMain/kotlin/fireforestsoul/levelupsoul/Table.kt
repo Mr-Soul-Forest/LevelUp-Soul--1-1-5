@@ -34,8 +34,12 @@ import androidx.compose.foundation.layout.systemBars
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.foundation.layout.*
+import androidx.compose.material3.DropdownMenu
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.draw.blur
 import androidx.compose.ui.unit.Dp
 import kotlinx.datetime.Clock
@@ -44,6 +48,7 @@ import kotlinx.datetime.TimeZone
 import kotlinx.datetime.minus
 import kotlinx.datetime.toLocalDateTime
 import kotlin.math.max
+import kotlin.math.min
 
 var UI_color = Color(40, 40, 40, 255)
 val textNoSeeColor = Color(100, 100, 100, 255)
@@ -56,6 +61,11 @@ expect fun import(onImported: () -> Unit)
 @Composable
 fun TableContent(viewModel: AppViewModel, blur: Dp = 0.dp) {
     val appStatus by viewModel.appStatus.collectAsState()
+    var countdownDate by remember {
+        mutableStateOf(
+            Clock.System.now().toLocalDateTime(TimeZone.currentSystemDefault()).date
+        )
+    }
 
     Box(
         modifier = Modifier
@@ -139,18 +149,8 @@ fun TableContent(viewModel: AppViewModel, blur: Dp = 0.dp) {
                                 .size(28.dp),
                         )
                     }
-                    IconButton(onClick = {
-                        if (appStatus == AppStatus.TABLE) {
-                            println("Calendar")
-                        }
-                    }) {
-                        Image(
-                            painter = painterResource(Res.drawable.calendar),
-                            contentDescription = "Open calendar",
-                            modifier = Modifier
-                                .clip(RoundedCornerShape(10.dp))
-                                .size(28.dp),
-                        )
+                    DatePickerDialog(countdownDate, viewModel) {
+                        countdownDate = it
                     }
                 }
             }
@@ -235,7 +235,7 @@ fun TableContent(viewModel: AppViewModel, blur: Dp = 0.dp) {
                 .padding(paddingValues)
                 .background(UI_dark_color)
         ) {
-            val maxCellX = (maxWidth / nextCellSizeX).toInt() + 2
+            val maxCellX = ((maxWidth - firstCellSizeX) / (nextCellSizeX + spacedCell)).toInt()
 
             Row(
                 verticalAlignment = Alignment.CenterVertically,
@@ -334,21 +334,19 @@ fun TableContent(viewModel: AppViewModel, blur: Dp = 0.dp) {
                                     modifier = Modifier.size(nextCellSizeX, nextCellSizeY)
                                 ) {
                                     Text(
-                                        text = (Clock.System.now()
-                                            .toLocalDateTime(TimeZone.currentSystemDefault()).date.minus(
-                                                x,
-                                                DateTimeUnit.DAY
-                                            )).dayOfMonth.toString(),
+                                        text = (countdownDate.minus(
+                                            x,
+                                            DateTimeUnit.DAY
+                                        )).dayOfMonth.toString(),
                                         color = textNoSeeColor,
                                         fontWeight = FontWeight.Bold,
                                         fontSize = dataSellFontSize
                                     )
                                     Text(
-                                        text = (Clock.System.now()
-                                            .toLocalDateTime(TimeZone.currentSystemDefault()).date.minus(
-                                                x,
-                                                DateTimeUnit.DAY
-                                            )).dayOfWeek.toString().take(3),
+                                        text = (countdownDate.minus(
+                                            x,
+                                            DateTimeUnit.DAY
+                                        )).dayOfWeek.toString().take(3),
                                         color = textNoSeeColor,
                                         fontWeight = FontWeight.Bold,
                                         fontSize = dataSellFontSize
@@ -393,29 +391,36 @@ fun TableContent(viewModel: AppViewModel, blur: Dp = 0.dp) {
                                     verticalAlignment = Alignment.CenterVertically,
                                     horizontalArrangement = Arrangement.spacedBy(spacedCell),
                                 ) {
-                                    for (x in 0 until maxDays) {
-                                        if (x < habits[y].habitDay.size) {
-                                            Box(
-                                                modifier = Modifier
-                                                    .width(nextCellSizeX)
-                                                    .height(nextCellSizeY * 7 / 16)
-                                                    .clickable {
+                                    for (x in 0 until min(
+                                        maxDays + countdownDate.toEpochDays() - Clock.System.now().toLocalDateTime(TimeZone.currentSystemDefault()).date.toEpochDays(),
+                                        max(maxCellX, 10)
+                                    )) {
+                                        Box(
+                                            modifier = Modifier
+                                                .width(nextCellSizeX)
+                                                .height(nextCellSizeY * 7 / 16),
+                                            contentAlignment = Alignment.Center
+                                        ) {
+                                            val xIndex =
+                                                habits[y].habitDay.size - 1 - x + (countdownDate.toEpochDays() - Clock.System.now()
+                                                    .toLocalDateTime(TimeZone.currentSystemDefault()).date.toEpochDays())
+                                            if (xIndex < habits[y].habitDay.size && xIndex >= 0) {
+                                                Text(
+                                                    text = habits[y].habitDay[xIndex].today.toString(),
+                                                    color = if (habits[y].habitDay[xIndex].correctly
+                                                    ) seeColor else noSeeColor,
+                                                    fontWeight = FontWeight.Normal,
+                                                    fontSize = firstSellFontSize,
+                                                    modifier = Modifier.clickable {
                                                         if (appStatus == AppStatus.TABLE) {
-                                                            set_habit_day_today_x = habits[y].habitDay.size - 1 - x
+                                                            set_habit_day_today_x =xIndex
                                                             set_habit_day_today_y = y
                                                             viewModel.setStatus(AppStatus.SET_HABIT_DAY_TODAY)
                                                         }
-                                                    },
-                                                contentAlignment = Alignment.Center
-                                            ) {
-                                                Text(
-                                                    text = habits[y].habitDay[habits[y].habitDay.size - 1 - x].today.toString(),
-                                                    color = if (habits[y].habitDay[habits[y].habitDay.size - 1 - x].correctly) seeColor else noSeeColor,
-                                                    fontWeight = FontWeight.Normal,
-                                                    fontSize = firstSellFontSize
+                                                    }
                                                 )
                                             }
-                                        } else break
+                                        }
                                     }
                                 }
                                 Text(

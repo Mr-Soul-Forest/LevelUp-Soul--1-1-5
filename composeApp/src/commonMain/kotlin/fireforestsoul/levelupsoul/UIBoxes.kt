@@ -1,21 +1,37 @@
 package fireforestsoul.levelupsoul
 
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material3.AlertDialog
+import androidx.compose.material3.Button
+import androidx.compose.material3.ButtonColors
+import androidx.compose.material3.IconButton
+import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Slider
 import androidx.compose.material3.SliderColors
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
+import androidx.compose.material3.TextField
+import androidx.compose.material3.TextFieldDefaults
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import kotlinx.datetime.Clock
+import kotlinx.datetime.LocalDate
+import kotlinx.datetime.TimeZone
+import kotlinx.datetime.toLocalDateTime
+import org.jetbrains.compose.resources.painterResource
 
 @Composable
 fun ColorPickerBox(
@@ -158,7 +174,7 @@ fun DeleteHabitConfirm(index: Int, onDeleteConfirmed: () -> Unit) {
     Box(
         modifier = Modifier
             .fillMaxWidth()
-            .background(Color(200,40,40), RoundedCornerShape(20.dp))
+            .background(Color(200, 40, 40), RoundedCornerShape(20.dp))
             .height(48.dp),
         contentAlignment = Alignment.Center
     ) {
@@ -199,7 +215,7 @@ fun DeleteHabitConfirm(index: Int, onDeleteConfirmed: () -> Unit) {
                     Text(
                         "\uD83D\uDDD1 Delete",
                         fontSize = 16.sp,
-                        color = Color(200,150,150)
+                        color = Color(200, 150, 150)
                     )
                 }
             },
@@ -208,8 +224,220 @@ fun DeleteHabitConfirm(index: Int, onDeleteConfirmed: () -> Unit) {
                     Text(
                         "❌ Cancel",
                         fontSize = 16.sp,
-                        color = Color(150,200,150),
+                        color = Color(150, 200, 150),
                     )
+                }
+            }
+        )
+    }
+}
+
+@Composable
+fun DatePickerDialog(
+    initialDate: LocalDate,
+    viewModel: AppViewModel,
+    onConfirm: (LocalDate) -> Unit
+) {
+    val appStatus by viewModel.appStatus.collectAsState()
+
+    var showDialog by remember { mutableStateOf(false) }
+    var day by remember { mutableStateOf(initialDate.dayOfMonth.toString()) }
+    var month by remember { mutableStateOf(initialDate.monthNumber.toString()) }
+    var year by remember { mutableStateOf(initialDate.year.toString()) }
+
+    IconButton(onClick = {
+        if (appStatus == AppStatus.TABLE) {
+            showDialog = true
+        }
+    }) {
+        Image(
+            painter = painterResource(Res.drawable.calendar),
+            contentDescription = "Open calendar",
+            modifier = Modifier
+                .clip(RoundedCornerShape(10.dp))
+                .size(28.dp)
+        )
+    }
+
+    if (showDialog) {
+        AlertDialog(
+            containerColor = UI_dark_color,
+            onDismissRequest = { showDialog = false },
+            title = {
+                Text(
+                    "Date selection",
+                    fontSize = 16.sp,
+                    fontWeight = FontWeight.Bold,
+                    color = textSeeUiColor
+                )
+            },
+            text = {
+                Column {
+                    Row(verticalAlignment = Alignment.CenterVertically) {
+                        OutlinedTextField(
+                            value = day,
+                            onValueChange = { day = it },
+                            label = {
+                                Text(
+                                    "Day",
+                                    fontSize = 12.sp,
+                                    color = textNoSeeColor
+                                )
+                            },
+                            keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
+                            singleLine = true,
+                            textStyle = TextStyle(
+                                fontSize = 16.sp,
+                                color = textSeeUiColor
+                            ),
+                            shape = RoundedCornerShape(15.dp),
+                            colors = TextFieldDefaults.colors(
+                                focusedTextColor = textSeeUiColor,
+                                unfocusedTextColor = textNoSeeColor,
+                                disabledTextColor = textNoSeeColor,
+                                focusedContainerColor = UI_color,
+                                unfocusedContainerColor = UI_color,
+                                disabledContainerColor = UI_color,
+                                cursorColor = textSeeUiColor,
+                                focusedIndicatorColor = Color.Transparent,
+                                unfocusedIndicatorColor = Color.Transparent,
+                                disabledIndicatorColor = Color.Transparent
+                            ),
+                            modifier = Modifier.width(80.dp)
+                        )
+                        Spacer(Modifier.width(8.dp))
+                        OutlinedTextField(
+                            value = month,
+                            onValueChange = { month = it },
+                            label = {
+                                Text(
+                                    "Month",
+                                    fontSize = 12.sp,
+                                    color = textNoSeeColor
+                                )
+                            },
+                            keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
+                            singleLine = true,
+                            textStyle = TextStyle(
+                                fontSize = 16.sp,
+                                color = textSeeUiColor
+                            ),
+                            shape = RoundedCornerShape(15.dp),
+                            colors = TextFieldDefaults.colors(
+                                focusedTextColor = textSeeUiColor,
+                                unfocusedTextColor = textNoSeeColor,
+                                disabledTextColor = textNoSeeColor,
+                                focusedContainerColor = UI_color,
+                                unfocusedContainerColor = UI_color,
+                                disabledContainerColor = UI_color,
+                                cursorColor = textSeeUiColor,
+                                focusedIndicatorColor = Color.Transparent,
+                                unfocusedIndicatorColor = Color.Transparent,
+                                disabledIndicatorColor = Color.Transparent
+                            ),
+                            modifier = Modifier.width(80.dp)
+                        )
+                        Spacer(Modifier.width(8.dp))
+                        OutlinedTextField(
+                            value = year,
+                            onValueChange = { year = it },
+                            label = {
+                                Text(
+                                    "Year",
+                                    fontSize = 12.sp,
+                                    color = textNoSeeColor
+                                )
+                            },
+                            keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
+                            singleLine = true,
+                            textStyle = TextStyle(
+                                fontSize = 16.sp,
+                                color = textSeeUiColor
+                            ),
+                            shape = RoundedCornerShape(15.dp),
+                            colors = TextFieldDefaults.colors(
+                                focusedTextColor = textSeeUiColor,
+                                unfocusedTextColor = textNoSeeColor,
+                                disabledTextColor = textNoSeeColor,
+                                focusedContainerColor = UI_color,
+                                unfocusedContainerColor = UI_color,
+                                disabledContainerColor = UI_color,
+                                cursorColor = textSeeUiColor,
+                                focusedIndicatorColor = Color.Transparent,
+                                unfocusedIndicatorColor = Color.Transparent,
+                                disabledIndicatorColor = Color.Transparent
+                            ),
+                            modifier = Modifier.width(100.dp)
+                        )
+                    }
+                }
+            },
+            confirmButton = {
+                Button(
+                    onClick = {
+                        showDialog = false
+                        val d = day.toIntOrNull()
+                        val m = month.toIntOrNull()
+                        val y = year.toIntOrNull()
+                        if (d != null && m != null && y != null) {
+                            try {
+                                onConfirm(LocalDate(y, m, d))
+                            } catch (_: Exception) {
+                                // можно добавить сообщение об ошибке
+                            }
+                        }
+                    },
+                    colors = ButtonColors(
+                        containerColor = UI_color,
+                        contentColor = textSeeUiColor,
+                        disabledContainerColor = Color.Transparent,
+                        disabledContentColor = Color.Transparent
+                    )
+                ) {
+                    Text(
+                        text = "✅ Apply",
+                        fontSize = 16.sp,
+                        color = Color(150, 200, 150),
+                    )
+                }
+            },
+            dismissButton = {
+                Row (
+                    horizontalArrangement = Arrangement.spacedBy(8.dp)
+                ) {
+                    TextButton(
+                        onClick = { showDialog = false },
+                        colors = ButtonColors(
+                            containerColor = UI_color,
+                            contentColor = textSeeUiColor,
+                            disabledContainerColor = Color.Transparent,
+                            disabledContentColor = Color.Transparent
+                        )
+                    ) {
+                        Text(
+                            "❌ Cancel",
+                            fontSize = 16.sp,
+                            color = Color(200, 150, 150),
+                        )
+                    }
+                    TextButton(
+                        onClick = {
+                            showDialog = false
+                            onConfirm(Clock.System.now().toLocalDateTime(TimeZone.currentSystemDefault()).date)
+                        },
+                        colors = ButtonColors(
+                            containerColor = UI_color,
+                            contentColor = textSeeUiColor,
+                            disabledContainerColor = Color.Transparent,
+                            disabledContentColor = Color.Transparent
+                        )
+                    ) {
+                        Text(
+                            "\uD83D\uDCC5 Today",
+                            fontSize = 16.sp,
+                            color = Color(200, 150, 150),
+                        )
+                    }
                 }
             }
         )
