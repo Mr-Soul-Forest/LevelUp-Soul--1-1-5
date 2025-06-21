@@ -5,6 +5,7 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.foundation.layout.asPaddingValues
@@ -14,7 +15,9 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.systemBars
+import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
@@ -36,7 +39,7 @@ fun HabitStatistics(viewModel: AppViewModel) {
             .fillMaxSize()
             .background(UI_dark_color)
     ) {
-        Scaffold (
+        Scaffold(
             modifier = Modifier.padding(WindowInsets.systemBars.asPaddingValues()),
             topBar = {
                 Box(
@@ -46,7 +49,7 @@ fun HabitStatistics(viewModel: AppViewModel) {
                         .height(48.dp),
                     contentAlignment = Alignment.Center
                 ) {
-                    Row (
+                    Row(
                         verticalAlignment = Alignment.CenterVertically,
                         horizontalArrangement = Arrangement.SpaceBetween,
                         modifier = Modifier.fillMaxWidth()
@@ -91,19 +94,45 @@ fun HabitStatistics(viewModel: AppViewModel) {
                 }
             }
         ) { paddingValues ->
+            val verticalScroll = rememberScrollState()
+            val spaceCell = 8.dp
+
             Box(
                 modifier = Modifier
                     .padding(paddingValues)
                     .fillMaxSize()
-                    .background(UI_dark_color),
-                contentAlignment = Alignment.Center
+                    .background(UI_dark_color)
+                    .verticalScroll(verticalScroll)
             ) {
-                Text(
-                    text = "Habit statistic will soon",
-                    fontSize = 16.sp,
-                    fontWeight = FontWeight.Bold,
-                    color = textSeeUiColor
-                )
+                Column (
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(vertical = spaceCell, horizontal = spaceCell / 2),
+                    verticalArrangement = Arrangement.spacedBy(spaceCell),
+                    horizontalAlignment = Alignment.CenterHorizontally
+                ) {
+                    //Goal
+                    Box(
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .background(UI_color, RoundedCornerShape(20.dp))
+                            .height(48.dp),
+                        contentAlignment = Alignment.Center
+                    ) {
+                        Text(
+                            text = "Goal",
+                            fontSize = 16.sp,
+                            fontWeight = FontWeight.Bold,
+                            color = textSeeUiColor,
+                        )
+                    }
+                    Text(
+                        text = "You need " + habits[set_habit_day_today_y].typeOfGoalHabits.toString()
+                            .lowercase() + " ${habits[set_habit_day_today_y].needGoal} ${habits[set_habit_day_today_x].nameOfUnitsOfDimension} in ${habits[set_habit_day_today_y].needDays} days",
+                        fontSize = 16.sp,
+                        color = textSeeUiColor
+                    )
+                }
             }
         }
     }
