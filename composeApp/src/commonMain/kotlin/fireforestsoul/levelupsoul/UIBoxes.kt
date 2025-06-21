@@ -405,7 +405,7 @@ fun DatePickerDialog(
                 }
             },
             dismissButton = {
-                Row (
+                Row(
                     horizontalArrangement = Arrangement.spacedBy(8.dp)
                 ) {
                     TextButton(
@@ -469,5 +469,56 @@ fun DonutChart(
             )
             startAngle += sweepAngle
         }
+    }
+}
+
+@Composable
+fun PPSInfoDialog() {
+    var showDialog by remember { mutableStateOf(false) }
+
+    Text(
+        text = "\uD83D\uDEC8 PPS: ",
+        fontSize = 16.sp,
+        color = textSeeUiColor,
+        modifier = Modifier.clickable { showDialog = true }
+    )
+
+    if (showDialog) {
+        AlertDialog(
+            containerColor = UI_dark_color,
+            onDismissRequest = { showDialog = false },
+            title = {
+                Text(
+                    "PPS Info",
+                    fontSize = 16.sp,
+                    fontWeight = FontWeight.Bold,
+                    color = textSeeUiColor
+                )
+            },
+            text = {
+                Text(
+                    "PPS means Progress Period Settings. By default, progress is the percentage of successful days out of all tracking days. If PPS = 0 or is greater than or equal to the number of tracked days, this default method is used. If PPS is set to another number, progress is calculated over the number of days specified by PPS.",
+                    fontSize = 16.sp,
+                    color = textSeeUiColor
+                )
+            },
+            confirmButton = {
+                Button(
+                    onClick = { showDialog = false },
+                    colors = ButtonColors(
+                        containerColor = UI_color,
+                        contentColor = textSeeUiColor,
+                        disabledContainerColor = Color.Transparent,
+                        disabledContentColor = Color.Transparent
+                    )
+                ) {
+                    Text(
+                        text = "Close",
+                        fontSize = 16.sp,
+                        color = Color(150, 150, 200),
+                    )
+                }
+            }
+        )
     }
 }

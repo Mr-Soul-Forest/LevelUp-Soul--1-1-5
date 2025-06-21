@@ -169,20 +169,16 @@ fun HabitStatistics(viewModel: AppViewModel) {
                         horizontalAlignment = Alignment.CenterHorizontally
                     ) {
                         Text(
-                            text = "You need " + habits[set_habit_day_today_y].typeOfGoalHabits.toString()
-                                .lowercase() + " ${habits[set_habit_day_today_y].needGoal} ${habits[set_habit_day_today_x].nameOfUnitsOfDimension} in ${habits[set_habit_day_today_y].needDays} days",
+                            text = "You need " + habits[habit_statistics_and_edit_x].typeOfGoalHabits.toString()
+                                .lowercase() + " ${habits[habit_statistics_and_edit_x].needGoal} ${habits[habit_statistics_and_edit_x].nameOfUnitsOfDimension} in ${habits[habit_statistics_and_edit_x].needDays} days",
                             fontSize = 16.sp,
                             color = textSeeUiColor
                         )
                         Row(
-                            horizontalArrangement = Arrangement.spacedBy(30.dp),
+                            horizontalArrangement = Arrangement.spacedBy(20.dp),
                             verticalAlignment = Alignment.CenterVertically
                         ) {
-                            Text(
-                                text = "PPS: ",
-                                fontSize = 16.sp,
-                                color = textSeeUiColor
-                            )
+                            PPSInfoDialog()
                             OutlinedTextField(
                                 value = progressPeriod,
                                 onValueChange = { progressPeriod = it },
