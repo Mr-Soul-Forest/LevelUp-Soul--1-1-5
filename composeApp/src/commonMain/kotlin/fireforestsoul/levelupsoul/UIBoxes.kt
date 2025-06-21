@@ -1,5 +1,6 @@
 package fireforestsoul.levelupsoul
 
+import androidx.compose.foundation.Canvas
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
@@ -22,9 +23,11 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.drawscope.Stroke
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.KeyboardType
+import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import kotlinx.datetime.Clock
@@ -441,5 +444,30 @@ fun DatePickerDialog(
                 }
             }
         )
+    }
+}
+
+@Composable
+fun DonutChart(
+    values: List<Float>,
+    colors: List<Color>,
+    modifier: Modifier = Modifier,
+    strokeWidth: Dp = 40.dp // ширина "кольца"
+) {
+    val total = values.sum()
+    var startAngle = -90f // начать сверху
+
+    Canvas(modifier = modifier) {
+        values.forEachIndexed { i, value ->
+            val sweepAngle = (value / total) * 360f
+            drawArc(
+                color = colors.getOrElse(i) { Color.Gray },
+                startAngle = startAngle,
+                sweepAngle = sweepAngle,
+                useCenter = false,
+                style = Stroke(width = strokeWidth.value)
+            )
+            startAngle += sweepAngle
+        }
     }
 }

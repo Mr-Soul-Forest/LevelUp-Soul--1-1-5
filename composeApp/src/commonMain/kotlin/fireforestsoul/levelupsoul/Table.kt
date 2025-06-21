@@ -257,7 +257,7 @@ fun TableContent(viewModel: AppViewModel, blur: Dp = 0.dp) {
                                 habits[y].colorGood
                             else Color(
                                 (habits[y].habitDay.size.toDouble() / maxDays.toDouble() * 255.0).toInt(),
-                                255,
+                                (progress(y) * 255.0).toInt(),
                                 255
                             )
                         val noSeeColor = if (habits[y].typeOfColorHabits == TypeOfColorHabits.SELECTED)
@@ -268,7 +268,7 @@ fun TableContent(viewModel: AppViewModel, blur: Dp = 0.dp) {
                             )
                         else Color(
                             (habits[y].habitDay.size.toDouble() / maxDays.toDouble() * 127.5).toInt(),
-                            127,
+                            (progress(y) * 127.5).toInt(),
                             127
                         )
 
@@ -360,7 +360,7 @@ fun TableContent(viewModel: AppViewModel, blur: Dp = 0.dp) {
                                     habits[y].colorGood
                                 else Color(
                                     (habits[y].habitDay.size.toDouble() / maxDays.toDouble() * 255.0).toInt(),
-                                    255,
+                                    (progress(y) * 255.0).toInt(),
                                     255
                                 )
                             val noSeeColor = if (habits[y].typeOfColorHabits == TypeOfColorHabits.SELECTED)
@@ -371,7 +371,7 @@ fun TableContent(viewModel: AppViewModel, blur: Dp = 0.dp) {
                                 )
                             else Color(
                                 (habits[y].habitDay.size.toDouble() / maxDays.toDouble() * 127.5).toInt(),
-                                127,
+                                (progress(y) * 127.5).toInt(),
                                 127
                             )
 
