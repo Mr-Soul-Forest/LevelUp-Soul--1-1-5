@@ -20,7 +20,10 @@ actual fun saveValue() {
         localStorage.setItem("habits-$x-habitDay-size", habits[x].habitDay.size.toString())
         for (y in 0 until habits[x].habitDay.size) {
             localStorage.setItem("habits-$x-habitDay-$y-today", habits[x].habitDay[y].today.toString())
-            localStorage.setItem("habits-$x-habitDay-$y-totalOfAPeriod", habits[x].habitDay[y].totalOfAPeriod.toString())
+            localStorage.setItem(
+                "habits-$x-habitDay-$y-totalOfAPeriod",
+                habits[x].habitDay[y].totalOfAPeriod.toString()
+            )
             localStorage.setItem("habits-$x-habitDay-$y-correctly", habits[x].habitDay[y].correctly.toString())
         }
     }
@@ -36,11 +39,19 @@ actual fun loadValue() {
                 if (x > 0) habits.add(Habit())
                 habits[x].nameOfHabit = localStorage.getItem("habits-$x-nameOfHabit").toString()
                 habits[x].nameOfUnitsOfDimension = localStorage.getItem("habits-$x-nameOfUnitsOfDimension").toString()
-                habits[x].typeOfGoalHabits = enumValueOf<TypeOfGoalHabits>(localStorage.getItem("habits-$x-typeOfGoalHabits").toString())
+                if (oldAppVersion > 2001000)
+                    habits[x].typeOfGoalHabits =
+                        enumValueOf<TypeOfGoalHabits>(localStorage.getItem("habits-$x-typeOfGoalHabits").toString())
+                else habits[x].typeOfGoalHabits = toTypeOfGoalHabits(
+                    enumValueOf<Old2001000TypeOfGoalHabits>(
+                        localStorage.getItem("habits-$x-typeOfGoalHabits").toString()
+                    )
+                )
                 habits[x].needGoal = localStorage.getItem("habits-$x-needGoal")?.toDouble()!!
                 habits[x].needDays = localStorage.getItem("habits-$x-needDays")?.toInt()!!
                 if (oldAppVersion > 1000000) {
-                    habits[x].typeOfColorHabits = enumValueOf<TypeOfColorHabits>(localStorage.getItem("habits-$x-typeOfColorHabits").toString())
+                    habits[x].typeOfColorHabits =
+                        enumValueOf<TypeOfColorHabits>(localStorage.getItem("habits-$x-typeOfColorHabits").toString())
                     habits[x].colorGood = Color(localStorage.getItem("habits-$x-colorGood").toString().toULong(16))
                 }
                 habits[x].startDate = localStorage.getItem("habits-$x-startDate")?.let { LocalDate.parse(it) }!!
@@ -50,8 +61,10 @@ actual fun loadValue() {
                 for (y in 0 until habitDaySize) {
                     if (y > 0) habits[x].habitDay.add(HabitDay())
                     habits[x].habitDay[y].today = localStorage.getItem("habits-$x-habitDay-$y-today")?.toDouble()!!
-                    habits[x].habitDay[y].totalOfAPeriod = localStorage.getItem("habits-$x-habitDay-$y-totalOfAPeriod")?.toDouble()!!
-                    habits[x].habitDay[y].correctly = localStorage.getItem("habits-$x-habitDay-$y-correctly").toBoolean()
+                    habits[x].habitDay[y].totalOfAPeriod =
+                        localStorage.getItem("habits-$x-habitDay-$y-totalOfAPeriod")?.toDouble()!!
+                    habits[x].habitDay[y].correctly =
+                        localStorage.getItem("habits-$x-habitDay-$y-correctly").toBoolean()
                 }
             }
         }

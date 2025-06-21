@@ -9,7 +9,7 @@ import kotlinx.datetime.toLocalDateTime
 class Habit(
     var nameOfHabit: String = "New habit",
     var nameOfUnitsOfDimension: String = "km",
-    var typeOfGoalHabits: TypeOfGoalHabits = TypeOfGoalHabits.NOT_LITTLE,
+    var typeOfGoalHabits: TypeOfGoalHabits = TypeOfGoalHabits.AT_LEAST,
     var needGoal: Double = 1.0,
     var needDays: Int = 1,
     var typeOfColorHabits: TypeOfColorHabits = TypeOfColorHabits.ADAPTIVE,
@@ -40,7 +40,7 @@ class Habit(
         }
         when (typeOfGoalHabits) {
             TypeOfGoalHabits.NO_MORE -> habitDay[index].correctly = (habitDay[index].totalOfAPeriod <= needGoal)
-            TypeOfGoalHabits.NOT_LITTLE -> habitDay[index].correctly = (habitDay[index].totalOfAPeriod >= needGoal)
+            TypeOfGoalHabits.AT_LEAST -> habitDay[index].correctly = (habitDay[index].totalOfAPeriod >= needGoal)
         }
     }
 

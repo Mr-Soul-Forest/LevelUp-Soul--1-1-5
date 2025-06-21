@@ -48,8 +48,12 @@ actual fun loadValue() {
         for (x in 0 until habitsSize) {
             habits[x].nameOfHabit = prefs.getString("habits-$x-nameOfHabit", "New habit") ?: "New habit"
             habits[x].nameOfUnitsOfDimension = prefs.getString("habits-$x-nameOfUnitsOfDimension", "km") ?: "km"
-            habits[x].typeOfGoalHabits =
-                enumValueOf<TypeOfGoalHabits>(prefs.getString("habits-$x-typeOfGoalHabits", "NOT_LITTLE")!!)
+            if (oldAppVersion > 2001000)
+                habits[x].typeOfGoalHabits =
+                    enumValueOf<TypeOfGoalHabits>(prefs.getString("habits-$x-typeOfGoalHabits", "AT_LEAST")!!)
+            else habits[x].typeOfGoalHabits = toTypeOfGoalHabits(
+                enumValueOf<Old2001000TypeOfGoalHabits>(prefs.getString("habits-$x-typeOfGoalHabits", "NOT_LITTLE")!!)
+            )
             habits[x].needGoal = prefs.getString("habits-$x-needGoal", "1.0")?.toDoubleOrNull() ?: 1.0
             habits[x].needDays = prefs.getString("habits-$x-needDays", "1")?.toIntOrNull() ?: 1
             if (oldAppVersion > 1000000) {

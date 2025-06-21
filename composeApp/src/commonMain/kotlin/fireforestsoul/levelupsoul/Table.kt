@@ -34,7 +34,6 @@ import androidx.compose.foundation.layout.systemBars
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.foundation.layout.*
-import androidx.compose.material3.DropdownMenu
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -299,7 +298,7 @@ fun TableContent(viewModel: AppViewModel, blur: Dp = 0.dp) {
                                 val needOrCanMore =
                                     habits[y].needGoal - habits[y].habitDay[habits[y].habitDay.size - 1].totalOfAPeriod
                                 Text(
-                                    text = if (habits[y].typeOfGoalHabits == TypeOfGoalHabits.NOT_LITTLE)
+                                    text = if (habits[y].typeOfGoalHabits == TypeOfGoalHabits.AT_LEAST)
                                         "Need $needOrCanMore more"
                                     else "You can have $needOrCanMore more",
                                     color = noSeeColor,
