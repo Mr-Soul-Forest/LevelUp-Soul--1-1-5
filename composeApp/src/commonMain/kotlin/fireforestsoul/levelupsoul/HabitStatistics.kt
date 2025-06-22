@@ -15,6 +15,7 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.systemBars
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.KeyboardOptions
@@ -33,12 +34,13 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.layout.onGloballyPositioned
+import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import kotlinx.datetime.LocalDate
 import org.jetbrains.compose.resources.painterResource
 import kotlin.math.max
 
@@ -601,6 +603,61 @@ fun HabitStatistics(viewModel: AppViewModel) {
                                     .height(220.dp)
                                     .padding(16.dp),
                             )
+                        }
+                    }
+
+                    //Seria
+                    if (habitSeria(habit_statistics_and_edit_x).isNotEmpty()) {
+                        Box(
+                            modifier = Modifier
+                                .fillMaxWidth()
+                                .background(UI_color, RoundedCornerShape(20.dp))
+                                .height(48.dp),
+                            contentAlignment = Alignment.Center
+                        ) {
+                            Text(
+                                text = "Seria",
+                                fontSize = 16.sp,
+                                fontWeight = FontWeight.Bold,
+                                color = textSeeUiColor,
+                            )
+                        }
+                        Box(
+                            modifier = Modifier
+                                .fillMaxWidth()
+                                .padding(16.dp),
+                            contentAlignment = Alignment.Center
+                        ) {
+                            var columnWidth by remember { mutableStateOf(0) }
+
+                            Column(
+                                verticalArrangement = Arrangement.spacedBy(4.dp),
+                                horizontalAlignment = Alignment.CenterHorizontally,
+                                modifier = Modifier
+                                    .fillMaxWidth()
+                                    .onGloballyPositioned { layoutCoordinates ->
+                                        columnWidth = layoutCoordinates.size.width
+                                    }
+                            ) {
+                                val maxValue = habitSeria(habit_statistics_and_edit_x)[0]
+                                for (value in habitSeria(habit_statistics_and_edit_x)) {
+                                    Box(
+                                        modifier = Modifier
+                                            .width(with(LocalDensity.current) { (columnWidth / maxValue * value).toDp() })
+                                            .background(
+                                                seeColor,
+                                                RoundedCornerShape(15.dp)
+                                            ),
+                                        contentAlignment = Alignment.Center
+                                    ) {
+                                        Text(
+                                            text = "$value",
+                                            fontSize = 15.sp,
+                                            color = if (seeColor.red * 255 + seeColor.green * 255 + seeColor.blue * 255 < 383) Color.White else Color.Black,
+                                        )
+                                    }
+                                }
+                            }
                         }
                     }
                 }

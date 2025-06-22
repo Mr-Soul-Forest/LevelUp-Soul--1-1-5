@@ -1,5 +1,6 @@
 package fireforestsoul.levelupsoul
 
+import androidx.compose.runtime.mutableStateOf
 import kotlinx.datetime.DateTimeUnit
 import kotlinx.datetime.LocalDate
 import kotlinx.datetime.plus
@@ -113,5 +114,24 @@ fun listDaysBoolean (
     for (y in 1 until  habits[index].habitDay.size) {
         list.add(habits[index].habitDay[y].correctly)
     }
+    return list
+}
+
+fun habitSeria (
+    index: Int
+): List<Int> {
+    val list = mutableListOf(0)
+    var add = 0
+    for (habitDay in habits[index].habitDay) {
+        if (habitDay.correctly) add++
+        else {
+            list.add(add)
+            add = 0
+        }
+    }
+    list.add(add)
+
+    list.removeAll { it == 0 }
+    list.sortDescending()
     return list
 }
