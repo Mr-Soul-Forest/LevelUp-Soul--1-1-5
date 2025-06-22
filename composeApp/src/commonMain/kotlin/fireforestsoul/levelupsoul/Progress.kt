@@ -1,5 +1,9 @@
 package fireforestsoul.levelupsoul
 
+import kotlinx.datetime.DateTimeUnit
+import kotlinx.datetime.LocalDate
+import kotlinx.datetime.plus
+
 fun progress(
     index: Int,
     days: Int = habits[index].habitDay.size,
@@ -44,6 +48,50 @@ fun listProgress(
         if (y >= 0)
             list.add(progress(index, days, y))
         y += step
+    }
+    return list
+}
+
+fun listToday(
+    index: Int,
+    step: Int
+): List<Float> {
+    var add0 = 0f
+    for (z in 0 until step) {
+        if (z < habits[index].habitDay.size)
+            add0 += habits[index].habitDay[z].today.toFloat()
+    }
+    val list = mutableListOf(add0)
+    var y = step
+    while (y < habits[index].habitDay.size) {
+        var add = 0f
+        for (z in y until (y + step)) {
+            if (z < habits[index].habitDay.size)
+                add += habits[index].habitDay[z].today.toFloat()
+        }
+        list.add(habits[index].habitDay[y].today.toFloat())
+        y +=  step
+    }
+
+    return list
+}
+
+fun listTodayDates(
+    index: Int,
+    step: Int
+): List<String> {
+    fun formatter(localDate: LocalDate): String {
+        return if (step < 7) localDate.dayOfWeek.toString().take(3)
+        else if (step < 30) localDate.dayOfMonth.toString()
+        else if (step < 365) localDate.month.toString().take(3)
+        else localDate.year.toString()
+    }
+
+    val list = mutableListOf(formatter(habits[index].startDate))
+    var y = step
+    while (y < habits[index].habitDay.size) {
+        list.add(formatter(habits[index].startDate.plus(y, DateTimeUnit.DAY)))
+        y +=  step
     }
     return list
 }

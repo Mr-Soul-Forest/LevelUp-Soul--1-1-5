@@ -2,12 +2,16 @@ package fireforestsoul.levelupsoul
 
 import androidx.compose.animation.core.Animatable
 import androidx.compose.animation.core.LinearOutSlowInEasing
+import androidx.compose.animation.core.animateDpAsState
 import androidx.compose.animation.core.tween
 import androidx.compose.foundation.Canvas
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
+import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.horizontalScroll
 import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material3.AlertDialog
@@ -602,6 +606,72 @@ fun AnimatedLineChart(
                         color = lineAndDotColor,
                         center = it,
                         radius = 4.dp.toPx()
+                    )
+                }
+            }
+        }
+    }
+}
+
+@Composable
+fun AnimatedBarChart(
+    data: List<Float>,
+    labels: List<String>,
+    modifier: Modifier = Modifier,
+    maxY: Float = data.maxOrNull() ?: 1f,
+    barColor: Color = Color(0xFF4CAF50)
+) {
+    val scrollState = rememberScrollState()
+    val barWidth = 16.dp
+    val spacing = 12.dp
+
+    BoxWithConstraints(
+        modifier = modifier
+            .clip(RoundedCornerShape(20.dp))
+            .background(Color(30,30,30))
+            .horizontalScroll(scrollState)
+    ) {
+        val totalHeight = maxHeight
+        val barMaxHeight = totalHeight - 40.dp
+
+        LaunchedEffect(Unit) {
+            scrollState.scrollTo(scrollState.maxValue)
+        }
+
+        Row(verticalAlignment = Alignment.Bottom) {
+            data.forEachIndexed { index, value ->
+                val animatedHeight by animateDpAsState(
+                    targetValue = (barMaxHeight * value / maxY).coerceAtLeast(1.dp),
+                    animationSpec = tween(durationMillis = 600),
+                    label = "barHeight"
+                )
+
+                Column(
+                    horizontalAlignment = Alignment.CenterHorizontally,
+                    verticalArrangement = Arrangement.Bottom,
+                    modifier = Modifier
+                        .padding(horizontal = spacing / 2)
+                        .height(totalHeight)
+                ) {
+                    Text(
+                        text = "$value",
+                        fontSize = 11.sp,
+                        color = textSeeUiColor,
+                        modifier = Modifier.padding(bottom = 4.dp)
+                    )
+                    Box(
+                        modifier = Modifier
+                            .height(animatedHeight)
+                            .width(barWidth)
+                            .clip(RoundedCornerShape(4.dp))
+                            .background(barColor)
+                    )
+                    Spacer(Modifier.height(6.dp))
+                    Text(
+                        text = labels.getOrNull(index) ?: "",
+                        fontSize = 11.sp,
+                        color = textNoSeeColor,
+                        maxLines = 1
                     )
                 }
             }
