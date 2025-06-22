@@ -211,7 +211,7 @@ fun TableContent(viewModel: AppViewModel, blur: Dp = 0.dp) {
         }
     ) { paddingValues ->
         //main content
-        val firstCellSizeX = 175.dp
+        val firstCellSizeX = 200.dp
         val firstCellSizeY = 40.dp
         val nextCellSizeX = 45.dp
         val nextCellSizeY = firstCellSizeY
@@ -286,25 +286,40 @@ fun TableContent(viewModel: AppViewModel, blur: Dp = 0.dp) {
                                 },
                             contentAlignment = Alignment.Center
                         ) {
-                            Column(
-                                horizontalAlignment = Alignment.CenterHorizontally
+                            Row (
+                                modifier = Modifier.fillMaxWidth(),
+                                horizontalArrangement = Arrangement.spacedBy(3.dp),
+                                verticalAlignment = Alignment.CenterVertically
                             ) {
-                                Text(
-                                    text = habits[y].nameOfHabit,
-                                    color = seeColor,
-                                    fontWeight = FontWeight.Normal,
-                                    fontSize = firstSellFontSize
+                                DonutChart(
+                                    values = listOf(progress(y), 1f - progress(y)),
+                                    colors = listOf(seeColor, noSeeColor),
+                                    modifier = Modifier
+                                        .size(30.5.dp, 22.5.dp)
+                                        .padding(start = 8.dp),
+                                    strokeWidth = 3.5.dp
                                 )
-                                val needOrCanMore =
-                                    habits[y].needGoal - habits[y].habitDay[habits[y].habitDay.size - 1].totalOfAPeriod
-                                Text(
-                                    text = if (habits[y].typeOfGoalHabits == TypeOfGoalHabits.AT_LEAST)
-                                        "Need $needOrCanMore more"
-                                    else "You can have $needOrCanMore more",
-                                    color = noSeeColor,
-                                    fontWeight = FontWeight.Normal,
-                                    fontSize = firstSellSmallFontSize,
-                                )
+                                Column(
+                                    horizontalAlignment = Alignment.CenterHorizontally,
+                                    modifier = Modifier.fillMaxWidth()
+                                ) {
+                                    Text(
+                                        text = habits[y].nameOfHabit,
+                                        color = seeColor,
+                                        fontWeight = FontWeight.Normal,
+                                        fontSize = firstSellFontSize
+                                    )
+                                    val needOrCanMore =
+                                        habits[y].needGoal - habits[y].habitDay[habits[y].habitDay.size - 1].totalOfAPeriod
+                                    Text(
+                                        text = if (habits[y].typeOfGoalHabits == TypeOfGoalHabits.AT_LEAST)
+                                            "Need $needOrCanMore more"
+                                        else "You can have $needOrCanMore more",
+                                        color = noSeeColor,
+                                        fontWeight = FontWeight.Normal,
+                                        fontSize = firstSellSmallFontSize,
+                                    )
+                                }
                             }
                         }
                     }
