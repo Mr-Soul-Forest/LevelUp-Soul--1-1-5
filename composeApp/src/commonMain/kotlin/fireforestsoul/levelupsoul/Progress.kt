@@ -1,7 +1,5 @@
 package fireforestsoul.levelupsoul
 
-import kotlinx.datetime.DatePeriod
-
 fun progress(
     index: Int,
     days: Int = habits[index].habitDay.size,
@@ -31,4 +29,21 @@ fun plusProgress(
                 days,
                 startIndex - period
             )
+}
+
+fun listProgress(
+    index: Int,
+    period: Int,
+    step: Int,
+    days: Int = habits[index].habitDay.size
+): List<Float> {
+    var y = habits[index].habitDay.size - period
+    val list = mutableListOf(progress(index, days, y))
+    y += step
+    while (y < habits[index].habitDay.size) {
+        if (y >= 0)
+            list.add(progress(index, days, y))
+        y += step
+    }
+    return list
 }

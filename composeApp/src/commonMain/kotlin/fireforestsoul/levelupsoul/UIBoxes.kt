@@ -1,5 +1,8 @@
 package fireforestsoul.levelupsoul
 
+import androidx.compose.animation.core.Animatable
+import androidx.compose.animation.core.LinearOutSlowInEasing
+import androidx.compose.animation.core.tween
 import androidx.compose.foundation.Canvas
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
@@ -16,17 +19,19 @@ import androidx.compose.material3.Slider
 import androidx.compose.material3.SliderColors
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
-import androidx.compose.material3.TextField
 import androidx.compose.material3.TextFieldDefaults
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.PathEffect
 import androidx.compose.ui.graphics.drawscope.Stroke
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.KeyboardType
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -465,7 +470,7 @@ fun DonutChart(
                 startAngle = startAngle,
                 sweepAngle = sweepAngle,
                 useCenter = false,
-                style = Stroke(width = strokeWidth.value)
+                style = Stroke(width = strokeWidth.toPx())
             )
             startAngle += sweepAngle
         }
@@ -520,5 +525,86 @@ fun PPSInfoDialog() {
                 }
             }
         )
+    }
+}
+
+@Composable
+fun AnimatedLineChart(
+    data: List<Float>,
+    yMax: Float,
+    ySteps: Int = 5,
+    lineAndDotColor: Color = Color(0xFF3F51B5),
+    modifier: Modifier = Modifier
+) {
+    val animatedProgress = remember { Animatable(0f) }
+
+    LaunchedEffect(data) {
+        animatedProgress.snapTo(0f)
+        animatedProgress.animateTo(
+            targetValue = 1f,
+            animationSpec = tween(durationMillis = 1000, easing = LinearOutSlowInEasing)
+        )
+    }
+
+    val backgroundColor = Color(30,30,30)
+    val gridColor = textSeeUiColor.copy(alpha = 0.15f)
+
+    BoxWithConstraints(
+        modifier = modifier
+            .background(backgroundColor, shape = RoundedCornerShape(16.dp))
+            .padding(16.dp)
+    ) {
+        val chartWidth = constraints.maxWidth.toFloat()
+        val chartHeight = constraints.maxHeight.toFloat()
+
+        val spacing = chartWidth / (data.size).coerceAtLeast(1)
+
+        val points = data.mapIndexed { index, value ->
+            Offset(
+                x = index * spacing + spacing / 2,
+                y = chartHeight * (1 - (value / yMax))
+            )
+        }
+
+        Box(modifier = Modifier.fillMaxSize()) {
+            Canvas(modifier = Modifier
+                .fillMaxSize()
+            ) {
+                for (i in 0..ySteps) {
+                    val y = chartHeight * (i.toFloat() / ySteps)
+                    drawLine(
+                        color = gridColor,
+                        start = Offset(0f, y),
+                        end = Offset(chartWidth, y),
+                        strokeWidth = 1f,
+                        pathEffect = PathEffect.dashPathEffect(floatArrayOf(4f, 4f))
+                    )
+                }
+
+                if (points.size >= 2) {
+                    for (i in 0 until points.size - 1) {
+                        val start = points[i]
+                        val end = points[i + 1]
+                        drawLine(
+                            color = lineAndDotColor,
+                            start = start,
+                            end = Offset(
+                                x = start.x + (end.x - start.x) * animatedProgress.value,
+                                y = start.y + (end.y - start.y) * animatedProgress.value
+                            ),
+                            strokeWidth = 2.dp.toPx()
+                        )
+                    }
+                }
+
+                points.forEach {
+                    drawCircle(
+                        color = lineAndDotColor,
+                        center = it,
+                        radius = 4.dp.toPx()
+                    )
+                }
+            }
+        }
     }
 }

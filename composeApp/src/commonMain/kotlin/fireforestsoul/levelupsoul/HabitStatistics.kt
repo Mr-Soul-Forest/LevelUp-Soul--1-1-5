@@ -200,9 +200,9 @@ fun HabitStatistics(viewModel: AppViewModel) {
                                     focusedTextColor = textSeeUiColor,
                                     unfocusedTextColor = textNoSeeColor,
                                     disabledTextColor = textNoSeeColor,
-                                    focusedContainerColor = Color(20,20,20),
-                                    unfocusedContainerColor = Color(20,20,20),
-                                    disabledContainerColor = Color(20,20,20),
+                                    focusedContainerColor = Color(20, 20, 20),
+                                    unfocusedContainerColor = Color(20, 20, 20),
+                                    disabledContainerColor = Color(20, 20, 20),
                                     cursorColor = textSeeUiColor,
                                     focusedIndicatorColor = Color.Transparent,
                                     unfocusedIndicatorColor = Color.Transparent,
@@ -265,7 +265,7 @@ fun HabitStatistics(viewModel: AppViewModel) {
                                         modifier = Modifier.size(60.dp),
                                         values = listOf(progressDay, 1 - progressDay),
                                         colors = listOf(seeColor, noSeeColor),
-                                        strokeWidth = 10.dp
+                                        strokeWidth = 5.dp
                                     )
                                     Text(
                                         text = (if (progressDay > 0) "+" else "") + "${(progressDay * 100).toInt()}%",
@@ -285,7 +285,7 @@ fun HabitStatistics(viewModel: AppViewModel) {
                                         modifier = Modifier.size(60.dp),
                                         values = listOf(progressWeek, 1 - progressWeek),
                                         colors = listOf(seeColor, noSeeColor),
-                                        strokeWidth = 10.dp
+                                        strokeWidth = 5.dp
                                     )
                                     Text(
                                         text = (if (progressWeek > 0) "+" else "") + "${(progressWeek * 100).toInt()}%",
@@ -309,7 +309,7 @@ fun HabitStatistics(viewModel: AppViewModel) {
                                         modifier = Modifier.size(125.dp),
                                         values = listOf(progress, 1 - progress),
                                         colors = listOf(seeColor, noSeeColor),
-                                        strokeWidth = 20.dp
+                                        strokeWidth = 10.dp
                                     )
                                     Text(
                                         text = "${(progress * 100).toInt()}%",
@@ -329,7 +329,7 @@ fun HabitStatistics(viewModel: AppViewModel) {
                                         modifier = Modifier.size(60.dp),
                                         values = listOf(progressMonth, 1 - progressMonth),
                                         colors = listOf(seeColor, noSeeColor),
-                                        strokeWidth = 10.dp
+                                        strokeWidth = 5.dp
                                     )
                                     Text(
                                         text = (if (progressMonth > 0) "+" else "") + "${(progressMonth * 100).toInt()}%",
@@ -349,7 +349,7 @@ fun HabitStatistics(viewModel: AppViewModel) {
                                         modifier = Modifier.size(60.dp),
                                         values = listOf(progressYear, 1 - progressYear),
                                         colors = listOf(seeColor, noSeeColor),
-                                        strokeWidth = 10.dp
+                                        strokeWidth = 5.dp
                                     )
                                     Text(
                                         text = (if (progressYear > 0) "+" else "") + "${(progressYear * 100).toInt()}%",
@@ -361,6 +361,141 @@ fun HabitStatistics(viewModel: AppViewModel) {
                                     text = "year",
                                     fontSize = 12.sp,
                                     color = textSeeUiColor
+                                )
+                            }
+                        }
+                    }
+
+                    //Progress graph
+                    Box(
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .background(UI_color, RoundedCornerShape(20.dp))
+                            .height(48.dp),
+                        contentAlignment = Alignment.Center
+                    ) {
+                        Text(
+                            text = "Progress graph",
+                            fontSize = 16.sp,
+                            fontWeight = FontWeight.Bold,
+                            color = textSeeUiColor,
+                        )
+                    }
+                    Box(
+                        modifier = Modifier
+                            .fillMaxWidth(),
+                        contentAlignment = Alignment.Center
+                    ) {
+                        Column(
+                            verticalArrangement = Arrangement.spacedBy(15.dp),
+                            horizontalAlignment = Alignment.CenterHorizontally
+                        ) {
+                            var period by remember { mutableStateOf(habits[habit_statistics_and_edit_x].habitDay.size.toString()) }
+                            var step by remember { mutableStateOf(1.toString()) }
+                            var periodSetting by remember { mutableStateOf(habits[habit_statistics_and_edit_x].habitDay.size) }
+                            var stepSetting by remember { mutableStateOf(1) }
+
+                            AnimatedLineChart(
+                                data = listProgress(
+                                    habit_statistics_and_edit_x,
+                                    periodSetting,
+                                    stepSetting,
+                                    progressPeriodSetting
+                                ),
+                                yMax = 1f,
+                                lineAndDotColor = seeColor,
+                                modifier = Modifier
+                                    .fillMaxWidth()
+                                    .height(220.dp)
+                                    .padding(16.dp)
+                            )
+                            Row(
+                                horizontalArrangement = Arrangement.spacedBy(4.dp),
+                                verticalAlignment = Alignment.CenterVertically
+                            ) {
+                                OutlinedTextField(
+                                    value = period,
+                                    onValueChange = { period = it },
+                                    label = {
+                                        Text(
+                                            "Period:",
+                                            fontSize = 12.sp,
+                                            color = textNoSeeColor
+                                        )
+                                    },
+                                    keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
+                                    singleLine = true,
+                                    textStyle = TextStyle(
+                                        fontSize = 14.sp,
+                                        color = textSeeUiColor
+                                    ),
+                                    shape = RoundedCornerShape(15.dp),
+                                    colors = TextFieldDefaults.colors(
+                                        focusedTextColor = textSeeUiColor,
+                                        unfocusedTextColor = textNoSeeColor,
+                                        disabledTextColor = textNoSeeColor,
+                                        focusedContainerColor = Color(20, 20, 20),
+                                        unfocusedContainerColor = Color(20, 20, 20),
+                                        disabledContainerColor = Color(20, 20, 20),
+                                        cursorColor = textSeeUiColor,
+                                        focusedIndicatorColor = Color.Transparent,
+                                        unfocusedIndicatorColor = Color.Transparent,
+                                        disabledIndicatorColor = Color.Transparent
+                                    ),
+                                    modifier = Modifier.size(125.dp, 55.dp)
+                                )
+                                OutlinedTextField(
+                                    value = step,
+                                    onValueChange = { step = it },
+                                    label = {
+                                        Text(
+                                            "Step:",
+                                            fontSize = 12.sp,
+                                            color = textNoSeeColor
+                                        )
+                                    },
+                                    keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
+                                    singleLine = true,
+                                    textStyle = TextStyle(
+                                        fontSize = 14.sp,
+                                        color = textSeeUiColor
+                                    ),
+                                    shape = RoundedCornerShape(15.dp),
+                                    colors = TextFieldDefaults.colors(
+                                        focusedTextColor = textSeeUiColor,
+                                        unfocusedTextColor = textNoSeeColor,
+                                        disabledTextColor = textNoSeeColor,
+                                        focusedContainerColor = Color(20, 20, 20),
+                                        unfocusedContainerColor = Color(20, 20, 20),
+                                        disabledContainerColor = Color(20, 20, 20),
+                                        cursorColor = textSeeUiColor,
+                                        focusedIndicatorColor = Color.Transparent,
+                                        unfocusedIndicatorColor = Color.Transparent,
+                                        disabledIndicatorColor = Color.Transparent
+                                    ),
+                                    modifier = Modifier.size(125.dp, 55.dp)
+                                )
+                                Text(
+                                    text = "Set",
+                                    fontSize = 16.sp,
+                                    color = textSeeUiColor,
+                                    modifier = Modifier
+                                        .background(Color(25, 50, 25), RoundedCornerShape(15.dp))
+                                        .clickable {
+                                            if (period.toIntOrNull() != null) {
+                                                periodSetting = if (period.toInt() == 0)
+                                                    habits[habit_statistics_and_edit_x].habitDay.size
+                                                else
+                                                    period.toInt()
+                                            }
+                                            if (step.toIntOrNull() != null) {
+                                                stepSetting = if (step.toInt() <= 0)
+                                                    1
+                                                else
+                                                    step.toInt()
+                                            }
+                                        }
+                                        .padding(12.5.dp)
                                 )
                             }
                         }
