@@ -115,25 +115,15 @@ fun HabitStatistics(viewModel: AppViewModel) {
             for (habit in habits) {
                 maxDays = max(habit.habitDay.size, maxDays)
             }
-            val seeColor =
-                if (habits[habit_statistics_and_edit_x].typeOfColorHabits == TypeOfColorHabits.SELECTED)
-                    habits[habit_statistics_and_edit_x].colorGood
-                else Color(
-                    (habits[habit_statistics_and_edit_x].habitDay.size.toDouble() / maxDays.toDouble() * 255.0).toInt(),
-                    (progress(habit_statistics_and_edit_x) * 255.0).toInt(),
-                    255
+            var maxSeria = 0
+            for (x in 0 until habits.size) {
+                maxSeria = max(
+                    if (habitSeria(x).isNotEmpty()) habitSeria(x)[0] else 0,
+                    maxSeria
                 )
-            val noSeeColor = if (habits[habit_statistics_and_edit_x].typeOfColorHabits == TypeOfColorHabits.SELECTED)
-                Color(
-                    habits[habit_statistics_and_edit_x].colorGood.red * 0.5F,
-                    habits[habit_statistics_and_edit_x].colorGood.green * 0.5F,
-                    habits[habit_statistics_and_edit_x].colorGood.blue * 0.5F
-                )
-            else Color(
-                (habits[habit_statistics_and_edit_x].habitDay.size.toDouble() / maxDays.toDouble() * 127.5).toInt(),
-                (progress(habit_statistics_and_edit_x) * 127.5).toInt(),
-                127
-            )
+            }
+            val seeColor = seeColorByIndex(habit_statistics_and_edit_x, maxDays, maxSeria)
+            val noSeeColor = noSeeColorByIndex(habit_statistics_and_edit_x, maxDays, maxSeria)
 
             Box(
                 modifier = Modifier

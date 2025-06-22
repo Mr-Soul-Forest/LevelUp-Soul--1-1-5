@@ -227,6 +227,13 @@ fun TableContent(viewModel: AppViewModel, blur: Dp = 0.dp) {
         for (habit in habits) {
             maxDays = max(habit.habitDay.size, maxDays)
         }
+        var maxSeria = 0
+        for (x in 0 until habits.size) {
+            maxSeria = max(
+                if (habitSeria(x).isNotEmpty()) habitSeria(x)[0] else 0,
+                maxSeria
+            )
+        }
 
         BoxWithConstraints(
             modifier = Modifier
@@ -252,25 +259,8 @@ fun TableContent(viewModel: AppViewModel, blur: Dp = 0.dp) {
                         contentAlignment = Alignment.Center
                     ) {}
                     for (y in 0 until habits.size) {
-                        val seeColor =
-                            if (habits[y].typeOfColorHabits == TypeOfColorHabits.SELECTED)
-                                habits[y].colorGood
-                            else Color(
-                                (habits[y].habitDay.size.toDouble() / maxDays.toDouble() * 255.0).toInt(),
-                                (progress(y) * 255.0).toInt(),
-                                255
-                            )
-                        val noSeeColor = if (habits[y].typeOfColorHabits == TypeOfColorHabits.SELECTED)
-                            Color(
-                                habits[y].colorGood.red * 0.5F,
-                                habits[y].colorGood.green * 0.5F,
-                                habits[y].colorGood.blue * 0.5F
-                            )
-                        else Color(
-                            (habits[y].habitDay.size.toDouble() / maxDays.toDouble() * 127.5).toInt(),
-                            (progress(y) * 127.5).toInt(),
-                            127
-                        )
+                        val seeColor = seeColorByIndex(y, maxDays, maxSeria)
+                        val noSeeColor = noSeeColorByIndex(y, maxDays, maxSeria)
 
                         Box(
                             modifier = Modifier
@@ -370,25 +360,8 @@ fun TableContent(viewModel: AppViewModel, blur: Dp = 0.dp) {
                         }
                         //results
                         for (y in 0 until habits.size) {
-                            val seeColor =
-                                if (habits[y].typeOfColorHabits == TypeOfColorHabits.SELECTED)
-                                    habits[y].colorGood
-                                else Color(
-                                    (habits[y].habitDay.size.toDouble() / maxDays.toDouble() * 255.0).toInt(),
-                                    (progress(y) * 255.0).toInt(),
-                                    255
-                                )
-                            val noSeeColor = if (habits[y].typeOfColorHabits == TypeOfColorHabits.SELECTED)
-                                Color(
-                                    habits[y].colorGood.red * 0.5F,
-                                    habits[y].colorGood.green * 0.5F,
-                                    habits[y].colorGood.blue * 0.5F
-                                )
-                            else Color(
-                                (habits[y].habitDay.size.toDouble() / maxDays.toDouble() * 127.5).toInt(),
-                                (progress(y) * 127.5).toInt(),
-                                127
-                            )
+                            val seeColor = seeColorByIndex(y, maxDays, maxSeria)
+                            val noSeeColor = noSeeColorByIndex(y, maxDays, maxSeria)
 
                             Column(
                                 verticalArrangement = Arrangement.Center,
