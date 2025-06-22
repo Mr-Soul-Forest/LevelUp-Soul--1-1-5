@@ -48,6 +48,7 @@ class Habit(
         for (i in 0..(habitDay.size - 1)) {
             updateHabitDay(i)
         }
+        habits.sortByDescending { progress(it) }
     }
 
 }

@@ -1,6 +1,5 @@
 package fireforestsoul.levelupsoul
 
-import androidx.compose.runtime.mutableStateOf
 import kotlinx.datetime.DateTimeUnit
 import kotlinx.datetime.LocalDate
 import kotlinx.datetime.plus
@@ -20,6 +19,17 @@ fun progress(
         }
     }
     return correctly / (if (correctlyDays != 0) correctlyDays else 1)
+}
+
+fun progress(
+    habit: Habit,
+): Float {
+    var correctly = 0f
+    for (habitDay in habit.habitDay) {
+        if (habitDay.correctly)
+            correctly++
+    }
+    return correctly / (if (habit.habitDay.isNotEmpty()) habit.habitDay.size else 1)
 }
 
 fun plusProgress(
@@ -71,7 +81,7 @@ fun listToday(
                 add += habits[index].habitDay[z].today.toFloat()
         }
         list.add(habits[index].habitDay[y].today.toFloat())
-        y +=  step
+        y += step
     }
 
     return list
@@ -92,12 +102,12 @@ fun listTodayDates(
     var y = step
     while (y < habits[index].habitDay.size) {
         list.add(formatter(habits[index].startDate.plus(y, DateTimeUnit.DAY)))
-        y +=  step
+        y += step
     }
     return list
 }
 
-fun listDaysNumbers (
+fun listDaysNumbers(
     index: Int
 ): List<Int> {
     val list = mutableListOf(habits[index].startDate.monthNumber)
@@ -107,17 +117,17 @@ fun listDaysNumbers (
     return list
 }
 
-fun listDaysBoolean (
+fun listDaysBoolean(
     index: Int
 ): List<Boolean> {
     val list = mutableListOf(habits[index].habitDay[0].correctly)
-    for (y in 1 until  habits[index].habitDay.size) {
+    for (y in 1 until habits[index].habitDay.size) {
         list.add(habits[index].habitDay[y].correctly)
     }
     return list
 }
 
-fun habitSeria (
+fun habitSeria(
     index: Int
 ): List<Int> {
     val list = mutableListOf(0)
