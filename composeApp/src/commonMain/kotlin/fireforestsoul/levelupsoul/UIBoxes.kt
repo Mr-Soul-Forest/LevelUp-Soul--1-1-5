@@ -42,8 +42,10 @@ import androidx.compose.ui.unit.sp
 import kotlinx.datetime.Clock
 import kotlinx.datetime.LocalDate
 import kotlinx.datetime.TimeZone
+import kotlinx.datetime.isoDayNumber
 import kotlinx.datetime.toLocalDateTime
 import org.jetbrains.compose.resources.painterResource
+import kotlin.math.ceil
 
 @Composable
 fun ColorPickerBox(
@@ -673,6 +675,68 @@ fun AnimatedBarChart(
                         color = textNoSeeColor,
                         maxLines = 1
                     )
+                }
+            }
+        }
+    }
+}
+
+@Composable
+fun HabitGrid(
+    values: List<Int>,
+    states: List<Boolean>,
+    trueColor: Color,
+    falseColor: Color,
+    startDate: LocalDate,
+    modifier: Modifier = Modifier
+) {
+    val backgroundColor = Color(30, 30, 30)
+    val boxSize = 20.dp
+    val space = 4.dp
+
+    val horizontalScroll = rememberScrollState()
+
+    val dayOfWeekOffset = (startDate.dayOfWeek.isoDayNumber + 6) % 7
+
+    val paddedValues = List(dayOfWeekOffset) { null } + values.mapIndexed { i, v -> v to states[i] }
+
+    val weeks = paddedValues.chunked(7)
+
+    Box(
+        modifier = modifier
+            .clip(RoundedCornerShape(16.dp))
+            .background(backgroundColor)
+            .padding(8.dp)
+            .horizontalScroll(horizontalScroll)
+    ) {
+        LaunchedEffect(Unit) {
+            horizontalScroll.scrollTo(horizontalScroll.maxValue)
+        }
+
+        Row(horizontalArrangement = Arrangement.spacedBy(space)) {
+            for (col in weeks) {
+                Column(verticalArrangement = Arrangement.spacedBy(space)) {
+                    for (cell in col) {
+                        if (cell == null) {
+                            Spacer(modifier = Modifier.size(boxSize))
+                        } else {
+                            val (value, state) = cell
+                            val color = if (state) trueColor else falseColor
+                            Box(
+                                modifier = Modifier
+                                    .size(boxSize)
+                                    .clip(RoundedCornerShape(5.dp))
+                                    .background(color),
+                                contentAlignment = Alignment.Center
+                            ) {
+                                Text(
+                                    text = value.toString(),
+                                    color = if (trueColor.red * 255 + trueColor.green * 255 + trueColor.blue * 255 < 383) Color.White else Color.Black,
+                                    fontSize = 10.sp
+                                )
+                            }
+                        }
+                    }
                 }
             }
         }
