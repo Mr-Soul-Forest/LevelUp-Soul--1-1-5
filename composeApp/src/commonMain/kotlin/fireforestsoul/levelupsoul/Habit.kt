@@ -5,6 +5,7 @@ import kotlinx.datetime.LocalDate
 import kotlinx.datetime.Clock
 import kotlinx.datetime.TimeZone
 import kotlinx.datetime.toLocalDateTime
+import kotlin.math.max
 
 class Habit(
     var nameOfHabit: String = "New habit",
@@ -48,6 +49,8 @@ class Habit(
         for (i in 0..(habitDay.size - 1)) {
             updateHabitDay(i)
         }
+
+        habits.sortByDescending { if (habitSeria(it).isNotEmpty()) habitSeria(it)[0] else 0 }
         habits.sortByDescending { progress(it) }
     }
 

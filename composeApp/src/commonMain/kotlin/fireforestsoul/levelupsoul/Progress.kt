@@ -145,3 +145,22 @@ fun habitSeria(
     list.sortDescending()
     return list
 }
+
+fun habitSeria(
+    habit: Habit
+): List<Int> {
+    val list = mutableListOf(0)
+    var add = 0
+    for (habitDay in habit.habitDay) {
+        if (habitDay.correctly) add++
+        else {
+            list.add(add)
+            add = 0
+        }
+    }
+    list.add(add)
+
+    list.removeAll { it == 0 }
+    list.sortDescending()
+    return list
+}
