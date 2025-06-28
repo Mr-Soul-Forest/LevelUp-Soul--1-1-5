@@ -1,7 +1,7 @@
 package fireforestsoul.levelupsoul
 
+import androidx.compose.foundation.rememberScrollState
 import androidx.compose.runtime.*
-import androidx.compose.ui.unit.dp
 import kotlinx.coroutines.delay
 import org.jetbrains.compose.ui.tooling.preview.Preview
 
@@ -10,16 +10,18 @@ import org.jetbrains.compose.ui.tooling.preview.Preview
 fun App(viewModel: AppViewModel) {
     val appStatus by viewModel.appStatus.collectAsState()
 
+    val verticalScrollForTableContent = rememberScrollState()
+    val horizontalScrollForTableContent = rememberScrollState()
     when (appStatus) {
         AppStatus.LOADING -> LoadingContent()
-        AppStatus.TABLE -> TableContent(viewModel)
-        AppStatus.SET_HABIT_DAY_TODAY -> {
-            TableContent(viewModel, 10.dp)
-            SetHabitDayToday(viewModel)
-        }
+        AppStatus.TABLE -> TableContent(viewModel, verticalScrollForTableContent, horizontalScrollForTableContent)
         AppStatus.CREATE_HABIT -> CreateHabit(viewModel)
         AppStatus.HABIT_STATISTICS -> HabitStatistics(viewModel)
         AppStatus.EDIT_HABIT -> EditHabit(viewModel)
+        AppStatus.TABLE_UPDATER -> {
+            viewModel.setStatus(AppStatus.TABLE)
+            TableContent(viewModel, verticalScrollForTableContent, horizontalScrollForTableContent)
+        }
     }
 
     LaunchedEffect(Unit) {

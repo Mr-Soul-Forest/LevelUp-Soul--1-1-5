@@ -3,10 +3,10 @@ package fireforestsoul.levelupsoul
 enum class AppStatus() {
     LOADING,
     TABLE,
-    SET_HABIT_DAY_TODAY,
     CREATE_HABIT,
     HABIT_STATISTICS,
-    EDIT_HABIT
+    EDIT_HABIT,
+    TABLE_UPDATER
 }
 
 //alpha(000) beta(001) version(010)
