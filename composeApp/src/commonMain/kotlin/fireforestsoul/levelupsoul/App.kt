@@ -14,13 +14,13 @@ fun App(viewModel: AppViewModel) {
     val horizontalScrollForTableContent = rememberScrollState()
     when (appStatus) {
         AppStatus.LOADING -> LoadingContent()
-        AppStatus.TABLE -> TableContent(viewModel, verticalScrollForTableContent, horizontalScrollForTableContent)
+        AppStatus.TABLE -> MainMenuContent(viewModel, verticalScrollForTableContent, horizontalScrollForTableContent)
         AppStatus.CREATE_HABIT -> CreateHabit(viewModel)
         AppStatus.HABIT_STATISTICS -> HabitStatistics(viewModel)
         AppStatus.EDIT_HABIT -> EditHabit(viewModel)
         AppStatus.TABLE_UPDATER -> {
             viewModel.setStatus(AppStatus.TABLE)
-            TableContent(viewModel, verticalScrollForTableContent, horizontalScrollForTableContent)
+            MainMenuContent(viewModel, verticalScrollForTableContent, horizontalScrollForTableContent)
         }
     }
 
