@@ -41,7 +41,7 @@ actual fun loadValue() {
          *
          * V > 0 `Habits >`
          *
-         * V > 3.000.000 `Soul >`
+         * V >= 4.000.000 `Soul >`
          */
         val oldAppVersion = input.getOrNull(0)?.toLong()
         if (oldAppVersion != null) {
@@ -54,7 +54,7 @@ actual fun loadValue() {
                  *
                  * `nameOfHabit` `nameOfUnitsOfDimension` `typeOfGoalHabits` `needGoal` `needDays`
                  *
-                 * V > 1.000.000 `typeOfColorHabits` `colorGood`
+                 * V >= 2.000.000 `typeOfColorHabits` `colorGood`
                  *
                  * `startDate` `lastDate` `habitDays >`
                  */

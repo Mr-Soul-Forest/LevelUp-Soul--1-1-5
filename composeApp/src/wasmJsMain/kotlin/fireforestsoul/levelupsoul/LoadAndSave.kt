@@ -39,7 +39,7 @@ actual fun loadValue() {
      *
      * V > 0 `Habits >`
      *
-     * V > 3.000.000 `Soul >`
+     * V >= 4.000.000 `Soul >`
      */
     val oldAppVersion = localStorage.getItem("app_version")?.toLong()
     if (oldAppVersion != null) {
@@ -51,7 +51,7 @@ actual fun loadValue() {
              *
              * `nameOfHabit` `nameOfUnitsOfDimension` `typeOfGoalHabits` `needGoal` `needDays`
              *
-             * V > 1.000.000 `typeOfColorHabits` `colorGood`
+             * V >= 2.000.000 `typeOfColorHabits` `colorGood`
              *
              * `startDate` `lastDate` `habitDays >`
              */
@@ -61,7 +61,7 @@ actual fun loadValue() {
                 if (x > 0) habits.add(Habit())
                 habits[x].nameOfHabit = localStorage.getItem("habits-$x-nameOfHabit").toString()
                 habits[x].nameOfUnitsOfDimension = localStorage.getItem("habits-$x-nameOfUnitsOfDimension").toString()
-                if (oldAppVersion > 2001000)
+                if (oldAppVersion >= 3000000)
                     habits[x].typeOfGoalHabits =
                         enumValueOf<TypeOfGoalHabits>(localStorage.getItem("habits-$x-typeOfGoalHabits").toString())
                 else habits[x].typeOfGoalHabits = toTypeOfGoalHabits(
@@ -71,7 +71,7 @@ actual fun loadValue() {
                 )
                 habits[x].needGoal = localStorage.getItem("habits-$x-needGoal")?.toDouble()!!
                 habits[x].needDays = localStorage.getItem("habits-$x-needDays")?.toInt()!!
-                if (oldAppVersion > 1000000) {
+                if (oldAppVersion >= 2000000) {
                     habits[x].typeOfColorHabits =
                         enumValueOf<TypeOfColorHabits>(localStorage.getItem("habits-$x-typeOfColorHabits").toString())
                     habits[x].colorGood = Color(localStorage.getItem("habits-$x-colorGood").toString().toULong(16))
@@ -97,7 +97,7 @@ actual fun loadValue() {
                 }
             }
 
-            if (oldAppVersion > 3000000) {
+            if (oldAppVersion >= 4000000) {
 
                 /**
                  * `soul_color_type` `soul_color` `soul_name`
