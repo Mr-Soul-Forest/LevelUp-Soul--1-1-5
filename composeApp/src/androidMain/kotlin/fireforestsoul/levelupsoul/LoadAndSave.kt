@@ -32,8 +32,14 @@ actual fun saveValue() {
             putString("habits-$x-habitDay-size", habits[x].habitDay.size.toString())
             for (y in habits[x].habitDay.indices) {
                 putString("habits-$x-habitDay-$y-today", habits[x].habitDay[y].today.toString())
-                putString("habits-$x-habitDay-$y-totalOfAPeriod", habits[x].habitDay[y].totalOfAPeriod.toString())
-                putString("habits-$x-habitDay-$y-correctly", habits[x].habitDay[y].correctly.toString())
+                putString(
+                    "habits-$x-habitDay-$y-totalOfAPeriod",
+                    habits[x].habitDay[y].totalOfAPeriod.toString()
+                )
+                putString(
+                    "habits-$x-habitDay-$y-correctly",
+                    habits[x].habitDay[y].correctly.toString()
+                )
             }
         }
         apply()
@@ -46,35 +52,57 @@ actual fun loadValue() {
         val habitsSize = prefs.getString("habits-size", null)?.toIntOrNull() ?: 0
         habits = MutableList(habitsSize) { Habit() }
         for (x in 0 until habitsSize) {
-            habits[x].nameOfHabit = prefs.getString("habits-$x-nameOfHabit", "New habit") ?: "New habit"
-            habits[x].nameOfUnitsOfDimension = prefs.getString("habits-$x-nameOfUnitsOfDimension", "km") ?: "km"
-            if (oldAppVersion > 2001000)
-                habits[x].typeOfGoalHabits =
-                    enumValueOf<TypeOfGoalHabits>(prefs.getString("habits-$x-typeOfGoalHabits", "AT_LEAST")!!)
-            else habits[x].typeOfGoalHabits = toTypeOfGoalHabits(
-                enumValueOf<Old2001000TypeOfGoalHabits>(prefs.getString("habits-$x-typeOfGoalHabits", "NOT_LITTLE")!!)
-            )
-            habits[x].needGoal = prefs.getString("habits-$x-needGoal", "1.0")?.toDoubleOrNull() ?: 1.0
+            habits[x].nameOfHabit =
+                prefs.getString("habits-$x-nameOfHabit", "New habit") ?: "New habit"
+            habits[x].nameOfUnitsOfDimension =
+                prefs.getString("habits-$x-nameOfUnitsOfDimension", "km") ?: "km"
+            if (oldAppVersion >= 3000000) {
+                habits[x].typeOfGoalHabits = enumValueOf<TypeOfGoalHabits>(
+                    prefs.getString(
+                        "habits-$x-typeOfGoalHabits",
+                        "AT_LEAST"
+                    )!!
+                )
+            } else {
+                habits[x].typeOfGoalHabits = toTypeOfGoalHabits(
+                    enumValueOf<Old3000000TypeOfGoalHabits>(
+                        prefs.getString(
+                            "habits-$x-typeOfGoalHabits",
+                            "NOT_LITTLE"
+                        )!!
+                    )
+                )
+            }
+            habits[x].needGoal =
+                prefs.getString("habits-$x-needGoal", "1.0")?.toDoubleOrNull() ?: 1.0
             habits[x].needDays = prefs.getString("habits-$x-needDays", "1")?.toIntOrNull() ?: 1
-            if (oldAppVersion > 1000000) {
+            if (oldAppVersion >= 2000000) {
                 habits[x].typeOfColorHabits =
-                    enumValueOf<TypeOfColorHabits>(prefs.getString("habits-$x-typeOfColorHabits", "ADAPTIVE")!!)
+                    enumValueOf<TypeOfColorHabits>(
+                        prefs.getString(
+                            "habits-$x-typeOfColorHabits",
+                            "ADAPTIVE"
+                        )!!
+                    )
                 habits[x].colorGood = Color(
-                    prefs.getString("habits-$x-colorGood", "ff000000")?.toULongOrNull(16) ?: 0xFF000000u
+                    prefs.getString("habits-$x-colorGood", "ff000000")?.toULongOrNull(16)
+                        ?: 0xFF000000u
                 )
             }
             habits[x].startDate =
-                prefs.getString("habits-$x-startDate", "2025-01-01")?.let { LocalDate.parse(it) } ?: LocalDate(
-                    2025,
-                    1,
-                    1
-                )
+                prefs.getString("habits-$x-startDate", "2025-01-01")?.let { LocalDate.parse(it) }
+                    ?: LocalDate(
+                        2025,
+                        1,
+                        1
+                    )
             habits[x].lastDate =
-                prefs.getString("habits-$x-lastDate", "2025-01-01")?.let { LocalDate.parse(it) } ?: LocalDate(
-                    2025,
-                    1,
-                    1
-                )
+                prefs.getString("habits-$x-lastDate", "2025-01-01")?.let { LocalDate.parse(it) }
+                    ?: LocalDate(
+                        2025,
+                        1,
+                        1
+                    )
 
             val habitDaySize = prefs.getString("habits-$x-habitDay-size", null)?.toIntOrNull() ?: 0
             habits[x].habitDay = MutableList(habitDaySize) { HabitDay() }
@@ -82,7 +110,8 @@ actual fun loadValue() {
                 habits[x].habitDay[y].today =
                     prefs.getString("habits-$x-habitDay-$y-today", "0.0")?.toDoubleOrNull() ?: 0.0
                 habits[x].habitDay[y].totalOfAPeriod =
-                    prefs.getString("habits-$x-habitDay-$y-totalOfAPeriod", "0.0")?.toDoubleOrNull() ?: 0.0
+                    prefs.getString("habits-$x-habitDay-$y-totalOfAPeriod", "0.0")?.toDoubleOrNull()
+                        ?: 0.0
                 habits[x].habitDay[y].correctly =
                     prefs.getString("habits-$x-habitDay-$y-correctly", "false") == "true"
             }

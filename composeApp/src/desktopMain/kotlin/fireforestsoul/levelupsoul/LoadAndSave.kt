@@ -74,7 +74,7 @@ actual fun loadValue() {
                     }
                     else {
                         habits[x].typeOfGoalHabits = toTypeOfGoalHabits(
-                            enumValueOf<Old2001000TypeOfGoalHabits>(
+                            enumValueOf<Old3000000TypeOfGoalHabits>(
                                 input.getOrNull(index).toString()
                             )
                         )

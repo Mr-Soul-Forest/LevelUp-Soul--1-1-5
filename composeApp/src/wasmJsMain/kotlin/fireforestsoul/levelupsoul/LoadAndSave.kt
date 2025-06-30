@@ -65,7 +65,7 @@ actual fun loadValue() {
                     habits[x].typeOfGoalHabits =
                         enumValueOf<TypeOfGoalHabits>(localStorage.getItem("habits-$x-typeOfGoalHabits").toString())
                 else habits[x].typeOfGoalHabits = toTypeOfGoalHabits(
-                    enumValueOf<Old2001000TypeOfGoalHabits>(
+                    enumValueOf<Old3000000TypeOfGoalHabits>(
                         localStorage.getItem("habits-$x-typeOfGoalHabits").toString()
                     )
                 )

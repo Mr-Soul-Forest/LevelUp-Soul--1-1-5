@@ -5,14 +5,14 @@ enum class TypeOfGoalHabits(val char: Char) {
     AT_LEAST('>'),
 }
 
-enum class Old2001000TypeOfGoalHabits() {
+enum class Old3000000TypeOfGoalHabits() {
     NO_MORE,
     NOT_LITTLE
 }
 
-fun toTypeOfGoalHabits(old2001000TypeOfGoalHabits: Old2001000TypeOfGoalHabits): TypeOfGoalHabits {
-    return when (old2001000TypeOfGoalHabits) {
-        Old2001000TypeOfGoalHabits.NO_MORE -> TypeOfGoalHabits.NO_MORE
-        Old2001000TypeOfGoalHabits.NOT_LITTLE -> TypeOfGoalHabits.AT_LEAST
+fun toTypeOfGoalHabits(old3000000TypeOfGoalHabits: Old3000000TypeOfGoalHabits): TypeOfGoalHabits {
+    return when (old3000000TypeOfGoalHabits) {
+        Old3000000TypeOfGoalHabits.NO_MORE -> TypeOfGoalHabits.NO_MORE
+        Old3000000TypeOfGoalHabits.NOT_LITTLE -> TypeOfGoalHabits.AT_LEAST
     }
 }
