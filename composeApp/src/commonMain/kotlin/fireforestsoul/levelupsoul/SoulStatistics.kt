@@ -15,6 +15,10 @@ import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.foundation.verticalScroll
+import androidx.compose.material3.Button
+import androidx.compose.material3.ButtonColors
+import androidx.compose.material3.DropdownMenu
+import androidx.compose.material3.DropdownMenuItem
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextFieldDefaults
@@ -56,9 +60,17 @@ fun SoulStatisticsContent() {
             verticalArrangement = Arrangement.spacedBy(spaceCell),
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
+
+            /**
+             * Soul: `soulName`>[soul_name]
+             *
+             * Color: [soul_color] `typeOfColorHabits`>[soul_color_type]
+             *
+             * PPS: [progressPeriod]>`progressPeriodSetting`
+             */
             var progressPeriod by remember { mutableStateOf(maxDays.toString()) }
             var progressPeriodSetting by remember { mutableStateOf(maxDays) }
-
+            var typeOfColorHabits by remember { mutableStateOf(habits[habit_statistics_and_edit_x].typeOfColorHabits) }
             Row(
                 horizontalArrangement = Arrangement.spacedBy(20.dp),
                 verticalAlignment = Alignment.CenterVertically
@@ -104,6 +116,55 @@ fun SoulStatisticsContent() {
                     ),
                     modifier = Modifier.height(55.dp)
                 )
+            }
+            Row(
+                horizontalArrangement = Arrangement.spacedBy(20.dp),
+                verticalAlignment = Alignment.CenterVertically
+            ) {
+                var expanded by remember { mutableStateOf(false) }
+
+                ColorPickerBox(Color.White) {
+                    soul_color = it
+                }
+                Column {
+                    Button(
+                        onClick = { expanded = true },
+                        colors = ButtonColors(
+                            containerColor = Color.Black,
+                            contentColor = textSeeUiColor,
+                            disabledContainerColor = Color.Black,
+                            disabledContentColor = textNoSeeColor
+                        )
+                    ) {
+                        Text(
+                            "type: ${typeOfColorHabits.name}",
+                            fontSize = 16.sp,
+                            color = textSeeUiColor,
+                        )
+                    }
+                    DropdownMenu(
+                        expanded = expanded,
+                        onDismissRequest = { expanded = false },
+                        modifier = Modifier.background(Color.Black)
+                    ) {
+                        TypeOfColorHabits.entries.forEach { mode ->
+                            DropdownMenuItem(
+                                onClick = {
+                                    typeOfColorHabits = mode
+                                    soul_color_type = mode
+                                    expanded = false
+                                },
+                                text = {
+                                    Text(
+                                        text = mode.name,
+                                        fontSize = 16.sp,
+                                        color = textNoSeeColor
+                                    )
+                                }
+                            )
+                        }
+                    }
+                }
             }
             Row(
                 horizontalArrangement = Arrangement.spacedBy(20.dp),
@@ -157,6 +218,12 @@ fun SoulStatisticsContent() {
                         }
                         .padding(12.5.dp)
                 )
+            }
+            Row(
+                horizontalArrangement = Arrangement.spacedBy(20.dp),
+                verticalAlignment = Alignment.CenterVertically
+            ) {
+
             }
         }
     }
