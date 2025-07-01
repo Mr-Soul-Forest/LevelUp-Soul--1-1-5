@@ -110,9 +110,9 @@ fun listTodayDates(
 fun listDaysNumbers(
     index: Int
 ): List<Int> {
-    val list = mutableListOf(habits[index].startDate.monthNumber)
+    val list = mutableListOf(habits[index].startDate.dayOfMonth)
     for (y in 1 until habits[index].habitDay.size) {
-        list.add(habits[index].startDate.plus(y, DateTimeUnit.DAY).monthNumber)
+        list.add(habits[index].startDate.plus(y, DateTimeUnit.DAY).dayOfMonth)
     }
     return list
 }
