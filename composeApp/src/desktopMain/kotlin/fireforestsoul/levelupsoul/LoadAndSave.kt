@@ -16,8 +16,13 @@ actual fun saveValue() {
             out.println(habits[x].needDays.toString())
             out.println(habits[x].typeOfColorHabits.toString())
             out.println(habits[x].colorGood.value.toString(16))
+            out.println(habits[x].changeLevel.toString())
+            out.println(habits[x].changeNeedGoalWithLevel.toString())
+            out.println(habits[x].changeNeedDaysWithLevel.toString())
             out.println(habits[x].startDate.toString())
             out.println(habits[x].lastDate.toString())
+            out.println(habits[x].lastLevelChangeDate.toString())
+            out.println(habits[x].level.toString())
             out.println(habits[x].habitDay.size.toString())
             for (y in 0 until habits[x].habitDay.size) {
                 out.println(habits[x].habitDay[y].today.toString())
@@ -28,6 +33,8 @@ actual fun saveValue() {
         out.println(soul_color_type.toString())
         out.println(soul_color.value.toString(16))
         out.println(soul_name)
+        out.println(soul_level.toString())
+        out.println(soul_last_level_change_date.toString())
     }
 }
 
@@ -41,7 +48,9 @@ actual fun loadValue() {
          *
          * V > 0 `Habits >`
          *
-         * V >= 4.000.000 `Soul >`
+         * V >= 4.000.000 [soul_color_type] [soul_color] [soul_name]
+         *
+         * > V >= 1.000.000.000 [soul_level] [soul_last_level_change_date]
          */
         val oldAppVersion = input.getOrNull(0)?.toLong()
         if (oldAppVersion != null) {
@@ -55,13 +64,18 @@ actual fun loadValue() {
                  * `nameOfHabit` `nameOfUnitsOfDimension` `typeOfGoalHabits` `needGoal` `needDays`
                  *
                  * V >= 2.000.000 `typeOfColorHabits` `colorGood`
+                 * > V >= 1.000.000.000 `changeLevel` `changeNeedGoalWithLevel` `changeNeedDaysWithLevel`
                  *
-                 * `startDate` `lastDate` `habitDays >`
+                 * `startDate` `lastDate`
+                 *
+                 * V >= 1.000.000.000 `lastLevelChangeDate` `level`
+                 *
+                 * `habitDays >`
                  */
                 val habitsSize = input.getOrNull(index)?.toInt()!!
                 index++
                 habits = mutableListOf(Habit())
-                for (x in 0 until habitsSize) { /** Habits load */
+                for (x in 0 until habitsSize) {
                     if (x > 0) habits.add(Habit())
                     habits[x].nameOfHabit = input.getOrNull(index).toString()
                     index++
@@ -84,12 +98,21 @@ actual fun loadValue() {
                     index++
                     habits[x].needDays = input.getOrNull(index)?.toInt()!!
                     index++
-                    if (oldAppVersion > 1000000) {
+                    if (oldAppVersion >= 2000000) {
                         habits[x].typeOfColorHabits =
                             enumValueOf<TypeOfColorHabits>(input.getOrNull(index).toString())
                         index++
                         habits[x].colorGood = Color(input.getOrNull(index).toString().toULong(16))
                         index++
+
+                        if (oldAppVersion >= 1000000000) {
+                            habits[x].changeLevel = input.getOrNull(index).toBoolean()
+                            index++
+                            habits[x].changeNeedGoalWithLevel = input.getOrNull(index).toBoolean()
+                            index++
+                            habits[x].changeNeedDaysWithLevel = input.getOrNull(index).toBoolean()
+                            index++
+                        }
                     }
                     habits[x].startDate =
                         input.getOrNull(index)?.let { LocalDate.parse(it) }!!
@@ -97,6 +120,13 @@ actual fun loadValue() {
                     habits[x].lastDate =
                         input.getOrNull(index)?.let { LocalDate.parse(it) }!!
                     index++
+
+                    if (oldAppVersion >= 1000000000) {
+                        habits[x].lastLevelChangeDate = input.getOrNull(index)?.let { LocalDate.parse(it) }!!
+                        index++
+                        habits[x].level = input.getOrNull(index)?.toInt()!!
+                        index++
+                    }
 
                     /** [habitDaySize]
                      *
@@ -124,6 +154,8 @@ actual fun loadValue() {
 
                     /**
                      * `soul_color_type` `soul_color` `soul_name`
+                     *
+                     * V >= 1.000.000.000 `soul_level` `soul_last_level_change_date`
                      */
                     soul_color_type = enumValueOf<TypeOfColorHabits>(input.getOrNull(index).toString())
                     index++
@@ -131,6 +163,13 @@ actual fun loadValue() {
                     index++
                     soul_name = input.getOrNull(index).toString()
                     index++
+
+                    if (oldAppVersion >= 1000000000) {
+                        soul_level = input.getOrNull(index)?.toInt()!!
+                        index++
+                        soul_last_level_change_date = input.getOrNull(index)?.let { LocalDate.parse(it) }!!
+                        index++
+                    }
                 }
             }
         }

@@ -431,7 +431,7 @@ fun SoulStatisticsContent() {
             }
 
             /**
-             * Progress grath: [period]>`periodSetting` `step`>`stepSetting`
+             * Progress graph: `period`>`periodSetting` `step`>`stepSetting`
              */
             Box(
                 modifier = Modifier

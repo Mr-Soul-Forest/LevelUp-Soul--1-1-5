@@ -3,7 +3,6 @@ package fireforestsoul.levelupsoul
 import kotlinx.datetime.DateTimeUnit
 import kotlinx.datetime.LocalDate
 import kotlinx.datetime.plus
-import kotlin.math.max
 import kotlin.math.min
 
 fun progress(
