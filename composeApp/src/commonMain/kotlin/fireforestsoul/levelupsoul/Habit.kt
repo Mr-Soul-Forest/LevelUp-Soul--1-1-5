@@ -66,23 +66,47 @@ class Habit(
                     .toLocalDateTime(TimeZone.currentSystemDefault()).date.toEpochDays() - lastLevelChangeDate.toEpochDays() >= 20
             ) {
                 var goodProgress = 0
-                for (x in (habitDay.size - 20) until habitDay.size) {
-                    if (x >= 0) {
-                        if (progress(this, startIndex = x) >= 0.8) {
-                            goodProgress++
+                if (progress(this) >= 0.8) {
+                    for (x in (habitDay.size - 20) until habitDay.size) {
+                        if (x >= 0) {
+                            if (progress(this, startIndex = x) >= 0.8) {
+                                goodProgress++
+                            }
+                        }
+                    }
+                    if (goodProgress == 20) {
+                        level++
+                        lastLevelChangeDate = Clock.System.now().toLocalDateTime(TimeZone.currentSystemDefault()).date
+                        if (changeNeedDaysWithLevel) {
+                            if (typeOfGoalHabits == TypeOfGoalHabits.AT_LEAST) needDays =
+                                if ((needDays * 0.8).toInt() > 0) (needDays * 0.8).toInt() else 1
+                            else if (typeOfGoalHabits == TypeOfGoalHabits.NO_MORE) needDays = (needDays / 0.8).toInt()
+                        }
+                        if (changeNeedGoalWithLevel) {
+                            if (typeOfGoalHabits == TypeOfGoalHabits.AT_LEAST) needGoal /= 0.8
+                            else if (typeOfGoalHabits == TypeOfGoalHabits.NO_MORE) needGoal *= 0.8
                         }
                     }
                 }
-                if (goodProgress == 20) {
-                    level++
-                    lastLevelChangeDate = Clock.System.now().toLocalDateTime(TimeZone.currentSystemDefault()).date
-                    if (changeNeedDaysWithLevel) {
-                        if (typeOfGoalHabits == TypeOfGoalHabits.AT_LEAST) needDays = if ((needDays * 0.8).toInt() > 0) (needDays * 0.8).toInt() else 1
-                        else if (typeOfGoalHabits == TypeOfGoalHabits.NO_MORE) needDays = (needDays / 0.8).toInt()
+                else if (progress(this) <= 0.2) {
+                    for (x in (habitDay.size - 20) until habitDay.size) {
+                        if (x >= 0) {
+                            if (progress(this, startIndex = x) <= 0.2) {
+                                goodProgress++
+                            }
+                        }
                     }
-                    if (changeNeedGoalWithLevel) {
-                        if (typeOfGoalHabits == TypeOfGoalHabits.AT_LEAST) needGoal /= 0.8
-                        else if (typeOfGoalHabits == TypeOfGoalHabits.NO_MORE) needGoal *= 0.8
+                    if (goodProgress == 20) {
+                        level--
+                        lastLevelChangeDate = Clock.System.now().toLocalDateTime(TimeZone.currentSystemDefault()).date
+                        if (changeNeedDaysWithLevel) {
+                            if (typeOfGoalHabits == TypeOfGoalHabits.AT_LEAST) needDays = (needDays / 0.8).toInt()
+                            else if (typeOfGoalHabits == TypeOfGoalHabits.NO_MORE) needDays = if ((needDays * 0.8).toInt() > 0) (needDays * 0.8).toInt() else 1
+                        }
+                        if (changeNeedGoalWithLevel) {
+                            if (typeOfGoalHabits == TypeOfGoalHabits.AT_LEAST) needGoal *= 0.8
+                            else if (typeOfGoalHabits == TypeOfGoalHabits.NO_MORE) needGoal /= 0.8
+                        }
                     }
                 }
             }

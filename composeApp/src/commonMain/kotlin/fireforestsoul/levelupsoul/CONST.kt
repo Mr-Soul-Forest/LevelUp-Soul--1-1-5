@@ -1,6 +1,9 @@
 package fireforestsoul.levelupsoul
 
 import androidx.compose.ui.graphics.Color
+import kotlinx.datetime.Clock
+import kotlinx.datetime.TimeZone
+import kotlinx.datetime.toLocalDateTime
 
 enum class AppStatus() {
     LOADING,
@@ -25,3 +28,5 @@ var habits: MutableList<Habit> = mutableListOf(
 var soul_color_type = TypeOfColorHabits.ADAPTIVE
 var soul_color = Color(200,200,200)
 var soul_name = "Mr. Soul Forest"
+var soul_level = 0
+var soul_last_level_change_date = Clock.System.now().toLocalDateTime(TimeZone.currentSystemDefault()).date

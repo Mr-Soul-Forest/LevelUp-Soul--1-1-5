@@ -37,6 +37,9 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import kotlinx.datetime.Clock
+import kotlinx.datetime.TimeZone
+import kotlinx.datetime.toLocalDateTime
 import org.jetbrains.compose.resources.painterResource
 import kotlin.math.max
 
@@ -390,6 +393,39 @@ fun SoulStatisticsContent() {
                             fontSize = 12.sp,
                             color = textSeeUiColor
                         )
+                    }
+                }
+            }
+
+            /**
+             * Level
+             */
+            if (Clock.System.now().toLocalDateTime(TimeZone.currentSystemDefault()).date.toEpochDays() - soul_last_level_change_date.toEpochDays() >= 20) {
+                var goodProgress = 0
+                if (progressAll(maxDays) >= 0.8) {
+                    for (x in (maxDays - 20) until maxDays) {
+                        if (x >= 0) {
+                            if (progressAll(maxDays, startIndex = x) >= 0.8) {
+                                goodProgress++
+                            }
+                        }
+                    }
+                    if (goodProgress == 20) {
+                        soul_level++
+                        soul_last_level_change_date = Clock.System.now().toLocalDateTime(TimeZone.currentSystemDefault()).date
+                    }
+                }
+                else if (progressAll(maxDays) <= 0.2) {
+                    for (x in (maxDays - 20) until maxDays) {
+                        if (x >= 0) {
+                            if (progressAll(maxDays, startIndex = x) <= 0.2) {
+                                goodProgress++
+                            }
+                        }
+                    }
+                    if (goodProgress == 20) {
+                        soul_level--
+                        soul_last_level_change_date = Clock.System.now().toLocalDateTime(TimeZone.currentSystemDefault()).date
                     }
                 }
             }
