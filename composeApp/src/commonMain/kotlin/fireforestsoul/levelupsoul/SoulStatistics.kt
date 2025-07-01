@@ -1,5 +1,6 @@
 package fireforestsoul.levelupsoul
 
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
@@ -30,22 +31,49 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.ColorFilter
 import androidx.compose.ui.text.TextStyle
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import org.jetbrains.compose.resources.painterResource
 import kotlin.math.max
 
 @Composable
 fun SoulStatisticsContent() {
     val verticalScroll = rememberScrollState()
     val spaceCell = 8.dp
-    val seeColor = seeColorByIndex(habit_statistics_and_edit_x)
-    val noSeeColor = noSeeColorByIndex(habit_statistics_and_edit_x)
+    var soulColor by remember { mutableStateOf(soul_color) }
+
     var maxDays = 0
     for (habit in habits) {
         maxDays = max(habit.habitDay.size, maxDays)
     }
+    var maxSeria = 0
+    for (x in 0 until habits.size) {
+        maxSeria = max(
+            if (habitSeria(x).isNotEmpty()) habitSeria(x)[0] else 0,
+            maxSeria
+        )
+    }
+    val seeColor = if (soul_color_type == TypeOfColorHabits.SELECTED) soulColor
+    else Color(
+        255,
+        (progressAll(maxDays) * 255.0).toInt(),
+        255
+    )
+    val noSeeColor = if (soul_color_type == TypeOfColorHabits.SELECTED)
+        Color(
+            soulColor.red * 0.5F,
+            soulColor.green * 0.5F,
+            soulColor.blue * 0.5F
+        )
+    else Color(
+        127,
+        (progressAll(maxDays) * 127.5).toInt(),
+        127
+    )
 
     Box(
         modifier = Modifier
@@ -70,7 +98,7 @@ fun SoulStatisticsContent() {
              */
             var progressPeriod by remember { mutableStateOf(maxDays.toString()) }
             var progressPeriodSetting by remember { mutableStateOf(maxDays) }
-            var typeOfColorHabits by remember { mutableStateOf(habits[habit_statistics_and_edit_x].typeOfColorHabits) }
+            var typeOfColor by remember { mutableStateOf(soul_color_type) }
             Row(
                 horizontalArrangement = Arrangement.spacedBy(20.dp),
                 verticalAlignment = Alignment.CenterVertically
@@ -125,6 +153,7 @@ fun SoulStatisticsContent() {
 
                 ColorPickerBox(Color.White) {
                     soul_color = it
+                    soulColor = it
                 }
                 Column {
                     Button(
@@ -137,7 +166,7 @@ fun SoulStatisticsContent() {
                         )
                     ) {
                         Text(
-                            "type: ${typeOfColorHabits.name}",
+                            "type: ${typeOfColor.name}",
                             fontSize = 16.sp,
                             color = textSeeUiColor,
                         )
@@ -150,7 +179,7 @@ fun SoulStatisticsContent() {
                         TypeOfColorHabits.entries.forEach { mode ->
                             DropdownMenuItem(
                                 onClick = {
-                                    typeOfColorHabits = mode
+                                    typeOfColor = mode
                                     soul_color_type = mode
                                     expanded = false
                                 },
@@ -219,11 +248,150 @@ fun SoulStatisticsContent() {
                         .padding(12.5.dp)
                 )
             }
-            Row(
-                horizontalArrangement = Arrangement.spacedBy(20.dp),
-                verticalAlignment = Alignment.CenterVertically
-            ) {
 
+            /**
+             * Progress: [progress] `progressDay` `progressWeek` `progressMonth` `progressYear`
+             */
+            val progress = progressAll(maxDays, progressPeriodSetting)
+            Box(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .background(UI_color, RoundedCornerShape(20.dp))
+                    .height(48.dp),
+                contentAlignment = Alignment.Center
+            ) {
+                Text(
+                    text = "Progress",
+                    fontSize = 16.sp,
+                    fontWeight = FontWeight.Bold,
+                    color = textSeeUiColor,
+                )
+            }
+            Box(
+                modifier = Modifier
+                    .fillMaxWidth(),
+                contentAlignment = Alignment.Center
+            ) {
+                Row(
+                    modifier = Modifier.padding(vertical = 15.dp),
+                    horizontalArrangement = Arrangement.spacedBy(30.dp),
+                    verticalAlignment = Alignment.CenterVertically
+                ) {
+                    Column(
+                        verticalArrangement = Arrangement.spacedBy(15.dp),
+                        horizontalAlignment = Alignment.CenterHorizontally
+                    ) {
+                        Box(contentAlignment = Alignment.Center) {
+                            val progressDay =
+                                plusProgressAll(maxDays, 1, progressPeriodSetting)
+                            DonutChart(
+                                modifier = Modifier.size(60.dp),
+                                values = listOf(progressDay, 1 - progressDay),
+                                colors = listOf(seeColor, noSeeColor),
+                                strokeWidth = 5.dp
+                            )
+                            Text(
+                                text = (if (progressDay > 0) "+" else "") + "${(progressDay * 100).toInt()}%",
+                                fontSize = 12.sp,
+                                color = seeColor
+                            )
+                        }
+                        Text(
+                            text = "day",
+                            fontSize = 12.sp,
+                            color = textSeeUiColor
+                        )
+                        Box(contentAlignment = Alignment.Center) {
+                            val progressWeek =
+                                plusProgressAll(maxDays, 7, progressPeriodSetting)
+                            DonutChart(
+                                modifier = Modifier.size(60.dp),
+                                values = listOf(progressWeek, 1 - progressWeek),
+                                colors = listOf(seeColor, noSeeColor),
+                                strokeWidth = 5.dp
+                            )
+                            Text(
+                                text = (if (progressWeek > 0) "+" else "") + "${(progressWeek * 100).toInt()}%",
+                                fontSize = 12.sp,
+                                color = seeColor
+                            )
+                        }
+                        Text(
+                            text = "week",
+                            fontSize = 12.sp,
+                            color = textSeeUiColor
+                        )
+                    }
+                    Column(
+                        verticalArrangement = Arrangement.spacedBy(15.dp),
+                        horizontalAlignment = Alignment.CenterHorizontally
+                    ) {
+                        Box(contentAlignment = Alignment.Center) {
+                            DonutChart(
+                                modifier = Modifier.size(125.dp),
+                                values = listOf(progress, 1 - progress),
+                                colors = listOf(seeColor, noSeeColor),
+                                strokeWidth = 10.dp
+                            )
+                            Image(
+                                painter = painterResource(Res.drawable.soul),
+                                contentDescription = "Your soul",
+                                modifier = Modifier.size(75.dp),
+                                colorFilter = ColorFilter.tint(seeColor),
+                            )
+                        }
+                        Text(
+                            text = "${(progress * 100).toInt()}%",
+                            fontSize = 16.sp,
+                            color = seeColor
+                        )
+                    }
+                    Column(
+                        verticalArrangement = Arrangement.spacedBy(15.dp),
+                        horizontalAlignment = Alignment.CenterHorizontally
+                    ) {
+                        Box(contentAlignment = Alignment.Center) {
+                            val progressMonth =
+                                plusProgressAll(maxDays, 30, progressPeriodSetting)
+                            DonutChart(
+                                modifier = Modifier.size(60.dp),
+                                values = listOf(progressMonth, 1 - progressMonth),
+                                colors = listOf(seeColor, noSeeColor),
+                                strokeWidth = 5.dp
+                            )
+                            Text(
+                                text = (if (progressMonth > 0) "+" else "") + "${(progressMonth * 100).toInt()}%",
+                                fontSize = 12.sp,
+                                color = seeColor
+                            )
+                        }
+                        Text(
+                            text = "month",
+                            fontSize = 12.sp,
+                            color = textSeeUiColor
+                        )
+                        Box(contentAlignment = Alignment.Center) {
+                            val progressYear =
+                                plusProgressAll(maxDays, 365, progressPeriodSetting)
+                            DonutChart(
+                                modifier = Modifier.size(60.dp),
+                                values = listOf(progressYear, 1 - progressYear),
+                                colors = listOf(seeColor, noSeeColor),
+                                strokeWidth = 5.dp
+                            )
+                            Text(
+                                text = (if (progressYear > 0) "+" else "") + "${(progressYear * 100).toInt()}%",
+                                fontSize = 12.sp,
+                                color = seeColor
+                            )
+                        }
+                        Text(
+                            text = "year",
+                            fontSize = 12.sp,
+                            color = textSeeUiColor
+                        )
+                    }
+                }
             }
         }
     }
