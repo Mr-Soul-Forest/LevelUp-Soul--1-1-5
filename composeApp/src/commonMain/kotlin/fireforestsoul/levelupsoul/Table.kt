@@ -64,13 +64,6 @@ fun TableContent(viewModel: AppViewModel, verticalScroll: ScrollState, horizonta
     for (habit in habits) {
         maxDays = max(habit.habitDay.size, maxDays)
     }
-    var maxSeria = 0
-    for (x in 0 until habits.size) {
-        maxSeria = max(
-            if (habitSeria(x).isNotEmpty()) habitSeria(x)[0] else 0,
-            maxSeria
-        )
-    }
 
     BoxWithConstraints(
         modifier = Modifier
@@ -95,8 +88,8 @@ fun TableContent(viewModel: AppViewModel, verticalScroll: ScrollState, horizonta
                     contentAlignment = Alignment.Center
                 ) {}
                 for (y in 0 until habits.size) {
-                    val seeColor = seeColorByIndex(y, maxDays, maxSeria)
-                    val noSeeColor = noSeeColorByIndex(y, maxDays, maxSeria)
+                    val seeColor = seeColorByIndex(y)
+                    val noSeeColor = noSeeColorByIndex(y)
 
                     Box(
                         modifier = Modifier
@@ -196,8 +189,8 @@ fun TableContent(viewModel: AppViewModel, verticalScroll: ScrollState, horizonta
                     }
                     //results
                     for (y in 0 until habits.size) {
-                        val seeColor = seeColorByIndex(y, maxDays, maxSeria)
-                        val noSeeColor = noSeeColorByIndex(y, maxDays, maxSeria)
+                        val seeColor = seeColorByIndex(y)
+                        val noSeeColor = noSeeColorByIndex(y)
 
                         Column(
                             verticalArrangement = Arrangement.Center,

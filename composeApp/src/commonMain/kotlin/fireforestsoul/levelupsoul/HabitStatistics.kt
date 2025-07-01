@@ -42,7 +42,6 @@ import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import org.jetbrains.compose.resources.painterResource
-import kotlin.math.max
 
 var habit_statistics_and_edit_x = 0
 
@@ -111,19 +110,8 @@ fun HabitStatistics(viewModel: AppViewModel) {
             val verticalScroll = rememberScrollState()
             val spaceCell = 8.dp
 
-            var maxDays = 0
-            for (habit in habits) {
-                maxDays = max(habit.habitDay.size, maxDays)
-            }
-            var maxSeria = 0
-            for (x in 0 until habits.size) {
-                maxSeria = max(
-                    if (habitSeria(x).isNotEmpty()) habitSeria(x)[0] else 0,
-                    maxSeria
-                )
-            }
-            val seeColor = seeColorByIndex(habit_statistics_and_edit_x, maxDays, maxSeria)
-            val noSeeColor = noSeeColorByIndex(habit_statistics_and_edit_x, maxDays, maxSeria)
+            val seeColor = seeColorByIndex(habit_statistics_and_edit_x)
+            val noSeeColor = noSeeColorByIndex(habit_statistics_and_edit_x)
 
             Box(
                 modifier = Modifier

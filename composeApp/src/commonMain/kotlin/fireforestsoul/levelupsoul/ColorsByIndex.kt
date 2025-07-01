@@ -1,8 +1,21 @@
 package fireforestsoul.levelupsoul
 
 import androidx.compose.ui.graphics.Color
+import kotlin.math.max
 
-fun seeColorByIndex(index: Int, maxDays: Int, maxSeria: Int): Color {
+fun seeColorByIndex(index: Int): Color {
+    var maxDays = 0
+    for (habit in habits) {
+        maxDays = max(habit.habitDay.size, maxDays)
+    }
+    var maxSeria = 0
+    for (x in 0 until habits.size) {
+        maxSeria = max(
+            if (habitSeria(x).isNotEmpty()) habitSeria(x)[0] else 0,
+            maxSeria
+        )
+    }
+
     return if (habits[index].typeOfColorHabits == TypeOfColorHabits.SELECTED)
         habits[index].colorGood
     else Color(
@@ -12,7 +25,19 @@ fun seeColorByIndex(index: Int, maxDays: Int, maxSeria: Int): Color {
     )
 }
 
-fun noSeeColorByIndex(index: Int, maxDays: Int, maxSeria: Int): Color {
+fun noSeeColorByIndex(index: Int): Color {
+    var maxDays = 0
+    for (habit in habits) {
+        maxDays = max(habit.habitDay.size, maxDays)
+    }
+    var maxSeria = 0
+    for (x in 0 until habits.size) {
+        maxSeria = max(
+            if (habitSeria(x).isNotEmpty()) habitSeria(x)[0] else 0,
+            maxSeria
+        )
+    }
+
     return if (habits[index].typeOfColorHabits == TypeOfColorHabits.SELECTED)
         Color(
             habits[index].colorGood.red * 0.5F,

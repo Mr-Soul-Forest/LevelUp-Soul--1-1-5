@@ -77,7 +77,7 @@ fun MainMenuContent(
                         horizontalArrangement = Arrangement.Start
                     ) {
                         Text(
-                            text = "Привычки",
+                            text = "Habits",
                             fontSize = 16.sp,
                             fontWeight = FontWeight.Bold,
                             fontFamily = FontFamily.Default,
@@ -140,6 +140,23 @@ fun MainMenuContent(
                         }
                     }
                 }
+                if (appStatus == AppStatus.SOUL_STATISTICS) {
+                    Row(
+                        modifier = Modifier
+                            .height(48.dp)
+                            .fillMaxWidth()
+                            .padding(10.dp, 0.dp),
+                        verticalAlignment = Alignment.CenterVertically,
+                        horizontalArrangement = Arrangement.Start
+                    ) {
+                        Text(
+                            text = "Soul statistic",
+                            fontSize = 16.sp,
+                            fontWeight = FontWeight.Bold,
+                            color = textSeeUiColor
+                        )
+                    }
+                }
             }
         },
         bottomBar = {
@@ -156,9 +173,7 @@ fun MainMenuContent(
                     horizontalArrangement = Arrangement.SpaceBetween
                 ) {
                     IconButton(onClick = {
-                        if (appStatus == AppStatus.TABLE) {
-                            println("Habits")
-                        }
+                        viewModel.setStatus(AppStatus.TABLE_UPDATER)
                     }) {
                         Image(
                             painter = painterResource(Res.drawable.habits),
@@ -183,7 +198,7 @@ fun MainMenuContent(
                     }
                     IconButton(onClick = {
                         if (appStatus == AppStatus.TABLE) {
-                            println("Soul")
+                            viewModel.setStatus(AppStatus.SOUL_STATISTICS)
                         }
                     }) {
                         Image(
@@ -199,7 +214,10 @@ fun MainMenuContent(
         }
     ) { paddingValues ->
         Box(modifier = Modifier.padding(paddingValues)) {
-            TableContent(viewModel, verticalScrollForTableContent, horizontalScrollForTableContent, countdownDate)
+            if (appStatus == AppStatus.TABLE)
+                TableContent(viewModel, verticalScrollForTableContent, horizontalScrollForTableContent, countdownDate)
+            if (appStatus == AppStatus.SOUL_STATISTICS)
+                SoulStatisticsContent()
         }
     }
 }

@@ -8,7 +8,8 @@ enum class AppStatus() {
     CREATE_HABIT,
     HABIT_STATISTICS,
     EDIT_HABIT,
-    TABLE_UPDATER
+    TABLE_UPDATER,
+    SOUL_STATISTICS
 }
 
 //alpha(000) beta(001) version(010)
