@@ -43,6 +43,7 @@ import kotlinx.datetime.TimeZone
 import kotlinx.datetime.isoDayNumber
 import kotlinx.datetime.toLocalDateTime
 import org.jetbrains.compose.resources.painterResource
+import kotlin.math.max
 
 @Composable
 fun ColorPickerBox(
@@ -549,7 +550,7 @@ fun AnimatedLineChart(
         )
     }
 
-    val backgroundColor = Color(30,30,30)
+    val backgroundColor = Color(30, 30, 30)
     val gridColor = textSeeUiColor.copy(alpha = 0.15f)
 
     BoxWithConstraints(
@@ -570,8 +571,9 @@ fun AnimatedLineChart(
         }
 
         Box(modifier = Modifier.fillMaxSize()) {
-            Canvas(modifier = Modifier
-                .fillMaxSize()
+            Canvas(
+                modifier = Modifier
+                    .fillMaxSize()
             ) {
                 for (i in 0..ySteps) {
                     val y = chartHeight * (i.toFloat() / ySteps)
@@ -627,7 +629,7 @@ fun AnimatedBarChart(
     BoxWithConstraints(
         modifier = modifier
             .clip(RoundedCornerShape(20.dp))
-            .background(Color(30,30,30))
+            .background(Color(30, 30, 30))
             .horizontalScroll(scrollState)
     ) {
         val totalHeight = maxHeight
@@ -729,6 +731,73 @@ fun HabitGrid(
                                 Text(
                                     text = value.toString(),
                                     color = if (trueColor.red * 255 + trueColor.green * 255 + trueColor.blue * 255 < 383) Color.White else Color.Black,
+                                    fontSize = 10.sp
+                                )
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+}
+
+@Composable
+fun SoulGrid(
+    maxDays: Int,
+    states: List<Float> = listTodayAll(maxDays, 1),
+    colorBest: Color,
+    modifier: Modifier = Modifier
+) {
+    var oldestHabit = Habit()
+    for (habit in habits) {
+        if (habit.startDate.toEpochDays() < oldestHabit.startDate.toEpochDays()) oldestHabit = habit
+    }
+    val values: List<Int> = listDaysNumbers(oldestHabit)
+    val startDate = oldestHabit.startDate
+
+    val backgroundColor = Color(30, 30, 30)
+    val boxSize = 20.dp
+    val space = 4.dp
+    val horizontalScroll = rememberScrollState()
+    val dayOfWeekOffset = (startDate.dayOfWeek.isoDayNumber + 6) % 7
+    val paddedValues = List(dayOfWeekOffset) { null } + values.mapIndexed { i, v -> v to states[i] }
+    val weeks = paddedValues.chunked(7)
+
+    Box(
+        modifier = modifier
+            .clip(RoundedCornerShape(16.dp))
+            .background(backgroundColor)
+            .padding(8.dp)
+            .horizontalScroll(horizontalScroll)
+    ) {
+        LaunchedEffect(Unit) {
+            horizontalScroll.scrollTo(horizontalScroll.maxValue)
+        }
+
+        Row(horizontalArrangement = Arrangement.spacedBy(space)) {
+            for (col in weeks) {
+                Column(verticalArrangement = Arrangement.spacedBy(space)) {
+                    for (cell in col) {
+                        if (cell == null) {
+                            Spacer(modifier = Modifier.size(boxSize))
+                        } else {
+                            val (value, state) = cell
+                            val color = Color(
+                                colorBest.red * state / if (habits.isNotEmpty()) habits.size else 1,
+                                colorBest.green * state / if (habits.isNotEmpty()) habits.size else 1,
+                                colorBest.blue * state / if (habits.isNotEmpty()) habits.size else 1
+                            )
+                            Box(
+                                modifier = Modifier
+                                    .size(boxSize)
+                                    .clip(RoundedCornerShape(5.dp))
+                                    .background(color),
+                                contentAlignment = Alignment.Center
+                            ) {
+                                Text(
+                                    text = value.toString(),
+                                    color = if (color.red * 255 + color.green * 255 + color.blue * 255 < 383) Color.White else Color.Black,
                                     fontSize = 10.sp
                                 )
                             }

@@ -44,7 +44,7 @@ fun progressAll(
         correctly += progress(
             x,
             if (days >= maxDays) habits[x].habitDay.size else days,
-            if (startIndex >= maxDays - 1) habits[x].habitDay.size - 1 else startIndex
+            habits[x].habitDay.size - maxDays + startIndex
         )
     }
     return correctly / (if (habits.isNotEmpty()) habits.size else 1)
@@ -218,6 +218,16 @@ fun listDaysNumbers(
     val list = mutableListOf(habits[index].startDate.dayOfMonth)
     for (y in 1 until habits[index].habitDay.size) {
         list.add(habits[index].startDate.plus(y, DateTimeUnit.DAY).dayOfMonth)
+    }
+    return list
+}
+
+fun listDaysNumbers(
+    habit: Habit
+): List<Int> {
+    val list = mutableListOf(habit.startDate.dayOfMonth)
+    for (y in 1 until habit.habitDay.size) {
+        list.add(habit.startDate.plus(y, DateTimeUnit.DAY).dayOfMonth)
     }
     return list
 }

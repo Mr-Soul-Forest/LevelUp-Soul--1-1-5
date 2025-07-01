@@ -631,17 +631,14 @@ fun SoulStatisticsContent() {
                     /**
                      * HabitGrid
                      */
-//                    HabitGrid(
-//                        values = listDaysNumbers(habit_statistics_and_edit_x),
-//                        states = listDaysBoolean(habit_statistics_and_edit_x),
-//                        trueColor = seeColor,
-//                        falseColor = noSeeColor,
-//                        startDate = habits[habit_statistics_and_edit_x].startDate,
-//                        modifier = Modifier
-//                            .fillMaxWidth()
-//                            .height(220.dp)
-//                            .padding(16.dp),
-//                    )
+                    SoulGrid(
+                        maxDays,
+                        colorBest = seeColor,
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .height(220.dp)
+                            .padding(16.dp),
+                    )
                 }
             }
         }
