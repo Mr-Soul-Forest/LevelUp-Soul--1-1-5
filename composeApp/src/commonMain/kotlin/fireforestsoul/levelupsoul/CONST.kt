@@ -13,8 +13,8 @@ enum class AppStatus() {
 }
 
 //alpha(000) beta(001) version(010)
-//t.x.x.x.x
-const val app_version: Long = 4000000 //alpha(000).000.004.000.000
+//t.x.x.x
+const val app_version: Long = 1000000000 //version(001).000.000.000
 
 const val save_file_name = "LevelUp-Soul.FireForestSouls-saving"
 

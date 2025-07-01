@@ -3,7 +3,10 @@ package fireforestsoul.levelupsoul
 import androidx.compose.ui.graphics.Color
 import kotlinx.datetime.LocalDate
 import kotlinx.datetime.Clock
+import kotlinx.datetime.DateTimeArithmeticException
+import kotlinx.datetime.DateTimeUnit
 import kotlinx.datetime.TimeZone
+import kotlinx.datetime.minus
 import kotlinx.datetime.toLocalDateTime
 import kotlin.math.max
 
@@ -14,11 +17,16 @@ class Habit(
     var needGoal: Double = 1.0,
     var needDays: Int = 1,
     var typeOfColorHabits: TypeOfColorHabits = TypeOfColorHabits.ADAPTIVE,
-    var colorGood: Color = textSeeUiColor
+    var colorGood: Color = textSeeUiColor,
+    var changeLevel: Boolean = true,
+    var changeNeedGoalWithLevel: Boolean = false,
+    var changeNeedDaysWithLevel: Boolean = false
 ) {
 
     var startDate: LocalDate = Clock.System.now().toLocalDateTime(TimeZone.currentSystemDefault()).date
     var lastDate: LocalDate = startDate
+    var lastLevelChangeDate: LocalDate = startDate
+    var level: Int = 0
     var habitDay: MutableList<HabitDay> = MutableList(1) { HabitDay(0.0) }
 
     fun updateDate() {
@@ -52,6 +60,33 @@ class Habit(
 
         habits.sortByDescending { if (habitSeria(it).isNotEmpty()) habitSeria(it)[0] else 0 }
         habits.sortByDescending { progress(it) }
+
+        if (changeLevel) {
+            if (Clock.System.now()
+                    .toLocalDateTime(TimeZone.currentSystemDefault()).date.toEpochDays() - lastLevelChangeDate.toEpochDays() >= 20
+            ) {
+                var goodProgress = 0
+                for (x in (habitDay.size - 20) until habitDay.size) {
+                    if (x >= 0) {
+                        if (progress(this, startIndex = x) >= 0.8) {
+                            goodProgress++
+                        }
+                    }
+                }
+                if (goodProgress == 20) {
+                    level++
+                    lastLevelChangeDate = Clock.System.now().toLocalDateTime(TimeZone.currentSystemDefault()).date
+                    if (changeNeedDaysWithLevel) {
+                        if (typeOfGoalHabits == TypeOfGoalHabits.AT_LEAST) needDays = if ((needDays * 0.8).toInt() > 0) (needDays * 0.8).toInt() else 1
+                        else if (typeOfGoalHabits == TypeOfGoalHabits.NO_MORE) needDays = (needDays / 0.8).toInt()
+                    }
+                    if (changeNeedGoalWithLevel) {
+                        if (typeOfGoalHabits == TypeOfGoalHabits.AT_LEAST) needGoal /= 0.8
+                        else if (typeOfGoalHabits == TypeOfGoalHabits.NO_MORE) needGoal *= 0.8
+                    }
+                }
+            }
+        }
     }
 
 }

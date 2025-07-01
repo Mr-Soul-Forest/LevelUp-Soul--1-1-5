@@ -34,6 +34,23 @@ fun progress(
     return correctly / (if (habit.habitDay.isNotEmpty()) habit.habitDay.size else 1)
 }
 
+fun progress(
+    habit: Habit,
+    days: Int = habit.habitDay.size,
+    startIndex: Int = habit.habitDay.size - 1
+): Float {
+    var correctly = 0f
+    var correctlyDays = 0
+    for (indexY in (startIndex - days + 1)..(startIndex)) {
+        if (indexY in 0..(habit.habitDay.size - 1)) {
+            if (habit.habitDay[indexY].correctly)
+                correctly++
+            correctlyDays++
+        }
+    }
+    return correctly / (if (correctlyDays != 0) correctlyDays else 1)
+}
+
 fun progressAll(
     maxDays: Int,
     days: Int = maxDays,
