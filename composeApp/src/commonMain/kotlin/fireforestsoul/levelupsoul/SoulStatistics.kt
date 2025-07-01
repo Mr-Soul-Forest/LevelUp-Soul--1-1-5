@@ -240,7 +240,7 @@ fun SoulStatisticsContent() {
                         .clickable {
                             if (progressPeriod.toIntOrNull() != null) {
                                 progressPeriodSetting = if (progressPeriod.toInt() == 0)
-                                    habits[habit_statistics_and_edit_x].habitDay.size
+                                    maxDays
                                 else
                                     progressPeriod.toInt()
                             }
@@ -393,6 +393,145 @@ fun SoulStatisticsContent() {
                     }
                 }
             }
+
+            /**
+             * Progress grath: [period]>`periodSetting` `step`>`stepSetting`
+             */
+            Box(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .background(UI_color, RoundedCornerShape(20.dp))
+                    .height(48.dp),
+                contentAlignment = Alignment.Center
+            ) {
+                Text(
+                    text = "Progress graph",
+                    fontSize = 16.sp,
+                    fontWeight = FontWeight.Bold,
+                    color = textSeeUiColor,
+                )
+            }
+            Box(
+                modifier = Modifier
+                    .fillMaxWidth(),
+                contentAlignment = Alignment.Center
+            ) {
+                Column(
+                    verticalArrangement = Arrangement.spacedBy(15.dp),
+                    horizontalAlignment = Alignment.CenterHorizontally
+                ) {
+                    var period by remember { mutableStateOf(maxDays.toString()) }
+                    var step by remember { mutableStateOf(1.toString()) }
+                    var periodSetting by remember { mutableStateOf(maxDays) }
+                    var stepSetting by remember { mutableStateOf(1) }
+
+                    AnimatedLineChart(
+                        data = listProgressAll(
+                            maxDays,
+                            periodSetting,
+                            stepSetting,
+                            progressPeriodSetting
+                        ),
+                        yMax = 1f,
+                        lineAndDotColor = seeColor,
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .height(220.dp)
+                            .padding(16.dp)
+                    )
+                    Row(
+                        horizontalArrangement = Arrangement.spacedBy(4.dp),
+                        verticalAlignment = Alignment.CenterVertically
+                    ) {
+                        OutlinedTextField(
+                            value = period,
+                            onValueChange = { period = it },
+                            label = {
+                                Text(
+                                    "Period:",
+                                    fontSize = 12.sp,
+                                    color = textNoSeeColor
+                                )
+                            },
+                            keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
+                            singleLine = true,
+                            textStyle = TextStyle(
+                                fontSize = 14.sp,
+                                color = textSeeUiColor
+                            ),
+                            shape = RoundedCornerShape(15.dp),
+                            colors = TextFieldDefaults.colors(
+                                focusedTextColor = textSeeUiColor,
+                                unfocusedTextColor = textNoSeeColor,
+                                disabledTextColor = textNoSeeColor,
+                                focusedContainerColor = Color(20, 20, 20),
+                                unfocusedContainerColor = Color(20, 20, 20),
+                                disabledContainerColor = Color(20, 20, 20),
+                                cursorColor = textSeeUiColor,
+                                focusedIndicatorColor = Color.Transparent,
+                                unfocusedIndicatorColor = Color.Transparent,
+                                disabledIndicatorColor = Color.Transparent
+                            ),
+                            modifier = Modifier.size(125.dp, 55.dp)
+                        )
+                        OutlinedTextField(
+                            value = step,
+                            onValueChange = { step = it },
+                            label = {
+                                Text(
+                                    "Step:",
+                                    fontSize = 12.sp,
+                                    color = textNoSeeColor
+                                )
+                            },
+                            keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
+                            singleLine = true,
+                            textStyle = TextStyle(
+                                fontSize = 14.sp,
+                                color = textSeeUiColor
+                            ),
+                            shape = RoundedCornerShape(15.dp),
+                            colors = TextFieldDefaults.colors(
+                                focusedTextColor = textSeeUiColor,
+                                unfocusedTextColor = textNoSeeColor,
+                                disabledTextColor = textNoSeeColor,
+                                focusedContainerColor = Color(20, 20, 20),
+                                unfocusedContainerColor = Color(20, 20, 20),
+                                disabledContainerColor = Color(20, 20, 20),
+                                cursorColor = textSeeUiColor,
+                                focusedIndicatorColor = Color.Transparent,
+                                unfocusedIndicatorColor = Color.Transparent,
+                                disabledIndicatorColor = Color.Transparent
+                            ),
+                            modifier = Modifier.size(125.dp, 55.dp)
+                        )
+                        Text(
+                            text = "Set",
+                            fontSize = 16.sp,
+                            color = textSeeUiColor,
+                            modifier = Modifier
+                                .background(Color(25, 50, 25), RoundedCornerShape(15.dp))
+                                .clickable {
+                                    if (period.toIntOrNull() != null) {
+                                        periodSetting = if (period.toInt() == 0)
+                                            maxDays
+                                        else
+                                            period.toInt()
+                                    }
+                                    if (step.toIntOrNull() != null) {
+                                        stepSetting = if (step.toInt() <= 0)
+                                            1
+                                        else
+                                            step.toInt()
+                                    }
+                                }
+                                .padding(12.5.dp)
+                        )
+                    }
+                }
+            }
+
+
         }
     }
 }

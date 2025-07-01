@@ -92,6 +92,23 @@ fun listProgress(
     return list
 }
 
+fun listProgressAll(
+    maxDays: Int,
+    period: Int,
+    step: Int,
+    days: Int = maxDays
+): List<Float> {
+    var y = maxDays - period
+    val list = mutableListOf(progressAll(maxDays, days, y))
+    y += step
+    while (y < maxDays) {
+        if (y >= 0)
+            list.add(progressAll(maxDays, days, y))
+        y += step
+    }
+    return list
+}
+
 fun listToday(
     index: Int,
     step: Int
