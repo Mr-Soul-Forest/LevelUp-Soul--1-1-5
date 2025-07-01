@@ -3,6 +3,8 @@ package fireforestsoul.levelupsoul
 import kotlinx.datetime.DateTimeUnit
 import kotlinx.datetime.LocalDate
 import kotlinx.datetime.plus
+import kotlin.math.max
+import kotlin.math.min
 
 fun progress(
     index: Int,
@@ -126,7 +128,36 @@ fun listToday(
             if (z < habits[index].habitDay.size)
                 add += habits[index].habitDay[z].today.toFloat()
         }
-        list.add(habits[index].habitDay[y].today.toFloat())
+        list.add(add)
+        y += step
+    }
+
+    return list
+}
+
+fun listTodayAll(
+    maxDays: Int,
+    step: Int
+): List<Float> {
+    var add0 = 0f
+    for (z in 0 until step) {
+        for (index in 0 until habits.size) {
+            if (z < habits[index].habitDay.size)
+                add0 += if (habits[index].habitDay[z].correctly) 1 else 0
+        }
+    }
+    val list = mutableListOf(add0)
+    var y = step
+    while (y < maxDays) {
+        var add = 0f
+        for (z in y until (y + step)) {
+            for (index in 0 until habits.size) {
+                val z0 = habits[index].habitDay.size - maxDays + z
+                if (z0 < habits[index].habitDay.size && z0 >= 0)
+                    add += if (habits[index].habitDay[z0].correctly) 1 else 0
+            }
+        }
+        list.add(add)
         y += step
     }
 
@@ -148,6 +179,34 @@ fun listTodayDates(
     var y = step
     while (y < habits[index].habitDay.size) {
         list.add(formatter(habits[index].startDate.plus(y, DateTimeUnit.DAY)))
+        y += step
+    }
+    return list
+}
+
+fun listTodayDatesAll(
+    maxDays: Int,
+    step: Int
+): List<String> {
+    fun formatter(localDate: LocalDate): String {
+        return if (step < 7) localDate.dayOfWeek.toString().take(3)
+        else if (step < 30) localDate.dayOfMonth.toString()
+        else if (step < 365) localDate.month.toString().take(3)
+        else localDate.year.toString()
+    }
+
+    var oldestStartDate = LocalDate(9999, 1, 1)
+    for (habit in habits) {
+        oldestStartDate = LocalDate(0, 1, 1).plus(
+            min(oldestStartDate.toEpochDays(), habit.startDate.toEpochDays()) - 2,
+            DateTimeUnit.DAY
+        )
+    }
+
+    val list = mutableListOf(formatter(oldestStartDate))
+    var y = step
+    while (y < maxDays) {
+        list.add(formatter(oldestStartDate.plus(y, DateTimeUnit.DAY)))
         y += step
     }
     return list

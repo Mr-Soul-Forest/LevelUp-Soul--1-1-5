@@ -531,7 +531,119 @@ fun SoulStatisticsContent() {
                 }
             }
 
+            /**
+             * Results
+             * > BarChart
+             * > Grid
+             */
+            Box(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .background(UI_color, RoundedCornerShape(20.dp))
+                    .height(48.dp),
+                contentAlignment = Alignment.Center
+            ) {
+                Text(
+                    text = "Results",
+                    fontSize = 16.sp,
+                    fontWeight = FontWeight.Bold,
+                    color = textSeeUiColor,
+                )
+            }
+            Box(
+                modifier = Modifier
+                    .fillMaxWidth(),
+                contentAlignment = Alignment.Center
+            ) {
+                Column(
+                    verticalArrangement = Arrangement.spacedBy(15.dp),
+                    horizontalAlignment = Alignment.CenterHorizontally
+                ) {
 
+                    /**
+                     * BarChart: [step]>`stepSetting`
+                     */
+                    var step by remember { mutableStateOf(1.toString()) }
+                    var stepSetting by remember { mutableStateOf(1) }
+
+                    AnimatedBarChart(
+                        data = listTodayAll(maxDays, stepSetting),
+                        labels = listTodayDatesAll(maxDays, stepSetting),
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .height(220.dp)
+                            .padding(16.dp),
+                        barColor = seeColor
+                    )
+                    Row(
+                        horizontalArrangement = Arrangement.spacedBy(4.dp),
+                        verticalAlignment = Alignment.CenterVertically
+                    ) {
+                        OutlinedTextField(
+                            value = step,
+                            onValueChange = { step = it },
+                            label = {
+                                Text(
+                                    "Step:",
+                                    fontSize = 12.sp,
+                                    color = textNoSeeColor
+                                )
+                            },
+                            keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
+                            singleLine = true,
+                            textStyle = TextStyle(
+                                fontSize = 14.sp,
+                                color = textSeeUiColor
+                            ),
+                            shape = RoundedCornerShape(15.dp),
+                            colors = TextFieldDefaults.colors(
+                                focusedTextColor = textSeeUiColor,
+                                unfocusedTextColor = textNoSeeColor,
+                                disabledTextColor = textNoSeeColor,
+                                focusedContainerColor = Color(20, 20, 20),
+                                unfocusedContainerColor = Color(20, 20, 20),
+                                disabledContainerColor = Color(20, 20, 20),
+                                cursorColor = textSeeUiColor,
+                                focusedIndicatorColor = Color.Transparent,
+                                unfocusedIndicatorColor = Color.Transparent,
+                                disabledIndicatorColor = Color.Transparent
+                            ),
+                            modifier = Modifier.size(125.dp, 55.dp)
+                        )
+                        Text(
+                            text = "Set",
+                            fontSize = 16.sp,
+                            color = textSeeUiColor,
+                            modifier = Modifier
+                                .background(Color(25, 50, 25), RoundedCornerShape(15.dp))
+                                .clickable {
+                                    if (step.toIntOrNull() != null) {
+                                        stepSetting = if (step.toInt() <= 0)
+                                            1
+                                        else
+                                            step.toInt()
+                                    }
+                                }
+                                .padding(12.5.dp)
+                        )
+                    }
+
+                    /**
+                     * HabitGrid
+                     */
+//                    HabitGrid(
+//                        values = listDaysNumbers(habit_statistics_and_edit_x),
+//                        states = listDaysBoolean(habit_statistics_and_edit_x),
+//                        trueColor = seeColor,
+//                        falseColor = noSeeColor,
+//                        startDate = habits[habit_statistics_and_edit_x].startDate,
+//                        modifier = Modifier
+//                            .fillMaxWidth()
+//                            .height(220.dp)
+//                            .padding(16.dp),
+//                    )
+                }
+            }
         }
     }
 }
