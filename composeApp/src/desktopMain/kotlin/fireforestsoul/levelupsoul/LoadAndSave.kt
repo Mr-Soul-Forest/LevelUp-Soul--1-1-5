@@ -20,7 +20,6 @@ actual fun saveValue() {
             out.println(habits[x].changeNeedGoalWithLevel.toString())
             out.println(habits[x].changeNeedDaysWithLevel.toString())
             out.println(habits[x].startDate.toString())
-            out.println(habits[x].lastDate.toString())
             out.println(habits[x].lastLevelChangeDate.toString())
             out.println(habits[x].level.toString())
             out.println(habits[x].habitDay.size.toString())
@@ -66,7 +65,9 @@ actual fun loadValue() {
                  * V >= 2.000.000 `typeOfColorHabits` `colorGood`
                  * > V >= 1.000.000.000 `changeLevel` `changeNeedGoalWithLevel` `changeNeedDaysWithLevel`
                  *
-                 * `startDate` `lastDate`
+                 * `startDate`
+                 *
+                 * V < 1.000.000.000 `lastDate`
                  *
                  * V >= 1.000.000.000 `lastLevelChangeDate` `level`
                  *
@@ -117,9 +118,12 @@ actual fun loadValue() {
                     habits[x].startDate =
                         input.getOrNull(index)?.let { LocalDate.parse(it) }!!
                     index++
-                    habits[x].lastDate =
-                        input.getOrNull(index)?.let { LocalDate.parse(it) }!!
-                    index++
+                    if (oldAppVersion < 1000000000) {
+                        /**
+                         * lastDate
+                         */
+                        index++
+                    }
 
                     if (oldAppVersion >= 1000000000) {
                         habits[x].lastLevelChangeDate = input.getOrNull(index)?.let { LocalDate.parse(it) }!!

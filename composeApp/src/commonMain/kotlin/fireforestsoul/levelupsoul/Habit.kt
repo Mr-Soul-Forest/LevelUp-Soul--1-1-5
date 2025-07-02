@@ -24,18 +24,16 @@ class Habit(
 ) {
 
     var startDate: LocalDate = Clock.System.now().toLocalDateTime(TimeZone.currentSystemDefault()).date
-    var lastDate: LocalDate = startDate
     var lastLevelChangeDate: LocalDate = startDate
     var level: Int = 0
     var habitDay: MutableList<HabitDay> = MutableList(1) { HabitDay(0.0) }
 
     fun updateDate() {
         val today = Clock.System.now().toLocalDateTime(TimeZone.currentSystemDefault()).date
-        val addDays: Int = (today.toEpochDays() - lastDate.toEpochDays())
+        val addDays: Int = (today.toEpochDays() - startDate.toEpochDays() - habitDay.size + 1)
 
         if (addDays > 0) {
             habitDay.addAll(List(addDays) { HabitDay(0.0) })
-            lastDate = today
         }
 
         update()

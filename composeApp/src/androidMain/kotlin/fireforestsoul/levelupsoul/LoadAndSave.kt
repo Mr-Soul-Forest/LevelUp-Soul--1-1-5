@@ -28,7 +28,6 @@ actual fun saveValue() {
             putString("habits-$x-typeOfColorHabits", habits[x].typeOfColorHabits.toString())
             putString("habits-$x-colorGood", habits[x].colorGood.value.toString(16))
             putString("habits-$x-startDate", habits[x].startDate.toString())
-            putString("habits-$x-lastDate", habits[x].lastDate.toString())
             putString("habits-$x-habitDay-size", habits[x].habitDay.size.toString())
             for (y in habits[x].habitDay.indices) {
                 putString("habits-$x-habitDay-$y-today", habits[x].habitDay[y].today.toString())
@@ -69,7 +68,7 @@ actual fun loadValue() {
          *
          * V >= 2.000.000 `typeOfColorHabits` `colorGood`
          *
-         * `startDate` `lastDate` `habitDays >`
+         * `startDate` `habitDays >`
          */
         val habitsSize = prefs.getString("habits-size", null)?.toIntOrNull() ?: 0
         habits = MutableList(habitsSize) { Habit() }
@@ -113,13 +112,6 @@ actual fun loadValue() {
             }
             habits[x].startDate =
                 prefs.getString("habits-$x-startDate", "2025-01-01")?.let { LocalDate.parse(it) }
-                    ?: LocalDate(
-                        2025,
-                        1,
-                        1
-                    )
-            habits[x].lastDate =
-                prefs.getString("habits-$x-lastDate", "2025-01-01")?.let { LocalDate.parse(it) }
                     ?: LocalDate(
                         2025,
                         1,

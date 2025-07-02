@@ -16,7 +16,6 @@ actual fun saveValue() {
         localStorage.setItem("habits-$x-typeOfColorHabits", habits[x].typeOfColorHabits.toString())
         localStorage.setItem("habits-$x-colorGood", habits[x].colorGood.value.toString(16))
         localStorage.setItem("habits-$x-startDate", habits[x].startDate.toString())
-        localStorage.setItem("habits-$x-lastDate", habits[x].lastDate.toString())
         localStorage.setItem("habits-$x-habitDay-size", habits[x].habitDay.size.toString())
         for (y in 0 until habits[x].habitDay.size) {
             localStorage.setItem("habits-$x-habitDay-$y-today", habits[x].habitDay[y].today.toString())
@@ -53,7 +52,7 @@ actual fun loadValue() {
              *
              * V >= 2.000.000 `typeOfColorHabits` `colorGood`
              *
-             * `startDate` `lastDate` `habitDays >`
+             * `startDate` `habitDays >`
              */
             val habitsSize = localStorage.getItem("habits-size")?.toInt()!!
             habits = mutableListOf(Habit())
@@ -77,7 +76,6 @@ actual fun loadValue() {
                     habits[x].colorGood = Color(localStorage.getItem("habits-$x-colorGood").toString().toULong(16))
                 }
                 habits[x].startDate = localStorage.getItem("habits-$x-startDate")?.let { LocalDate.parse(it) }!!
-                habits[x].lastDate = localStorage.getItem("habits-$x-lastDate")?.let { LocalDate.parse(it) }!!
 
                 /** [habitDaySize]
                  *
