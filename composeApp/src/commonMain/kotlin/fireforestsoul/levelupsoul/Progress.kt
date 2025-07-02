@@ -86,8 +86,9 @@ fun plusProgressAll(
     days: Int = maxDays,
     startIndex: Int = maxDays - 1
 ): Float {
-    return progressAll(days, startIndex) -
+    return progressAll(maxDays, days, startIndex) -
             progressAll(
+                maxDays,
                 days,
                 startIndex - period
             )
