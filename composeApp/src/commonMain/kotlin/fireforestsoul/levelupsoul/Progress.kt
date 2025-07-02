@@ -214,10 +214,7 @@ fun listTodayDatesAll(
 
     var oldestStartDate = LocalDate(9999, 1, 1)
     for (habit in habits) {
-        oldestStartDate = LocalDate(0, 1, 1).plus(
-            min(oldestStartDate.toEpochDays(), habit.startDate.toEpochDays()) - 2,
-            DateTimeUnit.DAY
-        )
+        oldestStartDate = if (oldestStartDate < habit.startDate) oldestStartDate else habit.startDate
     }
 
     val list = mutableListOf(formatter(oldestStartDate))
