@@ -27,7 +27,12 @@ actual fun saveValue() {
             putString("habits-$x-needDays", habits[x].needDays.toString())
             putString("habits-$x-typeOfColorHabits", habits[x].typeOfColorHabits.toString())
             putString("habits-$x-colorGood", habits[x].colorGood.value.toString(16))
+            putString("habits-$x-changeLevel", habits[x].changeLevel.toString())
+            putString("habits-$x-changeNeedGoalWithLevel", habits[x].changeNeedGoalWithLevel.toString())
+            putString("habits-$x-changeNeedDaysWithLevel", habits[x].changeNeedDaysWithLevel.toString())
             putString("habits-$x-startDate", habits[x].startDate.toString())
+            putString("habits-$x-lastLevelChangeDate", habits[x].lastLevelChangeDate.toString())
+            putString("habits-$x-level", habits[x].level.toString())
             putString("habits-$x-habitDay-size", habits[x].habitDay.size.toString())
             for (y in habits[x].habitDay.indices) {
                 putString("habits-$x-habitDay-$y-today", habits[x].habitDay[y].today.toString())
@@ -44,32 +49,17 @@ actual fun saveValue() {
         putString("soul_color_type", soul_color_type.toString())
         putString("soul_color", soul_color.value.toString(16))
         putString("soul_name", soul_name)
+        putString("soul_level", soul_level.toString())
+        putString("soul_last_level_change_date", soul_last_level_change_date.toString())
         apply()
     }
 }
 
 actual fun loadValue() {
 
-    /** [oldAppVersion]
-     * Check save version
-     *
-     * V > 0 `Habits >`
-     *
-     * V >= 4.000.000 `Soul >`
-     */
     val oldAppVersion = prefs.getString("app_version", null)?.toLongOrNull() ?: return
-    if (oldAppVersion > 0) {
 
-        /** [habitsSize]
-         *
-         * Load Habits:
-         *
-         * `nameOfHabit` `nameOfUnitsOfDimension` `typeOfGoalHabits` `needGoal` `needDays`
-         *
-         * V >= 2.000.000 `typeOfColorHabits` `colorGood`
-         *
-         * `startDate` `habitDays >`
-         */
+    if (oldAppVersion > 0) {
         val habitsSize = prefs.getString("habits-size", null)?.toIntOrNull() ?: 0
         habits = MutableList(habitsSize) { Habit() }
         for (x in 0 until habitsSize) {
@@ -97,6 +87,7 @@ actual fun loadValue() {
             habits[x].needGoal =
                 prefs.getString("habits-$x-needGoal", "1.0")?.toDoubleOrNull() ?: 1.0
             habits[x].needDays = prefs.getString("habits-$x-needDays", "1")?.toIntOrNull() ?: 1
+
             if (oldAppVersion >= 2000000) {
                 habits[x].typeOfColorHabits =
                     enumValueOf<TypeOfColorHabits>(
@@ -109,7 +100,16 @@ actual fun loadValue() {
                     prefs.getString("habits-$x-colorGood", "ff000000")?.toULongOrNull(16)
                         ?: 0xFF000000u
                 )
+
+                if (oldAppVersion >= 1000000000) {
+                    habits[x].changeLevel = prefs.getString("habits-$x-changeLevel", "true").toBoolean()
+                    habits[x].changeNeedGoalWithLevel =
+                        prefs.getString("habits-$x-changeNeedGoalWithLevel", "false").toBoolean()
+                    habits[x].changeNeedDaysWithLevel =
+                        prefs.getString("habits-$x-changeNeedDaysWithLevel", "false").toBoolean()
+                }
             }
+
             habits[x].startDate =
                 prefs.getString("habits-$x-startDate", "2025-01-01")?.let { LocalDate.parse(it) }
                     ?: LocalDate(
@@ -118,12 +118,12 @@ actual fun loadValue() {
                         1
                     )
 
-            /** [habitDaySize]
-             *
-             * Load habit day:
-             *
-             * `today` `totalOfAPeriod` `correctly`
-             */
+            if (oldAppVersion >= 1000000000) {
+                habits[x].lastLevelChangeDate =
+                    prefs.getString("habits-$x-lastLevelChangeDate", "2025-01-01")?.let { LocalDate.parse(it) }!!
+                habits[x].level = prefs.getString("habits-$x-level", "0")?.toInt()!!
+            }
+
             val habitDaySize = prefs.getString("habits-$x-habitDay-size", null)?.toIntOrNull() ?: 0
             habits[x].habitDay = MutableList(habitDaySize) { HabitDay() }
             for (y in 0 until habitDaySize) {
@@ -138,13 +138,15 @@ actual fun loadValue() {
         }
 
         if (oldAppVersion >= 4000000) {
-
-            /**
-             * `soul_color_type` `soul_color` `soul_name`
-             */
             soul_color_type = enumValueOf<TypeOfColorHabits>(prefs.getString("soul_color_type", "ADAPTIVE").toString())
             soul_color = Color(prefs.getString("soul_color", "ff000000").toString().toULong(16))
             soul_name = prefs.getString("soul_name", "Mr. Soul Forest").toString()
+
+            if (oldAppVersion >= 1000000000) {
+                soul_level = prefs.getString("soul_level", "0")?.toInt()!!
+                soul_last_level_change_date =
+                    prefs.getString("soul_last_level_change_date", "2025-01-01")?.let { LocalDate.parse(it) }!!
+            }
         }
     }
 }
