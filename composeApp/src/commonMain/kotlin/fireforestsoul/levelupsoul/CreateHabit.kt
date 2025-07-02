@@ -20,6 +20,8 @@ import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonColors
+import androidx.compose.material3.Checkbox
+import androidx.compose.material3.CheckboxDefaults
 import androidx.compose.material3.DropdownMenu
 import androidx.compose.material3.DropdownMenuItem
 import androidx.compose.material3.OutlinedTextField
@@ -55,6 +57,9 @@ fun CreateHabit(viewModel: AppViewModel) {
     var needGoal by remember { mutableStateOf("") }
     var nameOfUnitsOfDimension by remember { mutableStateOf("") }
     var needDays by remember { mutableStateOf("") }
+    var changeLevel by remember { mutableStateOf(habit.changeLevel) }
+    var changeNeedGoalWithLevel by remember { mutableStateOf(habit.changeNeedGoalWithLevel) }
+    var changeNeedDaysWithLevel by remember { mutableStateOf(habit.changeNeedDaysWithLevel) }
 
     val spaceX = 4.dp
     val spaceY = 4.dp
@@ -116,6 +121,9 @@ fun CreateHabit(viewModel: AppViewModel) {
                             habit.nameOfUnitsOfDimension = nameOfUnitsOfDimension
                             habit.needDays =
                                 (if (needDays.toIntOrNull() != null) needDays.toIntOrNull() else habit.needDays)!!
+                            habit.changeLevel = changeLevel
+                            habit.changeNeedGoalWithLevel = changeNeedGoalWithLevel
+                            habit.changeNeedDaysWithLevel = changeNeedDaysWithLevel
                             habit.update()
                             habits.add(habit)
                             viewModel.setStatus(AppStatus.TABLE)
@@ -414,6 +422,77 @@ fun CreateHabit(viewModel: AppViewModel) {
                                 text = " days",
                                 fontSize = 16.sp,
                                 color = textSeeUiColor,
+                            )
+                        }
+                    }
+
+                    //Level
+                    Box(
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .background(UI_color, RoundedCornerShape(20.dp))
+                            .height(48.dp),
+                        contentAlignment = Alignment.Center
+                    ) {
+                        Text(
+                            text = "Level",
+                            fontSize = 16.sp,
+                            fontWeight = FontWeight.Bold,
+                            color = textSeeUiColor,
+                        )
+                    }
+                    Column(
+                        modifier = Modifier
+                            .horizontalScroll(horizontalScroll),
+                        verticalArrangement = Arrangement.spacedBy(spaceY)
+                    ) {
+
+                        Row(verticalAlignment = Alignment.CenterVertically) {
+                            Checkbox(
+                                checked = changeLevel,
+                                onCheckedChange = { changeLevel = it },
+                                colors = CheckboxDefaults.colors(
+                                    checkedColor = textNoSeeColor,
+                                    uncheckedColor = textNoSeeColor,
+                                    checkmarkColor = textSeeUiColor
+                                )
+                            )
+                            Text(
+                                text = if (changeLevel) "Change level" else "No change level",
+                                fontSize = 16.sp,
+                                color = textSeeUiColor
+                            )
+                        }
+                        Row(verticalAlignment = Alignment.CenterVertically) {
+                            Checkbox(
+                                checked = changeNeedGoalWithLevel,
+                                onCheckedChange = { changeNeedGoalWithLevel = it },
+                                colors = CheckboxDefaults.colors(
+                                    checkedColor = textNoSeeColor,
+                                    uncheckedColor = textNoSeeColor,
+                                    checkmarkColor = textSeeUiColor
+                                )
+                            )
+                            Text(
+                                text = if (changeNeedGoalWithLevel) "Change goal with level" else "No change goal with level",
+                                fontSize = 16.sp,
+                                color = textSeeUiColor
+                            )
+                        }
+                        Row(verticalAlignment = Alignment.CenterVertically) {
+                            Checkbox(
+                                checked = changeNeedDaysWithLevel,
+                                onCheckedChange = { changeNeedDaysWithLevel = it },
+                                colors = CheckboxDefaults.colors(
+                                    checkedColor = textNoSeeColor,
+                                    uncheckedColor = textNoSeeColor,
+                                    checkmarkColor = textSeeUiColor
+                                )
+                            )
+                            Text(
+                                text = if (changeNeedDaysWithLevel) "Change period for goal with level" else "No change period for goal with level",
+                                fontSize = 16.sp,
+                                color = textSeeUiColor
                             )
                         }
                     }
