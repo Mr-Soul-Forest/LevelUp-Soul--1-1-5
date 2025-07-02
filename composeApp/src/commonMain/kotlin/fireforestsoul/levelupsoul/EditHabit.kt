@@ -20,6 +20,8 @@ import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonColors
+import androidx.compose.material3.Checkbox
+import androidx.compose.material3.CheckboxDefaults
 import androidx.compose.material3.DropdownMenu
 import androidx.compose.material3.DropdownMenuItem
 import androidx.compose.material3.OutlinedTextField
@@ -54,6 +56,9 @@ fun EditHabit(viewModel: AppViewModel) {
     var needGoal by remember { mutableStateOf(habits[habit_statistics_and_edit_x].needGoal.toString()) }
     var nameOfUnitsOfDimension by remember { mutableStateOf(habits[habit_statistics_and_edit_x].nameOfUnitsOfDimension) }
     var needDays by remember { mutableStateOf(habits[habit_statistics_and_edit_x].needDays.toString()) }
+    var changeLevel by remember { mutableStateOf(habits[habit_statistics_and_edit_x].changeLevel) }
+    var changeNeedGoalWithLevel by remember { mutableStateOf(habits[habit_statistics_and_edit_x].changeNeedGoalWithLevel) }
+    var changeNeedDaysWithLevel by remember { mutableStateOf(habits[habit_statistics_and_edit_x].changeNeedDaysWithLevel) }
 
     val spaceX = 4.dp
     val spaceY = 4.dp
@@ -115,6 +120,9 @@ fun EditHabit(viewModel: AppViewModel) {
                             habits[habit_statistics_and_edit_x].nameOfUnitsOfDimension = nameOfUnitsOfDimension
                             habits[habit_statistics_and_edit_x].needDays =
                                 (if (needDays.toIntOrNull() != null) needDays.toIntOrNull() else habits[habit_statistics_and_edit_x].needDays)!!
+                            habits[habit_statistics_and_edit_x].changeLevel = changeLevel
+                            habits[habit_statistics_and_edit_x].changeNeedGoalWithLevel = changeNeedGoalWithLevel
+                            habits[habit_statistics_and_edit_x].changeNeedDaysWithLevel = changeNeedDaysWithLevel
                             habits[habit_statistics_and_edit_x].update()
                             viewModel.setStatus(AppStatus.HABIT_STATISTICS)
                         }
@@ -415,6 +423,78 @@ fun EditHabit(viewModel: AppViewModel) {
                             )
                         }
                     }
+
+                    //Level
+                    Box(
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .background(UI_color, RoundedCornerShape(20.dp))
+                            .height(48.dp),
+                        contentAlignment = Alignment.Center
+                    ) {
+                        Text(
+                            text = "Level",
+                            fontSize = 16.sp,
+                            fontWeight = FontWeight.Bold,
+                            color = textSeeUiColor,
+                        )
+                    }
+                    Column(
+                        modifier = Modifier
+                            .horizontalScroll(horizontalScroll),
+                        verticalArrangement = Arrangement.spacedBy(spaceY)
+                    ) {
+
+                        Row(verticalAlignment = Alignment.CenterVertically) {
+                            Checkbox(
+                                checked = changeLevel,
+                                onCheckedChange = { changeLevel = it },
+                                colors = CheckboxDefaults.colors(
+                                    checkedColor = textNoSeeColor,
+                                    uncheckedColor = textNoSeeColor,
+                                    checkmarkColor = textSeeUiColor
+                                )
+                            )
+                            Text(
+                                text = if (changeLevel) "Change level" else "No change level",
+                                fontSize = 16.sp,
+                                color = textSeeUiColor
+                            )
+                        }
+                        Row(verticalAlignment = Alignment.CenterVertically) {
+                            Checkbox(
+                                checked = changeNeedGoalWithLevel,
+                                onCheckedChange = { changeNeedGoalWithLevel = it },
+                                colors = CheckboxDefaults.colors(
+                                    checkedColor = textNoSeeColor,
+                                    uncheckedColor = textNoSeeColor,
+                                    checkmarkColor = textSeeUiColor
+                                )
+                            )
+                            Text(
+                                text = if (changeNeedGoalWithLevel) "Change goal with level" else "No change goal with level",
+                                fontSize = 16.sp,
+                                color = textSeeUiColor
+                            )
+                        }
+                        Row(verticalAlignment = Alignment.CenterVertically) {
+                            Checkbox(
+                                checked = changeNeedDaysWithLevel,
+                                onCheckedChange = { changeNeedDaysWithLevel = it },
+                                colors = CheckboxDefaults.colors(
+                                    checkedColor = textNoSeeColor,
+                                    uncheckedColor = textNoSeeColor,
+                                    checkmarkColor = textSeeUiColor
+                                )
+                            )
+                            Text(
+                                text = if (changeNeedDaysWithLevel) "Change period for goal with level" else "No change period for goal with level",
+                                fontSize = 16.sp,
+                                color = textSeeUiColor
+                            )
+                        }
+                    }
+
                     //Delete
                     DeleteHabitConfirm(habit_statistics_and_edit_x) {
                         habits.removeAt(habit_statistics_and_edit_x)

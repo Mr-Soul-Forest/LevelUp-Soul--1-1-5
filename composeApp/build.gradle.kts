@@ -3,6 +3,8 @@ import org.jetbrains.kotlin.gradle.ExperimentalKotlinGradlePluginApi
 import org.jetbrains.kotlin.gradle.ExperimentalWasmDsl
 import org.jetbrains.kotlin.gradle.dsl.JvmTarget
 import org.jetbrains.kotlin.gradle.targets.js.webpack.KotlinWebpackConfig
+import java.util.Properties
+import java.io.FileInputStream
 
 plugins {
     alias(libs.plugins.kotlinMultiplatform)
@@ -84,6 +86,12 @@ kotlin {
     }
 }
 
+val keystoreProperties = Properties()
+val keystoreFile = rootProject.file("composeApp/src/androidMain/keystore.properties")
+if (keystoreFile.exists()) {
+    FileInputStream(keystoreFile).use { keystoreProperties.load(it) }
+}
+
 android {
     namespace = "fireforestsoul.levelupsoul"
     compileSdk = libs.versions.android.compileSdk.get().toInt()
@@ -106,10 +114,10 @@ android {
     }
     signingConfigs {
         create("release") {
-            storeFile = file("src/androidMain/keystore.jks")
-            storePassword = "xxx"
-            keyAlias = "xxx"
-            keyPassword = "xxx"
+            storeFile = file(keystoreProperties["storeFile"] as String)
+            storePassword = keystoreProperties["storePassword"] as String
+            keyAlias = keystoreProperties["keyAlias"] as String
+            keyPassword = keystoreProperties["keyPassword"] as String
         }
     }
     buildTypes {
