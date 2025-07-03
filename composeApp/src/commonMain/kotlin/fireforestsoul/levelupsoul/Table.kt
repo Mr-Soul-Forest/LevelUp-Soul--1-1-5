@@ -35,6 +35,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.input.KeyboardType
+import androidx.compose.ui.text.style.TextAlign
 import kotlinx.datetime.Clock
 import kotlinx.datetime.DateTimeUnit
 import kotlinx.datetime.LocalDate
@@ -110,14 +111,23 @@ fun TableContent(viewModel: AppViewModel, verticalScroll: ScrollState, horizonta
                             horizontalArrangement = Arrangement.spacedBy(3.dp),
                             verticalAlignment = Alignment.CenterVertically
                         ) {
-                            DonutChart(
-                                values = listOf(progress(y), 1f - progress(y)),
-                                colors = listOf(seeColor, noSeeColor),
-                                modifier = Modifier
-                                    .size(30.5.dp, 22.5.dp)
-                                    .padding(start = 8.dp),
-                                strokeWidth = 3.5.dp
-                            )
+                            Box(contentAlignment = Alignment.Center) {
+                                DonutChart(
+                                    values = listOf(progress(y), 1f - progress(y)),
+                                    colors = listOf(seeColor, noSeeColor),
+                                    modifier = Modifier
+                                        .size(30.5.dp, 22.5.dp)
+                                        .padding(start = 8.dp),
+                                    strokeWidth = 3.5.dp
+                                )
+                                Text(
+                                    text = "${habits[y].level}",
+                                    fontSize = 15.sp,
+                                    color = seeColor,
+                                    modifier = Modifier.padding(start = 7.dp, bottom = 1.75.dp),
+                                    textAlign = TextAlign.Center
+                                )
+                            }
                             Column(
                                 horizontalAlignment = Alignment.CenterHorizontally,
                                 modifier = Modifier.fillMaxWidth()

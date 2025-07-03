@@ -53,29 +53,16 @@ fun SoulStatisticsContent() {
     for (habit in habits) {
         maxDays = max(habit.habitDay.size, maxDays)
     }
-    var maxSeria = 0
-    for (x in 0 until habits.size) {
-        maxSeria = max(
-            if (habitSeria(x).isNotEmpty()) habitSeria(x)[0] else 0,
-            maxSeria
-        )
-    }
     val seeColor = if (soul_color_type == TypeOfColorHabits.SELECTED) soulColor
     else Color(
-        255,
         (progressAll(maxDays) * 255.0).toInt(),
+        255,
         255
     )
-    val noSeeColor = if (soul_color_type == TypeOfColorHabits.SELECTED)
-        Color(
-            soulColor.red * 0.5F,
-            soulColor.green * 0.5F,
-            soulColor.blue * 0.5F
-        )
-    else Color(
-        127,
-        (progressAll(maxDays) * 127.5).toInt(),
-        127
+    val noSeeColor = Color(
+        seeColor.red * 0.5f,
+        seeColor.green * 0.5f,
+        seeColor.blue * 0.5f
     )
 
     Box(
