@@ -41,6 +41,9 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import kotlinx.datetime.Clock
+import kotlinx.datetime.TimeZone
+import kotlinx.datetime.toLocalDateTime
 import org.jetbrains.compose.resources.painterResource
 
 var habit_statistics_and_edit_x = 0
@@ -343,6 +346,117 @@ fun HabitStatistics(viewModel: AppViewModel) {
                                     fontSize = 12.sp,
                                     color = textSeeUiColor
                                 )
+                            }
+                        }
+                    }
+
+                    //Level
+                    if (habits[habit_statistics_and_edit_x].changeLevel) {
+                        Box(
+                            modifier = Modifier
+                                .fillMaxWidth()
+                                .background(UI_color, RoundedCornerShape(20.dp))
+                                .height(48.dp),
+                            contentAlignment = Alignment.Center
+                        ) {
+                            Text(
+                                text = "Level",
+                                fontSize = 16.sp,
+                                fontWeight = FontWeight.Bold,
+                                color = textSeeUiColor,
+                            )
+                        }
+                        Box(
+                            modifier = Modifier
+                                .fillMaxWidth(),
+                            contentAlignment = Alignment.Center
+                        ) {
+                            Row(
+                                modifier = Modifier.padding(vertical = 15.dp),
+                                horizontalArrangement = Arrangement.spacedBy(30.dp),
+                                verticalAlignment = Alignment.CenterVertically
+                            ) {
+                                var goodProgress by remember { mutableStateOf(0f) }
+                                var progressUp by remember { mutableStateOf(true) }
+                                var needDaysChanged by remember { mutableStateOf(habits[habit_statistics_and_edit_x].needDays) }
+                                var needGoalChanged by remember { mutableStateOf(habits[habit_statistics_and_edit_x].needGoal) }
+
+                                goodProgress = 0f
+                                if (progress(habit_statistics_and_edit_x) >= 0.8) {
+                                    for (x in (habits[habit_statistics_and_edit_x].habitDay.size - 20) until habits[habit_statistics_and_edit_x].habitDay.size) {
+                                        if (x >= 0) {
+                                            if (progress(habit_statistics_and_edit_x, startIndex = x) >= 0.8) {
+                                                goodProgress++
+                                            } else {
+                                                break
+                                            }
+                                        }
+                                    }
+                                    if (habits[habit_statistics_and_edit_x].changeNeedDaysWithLevel) {
+                                        if (habits[habit_statistics_and_edit_x].typeOfGoalHabits == TypeOfGoalHabits.AT_LEAST) needDaysChanged =
+                                            if ((habits[habit_statistics_and_edit_x].needDays * 0.8).toInt() > 0) (habits[habit_statistics_and_edit_x].needDays * 0.8).toInt() else 1
+                                        else if (habits[habit_statistics_and_edit_x].typeOfGoalHabits == TypeOfGoalHabits.NO_MORE) needDaysChanged =
+                                            (habits[habit_statistics_and_edit_x].needDays / 0.8).toInt()
+                                    }
+                                    if (habits[habit_statistics_and_edit_x].changeNeedGoalWithLevel) {
+                                        if (habits[habit_statistics_and_edit_x].typeOfGoalHabits == TypeOfGoalHabits.AT_LEAST) needGoalChanged =
+                                            habits[habit_statistics_and_edit_x].needDays / 0.8
+                                        else if (habits[habit_statistics_and_edit_x].typeOfGoalHabits == TypeOfGoalHabits.NO_MORE) needGoalChanged =
+                                            habits[habit_statistics_and_edit_x].needGoal * 0.8
+                                    }
+                                    progressUp = true
+                                } else if (progress(habit_statistics_and_edit_x) <= 0.2) {
+                                    for (x in (habits[habit_statistics_and_edit_x].habitDay.size - 20) until habits[habit_statistics_and_edit_x].habitDay.size) {
+                                        if (x >= 0) {
+                                            if (progress(habit_statistics_and_edit_x, startIndex = x) <= 0.2) {
+                                                goodProgress++
+                                            } else {
+                                                break
+                                            }
+                                        }
+                                    }
+                                    if (habits[habit_statistics_and_edit_x].changeNeedDaysWithLevel) {
+                                        if (habits[habit_statistics_and_edit_x].typeOfGoalHabits == TypeOfGoalHabits.AT_LEAST) needDaysChanged =
+                                            (habits[habit_statistics_and_edit_x].needDays / 0.8).toInt()
+                                        else if (habits[habit_statistics_and_edit_x].typeOfGoalHabits == TypeOfGoalHabits.NO_MORE) needDaysChanged =
+                                            if ((habits[habit_statistics_and_edit_x].needDays * 0.8).toInt() > 0) (habits[habit_statistics_and_edit_x].needDays * 0.8).toInt() else 1
+                                    }
+                                    if (habits[habit_statistics_and_edit_x].changeNeedGoalWithLevel) {
+                                        if (habits[habit_statistics_and_edit_x].typeOfGoalHabits == TypeOfGoalHabits.AT_LEAST) needGoalChanged =
+                                            habits[habit_statistics_and_edit_x].needGoal * 0.8
+                                        else if (habits[habit_statistics_and_edit_x].typeOfGoalHabits == TypeOfGoalHabits.NO_MORE) needGoalChanged =
+                                            habits[habit_statistics_and_edit_x].needGoal / 0.8
+                                    }
+                                    progressUp = false
+                                }
+
+                                Column(
+                                    verticalArrangement = Arrangement.spacedBy(15.dp),
+                                    horizontalAlignment = Alignment.CenterHorizontally
+                                ) {
+                                    Box(
+                                        contentAlignment = Alignment.Center
+                                    ) {
+                                        DonutChart(
+                                            modifier = Modifier.size(125.dp),
+                                            values = if (progressUp) listOf(
+                                                goodProgress/20f,
+                                                1f - goodProgress/20f
+                                            ) else listOf(1f - goodProgress/20f, goodProgress/20f),
+                                            colors = if (progressUp) listOf(seeColor, noSeeColor) else listOf(
+                                                noSeeColor,
+                                                seeColor
+                                            ),
+                                            strokeWidth = 10.dp
+                                        )
+                                        Text(
+                                            text = if (goodProgress == 0f) "${habits[habit_statistics_and_edit_x].level}" else (if (progressUp) "${habits[habit_statistics_and_edit_x].level} ↑" else "${habits[habit_statistics_and_edit_x].level} ↓"),
+                                            fontSize = 16.sp,
+                                            fontWeight = if (goodProgress == 0f) FontWeight.Normal else FontWeight.Bold,
+                                            color = if (goodProgress == 0f) textSeeUiColor else (if (progressUp) Color.Green else Color.Red)
+                                        )
+                                    }
+                                }
                             }
                         }
                     }
