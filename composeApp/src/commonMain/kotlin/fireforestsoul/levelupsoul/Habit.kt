@@ -3,12 +3,8 @@ package fireforestsoul.levelupsoul
 import androidx.compose.ui.graphics.Color
 import kotlinx.datetime.LocalDate
 import kotlinx.datetime.Clock
-import kotlinx.datetime.DateTimeArithmeticException
-import kotlinx.datetime.DateTimeUnit
 import kotlinx.datetime.TimeZone
-import kotlinx.datetime.minus
 import kotlinx.datetime.toLocalDateTime
-import kotlin.math.max
 
 class Habit(
     var nameOfHabit: String = "New habit",
@@ -57,6 +53,7 @@ class Habit(
         }
 
         habits.sortByDescending { if (habitSeria(it).isNotEmpty()) habitSeria(it)[0] else 0 }
+        habits.sortByDescending { it.level }
         habits.sortByDescending { progress(it) }
 
         if (changeLevel) {
@@ -110,5 +107,4 @@ class Habit(
             }
         }
     }
-
 }
