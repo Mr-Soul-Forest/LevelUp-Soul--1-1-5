@@ -114,7 +114,7 @@ android {
     }
     signingConfigs {
         create("release") {
-            storeFile = file(keystoreProperties["storeFile"] as String)
+            storeFile = file("src/androidMain/keystore.jks")
             storePassword = keystoreProperties["storePassword"] as String
             keyAlias = keystoreProperties["keyAlias"] as String
             keyPassword = keystoreProperties["keyPassword"] as String
