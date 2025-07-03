@@ -144,6 +144,7 @@ fun CreateHabit(viewModel: AppViewModel) {
                         .padding(spaceXY),
                     verticalArrangement = Arrangement.spacedBy(spaceY)
                 ) {
+
                     //nameOfHabit
                     Row(
                         verticalAlignment = Alignment.CenterVertically,

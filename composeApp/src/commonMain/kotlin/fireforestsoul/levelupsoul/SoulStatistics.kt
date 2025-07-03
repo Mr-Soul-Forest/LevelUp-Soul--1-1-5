@@ -398,9 +398,11 @@ fun SoulStatisticsContent() {
             }
 
             /**
-             * Level
+             * Level changed
              */
-            if (Clock.System.now().toLocalDateTime(TimeZone.currentSystemDefault()).date.toEpochDays() - soul_last_level_change_date.toEpochDays() >= 20) {
+            if (Clock.System.now()
+                    .toLocalDateTime(TimeZone.currentSystemDefault()).date.toEpochDays() - soul_last_level_change_date.toEpochDays() >= 20
+            ) {
                 var goodProgress = 0
                 if (progressAll(maxDays) >= 0.8) {
                     for (x in (maxDays - 20) until maxDays) {
@@ -412,10 +414,10 @@ fun SoulStatisticsContent() {
                     }
                     if (goodProgress == 20) {
                         soul_level++
-                        soul_last_level_change_date = Clock.System.now().toLocalDateTime(TimeZone.currentSystemDefault()).date
+                        soul_last_level_change_date =
+                            Clock.System.now().toLocalDateTime(TimeZone.currentSystemDefault()).date
                     }
-                }
-                else if (progressAll(maxDays) <= 0.2) {
+                } else if (progressAll(maxDays) <= 0.2) {
                     for (x in (maxDays - 20) until maxDays) {
                         if (x >= 0) {
                             if (progressAll(maxDays, startIndex = x) <= 0.2) {
@@ -425,7 +427,91 @@ fun SoulStatisticsContent() {
                     }
                     if (goodProgress == 20) {
                         soul_level--
-                        soul_last_level_change_date = Clock.System.now().toLocalDateTime(TimeZone.currentSystemDefault()).date
+                        soul_last_level_change_date =
+                            Clock.System.now().toLocalDateTime(TimeZone.currentSystemDefault()).date
+                    }
+                }
+            }
+
+            /** Level */
+            Box(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .background(UI_color, RoundedCornerShape(20.dp))
+                    .height(48.dp),
+                contentAlignment = Alignment.Center
+            ) {
+                Text(
+                    text = "Level",
+                    fontSize = 16.sp,
+                    fontWeight = FontWeight.Bold,
+                    color = textSeeUiColor,
+                )
+            }
+            Box(
+                modifier = Modifier
+                    .fillMaxWidth(),
+                contentAlignment = Alignment.Center
+            ) {
+                Row(
+                    modifier = Modifier.padding(vertical = 30.dp),
+                    horizontalArrangement = Arrangement.spacedBy(30.dp),
+                    verticalAlignment = Alignment.CenterVertically
+                ) {
+                    var goodProgress by remember { mutableStateOf(0f) }
+                    var progressUp by remember { mutableStateOf(false) }
+
+                    goodProgress = 0f
+                    if (progressAll(maxDays) >= 0.8) {
+                        for (x in (maxDays - 20) until maxDays) {
+                            if (x >= 0) {
+                                if (progressAll(maxDays, startIndex = x) >= 0.8) {
+                                    goodProgress++
+                                } else {
+                                    break
+                                }
+                            }
+                        }
+                        progressUp = true
+                    } else if (progressAll(maxDays) <= 0.2) {
+                        for (x in (maxDays - 20) until maxDays) {
+                            if (x >= 0) {
+                                if (progress(maxDays, startIndex = x) <= 0.2) {
+                                    goodProgress++
+                                } else {
+                                    break
+                                }
+                            }
+                        }
+                        progressUp = false
+                    }
+
+                    Column(
+                        verticalArrangement = Arrangement.spacedBy(15.dp),
+                        horizontalAlignment = Alignment.CenterHorizontally
+                    ) {
+                        Box(
+                            contentAlignment = Alignment.Center
+                        ) {
+                            DonutChart(
+                                modifier = Modifier.size(125.dp),
+                                values = if (progressUp) listOf(
+                                    goodProgress / 20f,
+                                    1f - goodProgress / 20f
+                                ) else listOf(1f - goodProgress / 20f, goodProgress / 20f),
+                                colors = if (progressUp) listOf(seeColor, noSeeColor) else listOf(
+                                    noSeeColor,
+                                    seeColor
+                                ),
+                                strokeWidth = 10.dp
+                            )
+                            Text(
+                                text = if (goodProgress == 0f) "${habits[habit_statistics_and_edit_x].level}" else (if (progressUp) "${habits[habit_statistics_and_edit_x].level} ⬆" else "${habits[habit_statistics_and_edit_x].level} ⬇"),
+                                fontSize = 16.sp,
+                                fontWeight = if (goodProgress == 0f) FontWeight.Normal else FontWeight.Bold,
+                                color = if (goodProgress == 0f) textSeeUiColor else (if (progressUp) Color.Green else Color.Red)
+                            )
+                        }
                     }
                 }
             }

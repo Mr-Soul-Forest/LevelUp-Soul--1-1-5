@@ -13,7 +13,6 @@ import androidx.compose.foundation.layout.asPaddingValues
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
-import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.systemBars
@@ -40,7 +39,6 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.onGloballyPositioned
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.text.TextStyle
-import androidx.compose.ui.text.font.FontStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
@@ -401,7 +399,7 @@ fun HabitStatistics(viewModel: AppViewModel) {
                                     }
                                     if (habits[habit_statistics_and_edit_x].changeNeedGoalWithLevel) {
                                         if (habits[habit_statistics_and_edit_x].typeOfGoalHabits == TypeOfGoalHabits.AT_LEAST) needGoalChanged =
-                                            habits[habit_statistics_and_edit_x].needDays / 0.8
+                                            habits[habit_statistics_and_edit_x].needGoal / 0.8
                                         else if (habits[habit_statistics_and_edit_x].typeOfGoalHabits == TypeOfGoalHabits.NO_MORE) needGoalChanged =
                                             habits[habit_statistics_and_edit_x].needGoal * 0.8
                                     }
@@ -463,7 +461,7 @@ fun HabitStatistics(viewModel: AppViewModel) {
                                                     color = textSeeUiColor
                                                 )
                                                 Text(
-                                                    text = "↓",
+                                                    text = "⬇",
                                                     fontSize = 16.sp,
                                                     color = if (progressUp) Color.Green else Color.Red,
                                                     fontWeight = FontWeight.Black
@@ -506,7 +504,7 @@ fun HabitStatistics(viewModel: AppViewModel) {
                                             strokeWidth = 10.dp
                                         )
                                         Text(
-                                            text = if (goodProgress == 0f) "${habits[habit_statistics_and_edit_x].level}" else (if (progressUp) "${habits[habit_statistics_and_edit_x].level} ↑" else "${habits[habit_statistics_and_edit_x].level} ↓"),
+                                            text = if (goodProgress == 0f) "${habits[habit_statistics_and_edit_x].level}" else (if (progressUp) "${habits[habit_statistics_and_edit_x].level} ⬆" else "${habits[habit_statistics_and_edit_x].level} ⬇"),
                                             fontSize = 16.sp,
                                             fontWeight = if (goodProgress == 0f) FontWeight.Normal else FontWeight.Bold,
                                             color = if (goodProgress == 0f) textSeeUiColor else (if (progressUp) Color.Green else Color.Red)
@@ -546,7 +544,7 @@ fun HabitStatistics(viewModel: AppViewModel) {
                                                     color = textSeeUiColor
                                                 )
                                                 Text(
-                                                    text = "↓",
+                                                    text = "⬇",
                                                     fontSize = 16.sp,
                                                     color = if (progressUp) Color.Green else Color.Red,
                                                     fontWeight = FontWeight.Black
