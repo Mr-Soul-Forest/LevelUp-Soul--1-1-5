@@ -2,6 +2,7 @@ package fireforestsoul.levelupsoul
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
+import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -12,6 +13,7 @@ import androidx.compose.foundation.layout.asPaddingValues
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.systemBars
@@ -21,6 +23,7 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.IconButton
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
@@ -37,13 +40,11 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.onGloballyPositioned
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.text.TextStyle
+import androidx.compose.ui.text.font.FontStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import kotlinx.datetime.Clock
-import kotlinx.datetime.TimeZone
-import kotlinx.datetime.toLocalDateTime
 import org.jetbrains.compose.resources.painterResource
 
 var habit_statistics_and_edit_x = 0
@@ -372,7 +373,7 @@ fun HabitStatistics(viewModel: AppViewModel) {
                             contentAlignment = Alignment.Center
                         ) {
                             Row(
-                                modifier = Modifier.padding(vertical = 15.dp),
+                                modifier = Modifier.padding(vertical = 30.dp),
                                 horizontalArrangement = Arrangement.spacedBy(30.dp),
                                 verticalAlignment = Alignment.CenterVertically
                             ) {
@@ -430,6 +431,61 @@ fun HabitStatistics(viewModel: AppViewModel) {
                                     progressUp = false
                                 }
 
+                                Box {
+                                    Box(
+                                        modifier = Modifier
+                                            .padding(top = 18.dp)
+                                    ) {
+                                        Box(
+                                            modifier = Modifier
+                                                .border(
+                                                    width = 1.dp,
+                                                    color = textNoSeeColor,
+                                                    shape = RoundedCornerShape(8.dp)
+                                                )
+                                                .background(UI_color, RoundedCornerShape(8.dp)),
+                                            contentAlignment = Alignment.Center
+                                        ) {
+                                            Text(
+                                                text = "Period:",
+                                                color = Color.Transparent,
+                                                fontSize = 14.sp,
+                                                modifier = Modifier.padding(start = 7.dp, end = 7.dp)
+                                            )
+                                            Column(
+                                                modifier = Modifier.padding(7.dp),
+                                                horizontalAlignment = Alignment.CenterHorizontally,
+                                                verticalArrangement = Arrangement.spacedBy(2.dp)
+                                            ) {
+                                                Text(
+                                                    text = "${habits[habit_statistics_and_edit_x].needDays}",
+                                                    fontSize = 16.sp,
+                                                    color = textSeeUiColor
+                                                )
+                                                Text(
+                                                    text = "↓",
+                                                    fontSize = 16.sp,
+                                                    color = if (progressUp) Color.Green else Color.Red,
+                                                    fontWeight = FontWeight.Black
+                                                )
+                                                Text(
+                                                    text = "$needDaysChanged",
+                                                    fontSize = 16.sp,
+                                                    color = if (progressUp) Color.Green else Color.Red
+                                                )
+                                            }
+                                        }
+                                    }
+                                    Text(
+                                        text = "Period:",
+                                        color = textNoSeeColor,
+                                        style = MaterialTheme.typography.bodySmall,
+                                        fontSize = 14.sp,
+                                        modifier = Modifier
+                                            .padding(start = 7.dp)
+                                    )
+                                }
+
                                 Column(
                                     verticalArrangement = Arrangement.spacedBy(15.dp),
                                     horizontalAlignment = Alignment.CenterHorizontally
@@ -440,9 +496,9 @@ fun HabitStatistics(viewModel: AppViewModel) {
                                         DonutChart(
                                             modifier = Modifier.size(125.dp),
                                             values = if (progressUp) listOf(
-                                                goodProgress/20f,
-                                                1f - goodProgress/20f
-                                            ) else listOf(1f - goodProgress/20f, goodProgress/20f),
+                                                goodProgress / 20f,
+                                                1f - goodProgress / 20f
+                                            ) else listOf(1f - goodProgress / 20f, goodProgress / 20f),
                                             colors = if (progressUp) listOf(seeColor, noSeeColor) else listOf(
                                                 noSeeColor,
                                                 seeColor
@@ -456,6 +512,61 @@ fun HabitStatistics(viewModel: AppViewModel) {
                                             color = if (goodProgress == 0f) textSeeUiColor else (if (progressUp) Color.Green else Color.Red)
                                         )
                                     }
+                                }
+
+                                Box {
+                                    Box(
+                                        modifier = Modifier
+                                            .padding(top = 18.dp)
+                                    ) {
+                                        Box(
+                                            modifier = Modifier
+                                                .border(
+                                                    width = 1.dp,
+                                                    color = textNoSeeColor,
+                                                    shape = RoundedCornerShape(8.dp)
+                                                )
+                                                .background(UI_color, RoundedCornerShape(8.dp)),
+                                            contentAlignment = Alignment.Center
+                                        ) {
+                                            Text(
+                                                text = " Goal: ",
+                                                color = Color.Transparent,
+                                                fontSize = 14.sp,
+                                                modifier = Modifier.padding(start = 7.dp, end = 7.dp)
+                                            )
+                                            Column(
+                                                modifier = Modifier.padding(7.dp),
+                                                horizontalAlignment = Alignment.CenterHorizontally,
+                                                verticalArrangement = Arrangement.spacedBy(2.dp)
+                                            ) {
+                                                Text(
+                                                    text = "${habits[habit_statistics_and_edit_x].needGoal}",
+                                                    fontSize = 16.sp,
+                                                    color = textSeeUiColor
+                                                )
+                                                Text(
+                                                    text = "↓",
+                                                    fontSize = 16.sp,
+                                                    color = if (progressUp) Color.Green else Color.Red,
+                                                    fontWeight = FontWeight.Black
+                                                )
+                                                Text(
+                                                    text = "$needGoalChanged",
+                                                    fontSize = 16.sp,
+                                                    color = if (progressUp) Color.Green else Color.Red
+                                                )
+                                            }
+                                        }
+                                    }
+                                    Text(
+                                        text = " Goal: ",
+                                        color = textNoSeeColor,
+                                        style = MaterialTheme.typography.bodySmall,
+                                        fontSize = 14.sp,
+                                        modifier = Modifier
+                                            .padding(start = 7.dp)
+                                    )
                                 }
                             }
                         }
