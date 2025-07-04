@@ -443,8 +443,6 @@ fun CreateHabit(viewModel: AppViewModel) {
                         )
                     }
                     Column(
-                        modifier = Modifier
-                            .horizontalScroll(horizontalScroll),
                         verticalArrangement = Arrangement.spacedBy(spaceY)
                     ) {
 
