@@ -70,7 +70,7 @@ fun HabitStatistics(viewModel: AppViewModel) {
                         modifier = Modifier.fillMaxWidth()
                     ) {
                         Text(
-                            text = "Habit <${habits[habit_statistics_and_edit_x].nameOfHabit}> statistic",
+                            text = "$ts_Habit <${habits[habit_statistics_and_edit_x].nameOfHabit}> $ts_statistic",
                             fontSize = 16.sp,
                             fontWeight = FontWeight.Bold,
                             color = textSeeUiColor,
@@ -81,7 +81,7 @@ fun HabitStatistics(viewModel: AppViewModel) {
                         }) {
                             Image(
                                 painter = painterResource(Res.drawable.edit_a_habit),
-                                contentDescription = "Edit a habit",
+                                contentDescription = ts_Edit_a_habit,
                                 modifier = Modifier
                                     .clip(RoundedCornerShape(10.dp))
                                     .size(28.dp),
@@ -141,7 +141,7 @@ fun HabitStatistics(viewModel: AppViewModel) {
                         contentAlignment = Alignment.Center
                     ) {
                         Text(
-                            text = "Goal",
+                            text = ts_Goal,
                             fontSize = 16.sp,
                             fontWeight = FontWeight.Bold,
                             color = textSeeUiColor,
@@ -152,8 +152,8 @@ fun HabitStatistics(viewModel: AppViewModel) {
                         horizontalAlignment = Alignment.CenterHorizontally
                     ) {
                         Text(
-                            text = "You need " + habits[habit_statistics_and_edit_x].typeOfGoalHabits.toString()
-                                .lowercase() + " ${habits[habit_statistics_and_edit_x].needGoal} ${habits[habit_statistics_and_edit_x].nameOfUnitsOfDimension} in ${habits[habit_statistics_and_edit_x].needDays} days",
+                            text = "$ts_You_need " + habits[habit_statistics_and_edit_x].typeOfGoalHabits.toString()
+                                .lowercase() + " ${habits[habit_statistics_and_edit_x].needGoal} ${habits[habit_statistics_and_edit_x].nameOfUnitsOfDimension} $ts_in ${habits[habit_statistics_and_edit_x].needDays} $ts_days",
                             fontSize = 16.sp,
                             color = textSeeUiColor
                         )
@@ -167,7 +167,7 @@ fun HabitStatistics(viewModel: AppViewModel) {
                                 onValueChange = { progressPeriod = it },
                                 label = {
                                     Text(
-                                        "For all time 0",
+                                        "$ts_For_all_time 0",
                                         fontSize = 12.sp,
                                         color = textNoSeeColor
                                     )
@@ -194,7 +194,7 @@ fun HabitStatistics(viewModel: AppViewModel) {
                                 modifier = Modifier.size(125.dp, 55.dp)
                             )
                             Text(
-                                text = "Set",
+                                text = ts_Set,
                                 fontSize = 16.sp,
                                 color = textSeeUiColor,
                                 modifier = Modifier
@@ -221,7 +221,7 @@ fun HabitStatistics(viewModel: AppViewModel) {
                         contentAlignment = Alignment.Center
                     ) {
                         Text(
-                            text = "Progress",
+                            text = ts_Progress,
                             fontSize = 16.sp,
                             fontWeight = FontWeight.Bold,
                             color = textSeeUiColor,
@@ -257,7 +257,7 @@ fun HabitStatistics(viewModel: AppViewModel) {
                                     )
                                 }
                                 Text(
-                                    text = "day",
+                                    text = ts_day,
                                     fontSize = 12.sp,
                                     color = textSeeUiColor
                                 )
@@ -277,7 +277,7 @@ fun HabitStatistics(viewModel: AppViewModel) {
                                     )
                                 }
                                 Text(
-                                    text = "week",
+                                    text = ts_week,
                                     fontSize = 12.sp,
                                     color = textSeeUiColor
                                 )
@@ -321,7 +321,7 @@ fun HabitStatistics(viewModel: AppViewModel) {
                                     )
                                 }
                                 Text(
-                                    text = "month",
+                                    text = ts_month,
                                     fontSize = 12.sp,
                                     color = textSeeUiColor
                                 )
@@ -341,7 +341,7 @@ fun HabitStatistics(viewModel: AppViewModel) {
                                     )
                                 }
                                 Text(
-                                    text = "year",
+                                    text = ts_year,
                                     fontSize = 12.sp,
                                     color = textSeeUiColor
                                 )
@@ -359,7 +359,7 @@ fun HabitStatistics(viewModel: AppViewModel) {
                             contentAlignment = Alignment.Center
                         ) {
                             Text(
-                                text = "Level",
+                                text = ts_Level,
                                 fontSize = 16.sp,
                                 fontWeight = FontWeight.Bold,
                                 color = textSeeUiColor,
@@ -445,7 +445,7 @@ fun HabitStatistics(viewModel: AppViewModel) {
                                             contentAlignment = Alignment.Center
                                         ) {
                                             Text(
-                                                text = "Period:",
+                                                text = "$ts_Period:",
                                                 color = Color.Transparent,
                                                 fontSize = 14.sp,
                                                 modifier = Modifier.padding(start = 7.dp, end = 7.dp)
@@ -475,7 +475,7 @@ fun HabitStatistics(viewModel: AppViewModel) {
                                         }
                                     }
                                     Text(
-                                        text = "Period:",
+                                        text = "$ts_Period:",
                                         color = textNoSeeColor,
                                         style = MaterialTheme.typography.bodySmall,
                                         fontSize = 14.sp,
@@ -528,7 +528,7 @@ fun HabitStatistics(viewModel: AppViewModel) {
                                             contentAlignment = Alignment.Center
                                         ) {
                                             Text(
-                                                text = " Goal: ",
+                                                text = " $ts_Goal: ",
                                                 color = Color.Transparent,
                                                 fontSize = 14.sp,
                                                 modifier = Modifier.padding(start = 7.dp, end = 7.dp)
@@ -558,7 +558,7 @@ fun HabitStatistics(viewModel: AppViewModel) {
                                         }
                                     }
                                     Text(
-                                        text = " Goal: ",
+                                        text = " $ts_Goal: ",
                                         color = textNoSeeColor,
                                         style = MaterialTheme.typography.bodySmall,
                                         fontSize = 14.sp,
@@ -579,7 +579,7 @@ fun HabitStatistics(viewModel: AppViewModel) {
                         contentAlignment = Alignment.Center
                     ) {
                         Text(
-                            text = "Progress graph",
+                            text = ts_Progress_graph,
                             fontSize = 16.sp,
                             fontWeight = FontWeight.Bold,
                             color = textSeeUiColor,
@@ -622,7 +622,7 @@ fun HabitStatistics(viewModel: AppViewModel) {
                                     onValueChange = { period = it },
                                     label = {
                                         Text(
-                                            "Period:",
+                                            "$ts_Period:",
                                             fontSize = 12.sp,
                                             color = textNoSeeColor
                                         )
@@ -653,7 +653,7 @@ fun HabitStatistics(viewModel: AppViewModel) {
                                     onValueChange = { step = it },
                                     label = {
                                         Text(
-                                            "Step:",
+                                            "$ts_Step:",
                                             fontSize = 12.sp,
                                             color = textNoSeeColor
                                         )
@@ -680,7 +680,7 @@ fun HabitStatistics(viewModel: AppViewModel) {
                                     modifier = Modifier.size(125.dp, 55.dp)
                                 )
                                 Text(
-                                    text = "Set",
+                                    text = ts_Set,
                                     fontSize = 16.sp,
                                     color = textSeeUiColor,
                                     modifier = Modifier
@@ -714,7 +714,7 @@ fun HabitStatistics(viewModel: AppViewModel) {
                         contentAlignment = Alignment.Center
                     ) {
                         Text(
-                            text = "Results",
+                            text = ts_Results,
                             fontSize = 16.sp,
                             fontWeight = FontWeight.Bold,
                             color = textSeeUiColor,
@@ -750,7 +750,7 @@ fun HabitStatistics(viewModel: AppViewModel) {
                                     onValueChange = { step = it },
                                     label = {
                                         Text(
-                                            "Step:",
+                                            "$ts_Step:",
                                             fontSize = 12.sp,
                                             color = textNoSeeColor
                                         )
@@ -777,7 +777,7 @@ fun HabitStatistics(viewModel: AppViewModel) {
                                     modifier = Modifier.size(125.dp, 55.dp)
                                 )
                                 Text(
-                                    text = "Set",
+                                    text = ts_Set,
                                     fontSize = 16.sp,
                                     color = textSeeUiColor,
                                     modifier = Modifier
@@ -817,7 +817,7 @@ fun HabitStatistics(viewModel: AppViewModel) {
                             contentAlignment = Alignment.Center
                         ) {
                             Text(
-                                text = "Seria",
+                                text = ts_Seria,
                                 fontSize = 16.sp,
                                 fontWeight = FontWeight.Bold,
                                 color = textSeeUiColor,

@@ -103,7 +103,7 @@ android {
         applicationId = "fireforestsoul.levelupsoul"
         minSdk = libs.versions.android.minSdk.get().toInt()
         targetSdk = libs.versions.android.targetSdk.get().toInt()
-        versionCode = 1
+        versionCode = 2
         versionName = "1.0.1"
         setProperty("archivesBaseName", "LevelUpSoul-v$versionName")
     }

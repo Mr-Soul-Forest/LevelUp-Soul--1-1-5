@@ -96,7 +96,7 @@ fun SoulStatisticsContent() {
                 var soulName by remember { mutableStateOf(soul_name) }
 
                 Text(
-                    text = "Soul:",
+                    text = "$ts_Soul:",
                     fontSize = 16.sp,
                     color = textSeeUiColor
                 )
@@ -108,7 +108,7 @@ fun SoulStatisticsContent() {
                     },
                     label = {
                         Text(
-                            "Mr(s)",
+                            ts_Mr,
                             fontSize = 12.sp,
                             color = textNoSeeColor
                         )
@@ -156,7 +156,7 @@ fun SoulStatisticsContent() {
                         )
                     ) {
                         Text(
-                            "type: ${typeOfColor.name}",
+                            "$ts_type: ${typeOfColor.name}",
                             fontSize = 16.sp,
                             color = textSeeUiColor,
                         )
@@ -195,7 +195,7 @@ fun SoulStatisticsContent() {
                     onValueChange = { progressPeriod = it },
                     label = {
                         Text(
-                            "For all time 0",
+                            "$ts_For_all_time 0",
                             fontSize = 12.sp,
                             color = textNoSeeColor
                         )
@@ -222,7 +222,7 @@ fun SoulStatisticsContent() {
                     modifier = Modifier.size(125.dp, 55.dp)
                 )
                 Text(
-                    text = "Set",
+                    text = ts_Set,
                     fontSize = 16.sp,
                     color = textSeeUiColor,
                     modifier = Modifier
@@ -251,7 +251,7 @@ fun SoulStatisticsContent() {
                 contentAlignment = Alignment.Center
             ) {
                 Text(
-                    text = "Progress",
+                    text = ts_Progress,
                     fontSize = 16.sp,
                     fontWeight = FontWeight.Bold,
                     color = textSeeUiColor,
@@ -287,7 +287,7 @@ fun SoulStatisticsContent() {
                             )
                         }
                         Text(
-                            text = "day",
+                            text = ts_day,
                             fontSize = 12.sp,
                             color = textSeeUiColor
                         )
@@ -307,7 +307,7 @@ fun SoulStatisticsContent() {
                             )
                         }
                         Text(
-                            text = "week",
+                            text = ts_week,
                             fontSize = 12.sp,
                             color = textSeeUiColor
                         )
@@ -325,7 +325,7 @@ fun SoulStatisticsContent() {
                             )
                             Image(
                                 painter = painterResource(Res.drawable.soul),
-                                contentDescription = "Your soul",
+                                contentDescription = ts_Your_soul,
                                 modifier = Modifier.size(75.dp),
                                 colorFilter = ColorFilter.tint(seeColor),
                             )
@@ -356,7 +356,7 @@ fun SoulStatisticsContent() {
                             )
                         }
                         Text(
-                            text = "month",
+                            text = ts_month,
                             fontSize = 12.sp,
                             color = textSeeUiColor
                         )
@@ -376,7 +376,7 @@ fun SoulStatisticsContent() {
                             )
                         }
                         Text(
-                            text = "year",
+                            text = ts_year,
                             fontSize = 12.sp,
                             color = textSeeUiColor
                         )
@@ -429,7 +429,7 @@ fun SoulStatisticsContent() {
                 contentAlignment = Alignment.Center
             ) {
                 Text(
-                    text = "Level",
+                    text = ts_Level,
                     fontSize = 16.sp,
                     fontWeight = FontWeight.Bold,
                     color = textSeeUiColor,
@@ -514,7 +514,7 @@ fun SoulStatisticsContent() {
                 contentAlignment = Alignment.Center
             ) {
                 Text(
-                    text = "Progress graph",
+                    text = ts_Progress_graph,
                     fontSize = 16.sp,
                     fontWeight = FontWeight.Bold,
                     color = textSeeUiColor,
@@ -557,7 +557,7 @@ fun SoulStatisticsContent() {
                             onValueChange = { period = it },
                             label = {
                                 Text(
-                                    "Period:",
+                                    "$ts_Period:",
                                     fontSize = 12.sp,
                                     color = textNoSeeColor
                                 )
@@ -588,7 +588,7 @@ fun SoulStatisticsContent() {
                             onValueChange = { step = it },
                             label = {
                                 Text(
-                                    "Step:",
+                                    "$ts_Step:",
                                     fontSize = 12.sp,
                                     color = textNoSeeColor
                                 )
@@ -615,7 +615,7 @@ fun SoulStatisticsContent() {
                             modifier = Modifier.size(125.dp, 55.dp)
                         )
                         Text(
-                            text = "Set",
+                            text = ts_Set,
                             fontSize = 16.sp,
                             color = textSeeUiColor,
                             modifier = Modifier
@@ -653,7 +653,7 @@ fun SoulStatisticsContent() {
                 contentAlignment = Alignment.Center
             ) {
                 Text(
-                    text = "Results",
+                    text = ts_Results,
                     fontSize = 16.sp,
                     fontWeight = FontWeight.Bold,
                     color = textSeeUiColor,
@@ -693,7 +693,7 @@ fun SoulStatisticsContent() {
                             onValueChange = { step = it },
                             label = {
                                 Text(
-                                    "Step:",
+                                    "$ts_Step:",
                                     fontSize = 12.sp,
                                     color = textNoSeeColor
                                 )
@@ -720,7 +720,7 @@ fun SoulStatisticsContent() {
                             modifier = Modifier.size(125.dp, 55.dp)
                         )
                         Text(
-                            text = "Set",
+                            text = ts_Set,
                             fontSize = 16.sp,
                             color = textSeeUiColor,
                             modifier = Modifier

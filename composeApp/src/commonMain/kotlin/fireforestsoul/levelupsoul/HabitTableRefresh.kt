@@ -54,7 +54,7 @@ fun HabitCard(habit: HabitX) {
             verticalAlignment = Alignment.CenterVertically
         ) {
             Text(habit.name, color = Color.White, fontSize = 20.sp, fontWeight = FontWeight.Bold)
-            Text("Level ${habit.level}", color = Color.LightGray, fontSize = 16.sp)
+            Text("$ts_Level ${habit.level}", color = Color.LightGray, fontSize = 16.sp)
         }
 
         Spacer(Modifier.height(8.dp))

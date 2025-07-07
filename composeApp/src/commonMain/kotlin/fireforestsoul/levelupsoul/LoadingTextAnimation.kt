@@ -24,8 +24,8 @@ fun LoadingTextAnimation() {
 
     BasicText(
         text =
-            if (ellipsis < 4.0f) "Fire Forest Souls представляет" + ".".repeat(ellipsis.toInt())
-            else "Fire Forest Souls представляет" + " ".repeat(6 - ellipsis.toInt()),
+            if (ellipsis < 4.0f) ts_Fire_Forest_Souls_present + ".".repeat(ellipsis.toInt())
+            else ts_Fire_Forest_Souls_present + " ".repeat(6 - ellipsis.toInt()),
         style = TextStyle(
             fontSize = 10.sp,
             fontWeight = FontWeight.Thin,

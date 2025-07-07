@@ -81,7 +81,7 @@ fun CreateHabit(viewModel: AppViewModel) {
                     contentAlignment = Alignment.Center
                 ) {
                     Text(
-                        text = "Create habit",
+                        text = ts_Create_habit,
                         fontSize = 16.sp,
                         fontWeight = FontWeight.Bold,
                         color = textSeeUiColor,
@@ -100,7 +100,7 @@ fun CreateHabit(viewModel: AppViewModel) {
                         .padding(horizontal = 50.dp)
                 ) {
                     Text(
-                        text = "❌ Cancel",
+                        text = "❌ $ts_Cancel",
                         fontSize = 16.sp,
                         color = Color(200, 150, 150),
                         modifier = Modifier.clickable {
@@ -108,7 +108,7 @@ fun CreateHabit(viewModel: AppViewModel) {
                         }
                     )
                     Text(
-                        text = "✅ Confirm",
+                        text = "✅ $ts_Confirm",
                         fontSize = 16.sp,
                         color = Color(150, 200, 150),
                         modifier = Modifier.clickable {
@@ -151,7 +151,7 @@ fun CreateHabit(viewModel: AppViewModel) {
                         horizontalArrangement = Arrangement.spacedBy(spaceX),
                     ) {
                         Text(
-                            text = "Title: ",
+                            text = "$ts_Title: ",
                             fontSize = 16.sp,
                             color = textSeeUiColor
                         )
@@ -160,7 +160,7 @@ fun CreateHabit(viewModel: AppViewModel) {
                             onValueChange = { nameOfHabit = it },
                             label = {
                                 Text(
-                                    "Example: ${habit.nameOfHabit}",
+                                    "$ts_Example: ${habit.nameOfHabit}",
                                     fontSize = 12.sp,
                                     color = textNoSeeColor
                                 )
@@ -192,7 +192,7 @@ fun CreateHabit(viewModel: AppViewModel) {
                         horizontalArrangement = Arrangement.spacedBy(spaceX),
                     ) {
                         Text(
-                            text = "Color: ",
+                            text = "$ts_Color: ",
                             fontSize = 16.sp,
                             color = textSeeUiColor,
                         )
@@ -207,7 +207,7 @@ fun CreateHabit(viewModel: AppViewModel) {
                                 )
                             ) {
                                 Text(
-                                    "type: ${typeOfColorHabits.name}",
+                                    "$ts_type: ${typeOfColorHabits.name}",
                                     fontSize = 16.sp,
                                     color = textSeeUiColor,
                                 )
@@ -248,7 +248,7 @@ fun CreateHabit(viewModel: AppViewModel) {
                         contentAlignment = Alignment.Center
                     ) {
                         Text(
-                            text = "Goal",
+                            text = ts_Goal,
                             fontSize = 16.sp,
                             fontWeight = FontWeight.Bold,
                             color = textSeeUiColor,
@@ -265,7 +265,7 @@ fun CreateHabit(viewModel: AppViewModel) {
                             horizontalArrangement = Arrangement.spacedBy(spaceX),
                         ) {
                             Text(
-                                text = "Type: ",
+                                text = "$ts_Type: ",
                                 fontSize = 16.sp,
                                 color = textSeeUiColor,
                             )
@@ -280,7 +280,7 @@ fun CreateHabit(viewModel: AppViewModel) {
                                     )
                                 ) {
                                     Text(
-                                        "type: ${typeOfGoalHabits.name}",
+                                        "$ts_type: ${typeOfGoalHabits.name}",
                                         fontSize = 16.sp,
                                         color = textSeeUiColor,
                                     )
@@ -314,7 +314,7 @@ fun CreateHabit(viewModel: AppViewModel) {
                             horizontalArrangement = Arrangement.spacedBy(spaceX),
                         ) {
                             Text(
-                                text = "Count: ",
+                                text = "$ts_Count: ",
                                 fontSize = 16.sp,
                                 color = textSeeUiColor,
                             )
@@ -323,7 +323,7 @@ fun CreateHabit(viewModel: AppViewModel) {
                                 onValueChange = { needGoal = it },
                                 label = {
                                     Text(
-                                        "Example: ${habit.needGoal}",
+                                        "$ts_Example: ${habit.needGoal}",
                                         fontSize = 12.sp,
                                         color = textNoSeeColor
                                     )
@@ -353,7 +353,7 @@ fun CreateHabit(viewModel: AppViewModel) {
                                 onValueChange = { nameOfUnitsOfDimension = it },
                                 label = {
                                     Text(
-                                        "Example: ${habit.nameOfUnitsOfDimension}",
+                                        "$ts_Example: ${habit.nameOfUnitsOfDimension}",
                                         fontSize = 12.sp,
                                         color = textNoSeeColor
                                     )
@@ -385,7 +385,7 @@ fun CreateHabit(viewModel: AppViewModel) {
                             horizontalArrangement = Arrangement.spacedBy(spaceX),
                         ) {
                             Text(
-                                text = "Period: ",
+                                text = "$ts_Period: ",
                                 fontSize = 16.sp,
                                 color = textSeeUiColor,
                             )
@@ -394,7 +394,7 @@ fun CreateHabit(viewModel: AppViewModel) {
                                 onValueChange = { needDays = it },
                                 label = {
                                     Text(
-                                        "Example: ${habit.needDays}",
+                                        "$ts_Example: ${habit.needDays}",
                                         fontSize = 12.sp,
                                         color = textNoSeeColor
                                     )
@@ -420,7 +420,7 @@ fun CreateHabit(viewModel: AppViewModel) {
                                 ),
                             )
                             Text(
-                                text = " days",
+                                text = " $ts_days",
                                 fontSize = 16.sp,
                                 color = textSeeUiColor,
                             )
@@ -436,7 +436,7 @@ fun CreateHabit(viewModel: AppViewModel) {
                         contentAlignment = Alignment.Center
                     ) {
                         Text(
-                            text = "Level",
+                            text = ts_Level,
                             fontSize = 16.sp,
                             fontWeight = FontWeight.Bold,
                             color = textSeeUiColor,
@@ -457,7 +457,7 @@ fun CreateHabit(viewModel: AppViewModel) {
                                 )
                             )
                             Text(
-                                text = if (changeLevel) "Change level" else "No change level",
+                                text = if (changeLevel) ts_Change_level else ts_No_change_level,
                                 fontSize = 16.sp,
                                 color = textSeeUiColor
                             )
@@ -473,7 +473,7 @@ fun CreateHabit(viewModel: AppViewModel) {
                                 )
                             )
                             Text(
-                                text = if (changeNeedGoalWithLevel) "Change goal with level" else "No change goal with level",
+                                text = if (changeNeedGoalWithLevel) ts_Change_goal_with_level else ts_No_change_goal_with_level,
                                 fontSize = 16.sp,
                                 color = textSeeUiColor
                             )
@@ -489,7 +489,7 @@ fun CreateHabit(viewModel: AppViewModel) {
                                 )
                             )
                             Text(
-                                text = if (changeNeedDaysWithLevel) "Change period for goal with level" else "No change period for goal with level",
+                                text = if (changeNeedDaysWithLevel) ts_Change_period_for_goal_with_level else ts_No_change_period_for_goal_with_level,
                                 fontSize = 16.sp,
                                 color = textSeeUiColor
                             )

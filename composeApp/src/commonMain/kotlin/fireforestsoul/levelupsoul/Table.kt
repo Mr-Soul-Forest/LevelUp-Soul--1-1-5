@@ -141,8 +141,8 @@ fun TableContent(viewModel: AppViewModel, verticalScroll: ScrollState, horizonta
                                     habits[y].needGoal - habits[y].habitDay[habits[y].habitDay.size - 1].totalOfAPeriod
                                 Text(
                                     text = if (habits[y].typeOfGoalHabits == TypeOfGoalHabits.AT_LEAST)
-                                        "Need $needOrCanMore more"
-                                    else "You can have $needOrCanMore more",
+                                        "$ts_Need $needOrCanMore $ts_more"
+                                    else "$ts_You_can_have $needOrCanMore $ts_more",
                                     color = noSeeColor,
                                     fontWeight = FontWeight.Normal,
                                     fontSize = firstSellSmallFontSize,
@@ -255,7 +255,7 @@ fun TableContent(viewModel: AppViewModel, verticalScroll: ScrollState, horizonta
                                                                 xIndex, DateTimeUnit.DAY
                                                             )
                                                             Text(
-                                                                text = "Do you want to set a value for ${dateToSet.month} ${dateToSet.dayOfMonth}, ${dateToSet.year} for habit ${habits[y].nameOfHabit}?",
+                                                                text = "$ts_Do_you_want_to_set_a_value_for ${dateToSet.month} ${dateToSet.dayOfMonth}, ${dateToSet.year} $ts_for_habit ${habits[y].nameOfHabit}?",
                                                                 fontWeight = FontWeight.Normal,
                                                                 fontSize = 16.sp,
                                                                 color = textSeeUiColor
@@ -267,7 +267,7 @@ fun TableContent(viewModel: AppViewModel, verticalScroll: ScrollState, horizonta
                                                                 onValueChange = { inputText = it },
                                                                 label = {
                                                                     Text(
-                                                                        "Old: ${habits[y].habitDay[xIndex].today}",
+                                                                        "$ts_Old: ${habits[y].habitDay[xIndex].today}",
                                                                         fontSize = 12.sp,
                                                                         fontWeight = FontWeight.Normal,
                                                                         color = textNoSeeColor
@@ -297,7 +297,7 @@ fun TableContent(viewModel: AppViewModel, verticalScroll: ScrollState, horizonta
                                                         },
                                                         dismissButton = {
                                                             Text(
-                                                                text = "❌ Cancel",
+                                                                text = "❌ $ts_Cancel",
                                                                 fontWeight = FontWeight.Normal,
                                                                 fontSize = 16.sp,
                                                                 color = Color(200, 150, 150),
@@ -309,7 +309,7 @@ fun TableContent(viewModel: AppViewModel, verticalScroll: ScrollState, horizonta
                                                         },
                                                         confirmButton = {
                                                             Text(
-                                                                text = "✅ Confirm",
+                                                                text = "✅ $ts_Confirm",
                                                                 fontWeight = FontWeight.Normal,
                                                                 fontSize = 16.sp,
                                                                 color = Color(150, 200, 150),

@@ -46,6 +46,7 @@ fun loading(viewModel: AppViewModel) {
         habits[countFilesLoad - 2].updateDate()
     }
     else if (countFilesLoad != 0) {
+        changeLanguage()
         viewModel.setStatus(AppStatus.TABLE)
     }
 

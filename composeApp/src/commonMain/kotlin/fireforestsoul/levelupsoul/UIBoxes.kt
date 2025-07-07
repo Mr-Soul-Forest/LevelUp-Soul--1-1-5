@@ -43,7 +43,6 @@ import kotlinx.datetime.TimeZone
 import kotlinx.datetime.isoDayNumber
 import kotlinx.datetime.toLocalDateTime
 import org.jetbrains.compose.resources.painterResource
-import kotlin.math.max
 
 @Composable
 fun ColorPickerBox(
@@ -70,7 +69,7 @@ fun ColorPickerBox(
             onDismissRequest = { showDialog = false },
             title = {
                 Text(
-                    "Color picker",
+                    ts_Color_picker,
                     fontSize = 16.sp,
                     color = textSeeUiColor
                 )
@@ -78,7 +77,7 @@ fun ColorPickerBox(
             text = {
                 Column {
                     Text(
-                        "Red: $red",
+                        "$ts_Red: $red",
                         fontSize = 16.sp,
                         color = textSeeUiColor
                     )
@@ -103,7 +102,7 @@ fun ColorPickerBox(
                         )
                     )
                     Text(
-                        "Green: $green",
+                        "$ts_Green: $green",
                         fontSize = 16.sp,
                         color = textSeeUiColor
                     )
@@ -128,7 +127,7 @@ fun ColorPickerBox(
                         )
                     )
                     Text(
-                        "Blue: $blue",
+                        "$ts_Blue: $blue",
                         fontSize = 16.sp,
                         color = textSeeUiColor
                     )
@@ -160,7 +159,7 @@ fun ColorPickerBox(
                     onColorSelected(currentColor)
                 }) {
                     Text(
-                        "OK",
+                        ts_OK,
                         fontSize = 16.sp,
                         color = Color(150, 200, 150)
                     )
@@ -169,7 +168,7 @@ fun ColorPickerBox(
             dismissButton = {
                 TextButton(onClick = { showDialog = false }) {
                     Text(
-                        "Отмена",
+                        ts_Cancel,
                         fontSize = 16.sp,
                         color = Color(200, 150, 150)
                     )
@@ -191,7 +190,7 @@ fun DeleteHabitConfirm(index: Int, onDeleteConfirmed: () -> Unit) {
         contentAlignment = Alignment.Center
     ) {
         Text(
-            text = "\uD83D\uDDD1 Delete",
+            text = "\uD83D\uDDD1 $ts_Delete",
             fontSize = 16.sp,
             fontWeight = FontWeight.Bold,
             color = textSeeUiColor,
@@ -206,7 +205,7 @@ fun DeleteHabitConfirm(index: Int, onDeleteConfirmed: () -> Unit) {
             onDismissRequest = { showDialog = false },
             title = {
                 Text(
-                    text = "\uD83D\uDDD1 Delete habit confirm",
+                    text = "\uD83D\uDDD1 $ts_Delete_habit_confirm",
                     fontSize = 16.sp,
                     fontWeight = FontWeight.Bold,
                     color = textSeeUiColor,
@@ -214,7 +213,7 @@ fun DeleteHabitConfirm(index: Int, onDeleteConfirmed: () -> Unit) {
             },
             text = {
                 Text(
-                    text = "Are you sure you want to remove the <${habits[index].nameOfHabit}>",
+                    text = "$ts_Are_you_sure_you_want_to_remove_the <${habits[index].nameOfHabit}>",
                     fontSize = 16.sp,
                     color = textSeeUiColor,
                 )
@@ -225,7 +224,7 @@ fun DeleteHabitConfirm(index: Int, onDeleteConfirmed: () -> Unit) {
                     showDialog = false
                 }) {
                     Text(
-                        "\uD83D\uDDD1 Delete",
+                        "\uD83D\uDDD1 $ts_Delete",
                         fontSize = 16.sp,
                         color = Color(200, 150, 150)
                     )
@@ -234,7 +233,7 @@ fun DeleteHabitConfirm(index: Int, onDeleteConfirmed: () -> Unit) {
             dismissButton = {
                 TextButton(onClick = { showDialog = false }) {
                     Text(
-                        "❌ Cancel",
+                        "❌ $ts_Cancel",
                         fontSize = 16.sp,
                         color = Color(150, 200, 150),
                     )
@@ -264,7 +263,7 @@ fun DatePickerDialog(
     }) {
         Image(
             painter = painterResource(Res.drawable.calendar),
-            contentDescription = "Open calendar",
+            contentDescription = ts_Open_calendar,
             modifier = Modifier
                 .clip(RoundedCornerShape(10.dp))
                 .size(28.dp)
@@ -277,7 +276,7 @@ fun DatePickerDialog(
             onDismissRequest = { showDialog = false },
             title = {
                 Text(
-                    "Date selection",
+                    ts_Date_selection,
                     fontSize = 16.sp,
                     fontWeight = FontWeight.Bold,
                     color = textSeeUiColor
@@ -291,7 +290,7 @@ fun DatePickerDialog(
                             onValueChange = { day = it },
                             label = {
                                 Text(
-                                    "Day",
+                                    ts_Day,
                                     fontSize = 12.sp,
                                     color = textNoSeeColor
                                 )
@@ -323,7 +322,7 @@ fun DatePickerDialog(
                             onValueChange = { month = it },
                             label = {
                                 Text(
-                                    "Month",
+                                    ts_Month,
                                     fontSize = 12.sp,
                                     color = textNoSeeColor
                                 )
@@ -355,7 +354,7 @@ fun DatePickerDialog(
                             onValueChange = { year = it },
                             label = {
                                 Text(
-                                    "Year",
+                                    ts_Year,
                                     fontSize = 12.sp,
                                     color = textNoSeeColor
                                 )
@@ -407,7 +406,7 @@ fun DatePickerDialog(
                     )
                 ) {
                     Text(
-                        text = "✅ Apply",
+                        text = "✅ $ts_Apply",
                         fontSize = 16.sp,
                         color = Color(150, 200, 150),
                     )
@@ -427,7 +426,7 @@ fun DatePickerDialog(
                         )
                     ) {
                         Text(
-                            "❌ Cancel",
+                            "❌ $ts_Cancel",
                             fontSize = 16.sp,
                             color = Color(200, 150, 150),
                         )
@@ -445,7 +444,7 @@ fun DatePickerDialog(
                         )
                     ) {
                         Text(
-                            "\uD83D\uDCC5 Today",
+                            "\uD83D\uDCC5 $ts_Today",
                             fontSize = 16.sp,
                             color = Color(200, 150, 150),
                         )
@@ -486,7 +485,7 @@ fun PPSInfoDialog() {
     var showDialog by remember { mutableStateOf(false) }
 
     Text(
-        text = "\uD83D\uDEC8 PPS: ",
+        text = "\uD83D\uDEC8 $ts_PPS: ",
         fontSize = 16.sp,
         color = textSeeUiColor,
         modifier = Modifier.clickable { showDialog = true }
@@ -498,7 +497,7 @@ fun PPSInfoDialog() {
             onDismissRequest = { showDialog = false },
             title = {
                 Text(
-                    "PPS Info",
+                    "$ts_PPS $ts_Info",
                     fontSize = 16.sp,
                     fontWeight = FontWeight.Bold,
                     color = textSeeUiColor
@@ -506,7 +505,7 @@ fun PPSInfoDialog() {
             },
             text = {
                 Text(
-                    "PPS means Progress Period Settings. By default, progress is the percentage of successful days out of all tracking days. If PPS = 0 or is greater than or equal to the number of tracked days, this default method is used. If PPS is set to another number, progress is calculated over the number of days specified by PPS.",
+                    ts_PPS_means_Progress_Period_Settings_By_default_progress_is_the_,
                     fontSize = 16.sp,
                     color = textSeeUiColor
                 )
@@ -522,7 +521,7 @@ fun PPSInfoDialog() {
                     )
                 ) {
                     Text(
-                        text = "Close",
+                        text = ts_Close,
                         fontSize = 16.sp,
                         color = Color(150, 150, 200),
                     )

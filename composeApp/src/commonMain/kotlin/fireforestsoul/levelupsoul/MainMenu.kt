@@ -85,7 +85,7 @@ fun MainMenuContent(
                         horizontalArrangement = Arrangement.Start
                     ) {
                         Text(
-                            text = "Habits",
+                            text = ts_Habits,
                             fontSize = 16.sp,
                             fontWeight = FontWeight.Bold,
                             fontFamily = FontFamily.Default,
@@ -106,7 +106,7 @@ fun MainMenuContent(
                             }) {
                                 Image(
                                     painter = painterResource(Res.drawable.export),
-                                    contentDescription = "Export habits",
+                                    contentDescription = ts_Export_habits,
                                     modifier = Modifier
                                         .clip(RoundedCornerShape(10.dp))
                                         .size(28.dp),
@@ -123,7 +123,7 @@ fun MainMenuContent(
                             }) {
                                 Image(
                                     painter = painterResource(Res.drawable.import_icon),
-                                    contentDescription = "Import habits",
+                                    contentDescription = ts_Import_habits,
                                     modifier = Modifier
                                         .clip(RoundedCornerShape(10.dp))
                                         .size(28.dp),
@@ -137,7 +137,7 @@ fun MainMenuContent(
                         }) {
                             Image(
                                 painter = painterResource(Res.drawable.add_habit),
-                                contentDescription = "Create habits",
+                                contentDescription = ts_Create_habit,
                                 modifier = Modifier
                                     .clip(RoundedCornerShape(10.dp))
                                     .size(28.dp),
@@ -199,7 +199,7 @@ fun MainMenuContent(
                         horizontalArrangement = Arrangement.Start
                     ) {
                         Text(
-                            text = "Soul statistic",
+                            text = ts_Soul_statistic,
                             fontSize = 16.sp,
                             fontWeight = FontWeight.Bold,
                             color = textSeeUiColor
@@ -226,7 +226,7 @@ fun MainMenuContent(
                     }) {
                         Image(
                             painter = painterResource(Res.drawable.habits),
-                            contentDescription = "Habits",
+                            contentDescription = ts_Habits,
                             modifier = Modifier
                                 .clip(RoundedCornerShape(10.dp))
                                 .size(28.dp),
@@ -234,12 +234,12 @@ fun MainMenuContent(
                     }
                     IconButton(onClick = {
                         if (appStatus == AppStatus.TABLE) {
-                            println("Groups")
+                            println(ts_Groups)
                         }
                     }) {
                         Image(
                             painter = painterResource(Res.drawable.groups_of_habits),
-                            contentDescription = "Groups of habits",
+                            contentDescription = ts_Groups_of_habits,
                             modifier = Modifier
                                 .clip(RoundedCornerShape(10.dp))
                                 .size(28.dp),
@@ -252,7 +252,7 @@ fun MainMenuContent(
                     }) {
                         Image(
                             painter = painterResource(Res.drawable.soul_stat),
-                            contentDescription = "Soul Stats",
+                            contentDescription = ts_Soul_statistic,
                             modifier = Modifier
                                 .clip(RoundedCornerShape(10.dp))
                                 .size(28.dp),
