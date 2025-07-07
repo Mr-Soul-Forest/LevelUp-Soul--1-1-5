@@ -36,6 +36,7 @@ actual fun saveValue() {
     localStorage.setItem("soul_name", soul_name)
     localStorage.setItem("soul_level", soul_level.toString())
     localStorage.setItem("soul_last_level_change_date", soul_last_level_change_date.toString())
+    localStorage.setItem("language", language.toString())
 }
 
 actual fun loadValue() {
@@ -103,6 +104,10 @@ actual fun loadValue() {
                     soul_level = localStorage.getItem("soul_level")?.toInt()!!
                     soul_last_level_change_date =
                         localStorage.getItem("soul_last_level_change_date")?.let { LocalDate.parse(it) }!!
+
+                    if (oldAppVersion >= 1000001000) {
+                        language = enumValueOf<Languages>(localStorage.getItem("language").toString())
+                    }
                 }
             }
         }

@@ -126,7 +126,7 @@ fun changeLanguage() {
         ts_Fire_Forest_Souls_present = "Fire Forest Souls представляет"
         ts_Need = "Нужно"
         ts_more = "ещё"
-        ts_You_can_have = "Вы можете иметь"
+        ts_You_can_have = "Можно"
         ts_Do_you_want_to_set_a_value_for = "Хотите установить значение для"
         ts_for_habit = "для привычки"
         ts_Soul = "Душа"
