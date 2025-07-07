@@ -34,6 +34,7 @@ actual fun saveValue() {
         out.println(soul_name)
         out.println(soul_level.toString())
         out.println(soul_last_level_change_date.toString())
+        out.println(language.toString())
     }
 }
 
@@ -42,37 +43,11 @@ actual fun loadValue() {
     if (file.exists()) {
         val input = file.readLines()
 
-        /** [oldAppVersion]
-         * Check save version
-         *
-         * V > 0 `Habits >`
-         *
-         * V >= 4.000.000 [soul_color_type] [soul_color] [soul_name]
-         *
-         * > V >= 1.000.000.000 [soul_level] [soul_last_level_change_date]
-         */
         val oldAppVersion = input.getOrNull(0)?.toLong()
         if (oldAppVersion != null) {
             if (oldAppVersion > 0) {
                 var index = 1
 
-                /** [habitsSize]
-                 *
-                 * Load Habits:
-                 *
-                 * `nameOfHabit` `nameOfUnitsOfDimension` `typeOfGoalHabits` `needGoal` `needDays`
-                 *
-                 * V >= 2.000.000 `typeOfColorHabits` `colorGood`
-                 * > V >= 1.000.000.000 `changeLevel` `changeNeedGoalWithLevel` `changeNeedDaysWithLevel`
-                 *
-                 * `startDate`
-                 *
-                 * V < 1.000.000.000 `lastDate`
-                 *
-                 * V >= 1.000.000.000 `lastLevelChangeDate` `level`
-                 *
-                 * `habitDays >`
-                 */
                 val habitsSize = input.getOrNull(index)?.toInt()!!
                 index++
                 habits = mutableListOf(Habit())
@@ -119,9 +94,7 @@ actual fun loadValue() {
                         input.getOrNull(index)?.let { LocalDate.parse(it) }!!
                     index++
                     if (oldAppVersion < 1000000000) {
-                        /**
-                         * lastDate
-                         */
+                        /** lastDate */
                         index++
                     }
 
@@ -132,12 +105,6 @@ actual fun loadValue() {
                         index++
                     }
 
-                    /** [habitDaySize]
-                     *
-                     * Load habit day:
-                     *
-                     * `today` `totalOfAPeriod` `correctly`
-                     */
                     val habitDaySize = input.getOrNull(index)?.toInt()!!
                     index++
                     habits[x].habitDay = mutableListOf(HabitDay())
@@ -156,11 +123,6 @@ actual fun loadValue() {
                 }
                 if (oldAppVersion > 3000000) {
 
-                    /**
-                     * `soul_color_type` `soul_color` `soul_name`
-                     *
-                     * V >= 1.000.000.000 `soul_level` `soul_last_level_change_date`
-                     */
                     soul_color_type = enumValueOf<TypeOfColorHabits>(input.getOrNull(index).toString())
                     index++
                     soul_color = Color(input.getOrNull(index).toString().toULong(16))
@@ -173,6 +135,11 @@ actual fun loadValue() {
                         index++
                         soul_last_level_change_date = input.getOrNull(index)?.let { LocalDate.parse(it) }!!
                         index++
+
+                        if (oldAppVersion >= 1000001000) {
+                            language = enumValueOf<Languages>(input.getOrNull(index).toString())
+                            index++
+                        }
                     }
                 }
             }
