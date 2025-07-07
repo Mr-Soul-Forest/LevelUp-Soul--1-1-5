@@ -51,6 +51,7 @@ actual fun saveValue() {
         putString("soul_name", soul_name)
         putString("soul_level", soul_level.toString())
         putString("soul_last_level_change_date", soul_last_level_change_date.toString())
+        putString("language", language.toString())
         apply()
     }
 }
@@ -146,6 +147,11 @@ actual fun loadValue() {
                 soul_level = prefs.getString("soul_level", "0")?.toInt()!!
                 soul_last_level_change_date =
                     prefs.getString("soul_last_level_change_date", "2025-01-01")?.let { LocalDate.parse(it) }!!
+
+                if (oldAppVersion >= 1000001000) {
+                    language =
+                        enumValueOf<Languages>(prefs.getString("language", "EN").toString())
+                }
             }
         }
     }
