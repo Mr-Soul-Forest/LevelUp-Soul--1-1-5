@@ -3,6 +3,8 @@ package fireforestsoul.levelupsoul
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.ScrollState
 import androidx.compose.foundation.background
+import androidx.compose.foundation.border
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Row
@@ -28,11 +30,17 @@ import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.foundation.layout.asPaddingValues
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.systemBars
+import androidx.compose.foundation.layout.width
+import androidx.compose.material3.Button
+import androidx.compose.material3.ButtonColors
+import androidx.compose.material3.DropdownMenu
+import androidx.compose.material3.DropdownMenuItem
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
+import androidx.compose.ui.text.style.TextAlign
 import kotlinx.datetime.Clock
 import kotlinx.datetime.TimeZone
 import kotlinx.datetime.toLocalDateTime
@@ -137,6 +145,47 @@ fun MainMenuContent(
                         }
                         DatePickerDialog(countdownDate, viewModel) {
                             countdownDate = it
+                        }
+
+                        var expanded0 by remember { mutableStateOf(false) }
+
+                        Box {
+                            Text(
+                                language.name,
+                                fontSize = 16.sp,
+                                color = textSeeUiColor,
+                                modifier = Modifier
+                                    .border(1.dp, textNoSeeColor, RoundedCornerShape(15.dp))
+                                    .clickable { expanded0 = true }
+                                    .padding(5.dp),
+                                textAlign = TextAlign.Center
+                            )
+                            DropdownMenu(
+                                expanded = expanded0,
+                                onDismissRequest = { expanded0 = false },
+                                modifier = Modifier
+                                    .background(UI_color)
+                                    .width(50.dp)
+                            ) {
+                                Languages.entries.forEach { mode ->
+                                    DropdownMenuItem(
+                                        onClick = {
+                                            language = mode
+                                            expanded0 = false
+                                            countFilesLoad = 0
+                                            saveValue()
+                                            viewModel.setStatus(AppStatus.LOADING)
+                                        },
+                                        text = {
+                                            Text(
+                                                text = mode.name,
+                                                fontSize = 16.sp,
+                                                color = textNoSeeColor
+                                            )
+                                        }
+                                    )
+                                }
+                            }
                         }
                     }
                 }
