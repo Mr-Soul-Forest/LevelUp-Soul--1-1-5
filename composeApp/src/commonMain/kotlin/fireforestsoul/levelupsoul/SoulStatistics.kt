@@ -455,7 +455,7 @@ fun SoulStatisticsContent() {
                                 if (progressAll(maxDays, startIndex = x) >= 0.8) {
                                     goodProgress++
                                 } else {
-                                    break
+                                    goodProgress = 0f
                                 }
                             }
                         }
@@ -466,7 +466,7 @@ fun SoulStatisticsContent() {
                                 if (progress(maxDays, startIndex = x) <= 0.2) {
                                     goodProgress++
                                 } else {
-                                    break
+                                    goodProgress = 0f
                                 }
                             }
                         }

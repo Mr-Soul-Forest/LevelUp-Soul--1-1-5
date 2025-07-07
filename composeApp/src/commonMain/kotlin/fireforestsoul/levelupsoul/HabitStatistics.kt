@@ -387,7 +387,7 @@ fun HabitStatistics(viewModel: AppViewModel) {
                                             if (progress(habit_statistics_and_edit_x, startIndex = x) >= 0.8) {
                                                 goodProgress++
                                             } else {
-                                                break
+                                                goodProgress = 0f
                                             }
                                         }
                                     }
@@ -410,7 +410,7 @@ fun HabitStatistics(viewModel: AppViewModel) {
                                             if (progress(habit_statistics_and_edit_x, startIndex = x) <= 0.2) {
                                                 goodProgress++
                                             } else {
-                                                break
+                                                goodProgress = 0f
                                             }
                                         }
                                     }
