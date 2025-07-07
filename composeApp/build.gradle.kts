@@ -104,7 +104,7 @@ android {
         minSdk = libs.versions.android.minSdk.get().toInt()
         targetSdk = libs.versions.android.targetSdk.get().toInt()
         versionCode = 1
-        versionName = "1.0.0"
+        versionName = "1.0.1"
         setProperty("archivesBaseName", "LevelUpSoul-v$versionName")
     }
     packaging {
@@ -115,9 +115,9 @@ android {
     signingConfigs {
         create("release") {
             storeFile = file("src/androidMain/keystore.jks")
-            storePassword = "xxx"
-            keyAlias = "xxx"
-            keyPassword = "xxx"
+            storePassword = keystoreProperties["storePassword"] as String
+            keyAlias = keystoreProperties["keyAlias"] as String
+            keyPassword = keystoreProperties["keyPassword"] as String
         }
     }
     buildTypes {
@@ -161,7 +161,7 @@ compose.desktop {
             )
 
             packageName = "LevelUpSoul"
-            packageVersion = "1.0.0"
+            packageVersion = "1.0.1"
 
             linux {
                 iconFile.set(project.file("src/desktopMain/resources/app_icon.png"))

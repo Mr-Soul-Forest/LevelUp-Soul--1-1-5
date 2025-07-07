@@ -111,21 +111,20 @@ fun TableContent(viewModel: AppViewModel, verticalScroll: ScrollState, horizonta
                             horizontalArrangement = Arrangement.spacedBy(3.dp),
                             verticalAlignment = Alignment.CenterVertically
                         ) {
-                            Box(contentAlignment = Alignment.Center) {
+                            Box(contentAlignment = Alignment.Center,
+                                modifier = Modifier.padding(start = 8.dp)) {
                                 DonutChart(
                                     values = listOf(progress(y), 1f - progress(y)),
                                     colors = listOf(seeColor, noSeeColor),
                                     modifier = Modifier
-                                        .size(30.5.dp, 22.5.dp)
-                                        .padding(start = 8.dp),
+                                        .size(24.25.dp)
+                                        .padding(start = 1.75.dp, top = 1.75.dp),
                                     strokeWidth = 3.5.dp
                                 )
                                 Text(
                                     text = "${habits[y].level}",
-                                    fontSize = 15.sp,
-                                    color = seeColor,
-                                    modifier = Modifier.padding(start = 7.dp, bottom = 1.75.dp),
-                                    textAlign = TextAlign.Center
+                                    fontSize = 11.sp,
+                                    color = seeColor
                                 )
                             }
                             Column(
