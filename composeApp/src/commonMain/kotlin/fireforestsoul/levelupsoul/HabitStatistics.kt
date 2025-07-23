@@ -43,6 +43,9 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import kotlinx.datetime.Clock
+import kotlinx.datetime.TimeZone
+import kotlinx.datetime.toLocalDateTime
 import org.jetbrains.compose.resources.painterResource
 
 var habit_statistics_and_edit_x = 0
@@ -382,7 +385,9 @@ fun HabitStatistics(viewModel: AppViewModel) {
 
                                 goodProgress = 0f
                                 if (progress(habit_statistics_and_edit_x) >= 0.8) {
-                                    for (x in (habits[habit_statistics_and_edit_x].habitDay.size - 20) until habits[habit_statistics_and_edit_x].habitDay.size) {
+                                    for (x in (habits[habit_statistics_and_edit_x].habitDay.size - (Clock.System.now()
+                                        .toLocalDateTime(TimeZone.currentSystemDefault()).date.toEpochDays() - habits[habit_statistics_and_edit_x].lastLevelChangeDate.toEpochDays()))
+                                            until habits[habit_statistics_and_edit_x].habitDay.size) {
                                         if (x >= 0) {
                                             if (progress(habit_statistics_and_edit_x, startIndex = x) >= 0.8) {
                                                 goodProgress++
@@ -405,7 +410,8 @@ fun HabitStatistics(viewModel: AppViewModel) {
                                     }
                                     progressUp = true
                                 } else if (progress(habit_statistics_and_edit_x) <= 0.2) {
-                                    for (x in (habits[habit_statistics_and_edit_x].habitDay.size - 20) until habits[habit_statistics_and_edit_x].habitDay.size) {
+                                    for (x in (habits[habit_statistics_and_edit_x].habitDay.size - (Clock.System.now()
+                                        .toLocalDateTime(TimeZone.currentSystemDefault()).date.toEpochDays() - habits[habit_statistics_and_edit_x].lastLevelChangeDate.toEpochDays())) until habits[habit_statistics_and_edit_x].habitDay.size) {
                                         if (x >= 0) {
                                             if (progress(habit_statistics_and_edit_x, startIndex = x) <= 0.2) {
                                                 goodProgress++
