@@ -450,7 +450,7 @@ fun SoulStatisticsContent() {
 
                     goodProgress = 0f
                     if (progressAll(maxDays) >= 0.8) {
-                        for (x in (maxDays - 20) until maxDays) {
+                        for (x in (maxDays - (Clock.System.now().toLocalDateTime(TimeZone.currentSystemDefault()).date.toEpochDays() - soul_last_level_change_date.toEpochDays())) until maxDays) {
                             if (x >= 0) {
                                 if (progressAll(maxDays, startIndex = x) >= 0.8) {
                                     goodProgress++
@@ -461,7 +461,7 @@ fun SoulStatisticsContent() {
                         }
                         progressUp = true
                     } else if (progressAll(maxDays) <= 0.2) {
-                        for (x in (maxDays - 20) until maxDays) {
+                        for (x in (maxDays - (Clock.System.now().toLocalDateTime(TimeZone.currentSystemDefault()).date.toEpochDays() - soul_last_level_change_date.toEpochDays())) until maxDays) {
                             if (x >= 0) {
                                 if (progress(maxDays, startIndex = x) <= 0.2) {
                                     goodProgress++
@@ -493,7 +493,7 @@ fun SoulStatisticsContent() {
                                 strokeWidth = 10.dp
                             )
                             Text(
-                                text = if (goodProgress == 0f) "${habits[habit_statistics_and_edit_x].level}" else (if (progressUp) "${habits[habit_statistics_and_edit_x].level} ⬆" else "${habits[habit_statistics_and_edit_x].level} ⬇"),
+                                text = if (goodProgress == 0f) "$soul_level" else (if (progressUp) "$soul_level ⬆" else "$soul_level ⬇"),
                                 fontSize = 16.sp,
                                 fontWeight = if (goodProgress == 0f) FontWeight.Normal else FontWeight.Bold,
                                 color = if (goodProgress == 0f) textSeeUiColor else (if (progressUp) Color.Green else Color.Red)
