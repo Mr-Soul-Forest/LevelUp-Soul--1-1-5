@@ -186,16 +186,15 @@ fun DeleteHabitConfirm(index: Int, onDeleteConfirmed: () -> Unit) {
         modifier = Modifier
             .fillMaxWidth()
             .background(Color(200, 40, 40), RoundedCornerShape(20.dp))
-            .height(48.dp),
+            .height(48.dp)
+            .clickable { showDialog = true },
         contentAlignment = Alignment.Center
     ) {
         Text(
             text = "\uD83D\uDDD1 $ts_Delete",
             fontSize = 16.sp,
             fontWeight = FontWeight.Bold,
-            color = textSeeUiColor,
-            modifier = Modifier
-                .clickable { showDialog = true }
+            color = textSeeUiColor
         )
     }
 
