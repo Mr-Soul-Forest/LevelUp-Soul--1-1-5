@@ -98,16 +98,16 @@ fun HabitStatistics(viewModel: AppViewModel) {
                     modifier = Modifier
                         .fillMaxWidth()
                         .height(48.dp)
-                        .background(UI_color),
+                        .background(UI_color)
+                        .clickable {
+                            viewModel.setStatus(AppStatus.TABLE)
+                        },
                     contentAlignment = Alignment.Center
                 ) {
                     Text(
                         text = "⟵",
                         fontSize = 25.sp,
-                        color = textSeeUiColor,
-                        modifier = Modifier.clickable {
-                            viewModel.setStatus(AppStatus.TABLE)
-                        }
+                        color = textSeeUiColor
                     )
                 }
             }
