@@ -35,7 +35,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.input.KeyboardType
-import androidx.compose.ui.text.style.TextAlign
+import com.ionspin.kotlin.bignum.decimal.toBigDecimal
 import kotlinx.datetime.Clock
 import kotlinx.datetime.DateTimeUnit
 import kotlinx.datetime.LocalDate
@@ -316,7 +316,7 @@ fun TableContent(viewModel: AppViewModel, verticalScroll: ScrollState, horizonta
                                                                 modifier = Modifier.clickable {
                                                                     val value = inputText.toDoubleOrNull()
                                                                     if (value != null) {
-                                                                        habits[y].habitDay[xIndex].today = value
+                                                                        habits[y].habitDay[xIndex].today = inputText.toBigDecimal()
                                                                         habits[y].update()
                                                                     }
                                                                     showDialog = false

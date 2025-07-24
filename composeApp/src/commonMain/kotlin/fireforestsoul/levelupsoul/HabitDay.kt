@@ -1,7 +1,9 @@
 package fireforestsoul.levelupsoul
 
-class HabitDay(var today: Double = 0.0) {
+import com.ionspin.kotlin.bignum.decimal.BigDecimal
+import com.ionspin.kotlin.bignum.decimal.toBigDecimal
 
-    var totalOfAPeriod: Double = 0.0
+class HabitDay(var today: BigDecimal = 0.0.toBigDecimal()) {
+    var totalOfAPeriod = 0.toBigDecimal()
     var correctly: Boolean = false
 }

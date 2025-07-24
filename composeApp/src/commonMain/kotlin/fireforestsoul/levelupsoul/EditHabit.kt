@@ -41,6 +41,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.ionspin.kotlin.bignum.decimal.toBigDecimal
 
 @Composable
 fun EditHabit(viewModel: AppViewModel) {
@@ -116,7 +117,7 @@ fun EditHabit(viewModel: AppViewModel) {
                             habits[habit_statistics_and_edit_x].colorGood = colorGood
                             habits[habit_statistics_and_edit_x].typeOfGoalHabits = typeOfGoalHabits
                             habits[habit_statistics_and_edit_x].needGoal =
-                                (if (needGoal.toDoubleOrNull() != null) needGoal.toDoubleOrNull() else habits[habit_statistics_and_edit_x].needGoal)!!
+                                if (needGoal.toDoubleOrNull() != null) needGoal.toBigDecimal() else habits[habit_statistics_and_edit_x].needGoal
                             habits[habit_statistics_and_edit_x].nameOfUnitsOfDimension = nameOfUnitsOfDimension
                             habits[habit_statistics_and_edit_x].needDays =
                                 (if (needDays.toIntOrNull() != null) needDays.toIntOrNull() else habits[habit_statistics_and_edit_x].needDays)!!

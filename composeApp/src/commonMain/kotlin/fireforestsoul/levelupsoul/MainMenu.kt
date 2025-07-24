@@ -31,8 +31,6 @@ import androidx.compose.foundation.layout.asPaddingValues
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.systemBars
 import androidx.compose.foundation.layout.width
-import androidx.compose.material3.Button
-import androidx.compose.material3.ButtonColors
 import androidx.compose.material3.DropdownMenu
 import androidx.compose.material3.DropdownMenuItem
 import androidx.compose.runtime.collectAsState
@@ -45,9 +43,9 @@ import kotlinx.datetime.Clock
 import kotlinx.datetime.TimeZone
 import kotlinx.datetime.toLocalDateTime
 
-var UI_color = Color(40, 40, 40, 255)
-val textNoSeeColor = Color(100, 100, 100, 255)
-val textSeeUiColor = Color(200, 200, 200, 255)
+var UI_color = Color(40, 40, 40)
+val textNoSeeColor = Color(100, 100, 100)
+val textSeeUiColor = Color(200, 200, 200)
 val UI_dark_color = Color(25, 25, 25)
 
 @Composable

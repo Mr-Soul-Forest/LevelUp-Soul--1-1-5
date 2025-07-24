@@ -5,12 +5,14 @@ import kotlinx.datetime.LocalDate
 import kotlinx.datetime.Clock
 import kotlinx.datetime.TimeZone
 import kotlinx.datetime.toLocalDateTime
+import com.ionspin.kotlin.bignum.decimal.BigDecimal
+import com.ionspin.kotlin.bignum.decimal.toBigDecimal
 
 class Habit(
     var nameOfHabit: String = ts_New_habit,
     var nameOfUnitsOfDimension: String = ts_km,
     var typeOfGoalHabits: TypeOfGoalHabits = TypeOfGoalHabits.AT_LEAST,
-    var needGoal: Double = 1.0,
+    var needGoal: BigDecimal = 1.toBigDecimal(),
     var needDays: Int = 1,
     var typeOfColorHabits: TypeOfColorHabits = TypeOfColorHabits.ADAPTIVE,
     var colorGood: Color = textSeeUiColor,
@@ -22,21 +24,21 @@ class Habit(
     var startDate: LocalDate = Clock.System.now().toLocalDateTime(TimeZone.currentSystemDefault()).date
     var lastLevelChangeDate: LocalDate = startDate
     var level: Int = 0
-    var habitDay: MutableList<HabitDay> = MutableList(1) { HabitDay(0.0) }
+    var habitDay: MutableList<HabitDay> = MutableList(1) { HabitDay(0.toBigDecimal()) }
 
     fun updateDate(sort: Boolean = true) {
         val today = Clock.System.now().toLocalDateTime(TimeZone.currentSystemDefault()).date
         val addDays: Int = (today.toEpochDays() - startDate.toEpochDays() - habitDay.size + 1)
 
         if (addDays > 0) {
-            habitDay.addAll(List(addDays) { HabitDay(0.0) })
+            habitDay.addAll(List(addDays) { HabitDay(0.toBigDecimal()) })
         }
 
         update(sort)
     }
 
     fun updateHabitDay(index: Int) {
-        habitDay[index].totalOfAPeriod = 0.0
+        habitDay[index].totalOfAPeriod = 0.toBigDecimal()
         for (i in (index - needDays + 1)..index) {
             if (i >= 0)
                 habitDay[index].totalOfAPeriod += habitDay[i].today
@@ -80,8 +82,8 @@ class Habit(
                             else if (typeOfGoalHabits == TypeOfGoalHabits.NO_MORE) needDays = (needDays / 0.8).toInt()
                         }
                         if (changeNeedGoalWithLevel) {
-                            if (typeOfGoalHabits == TypeOfGoalHabits.AT_LEAST) needGoal /= 0.8
-                            else if (typeOfGoalHabits == TypeOfGoalHabits.NO_MORE) needGoal *= 0.8
+                            if (typeOfGoalHabits == TypeOfGoalHabits.AT_LEAST) needGoal /= "0.8".toBigDecimal()
+                            else if (typeOfGoalHabits == TypeOfGoalHabits.NO_MORE) needGoal *= "0.8".toBigDecimal()
                         }
                     }
                 } else if (progress(this) <= 0.2) {
@@ -101,8 +103,8 @@ class Habit(
                                 if ((needDays * 0.8).toInt() > 0) (needDays * 0.8).toInt() else 1
                         }
                         if (changeNeedGoalWithLevel) {
-                            if (typeOfGoalHabits == TypeOfGoalHabits.AT_LEAST) needGoal *= 0.8
-                            else if (typeOfGoalHabits == TypeOfGoalHabits.NO_MORE) needGoal /= 0.8
+                            if (typeOfGoalHabits == TypeOfGoalHabits.AT_LEAST) needGoal *= "0.8".toBigDecimal()
+                            else if (typeOfGoalHabits == TypeOfGoalHabits.NO_MORE) needGoal /= "0.8".toBigDecimal()
                         }
                     }
                 }

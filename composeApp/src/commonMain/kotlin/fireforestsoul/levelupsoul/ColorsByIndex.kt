@@ -22,7 +22,7 @@ fun seeColorByIndex(index: Int): Color {
         maxLevel = max(maxLevel, habit.level)
         minLevel = min(minLevel, habit.level)
     }
-    var levels = maxLevel - minLevel
+    val levels = maxLevel - minLevel
 
     /**
      * red= 2 green= 1 blue= 1

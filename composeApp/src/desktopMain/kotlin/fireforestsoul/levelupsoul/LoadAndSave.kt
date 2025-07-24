@@ -3,6 +3,7 @@ package fireforestsoul.levelupsoul
 import androidx.compose.ui.graphics.Color
 import kotlinx.datetime.LocalDate
 import java.io.File
+import com.ionspin.kotlin.bignum.decimal.toBigDecimal
 
 actual fun saveValue() {
     File(save_file_name).printWriter().use { out ->
@@ -70,8 +71,14 @@ actual fun loadValue() {
                         )
                         index++
                     }
-                    habits[x].needGoal = input.getOrNull(index)?.toDouble()!!
-                    index++
+                    if (oldAppVersion < 1001000000) {
+                        habits[x].needGoal = input.getOrNull(index)?.toDouble()!!.toBigDecimal()
+                        index++
+                    }
+                    else {
+                        habits[x].needGoal = input.getOrNull(index)?.toBigDecimal()!!
+                        index++
+                    }
                     habits[x].needDays = input.getOrNull(index)?.toInt()!!
                     index++
                     if (oldAppVersion >= 2000000) {
@@ -110,12 +117,22 @@ actual fun loadValue() {
                     habits[x].habitDay = mutableListOf(HabitDay())
                     for (y in 0 until habitDaySize) {
                         if (y > 0) habits[x].habitDay.add(HabitDay())
-                        habits[x].habitDay[y].today =
-                            input.getOrNull(index)?.toDouble()!!
-                        index++
-                        habits[x].habitDay[y].totalOfAPeriod =
-                            input.getOrNull(index)?.toDouble()!!
-                        index++
+                        if (oldAppVersion < 1001000000) {
+                            habits[x].habitDay[y].today =
+                                input.getOrNull(index)?.toDouble()!!.toBigDecimal()
+                            index++
+                            habits[x].habitDay[y].totalOfAPeriod =
+                                input.getOrNull(index)?.toDouble()!!.toBigDecimal()
+                            index++
+                        }
+                        else {
+                            habits[x].habitDay[y].today =
+                                input.getOrNull(index)?.toBigDecimal()!!
+                            index++
+                            habits[x].habitDay[y].totalOfAPeriod =
+                                input.getOrNull(index)?.toBigDecimal()!!
+                            index++
+                        }
                         habits[x].habitDay[y].correctly =
                             input.getOrNull(index).toBoolean()
                         index++

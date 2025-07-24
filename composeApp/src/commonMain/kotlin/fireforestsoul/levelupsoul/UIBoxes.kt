@@ -37,6 +37,9 @@ import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.ionspin.kotlin.bignum.decimal.BigDecimal
+import com.ionspin.kotlin.bignum.decimal.times
+import com.ionspin.kotlin.bignum.decimal.toBigDecimal
 import kotlinx.datetime.Clock
 import kotlinx.datetime.LocalDate
 import kotlinx.datetime.TimeZone
@@ -614,10 +617,10 @@ fun AnimatedLineChart(
 
 @Composable
 fun AnimatedBarChart(
-    data: List<Float>,
+    data: List<BigDecimal>,
     labels: List<String>,
     modifier: Modifier = Modifier,
-    maxY: Float = data.maxOrNull() ?: 1f,
+    maxY: BigDecimal = data.maxOrNull() ?: 1.toBigDecimal(),
     barColor: Color = Color(0xFF4CAF50)
 ) {
     val scrollState = rememberScrollState()
@@ -640,7 +643,7 @@ fun AnimatedBarChart(
         Row(verticalAlignment = Alignment.Bottom) {
             data.forEachIndexed { index, value ->
                 val animatedHeight by animateDpAsState(
-                    targetValue = (barMaxHeight * value / maxY).coerceAtLeast(1.dp),
+                    targetValue = (barMaxHeight * value.toString().toFloat() / maxY.toString().toFloat()).coerceAtLeast(1.dp),
                     animationSpec = tween(durationMillis = 600),
                     label = "barHeight"
                 )
@@ -743,7 +746,7 @@ fun HabitGrid(
 @Composable
 fun SoulGrid(
     maxDays: Int,
-    states: List<Float> = listTodayAll(maxDays, 1),
+    states: List<BigDecimal> = listTodayAll(maxDays, 1),
     colorBest: Color,
     modifier: Modifier = Modifier
 ) {
@@ -782,9 +785,9 @@ fun SoulGrid(
                         } else {
                             val (value, state) = cell
                             val color = Color(
-                                colorBest.red * state / if (habits.isNotEmpty()) habits.size else 1,
-                                colorBest.green * state / if (habits.isNotEmpty()) habits.size else 1,
-                                colorBest.blue * state / if (habits.isNotEmpty()) habits.size else 1
+                                ((colorBest.red * state).saveDiv(if (habits.isNotEmpty()) habits.size else 1)).toString().toFloat(),
+                                ((colorBest.green * state).saveDiv(if (habits.isNotEmpty()) habits.size else 1)).toString().toFloat(),
+                                ((colorBest.blue * state).saveDiv(if (habits.isNotEmpty()) habits.size else 1)).toString().toFloat()
                             )
                             Box(
                                 modifier = Modifier

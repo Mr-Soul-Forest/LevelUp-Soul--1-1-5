@@ -1,9 +1,10 @@
 package fireforestsoul.levelupsoul
 
+import com.ionspin.kotlin.bignum.decimal.BigDecimal
+import com.ionspin.kotlin.bignum.decimal.toBigDecimal
 import kotlinx.datetime.DateTimeUnit
 import kotlinx.datetime.LocalDate
 import kotlinx.datetime.plus
-import kotlin.math.min
 
 fun progress(
     index: Int,
@@ -131,19 +132,19 @@ fun listProgressAll(
 fun listToday(
     index: Int,
     step: Int
-): List<Float> {
-    var add0 = 0f
+): List<BigDecimal> {
+    var add0 = 0.toBigDecimal()
     for (z in 0 until step) {
         if (z < habits[index].habitDay.size)
-            add0 += habits[index].habitDay[z].today.toFloat()
+            add0 += habits[index].habitDay[z].today
     }
     val list = mutableListOf(add0)
     var y = step
     while (y < habits[index].habitDay.size) {
-        var add = 0f
+        var add = 0.toBigDecimal()
         for (z in y until (y + step)) {
             if (z < habits[index].habitDay.size)
-                add += habits[index].habitDay[z].today.toFloat()
+                add += habits[index].habitDay[z].today
         }
         list.add(add)
         y += step
@@ -155,8 +156,8 @@ fun listToday(
 fun listTodayAll(
     maxDays: Int,
     step: Int
-): List<Float> {
-    var add0 = 0f
+): List<BigDecimal> {
+    var add0 = 0.toBigDecimal()
     for (z in 0 until step) {
         for (index in 0 until habits.size) {
             if (z < habits[index].habitDay.size)
@@ -166,7 +167,7 @@ fun listTodayAll(
     val list = mutableListOf(add0)
     var y = step
     while (y < maxDays) {
-        var add = 0f
+        var add = 0.toBigDecimal()
         for (z in y until (y + step)) {
             for (index in 0 until habits.size) {
                 val z0 = habits[index].habitDay.size - maxDays + z

@@ -44,6 +44,7 @@ import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.ionspin.kotlin.bignum.decimal.toBigDecimal
 import kotlinx.datetime.Clock
 import kotlinx.datetime.TimeZone
 import kotlinx.datetime.toLocalDateTime
@@ -409,9 +410,9 @@ fun HabitStatistics(viewModel: AppViewModel) {
                                     }
                                     if (habits[habit_statistics_and_edit_x].changeNeedGoalWithLevel) {
                                         if (habits[habit_statistics_and_edit_x].typeOfGoalHabits == TypeOfGoalHabits.AT_LEAST) needGoalChanged =
-                                            habits[habit_statistics_and_edit_x].needGoal / 0.8
+                                            habits[habit_statistics_and_edit_x].needGoal / "0.8".toBigDecimal()
                                         else if (habits[habit_statistics_and_edit_x].typeOfGoalHabits == TypeOfGoalHabits.NO_MORE) needGoalChanged =
-                                            habits[habit_statistics_and_edit_x].needGoal * 0.8
+                                            habits[habit_statistics_and_edit_x].needGoal * "0.8".toBigDecimal()
                                     }
                                     progressUp = true
                                 } else if (progress(habit_statistics_and_edit_x) <= 0.2) {
@@ -433,9 +434,9 @@ fun HabitStatistics(viewModel: AppViewModel) {
                                     }
                                     if (habits[habit_statistics_and_edit_x].changeNeedGoalWithLevel) {
                                         if (habits[habit_statistics_and_edit_x].typeOfGoalHabits == TypeOfGoalHabits.AT_LEAST) needGoalChanged =
-                                            habits[habit_statistics_and_edit_x].needGoal * 0.8
+                                            habits[habit_statistics_and_edit_x].needGoal * "0.8".toBigDecimal()
                                         else if (habits[habit_statistics_and_edit_x].typeOfGoalHabits == TypeOfGoalHabits.NO_MORE) needGoalChanged =
-                                            habits[habit_statistics_and_edit_x].needGoal / 0.8
+                                            habits[habit_statistics_and_edit_x].needGoal / "0.8".toBigDecimal()
                                     }
                                     progressUp = false
                                 }
