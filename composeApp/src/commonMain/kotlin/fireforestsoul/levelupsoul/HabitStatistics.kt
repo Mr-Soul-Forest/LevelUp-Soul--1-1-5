@@ -41,6 +41,7 @@ import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.KeyboardType
+import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import kotlinx.datetime.Clock
@@ -69,7 +70,7 @@ fun HabitStatistics(viewModel: AppViewModel) {
                 ) {
                     Row(
                         verticalAlignment = Alignment.CenterVertically,
-                        horizontalArrangement = Arrangement.SpaceBetween,
+                        horizontalArrangement = Arrangement.SpaceAround,
                         modifier = Modifier.fillMaxWidth()
                     ) {
                         Text(
@@ -77,7 +78,11 @@ fun HabitStatistics(viewModel: AppViewModel) {
                             fontSize = 16.sp,
                             fontWeight = FontWeight.Bold,
                             color = textSeeUiColor,
-                            modifier = Modifier.padding(start = 15.dp)
+                            maxLines = 1,
+                            overflow = TextOverflow.Ellipsis,
+                            modifier = Modifier
+                                .padding(start = 15.dp)
+                                .weight(1f)
                         )
                         IconButton(onClick = {
                             viewModel.setStatus(AppStatus.EDIT_HABIT)

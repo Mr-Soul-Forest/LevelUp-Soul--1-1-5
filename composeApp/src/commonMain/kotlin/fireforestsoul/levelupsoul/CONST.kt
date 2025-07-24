@@ -5,7 +5,7 @@ import kotlinx.datetime.Clock
 import kotlinx.datetime.TimeZone
 import kotlinx.datetime.toLocalDateTime
 
-enum class AppStatus() {
+enum class AppStatus {
     LOADING,
     TABLE,
     CREATE_HABIT,
@@ -17,7 +17,7 @@ enum class AppStatus() {
 
 //alpha(000) beta(001) version(010)
 //t.x.x.x
-const val app_version: Long = 1000001000 //version(001).000.001.000
+const val app_version: Long = 1001000000 //version(001).001.000.000
 
 const val save_file_name = "LevelUp-Soul.FireForestSouls-saving"
 
