@@ -37,13 +37,18 @@ fun LoadingContent() {
 }
 
 var countFilesLoad = 0
+private var indexToDateUpdate = 0
 
 fun loading(viewModel: AppViewModel) {
+    indexToDateUpdate = countFilesLoad - 2
     if (countFilesLoad == 1) {
         loadValue()
     }
-    else if (countFilesLoad > 1 && countFilesLoad - 2 < habits.size) {
-        habits[countFilesLoad - 2].updateDate()
+    else if (indexToDateUpdate >= 0 && indexToDateUpdate < habits.size - 1) {
+        habits[indexToDateUpdate].updateDate(false)
+    }
+    else if (indexToDateUpdate == habits.size - 1) {
+        habits[indexToDateUpdate].updateDate(true)
     }
     else if (countFilesLoad != 0) {
         changeLanguage()

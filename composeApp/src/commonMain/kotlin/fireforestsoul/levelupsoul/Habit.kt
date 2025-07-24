@@ -24,7 +24,7 @@ class Habit(
     var level: Int = 0
     var habitDay: MutableList<HabitDay> = MutableList(1) { HabitDay(0.0) }
 
-    fun updateDate() {
+    fun updateDate(sort: Boolean = true) {
         val today = Clock.System.now().toLocalDateTime(TimeZone.currentSystemDefault()).date
         val addDays: Int = (today.toEpochDays() - startDate.toEpochDays() - habitDay.size + 1)
 
@@ -32,7 +32,7 @@ class Habit(
             habitDay.addAll(List(addDays) { HabitDay(0.0) })
         }
 
-        update()
+        update(sort)
     }
 
     fun updateHabitDay(index: Int) {
@@ -47,14 +47,16 @@ class Habit(
         }
     }
 
-    fun update() {
+    fun update(sort: Boolean = true) {
         for (i in 0..(habitDay.size - 1)) {
             updateHabitDay(i)
         }
 
-        habits.sortByDescending { if (habitSeria(it).isNotEmpty()) habitSeria(it)[0] else 0 }
-        habits.sortByDescending { it.level }
-        habits.sortByDescending { progress(it) }
+        if (sort) {
+            habits.sortByDescending { if (habitSeria(it).isNotEmpty()) habitSeria(it)[0] else 0 }
+            habits.sortByDescending { it.level }
+            habits.sortByDescending { progress(it) }
+        }
 
         if (changeLevel) {
             if (Clock.System.now()
@@ -82,8 +84,7 @@ class Habit(
                             else if (typeOfGoalHabits == TypeOfGoalHabits.NO_MORE) needGoal *= 0.8
                         }
                     }
-                }
-                else if (progress(this) <= 0.2) {
+                } else if (progress(this) <= 0.2) {
                     for (x in (habitDay.size - 20) until habitDay.size) {
                         if (x >= 0) {
                             if (progress(this, startIndex = x) <= 0.2) {
@@ -96,7 +97,8 @@ class Habit(
                         lastLevelChangeDate = Clock.System.now().toLocalDateTime(TimeZone.currentSystemDefault()).date
                         if (changeNeedDaysWithLevel) {
                             if (typeOfGoalHabits == TypeOfGoalHabits.AT_LEAST) needDays = (needDays / 0.8).toInt()
-                            else if (typeOfGoalHabits == TypeOfGoalHabits.NO_MORE) needDays = if ((needDays * 0.8).toInt() > 0) (needDays * 0.8).toInt() else 1
+                            else if (typeOfGoalHabits == TypeOfGoalHabits.NO_MORE) needDays =
+                                if ((needDays * 0.8).toInt() > 0) (needDays * 0.8).toInt() else 1
                         }
                         if (changeNeedGoalWithLevel) {
                             if (typeOfGoalHabits == TypeOfGoalHabits.AT_LEAST) needGoal *= 0.8
