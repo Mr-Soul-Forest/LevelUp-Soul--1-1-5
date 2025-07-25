@@ -141,8 +141,8 @@ fun TableContent(viewModel: AppViewModel, verticalScroll: ScrollState, horizonta
                                     habits[y].needGoal - habits[y].habitDay[habits[y].habitDay.size - 1].totalOfAPeriod
                                 Text(
                                     text = if (habits[y].typeOfGoalHabits == TypeOfGoalHabits.AT_LEAST)
-                                        "$ts_Need $needOrCanMore $ts_more"
-                                    else "$ts_You_can_have $needOrCanMore $ts_more",
+                                        "$ts_Need ${needOrCanMore.toPlainString()} $ts_more"
+                                    else "$ts_You_can_have ${needOrCanMore.toPlainString()} $ts_more",
                                     color = noSeeColor,
                                     fontWeight = FontWeight.Normal,
                                     fontSize = firstSellSmallFontSize,
@@ -236,7 +236,7 @@ fun TableContent(viewModel: AppViewModel, verticalScroll: ScrollState, horizonta
                                                 var showDialog by remember { mutableStateOf(false) }
 
                                                 Text(
-                                                    text = habits[y].habitDay[xIndex].today.toString(),
+                                                    text = habits[y].habitDay[xIndex].today.toPlainString(),
                                                     color = if (habits[y].habitDay[xIndex].correctly
                                                     ) seeColor else noSeeColor,
                                                     fontWeight = FontWeight.Normal,

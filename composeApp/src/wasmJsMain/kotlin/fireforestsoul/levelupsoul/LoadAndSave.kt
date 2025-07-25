@@ -1,6 +1,7 @@
 package fireforestsoul.levelupsoul
 
 import androidx.compose.ui.graphics.Color
+import com.ionspin.kotlin.bignum.decimal.toBigDecimal
 import kotlinx.browser.localStorage
 import kotlinx.datetime.LocalDate
 
@@ -59,7 +60,7 @@ actual fun loadValue() {
                         localStorage.getItem("habits-$x-typeOfGoalHabits").toString()
                     )
                 )
-                habits[x].needGoal = localStorage.getItem("habits-$x-needGoal")?.toDouble()!!
+                habits[x].needGoal = localStorage.getItem("habits-$x-needGoal")?.toBigDecimal()!!
                 habits[x].needDays = localStorage.getItem("habits-$x-needDays")?.toInt()!!
 
                 if (oldAppVersion >= 2000000) {
@@ -87,9 +88,9 @@ actual fun loadValue() {
                 habits[x].habitDay = mutableListOf(HabitDay())
                 for (y in 0 until habitDaySize) {
                     if (y > 0) habits[x].habitDay.add(HabitDay())
-                    habits[x].habitDay[y].today = localStorage.getItem("habits-$x-habitDay-$y-today")?.toDouble()!!
+                    habits[x].habitDay[y].today = localStorage.getItem("habits-$x-habitDay-$y-today")?.toBigDecimal()!!
                     habits[x].habitDay[y].totalOfAPeriod =
-                        localStorage.getItem("habits-$x-habitDay-$y-totalOfAPeriod")?.toDouble()!!
+                        localStorage.getItem("habits-$x-habitDay-$y-totalOfAPeriod")?.toBigDecimal()!!
                     habits[x].habitDay[y].correctly =
                         localStorage.getItem("habits-$x-habitDay-$y-correctly").toBoolean()
                 }

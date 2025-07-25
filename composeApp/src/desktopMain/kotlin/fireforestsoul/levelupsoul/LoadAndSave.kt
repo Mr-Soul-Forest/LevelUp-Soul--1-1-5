@@ -62,8 +62,7 @@ actual fun loadValue() {
                         habits[x].typeOfGoalHabits =
                             enumValueOf<TypeOfGoalHabits>(input.getOrNull(index).toString())
                         index++
-                    }
-                    else {
+                    } else {
                         habits[x].typeOfGoalHabits = toTypeOfGoalHabits(
                             enumValueOf<Old3000000TypeOfGoalHabits>(
                                 input.getOrNull(index).toString()
@@ -71,14 +70,8 @@ actual fun loadValue() {
                         )
                         index++
                     }
-                    if (oldAppVersion < 1001000000) {
-                        habits[x].needGoal = input.getOrNull(index)?.toDouble()!!.toBigDecimal()
-                        index++
-                    }
-                    else {
-                        habits[x].needGoal = input.getOrNull(index)?.toBigDecimal()!!
-                        index++
-                    }
+                    habits[x].needGoal = input.getOrNull(index)?.toBigDecimal()!!
+                    index++
                     habits[x].needDays = input.getOrNull(index)?.toInt()!!
                     index++
                     if (oldAppVersion >= 2000000) {
@@ -117,22 +110,13 @@ actual fun loadValue() {
                     habits[x].habitDay = mutableListOf(HabitDay())
                     for (y in 0 until habitDaySize) {
                         if (y > 0) habits[x].habitDay.add(HabitDay())
-                        if (oldAppVersion < 1001000000) {
-                            habits[x].habitDay[y].today =
-                                input.getOrNull(index)?.toDouble()!!.toBigDecimal()
-                            index++
-                            habits[x].habitDay[y].totalOfAPeriod =
-                                input.getOrNull(index)?.toDouble()!!.toBigDecimal()
-                            index++
-                        }
-                        else {
-                            habits[x].habitDay[y].today =
-                                input.getOrNull(index)?.toBigDecimal()!!
-                            index++
-                            habits[x].habitDay[y].totalOfAPeriod =
-                                input.getOrNull(index)?.toBigDecimal()!!
-                            index++
-                        }
+
+                        habits[x].habitDay[y].today =
+                            input.getOrNull(index)?.toBigDecimal()!!
+                        index++
+                        habits[x].habitDay[y].totalOfAPeriod =
+                            input.getOrNull(index)?.toBigDecimal()!!
+                        index++
                         habits[x].habitDay[y].correctly =
                             input.getOrNull(index).toBoolean()
                         index++
