@@ -43,10 +43,13 @@ import kotlinx.datetime.Clock
 import kotlinx.datetime.TimeZone
 import kotlinx.datetime.toLocalDateTime
 
-var UI_color = Color(40, 40, 40)
+var UI_color = Color(30, 34, 41)
 val textNoSeeColor = Color(127, 127, 127)
 val textSeeUiColor = Color(255, 255, 255)
-val UI_dark_color = Color(25, 25, 25)
+val UI_dark_color = Color(21, 25, 29)
+val UI_extra_dark_color = Color(16, 20, 23)
+val UI_dark_x2_color = Color(19, 23, 26)
+val UI_dark_x05_color = Color(25, 29, 35)
 
 @Composable
 fun MainMenuContent(

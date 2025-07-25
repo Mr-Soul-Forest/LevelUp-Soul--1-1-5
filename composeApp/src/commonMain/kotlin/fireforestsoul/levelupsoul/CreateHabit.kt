@@ -177,9 +177,9 @@ fun CreateHabit(viewModel: AppViewModel) {
                                 focusedTextColor = textSeeUiColor,
                                 unfocusedTextColor = textNoSeeColor,
                                 disabledTextColor = textNoSeeColor,
-                                focusedContainerColor = Color.Black,
-                                unfocusedContainerColor = Color.Black,
-                                disabledContainerColor = Color.Black,
+                                focusedContainerColor = UI_extra_dark_color,
+                                unfocusedContainerColor = UI_extra_dark_color,
+                                disabledContainerColor = UI_extra_dark_color,
                                 cursorColor = textSeeUiColor,
                                 focusedIndicatorColor = Color.Transparent,
                                 unfocusedIndicatorColor = Color.Transparent,
@@ -201,9 +201,9 @@ fun CreateHabit(viewModel: AppViewModel) {
                             Button(
                                 onClick = { expanded0 = true },
                                 colors = ButtonColors(
-                                    containerColor = Color.Black,
+                                    containerColor = UI_extra_dark_color,
                                     contentColor = textSeeUiColor,
-                                    disabledContainerColor = Color.Black,
+                                    disabledContainerColor = UI_extra_dark_color,
                                     disabledContentColor = textNoSeeColor
                                 )
                             ) {
@@ -216,7 +216,7 @@ fun CreateHabit(viewModel: AppViewModel) {
                             DropdownMenu(
                                 expanded = expanded0,
                                 onDismissRequest = { expanded0 = false },
-                                modifier = Modifier.background(Color.Black)
+                                modifier = Modifier.background(UI_extra_dark_color)
                             ) {
                                 TypeOfColorHabits.entries.forEach { mode ->
                                     DropdownMenuItem(
@@ -274,9 +274,9 @@ fun CreateHabit(viewModel: AppViewModel) {
                                 Button(
                                     onClick = { expanded1 = true },
                                     colors = ButtonColors(
-                                        containerColor = Color.Black,
+                                        containerColor = UI_extra_dark_color,
                                         contentColor = textSeeUiColor,
-                                        disabledContainerColor = Color.Black,
+                                        disabledContainerColor = UI_extra_dark_color,
                                         disabledContentColor = textNoSeeColor
                                     )
                                 ) {
@@ -289,7 +289,7 @@ fun CreateHabit(viewModel: AppViewModel) {
                                 DropdownMenu(
                                     expanded = expanded1,
                                     onDismissRequest = { expanded1 = false },
-                                    modifier = Modifier.background(Color.Black)
+                                    modifier = Modifier.background(UI_extra_dark_color)
                                 ) {
                                     TypeOfGoalHabits.entries.forEach { mode ->
                                         DropdownMenuItem(
@@ -340,9 +340,9 @@ fun CreateHabit(viewModel: AppViewModel) {
                                     focusedTextColor = textSeeUiColor,
                                     unfocusedTextColor = textNoSeeColor,
                                     disabledTextColor = textNoSeeColor,
-                                    focusedContainerColor = Color.Black,
-                                    unfocusedContainerColor = Color.Black,
-                                    disabledContainerColor = Color.Black,
+                                    focusedContainerColor = UI_extra_dark_color,
+                                    unfocusedContainerColor = UI_extra_dark_color,
+                                    disabledContainerColor = UI_extra_dark_color,
                                     cursorColor = textSeeUiColor,
                                     focusedIndicatorColor = Color.Transparent,
                                     unfocusedIndicatorColor = Color.Transparent,
@@ -370,9 +370,9 @@ fun CreateHabit(viewModel: AppViewModel) {
                                     focusedTextColor = textSeeUiColor,
                                     unfocusedTextColor = textNoSeeColor,
                                     disabledTextColor = textNoSeeColor,
-                                    focusedContainerColor = Color.Black,
-                                    unfocusedContainerColor = Color.Black,
-                                    disabledContainerColor = Color.Black,
+                                    focusedContainerColor = UI_extra_dark_color,
+                                    unfocusedContainerColor = UI_extra_dark_color,
+                                    disabledContainerColor = UI_extra_dark_color,
                                     cursorColor = textSeeUiColor,
                                     focusedIndicatorColor = Color.Transparent,
                                     unfocusedIndicatorColor = Color.Transparent,
@@ -411,9 +411,9 @@ fun CreateHabit(viewModel: AppViewModel) {
                                     focusedTextColor = textSeeUiColor,
                                     unfocusedTextColor = textNoSeeColor,
                                     disabledTextColor = textNoSeeColor,
-                                    focusedContainerColor = Color.Black,
-                                    unfocusedContainerColor = Color.Black,
-                                    disabledContainerColor = Color.Black,
+                                    focusedContainerColor = UI_extra_dark_color,
+                                    unfocusedContainerColor = UI_extra_dark_color,
+                                    disabledContainerColor = UI_extra_dark_color,
                                     cursorColor = textSeeUiColor,
                                     focusedIndicatorColor = Color.Transparent,
                                     unfocusedIndicatorColor = Color.Transparent,

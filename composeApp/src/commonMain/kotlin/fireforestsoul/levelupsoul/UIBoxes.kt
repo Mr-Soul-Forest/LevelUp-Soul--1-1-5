@@ -68,7 +68,7 @@ fun ColorPickerBox(
         var blue by remember { mutableStateOf((currentColor.blue * 255).toInt()) }
 
         AlertDialog(
-            containerColor = Color.Black,
+            containerColor = UI_extra_dark_color,
             onDismissRequest = { showDialog = false },
             title = {
                 Text(
@@ -203,7 +203,7 @@ fun DeleteHabitConfirm(index: Int, onDeleteConfirmed: () -> Unit) {
 
     if (showDialog) {
         AlertDialog(
-            containerColor = Color.Black,
+            containerColor = UI_extra_dark_color,
             onDismissRequest = { showDialog = false },
             title = {
                 Text(
@@ -471,7 +471,7 @@ fun DonutChart(
         values.forEachIndexed { i, value ->
             val sweepAngle = (value / total) * 360f
             drawArc(
-                color = colors.getOrElse(i) { Color.Gray },
+                color = colors.getOrElse(i) { UI_dark_x05_color },
                 startAngle = startAngle,
                 sweepAngle = sweepAngle,
                 useCenter = false,
@@ -551,7 +551,7 @@ fun AnimatedLineChart(
         )
     }
 
-    val backgroundColor = Color(30, 30, 30)
+    val backgroundColor = UI_dark_x2_color
     val gridColor = textSeeUiColor.copy(alpha = 0.15f)
 
     BoxWithConstraints(
@@ -630,7 +630,7 @@ fun AnimatedBarChart(
     BoxWithConstraints(
         modifier = modifier
             .clip(RoundedCornerShape(20.dp))
-            .background(Color(30, 30, 30))
+            .background(UI_dark_x2_color)
             .horizontalScroll(scrollState)
     ) {
         val totalHeight = maxHeight
@@ -690,7 +690,7 @@ fun HabitGrid(
     startDate: LocalDate,
     modifier: Modifier = Modifier
 ) {
-    val backgroundColor = Color(30, 30, 30)
+    val backgroundColor = UI_dark_x2_color
     val boxSize = 20.dp
     val space = 4.dp
 
@@ -757,7 +757,7 @@ fun SoulGrid(
     val values: List<Int> = listDaysNumbers(oldestHabit)
     val startDate = oldestHabit.startDate
 
-    val backgroundColor = Color(30, 30, 30)
+    val backgroundColor = UI_dark_x2_color
     val boxSize = 20.dp
     val space = 4.dp
     val horizontalScroll = rememberScrollState()
