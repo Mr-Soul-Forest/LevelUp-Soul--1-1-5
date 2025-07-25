@@ -44,8 +44,8 @@ import kotlinx.datetime.TimeZone
 import kotlinx.datetime.toLocalDateTime
 
 var UI_color = Color(40, 40, 40)
-val textNoSeeColor = Color(100, 100, 100)
-val textSeeUiColor = Color(200, 200, 200)
+val textNoSeeColor = Color(127, 127, 127)
+val textSeeUiColor = Color(255, 255, 255)
 val UI_dark_color = Color(25, 25, 25)
 
 @Composable
