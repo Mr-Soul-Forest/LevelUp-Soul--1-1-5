@@ -5,6 +5,7 @@ import android.content.SharedPreferences
 import kotlinx.datetime.LocalDate
 import kotlin.text.toString
 import androidx.compose.ui.graphics.Color
+import com.ionspin.kotlin.bignum.decimal.toBigDecimal
 
 var context: Context? = null
 
@@ -28,8 +29,14 @@ actual fun saveValue() {
             putString("habits-$x-typeOfColorHabits", habits[x].typeOfColorHabits.toString())
             putString("habits-$x-colorGood", habits[x].colorGood.value.toString(16))
             putString("habits-$x-changeLevel", habits[x].changeLevel.toString())
-            putString("habits-$x-changeNeedGoalWithLevel", habits[x].changeNeedGoalWithLevel.toString())
-            putString("habits-$x-changeNeedDaysWithLevel", habits[x].changeNeedDaysWithLevel.toString())
+            putString(
+                "habits-$x-changeNeedGoalWithLevel",
+                habits[x].changeNeedGoalWithLevel.toString()
+            )
+            putString(
+                "habits-$x-changeNeedDaysWithLevel",
+                habits[x].changeNeedDaysWithLevel.toString()
+            )
             putString("habits-$x-startDate", habits[x].startDate.toString())
             putString("habits-$x-lastLevelChangeDate", habits[x].lastLevelChangeDate.toString())
             putString("habits-$x-level", habits[x].level.toString())
@@ -86,7 +93,7 @@ actual fun loadValue() {
                 )
             }
             habits[x].needGoal =
-                prefs.getString("habits-$x-needGoal", "1.0")?.toDoubleOrNull() ?: 1.0
+                prefs.getString("habits-$x-needGoal", "1")?.toBigDecimal() ?: 1.toBigDecimal()
             habits[x].needDays = prefs.getString("habits-$x-needDays", "1")?.toIntOrNull() ?: 1
 
             if (oldAppVersion >= 2000000) {
@@ -103,7 +110,8 @@ actual fun loadValue() {
                 )
 
                 if (oldAppVersion >= 1000000000) {
-                    habits[x].changeLevel = prefs.getString("habits-$x-changeLevel", "true").toBoolean()
+                    habits[x].changeLevel =
+                        prefs.getString("habits-$x-changeLevel", "true").toBoolean()
                     habits[x].changeNeedGoalWithLevel =
                         prefs.getString("habits-$x-changeNeedGoalWithLevel", "false").toBoolean()
                     habits[x].changeNeedDaysWithLevel =
@@ -121,7 +129,8 @@ actual fun loadValue() {
 
             if (oldAppVersion >= 1000000000) {
                 habits[x].lastLevelChangeDate =
-                    prefs.getString("habits-$x-lastLevelChangeDate", "2025-01-01")?.let { LocalDate.parse(it) }!!
+                    prefs.getString("habits-$x-lastLevelChangeDate", "2025-01-01")
+                        ?.let { LocalDate.parse(it) }!!
                 habits[x].level = prefs.getString("habits-$x-level", "0")?.toInt()!!
             }
 
@@ -129,24 +138,28 @@ actual fun loadValue() {
             habits[x].habitDay = MutableList(habitDaySize) { HabitDay() }
             for (y in 0 until habitDaySize) {
                 habits[x].habitDay[y].today =
-                    prefs.getString("habits-$x-habitDay-$y-today", "0.0")?.toDoubleOrNull() ?: 0.0
+                    prefs.getString("habits-$x-habitDay-$y-today", "0")?.toBigDecimal()
+                        ?: 0.toBigDecimal()
                 habits[x].habitDay[y].totalOfAPeriod =
-                    prefs.getString("habits-$x-habitDay-$y-totalOfAPeriod", "0.0")?.toDoubleOrNull()
-                        ?: 0.0
+                    prefs.getString("habits-$x-habitDay-$y-totalOfAPeriod", "0")?.toBigDecimal()
+                        ?: 0.toBigDecimal()
                 habits[x].habitDay[y].correctly =
                     prefs.getString("habits-$x-habitDay-$y-correctly", "false") == "true"
             }
         }
 
         if (oldAppVersion >= 4000000) {
-            soul_color_type = enumValueOf<TypeOfColorHabits>(prefs.getString("soul_color_type", "ADAPTIVE").toString())
+            soul_color_type = enumValueOf<TypeOfColorHabits>(
+                prefs.getString("soul_color_type", "ADAPTIVE").toString()
+            )
             soul_color = Color(prefs.getString("soul_color", "ff000000").toString().toULong(16))
             soul_name = prefs.getString("soul_name", "Mr. Soul Forest").toString()
 
             if (oldAppVersion >= 1000000000) {
                 soul_level = prefs.getString("soul_level", "0")?.toInt()!!
                 soul_last_level_change_date =
-                    prefs.getString("soul_last_level_change_date", "2025-01-01")?.let { LocalDate.parse(it) }!!
+                    prefs.getString("soul_last_level_change_date", "2025-01-01")
+                        ?.let { LocalDate.parse(it) }!!
 
                 if (oldAppVersion >= 1000001000) {
                     language =
