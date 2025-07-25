@@ -214,10 +214,9 @@ fun MainMenuContent(
             ) {
                 Row(
                     modifier = Modifier
-                        .fillMaxWidth()
-                        .padding(horizontal = 25.dp),
+                        .fillMaxWidth(),
                     verticalAlignment = Alignment.CenterVertically,
-                    horizontalArrangement = Arrangement.SpaceBetween
+                    horizontalArrangement = Arrangement.SpaceAround
                 ) {
                     IconButton(onClick = {
                         viewModel.setStatus(AppStatus.TABLE_UPDATER)
@@ -225,19 +224,6 @@ fun MainMenuContent(
                         Image(
                             painter = painterResource(Res.drawable.habits),
                             contentDescription = ts_Habits,
-                            modifier = Modifier
-                                .clip(RoundedCornerShape(10.dp))
-                                .size(28.dp),
-                        )
-                    }
-                    IconButton(onClick = {
-                        if (appStatus == AppStatus.TABLE) {
-                            println(ts_Groups)
-                        }
-                    }) {
-                        Image(
-                            painter = painterResource(Res.drawable.groups_of_habits),
-                            contentDescription = ts_Groups_of_habits,
                             modifier = Modifier
                                 .clip(RoundedCornerShape(10.dp))
                                 .size(28.dp),
