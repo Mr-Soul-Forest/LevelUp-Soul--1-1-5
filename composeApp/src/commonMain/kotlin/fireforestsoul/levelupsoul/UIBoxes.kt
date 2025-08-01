@@ -29,6 +29,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.ColorFilter
 import androidx.compose.ui.graphics.PathEffect
 import androidx.compose.ui.graphics.drawscope.Stroke
 import androidx.compose.ui.text.TextStyle
@@ -268,7 +269,8 @@ fun DatePickerDialog(
             contentDescription = ts_Open_calendar,
             modifier = Modifier
                 .clip(RoundedCornerShape(10.dp))
-                .size(28.dp)
+                .size(28.dp),
+            colorFilter = ColorFilter.tint(getSoulRealColor())
         )
     }
 

@@ -38,6 +38,7 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
+import androidx.compose.ui.graphics.ColorFilter
 import androidx.compose.ui.text.style.TextAlign
 import kotlinx.datetime.Clock
 import kotlinx.datetime.TimeZone
@@ -111,6 +112,7 @@ fun MainMenuContent(
                                     modifier = Modifier
                                         .clip(RoundedCornerShape(10.dp))
                                         .size(28.dp),
+                                    colorFilter = ColorFilter.tint(getSoulRealColor())
                                 )
                             }
                             IconButton(onClick = {
@@ -128,6 +130,7 @@ fun MainMenuContent(
                                     modifier = Modifier
                                         .clip(RoundedCornerShape(10.dp))
                                         .size(28.dp),
+                                    colorFilter = ColorFilter.tint(getSoulRealColor())
                                 )
                             }
                         }
@@ -142,6 +145,7 @@ fun MainMenuContent(
                                 modifier = Modifier
                                     .clip(RoundedCornerShape(10.dp))
                                     .size(28.dp),
+                                colorFilter = ColorFilter.tint(getSoulRealColor())
                             )
                         }
                         DatePickerDialog(countdownDate, viewModel) {
@@ -154,7 +158,7 @@ fun MainMenuContent(
                             Text(
                                 language.name,
                                 fontSize = 16.sp,
-                                color = textSeeUiColor,
+                                color = averageColor(listOf(textSeeUiColor, getSoulRealColor())),
                                 modifier = Modifier
                                     .border(1.dp, textNoSeeColor, RoundedCornerShape(15.dp))
                                     .clickable { expanded0 = true }

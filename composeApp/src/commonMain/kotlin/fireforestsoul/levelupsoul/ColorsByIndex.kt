@@ -45,3 +45,29 @@ fun noSeeColorByIndex(index: Int): Color {
         seeColor.blue * 0.5f
     )
 }
+
+fun getSeeSoulColor() : Color {
+    var maxDays = 0
+    for (habit in habits) {
+        maxDays = max(habit.habitDay.size, maxDays)
+    }
+    return if (soul_color_type == TypeOfColorHabits.SELECTED) soul_color
+    else Color(
+        (progressAll(maxDays) * 255.0).toInt(),
+        255,
+        255
+    )
+}
+
+fun getNoSeeSoulColor() : Color {
+    return Color(
+        getSeeSoulColor().red * 0.5f,
+        getSeeSoulColor().green * 0.5f,
+        getSeeSoulColor().blue * 0.5f
+    )
+}
+
+fun getSoulRealColor() : Color {
+    return if (soul_color_type == TypeOfColorHabits.SELECTED) soul_color
+    else getSeeSoulColor()
+}
