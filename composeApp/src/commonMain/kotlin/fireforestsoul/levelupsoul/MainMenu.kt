@@ -229,11 +229,12 @@ fun MainMenuContent(
                         viewModel.setStatus(AppStatus.TABLE_UPDATER)
                     }) {
                         Image(
-                            painter = painterResource(Res.drawable.habits_table),
+                            painter = painterResource(Res.drawable.habits_table_mono),
                             contentDescription = ts_Habits,
                             modifier = Modifier
                                 .clip(RoundedCornerShape(10.dp))
                                 .size(28.dp),
+                            colorFilter = ColorFilter.tint(getSoulRealColor())
                         )
                     }
                     IconButton(onClick = {
@@ -242,11 +243,12 @@ fun MainMenuContent(
                         }
                     }) {
                         Image(
-                            painter = painterResource(Res.drawable.soul_stat),
+                            painter = painterResource(Res.drawable.soul_stat_mono),
                             contentDescription = ts_Soul_statistic,
                             modifier = Modifier
                                 .clip(RoundedCornerShape(10.dp))
                                 .size(28.dp),
+                            colorFilter = ColorFilter.tint(getSoulRealColor())
                         )
                     }
                 }
