@@ -267,9 +267,7 @@ fun DatePickerDialog(
         Image(
             painter = painterResource(Res.drawable.calendar),
             contentDescription = ts_Open_calendar,
-            modifier = Modifier
-                .clip(RoundedCornerShape(10.dp))
-                .size(28.dp),
+            modifier = Modifier.size(28.dp),
             colorFilter = ColorFilter.tint(getSoulRealColor())
         )
     }

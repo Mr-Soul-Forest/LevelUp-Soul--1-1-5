@@ -40,6 +40,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.graphics.ColorFilter
 import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.text.style.TextOverflow
 import kotlinx.datetime.Clock
 import kotlinx.datetime.TimeZone
 import kotlinx.datetime.toLocalDateTime
@@ -84,7 +85,7 @@ fun MainMenuContent(
                             .fillMaxWidth()
                             .padding(10.dp, 0.dp),
                         verticalAlignment = Alignment.CenterVertically,
-                        horizontalArrangement = Arrangement.Start
+                        horizontalArrangement = Arrangement.SpaceAround
                     ) {
                         Text(
                             text = ts_Habits,
@@ -92,13 +93,10 @@ fun MainMenuContent(
                             fontWeight = FontWeight.Bold,
                             fontFamily = FontFamily.Default,
                             color = textSeeUiColor,
+                            maxLines = 1,
+                            overflow = TextOverflow.Ellipsis,
+                            modifier = Modifier.weight(0.8f)
                         )
-                    }
-                    Row(
-                        modifier = Modifier.fillMaxWidth(),
-                        verticalAlignment = Alignment.CenterVertically,
-                        horizontalArrangement = Arrangement.End
-                    ) {
                         if ("Android" !in getPlatform().name) {
                             IconButton(onClick = {
                                 if (appStatus == AppStatus.TABLE) {
@@ -109,9 +107,7 @@ fun MainMenuContent(
                                 Image(
                                     painter = painterResource(Res.drawable.export),
                                     contentDescription = ts_Export_habits,
-                                    modifier = Modifier
-                                        .clip(RoundedCornerShape(10.dp))
-                                        .size(28.dp),
+                                    modifier = Modifier.size(28.dp),
                                     colorFilter = ColorFilter.tint(getSoulRealColor())
                                 )
                             }
@@ -127,9 +123,7 @@ fun MainMenuContent(
                                 Image(
                                     painter = painterResource(Res.drawable.import_icon),
                                     contentDescription = ts_Import_habits,
-                                    modifier = Modifier
-                                        .clip(RoundedCornerShape(10.dp))
-                                        .size(28.dp),
+                                    modifier = Modifier.size(28.dp),
                                     colorFilter = ColorFilter.tint(getSoulRealColor())
                                 )
                             }
@@ -142,9 +136,7 @@ fun MainMenuContent(
                             Image(
                                 painter = painterResource(Res.drawable.add_habit),
                                 contentDescription = ts_Create_habit,
-                                modifier = Modifier
-                                    .clip(RoundedCornerShape(10.dp))
-                                    .size(28.dp),
+                                modifier = Modifier.size(28.dp),
                                 colorFilter = ColorFilter.tint(getSoulRealColor())
                             )
                         }
@@ -160,7 +152,7 @@ fun MainMenuContent(
                                 fontSize = 16.sp,
                                 color = averageColor(listOf(textSeeUiColor, getSoulRealColor())),
                                 modifier = Modifier
-                                    .border(1.dp, textNoSeeColor, RoundedCornerShape(15.dp))
+                                    .border(1.dp, textNoSeeColor, RoundedCornerShape(10.dp))
                                     .clickable { expanded0 = true }
                                     .padding(5.dp),
                                 textAlign = TextAlign.Center
