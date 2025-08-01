@@ -19,7 +19,6 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
@@ -38,6 +37,7 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
+import androidx.compose.ui.graphics.BlendMode
 import androidx.compose.ui.graphics.ColorFilter
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextOverflow
@@ -218,15 +218,22 @@ fun MainMenuContent(
                     horizontalArrangement = Arrangement.SpaceAround
                 ) {
                     IconButton(onClick = {
+                    }) {
+                        Image(
+                            painter = painterResource(Res.drawable.habits_list_mono),
+                            contentDescription = ts_Habits,
+                            modifier = Modifier.size(28.dp),
+                            colorFilter = ColorFilter.tint(getSoulRealColor(), BlendMode.Modulate)
+                        )
+                    }
+                    IconButton(onClick = {
                         viewModel.setStatus(AppStatus.TABLE_UPDATER)
                     }) {
                         Image(
                             painter = painterResource(Res.drawable.habits_table_mono),
                             contentDescription = ts_Habits,
-                            modifier = Modifier
-                                .clip(RoundedCornerShape(10.dp))
-                                .size(28.dp),
-                            colorFilter = ColorFilter.tint(getSoulRealColor())
+                            modifier = Modifier.size(28.dp),
+                            colorFilter = ColorFilter.tint(getSoulRealColor(), BlendMode.Modulate)
                         )
                     }
                     IconButton(onClick = {
@@ -237,10 +244,8 @@ fun MainMenuContent(
                         Image(
                             painter = painterResource(Res.drawable.soul_stat_mono),
                             contentDescription = ts_Soul_statistic,
-                            modifier = Modifier
-                                .clip(RoundedCornerShape(10.dp))
-                                .size(28.dp),
-                            colorFilter = ColorFilter.tint(getSoulRealColor())
+                            modifier = Modifier.size(28.dp),
+                            colorFilter = ColorFilter.tint(getSoulRealColor(), BlendMode.Modulate)
                         )
                     }
                 }
