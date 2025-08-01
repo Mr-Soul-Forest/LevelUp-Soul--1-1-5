@@ -229,7 +229,7 @@ fun MainMenuContent(
                         viewModel.setStatus(AppStatus.TABLE_UPDATER)
                     }) {
                         Image(
-                            painter = painterResource(Res.drawable.habits),
+                            painter = painterResource(Res.drawable.habits_table),
                             contentDescription = ts_Habits,
                             modifier = Modifier
                                 .clip(RoundedCornerShape(10.dp))
