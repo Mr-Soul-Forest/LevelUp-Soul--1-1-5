@@ -12,7 +12,8 @@ enum class AppStatus {
     HABIT_STATISTICS,
     EDIT_HABIT,
     TABLE_UPDATER,
-    SOUL_STATISTICS
+    SOUL_STATISTICS,
+    HABITS_LIST
 }
 
 /**

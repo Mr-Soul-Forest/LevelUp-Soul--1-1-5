@@ -217,36 +217,101 @@ fun MainMenuContent(
                     verticalAlignment = Alignment.CenterVertically,
                     horizontalArrangement = Arrangement.SpaceAround
                 ) {
-                    IconButton(onClick = {
-                    }) {
-                        Image(
-                            painter = painterResource(Res.drawable.habits_list_mono),
-                            contentDescription = ts_Habits,
-                            modifier = Modifier.size(28.dp),
-                            colorFilter = ColorFilter.tint(getSoulRealColor(), BlendMode.Modulate)
-                        )
-                    }
-                    IconButton(onClick = {
-                        viewModel.setStatus(AppStatus.TABLE_UPDATER)
-                    }) {
-                        Image(
-                            painter = painterResource(Res.drawable.habits_table_mono),
-                            contentDescription = ts_Habits,
-                            modifier = Modifier.size(28.dp),
-                            colorFilter = ColorFilter.tint(getSoulRealColor(), BlendMode.Modulate)
-                        )
-                    }
-                    IconButton(onClick = {
-                        if (appStatus == AppStatus.TABLE) {
-                            viewModel.setStatus(AppStatus.SOUL_STATISTICS)
+                    if (appStatus == AppStatus.HABITS_LIST) {
+                        Row(verticalAlignment = Alignment.CenterVertically) {
+                            IconButton(onClick = {
+                                viewModel.setStatus(AppStatus.HABITS_LIST)
+                            }) {
+                                Image(
+                                    painter = painterResource(Res.drawable.habits_list),
+                                    contentDescription = ts_Habits,
+                                    modifier = Modifier.size(28.dp)
+                                )
+                            }
+                            Text(
+                                text = ts_habits_list,
+                                fontSize = 14.sp,
+                                fontFamily = FontFamily.Monospace,
+                                color = textSeeUiColor,
+                                maxLines = 1,
+                                overflow = TextOverflow.Ellipsis,
+                            )
                         }
-                    }) {
-                        Image(
-                            painter = painterResource(Res.drawable.soul_stat_mono),
-                            contentDescription = ts_Soul_statistic,
-                            modifier = Modifier.size(28.dp),
-                            colorFilter = ColorFilter.tint(getSoulRealColor(), BlendMode.Modulate)
-                        )
+                    } else {
+                        IconButton(onClick = {
+                            viewModel.setStatus(AppStatus.HABITS_LIST)
+                        }) {
+                            Image(
+                                painter = painterResource(Res.drawable.habits_list_mono),
+                                contentDescription = ts_Habits,
+                                modifier = Modifier.size(28.dp),
+                                colorFilter = ColorFilter.tint(getSoulRealColor(), BlendMode.Modulate)
+                            )
+                        }
+                    }
+                    if (appStatus == AppStatus.TABLE) {
+                        Row(verticalAlignment = Alignment.CenterVertically) {
+                            IconButton(onClick = {
+                                viewModel.setStatus(AppStatus.TABLE_UPDATER)
+                            }) {
+                                Image(
+                                    painter = painterResource(Res.drawable.habits_table),
+                                    contentDescription = ts_Habits,
+                                    modifier = Modifier.size(28.dp)
+                                )
+                            }
+                            Text(
+                                text = ts_habits_table,
+                                fontSize = 14.sp,
+                                fontFamily = FontFamily.Monospace,
+                                color = textSeeUiColor,
+                                maxLines = 1,
+                                overflow = TextOverflow.Ellipsis,
+                            )
+                        }
+                    } else {
+                        IconButton(onClick = {
+                            viewModel.setStatus(AppStatus.TABLE_UPDATER)
+                        }) {
+                            Image(
+                                painter = painterResource(Res.drawable.habits_table_mono),
+                                contentDescription = ts_Habits,
+                                modifier = Modifier.size(28.dp),
+                                colorFilter = ColorFilter.tint(getSoulRealColor(), BlendMode.Modulate)
+                            )
+                        }
+                    }
+                    if (appStatus == AppStatus.SOUL_STATISTICS) {
+                        Row(verticalAlignment = Alignment.CenterVertically) {
+                            IconButton(onClick = {
+                                viewModel.setStatus(AppStatus.SOUL_STATISTICS)
+                            }) {
+                                Image(
+                                    painter = painterResource(Res.drawable.soul_stat),
+                                    contentDescription = ts_Habits,
+                                    modifier = Modifier.size(28.dp)
+                                )
+                            }
+                            Text(
+                                text = ts_soul_statistic,
+                                fontSize = 14.sp,
+                                fontFamily = FontFamily.Monospace,
+                                color = textSeeUiColor,
+                                maxLines = 1,
+                                overflow = TextOverflow.Ellipsis,
+                            )
+                        }
+                    } else {
+                        IconButton(onClick = {
+                            viewModel.setStatus(AppStatus.SOUL_STATISTICS)
+                        }) {
+                            Image(
+                                painter = painterResource(Res.drawable.soul_stat_mono),
+                                contentDescription = ts_Habits,
+                                modifier = Modifier.size(28.dp),
+                                colorFilter = ColorFilter.tint(getSoulRealColor(), BlendMode.Modulate)
+                            )
+                        }
                     }
                 }
             }

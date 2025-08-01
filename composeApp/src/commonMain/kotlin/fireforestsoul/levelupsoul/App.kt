@@ -22,7 +22,18 @@ fun App(viewModel: AppViewModel) {
             viewModel.setStatus(AppStatus.TABLE)
             MainMenuContent(viewModel, verticalScrollForTableContent, horizontalScrollForTableContent)
         }
-        AppStatus.SOUL_STATISTICS -> MainMenuContent(viewModel, verticalScrollForTableContent, horizontalScrollForTableContent)
+
+        AppStatus.SOUL_STATISTICS -> MainMenuContent(
+            viewModel,
+            verticalScrollForTableContent,
+            horizontalScrollForTableContent
+        )
+
+        AppStatus.HABITS_LIST -> MainMenuContent(
+            viewModel,
+            verticalScrollForTableContent,
+            horizontalScrollForTableContent
+        )
     }
 
     LaunchedEffect(Unit) {

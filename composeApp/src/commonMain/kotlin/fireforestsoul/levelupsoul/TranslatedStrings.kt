@@ -72,8 +72,12 @@ var ts_Apply = "Apply"
 var ts_Today = "Today"
 var ts_PPS = "PPS"
 var ts_Info = "Info"
-var ts_PPS_means_Progress_Period_Settings_By_default_progress_is_the_ = "PPS means Progress Period Settings. By default, progress is the percentage of successful days out of all tracking days. If PPS = 0 or is greater than or equal to the number of tracked days, this default method is used. If PPS is set to another number, progress is calculated over the number of days specified by PPS."
+var ts_PPS_means_Progress_Period_Settings_By_default_progress_is_the_ =
+    "PPS means Progress Period Settings. By default, progress is the percentage of successful days out of all tracking days. If PPS = 0 or is greater than or equal to the number of tracked days, this default method is used. If PPS is set to another number, progress is calculated over the number of days specified by PPS."
 var ts_Close = "Close"
+var ts_habits_list = "habits list"
+var ts_habits_table = "habits table"
+var ts_soul_statistic = "soul statistic"
 
 fun changeLanguage() {
     if (language == Languages.RU) {
@@ -149,10 +153,13 @@ fun changeLanguage() {
         ts_Today = "Сегодня"
         ts_PPS = "НПП"
         ts_Info = "Инфо"
-        ts_PPS_means_Progress_Period_Settings_By_default_progress_is_the_ = "НПП означает Настройки Периода Прогресса. По умолчанию прогресс — это процент успешных дней от всех отслеживаемых. Если НПП = 0 или больше либо равен количеству отслеживаемых дней, используется этот метод. Если НПП установлен в другое значение, прогресс считается по количеству дней, указанному в НПП."
+        ts_PPS_means_Progress_Period_Settings_By_default_progress_is_the_ =
+            "НПП означает Настройки Периода Прогресса. По умолчанию прогресс — это процент успешных дней от всех отслеживаемых. Если НПП = 0 или больше либо равен количеству отслеживаемых дней, используется этот метод. Если НПП установлен в другое значение, прогресс считается по количеству дней, указанному в НПП."
         ts_Close = "Закрыть"
-    }
-    else {
+        ts_habits_list = "список привычек"
+        ts_habits_table = "таблица привычек"
+        ts_soul_statistic = "статистика души"
+    } else {
         ts_Edit = "Edit"
         ts_Cancel = "Cancel"
         ts_Confirm = "Confirm"
@@ -225,7 +232,12 @@ fun changeLanguage() {
         ts_Today = "Today"
         ts_PPS = "PPS"
         ts_Info = "Info"
-        ts_PPS_means_Progress_Period_Settings_By_default_progress_is_the_ = "PPS means Progress Period Settings. By default, progress is the percentage of successful days out of all tracking days. If PPS = 0 or is greater than or equal to the number of tracked days, this default method is used. If PPS is set to another number, progress is calculated over the number of days specified by PPS."
+        ts_PPS_means_Progress_Period_Settings_By_default_progress_is_the_ =
+            "PPS means Progress Period Settings. By default, progress is the percentage of successful days out of all tracking days. If PPS = 0 or is greater than or equal to the number of tracked days, this default method is used. If PPS is set to another number, progress is calculated over the number of days specified by PPS."
         ts_Close = "Close"
+        ts_habits_list = "habits list"
+        ts_habits_table = "habits table"
+        ts_soul_statistic = "soul statistic"
+
     }
 }
