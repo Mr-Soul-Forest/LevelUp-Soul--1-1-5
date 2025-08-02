@@ -59,6 +59,7 @@ actual fun saveValue() {
         putString("soul_level", soul_level.toString())
         putString("soul_last_level_change_date", soul_last_level_change_date.toString())
         putString("language", language.toString())
+        putString("withExponent", withExponent.toString())
         apply()
     }
 }
@@ -164,6 +165,10 @@ actual fun loadValue() {
                 if (oldAppVersion >= 1000001000) {
                     language =
                         enumValueOf<Languages>(prefs.getString("language", "EN").toString())
+
+                    if (oldAppVersion >= 1001000000) {
+                        withExponent = prefs.getString("withExponent", "false") == "true"
+                    }
                 }
             }
         }

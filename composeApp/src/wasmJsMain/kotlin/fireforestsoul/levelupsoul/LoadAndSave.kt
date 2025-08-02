@@ -110,7 +110,7 @@ actual fun loadValue() {
                     if (oldAppVersion >= 1000001000) {
                         language = enumValueOf<Languages>(localStorage.getItem("language").toString())
 
-                        if (oldAppVersion > 1001000000) {
+                        if (oldAppVersion >= 1001000000) {
                             withExponent = localStorage.getItem("withExponent").toBoolean()
                         }
                     }
