@@ -1,5 +1,6 @@
 package fireforestsoul.levelupsoul
 
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.runtime.*
 import kotlinx.coroutines.delay
@@ -12,28 +13,37 @@ fun App(viewModel: AppViewModel) {
 
     val verticalScrollForTableContent = rememberScrollState()
     val horizontalScrollForTableContent = rememberScrollState()
-    when (appStatus) {
-        AppStatus.LOADING -> LoadingContent()
-        AppStatus.TABLE -> MainMenuContent(viewModel, verticalScrollForTableContent, horizontalScrollForTableContent)
-        AppStatus.CREATE_HABIT -> CreateHabit(viewModel)
-        AppStatus.HABIT_STATISTICS -> HabitStatistics(viewModel)
-        AppStatus.EDIT_HABIT -> EditHabit(viewModel)
-        AppStatus.TABLE_UPDATER -> {
-            viewModel.setStatus(AppStatus.TABLE)
-            MainMenuContent(viewModel, verticalScrollForTableContent, horizontalScrollForTableContent)
+
+    val showMainMenu = when (appStatus) {
+        AppStatus.TABLE,
+        AppStatus.TABLE_UPDATER,
+        AppStatus.SOUL_STATISTICS,
+        AppStatus.HABITS_LIST -> true
+
+        else -> false
+    }
+
+    Box {
+        when (appStatus) {
+            AppStatus.LOADING -> LoadingContent()
+            AppStatus.CREATE_HABIT -> CreateHabit(viewModel)
+            AppStatus.HABIT_STATISTICS -> HabitStatistics(viewModel)
+            AppStatus.EDIT_HABIT -> EditHabit(viewModel)
+            else -> {
+                if (appStatus == AppStatus.TABLE_UPDATER) {
+                    LaunchedEffect(Unit) {
+                        viewModel.setStatus(AppStatus.TABLE)
+                    }
+                }
+            }
         }
-
-        AppStatus.SOUL_STATISTICS -> MainMenuContent(
-            viewModel,
-            verticalScrollForTableContent,
-            horizontalScrollForTableContent
-        )
-
-        AppStatus.HABITS_LIST -> MainMenuContent(
-            viewModel,
-            verticalScrollForTableContent,
-            horizontalScrollForTableContent
-        )
+        if (showMainMenu) {
+            MainMenuContent(
+                viewModel,
+                verticalScrollForTableContent,
+                horizontalScrollForTableContent
+            )
+        }
     }
 
     LaunchedEffect(Unit) {

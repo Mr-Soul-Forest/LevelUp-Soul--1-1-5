@@ -44,6 +44,22 @@ import androidx.compose.ui.text.style.TextOverflow
 import kotlinx.datetime.Clock
 import kotlinx.datetime.TimeZone
 import kotlinx.datetime.toLocalDateTime
+import androidx.compose.animation.AnimatedContent
+import androidx.compose.animation.AnimatedVisibility
+import androidx.compose.animation.ExperimentalAnimationApi
+import androidx.compose.animation.animateColorAsState
+import androidx.compose.animation.animateContentSize
+import androidx.compose.animation.core.Spring
+import androidx.compose.animation.core.spring
+import androidx.compose.animation.core.tween
+import androidx.compose.animation.expandHorizontally
+import androidx.compose.animation.fadeIn
+import androidx.compose.animation.fadeOut
+import androidx.compose.animation.scaleIn
+import androidx.compose.animation.scaleOut
+import androidx.compose.animation.shrinkHorizontally
+import androidx.compose.animation.with
+import androidx.compose.ui.graphics.painter.Painter
 
 val textNoSeeColor = Color(127, 127, 127)
 val textSeeUiColor = Color(255, 255, 255)
@@ -220,123 +236,126 @@ fun MainMenuContent(
                     verticalAlignment = Alignment.CenterVertically,
                     horizontalArrangement = Arrangement.SpaceAround
                 ) {
-                    if (appStatus == AppStatus.HABITS_LIST) {
-                        Row(
-                            verticalAlignment = Alignment.CenterVertically,
-                            modifier = Modifier.background(UI_light_color, RoundedCornerShape(40.dp))
-                                .padding(horizontal = 15.dp)
-                        ) {
-                            IconButton(onClick = {
-                                viewModel.setStatus(AppStatus.HABITS_LIST)
-                            }) {
-                                Image(
-                                    painter = painterResource(Res.drawable.habits_list),
-                                    contentDescription = ts_Habits,
-                                    modifier = Modifier.size(28.dp)
-                                )
-                            }
-                            Text(
-                                text = ts_habits_list,
-                                fontSize = 14.sp,
-                                fontFamily = FontFamily.Monospace,
-                                color = textSeeUiColor,
-                                maxLines = 1,
-                                overflow = TextOverflow.Ellipsis,
-                            )
-                        }
-                    } else {
-                        IconButton(onClick = {
-                            viewModel.setStatus(AppStatus.HABITS_LIST)
-                        }) {
-                            Image(
-                                painter = painterResource(Res.drawable.habits_list_mono),
-                                contentDescription = ts_Habits,
-                                modifier = Modifier.size(28.dp),
-                                colorFilter = ColorFilter.tint(getSoulRealColor(), BlendMode.Modulate)
-                            )
-                        }
-                    }
-                    if (appStatus == AppStatus.TABLE) {
-                        Row(
-                            verticalAlignment = Alignment.CenterVertically,
-                            modifier = Modifier.background(UI_light_color, RoundedCornerShape(40.dp))
-                                .padding(horizontal = 15.dp)
-                        ) {
-                            IconButton(onClick = {
-                                viewModel.setStatus(AppStatus.TABLE_UPDATER)
-                            }) {
-                                Image(
-                                    painter = painterResource(Res.drawable.habits_table),
-                                    contentDescription = ts_Habits,
-                                    modifier = Modifier.size(28.dp)
-                                )
-                            }
-                            Text(
-                                text = ts_habits_table,
-                                fontSize = 14.sp,
-                                fontFamily = FontFamily.Monospace,
-                                color = textSeeUiColor,
-                                maxLines = 1,
-                                overflow = TextOverflow.Ellipsis,
-                            )
-                        }
-                    } else {
-                        IconButton(onClick = {
-                            viewModel.setStatus(AppStatus.TABLE_UPDATER)
-                        }) {
-                            Image(
-                                painter = painterResource(Res.drawable.habits_table_mono),
-                                contentDescription = ts_Habits,
-                                modifier = Modifier.size(28.dp),
-                                colorFilter = ColorFilter.tint(getSoulRealColor(), BlendMode.Modulate)
-                            )
-                        }
-                    }
-                    if (appStatus == AppStatus.SOUL_STATISTICS) {
-                        Row(
-                            verticalAlignment = Alignment.CenterVertically,
-                            modifier = Modifier.background(UI_light_color, RoundedCornerShape(40.dp))
-                                .padding(horizontal = 15.dp)
-                        ) {
-                            IconButton(onClick = {
-                                viewModel.setStatus(AppStatus.SOUL_STATISTICS)
-                            }) {
-                                Image(
-                                    painter = painterResource(Res.drawable.soul_stat),
-                                    contentDescription = ts_Habits,
-                                    modifier = Modifier.size(28.dp)
-                                )
-                            }
-                            Text(
-                                text = ts_soul_statistic,
-                                fontSize = 14.sp,
-                                fontFamily = FontFamily.Monospace,
-                                color = textSeeUiColor,
-                                maxLines = 1,
-                                overflow = TextOverflow.Ellipsis,
-                            )
-                        }
-                    } else {
-                        IconButton(onClick = {
-                            viewModel.setStatus(AppStatus.SOUL_STATISTICS)
-                        }) {
-                            Image(
-                                painter = painterResource(Res.drawable.soul_stat_mono),
-                                contentDescription = ts_Habits,
-                                modifier = Modifier.size(28.dp),
-                                colorFilter = ColorFilter.tint(getSoulRealColor(), BlendMode.Modulate)
-                            )
-                        }
-                    }
+                    AnimatedTabItem(
+                        isActive = appStatus == AppStatus.HABITS_LIST,
+                        onClick = { viewModel.setStatus(AppStatus.HABITS_LIST) },
+                        activeIcon = painterResource(Res.drawable.habits_list),
+                        inactiveIcon = painterResource(Res.drawable.habits_list_mono),
+                        text = ts_habits_list,
+                        contentDescription = ts_Habits,
+                        inactiveColor = getSoulRealColor()
+                    )
+
+                    AnimatedTabItem(
+                        isActive = appStatus == AppStatus.TABLE,
+                        onClick = { viewModel.setStatus(AppStatus.TABLE_UPDATER) },
+                        activeIcon = painterResource(Res.drawable.habits_table),
+                        inactiveIcon = painterResource(Res.drawable.habits_table_mono),
+                        text = ts_habits_table,
+                        contentDescription = ts_Habits,
+                        inactiveColor = getSoulRealColor()
+                    )
+
+                    AnimatedTabItem(
+                        isActive = appStatus == AppStatus.SOUL_STATISTICS,
+                        onClick = { viewModel.setStatus(AppStatus.SOUL_STATISTICS) },
+                        activeIcon = painterResource(Res.drawable.soul_stat),
+                        inactiveIcon = painterResource(Res.drawable.soul_stat_mono),
+                        text = ts_soul_statistic,
+                        contentDescription = ts_Habits,
+                        inactiveColor = getSoulRealColor()
+                    )
                 }
             }
         }
     ) { paddingValues ->
         Box(modifier = Modifier.padding(paddingValues)) {
-            if (appStatus == AppStatus.TABLE)
+            if (appStatus == AppStatus.TABLE || appStatus == AppStatus.TABLE_UPDATER)
                 TableContent(viewModel, verticalScrollForTableContent, horizontalScrollForTableContent, countdownDate)
             if (appStatus == AppStatus.SOUL_STATISTICS)
                 SoulStatisticsContent()
+        }
+    }
+}
+
+
+@OptIn(ExperimentalAnimationApi::class)
+@Composable
+fun AnimatedTabItem(
+    isActive: Boolean,
+    onClick: () -> Unit,
+    activeIcon: Painter,
+    inactiveIcon: Painter,
+    text: String,
+    contentDescription: String,
+    inactiveColor: Color
+) {
+    val backgroundColor by animateColorAsState(
+        targetValue = if (isActive) UI_light_color else Color.Transparent,
+        animationSpec = spring(
+            stiffness = Spring.StiffnessLow,
+            dampingRatio = Spring.DampingRatioMediumBouncy
+        )
+    )
+
+    val iconColor by animateColorAsState(
+        targetValue = if (isActive) textSeeUiColor else inactiveColor,
+        animationSpec = tween(durationMillis = 300)
+    )
+
+    Row(
+        verticalAlignment = Alignment.CenterVertically,
+        modifier = Modifier
+            .background(
+                color = backgroundColor,
+                shape = RoundedCornerShape(40.dp)
+            )
+            .padding(horizontal = if (isActive) 15.dp else 0.dp)
+            .animateContentSize(
+                animationSpec = spring(
+                    dampingRatio = Spring.DampingRatioMediumBouncy,
+                    stiffness = Spring.StiffnessLow
+                )
+            )
+    ) {
+        IconButton(
+            onClick = onClick,
+            modifier = Modifier.size(48.dp)
+        ) {
+            AnimatedContent(
+                targetState = isActive,
+                transitionSpec = {
+                    scaleIn(animationSpec = tween(150)) + fadeIn() with
+                            scaleOut(animationSpec = tween(150)) + fadeOut()
+                }
+            ) { active ->
+                Image(
+                    painter = if (active) activeIcon else inactiveIcon,
+                    contentDescription = contentDescription,
+                    modifier = Modifier.size(28.dp),
+                    colorFilter = if (!active) {
+                        ColorFilter.tint(iconColor, BlendMode.Modulate)
+                    } else {
+                        null
+                    }
+                )
+            }
+        }
+
+        AnimatedVisibility(
+            visible = isActive,
+            enter = fadeIn(animationSpec = tween(150)) + expandHorizontally(expandFrom = Alignment.Start),
+            exit = fadeOut(animationSpec = tween(150)) + shrinkHorizontally(shrinkTowards = Alignment.End)
+        ) {
+            Text(
+                text = text,
+                fontSize = 14.sp,
+                fontFamily = FontFamily.Monospace,
+                color = iconColor,
+                maxLines = 1,
+                overflow = TextOverflow.Ellipsis,
+                modifier = Modifier.padding(end = 8.dp)
+            )
         }
     }
 }
