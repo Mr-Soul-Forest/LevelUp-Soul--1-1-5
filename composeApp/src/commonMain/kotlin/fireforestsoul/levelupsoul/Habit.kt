@@ -18,7 +18,8 @@ class Habit(
     var colorGood: Color = textSeeUiColor,
     var changeLevel: Boolean = true,
     var changeNeedGoalWithLevel: Boolean = false,
-    var changeNeedDaysWithLevel: Boolean = false
+    var changeNeedDaysWithLevel: Boolean = false,
+    var iconChar: String = "🆕"
 ) {
 
     var startDate: LocalDate = Clock.System.now().toLocalDateTime(TimeZone.currentSystemDefault()).date
