@@ -45,13 +45,16 @@ import kotlinx.datetime.Clock
 import kotlinx.datetime.TimeZone
 import kotlinx.datetime.toLocalDateTime
 
-var UI_color = Color(30, 34, 41)
 val textNoSeeColor = Color(127, 127, 127)
 val textSeeUiColor = Color(255, 255, 255)
-val UI_dark_color = Color(21, 25, 29)
-val UI_extra_dark_color = Color(16, 20, 23)
-val UI_dark_x2_color = Color(19, 23, 26)
-val UI_dark_x05_color = Color(25, 29, 35)
+
+val UI_light_color = Color(37, 40, 44)
+val UI_color = Color(25, 28, 23)
+val UI_dark_color = Color(19, 20, 24)
+
+val UI_dark_x05_color = averageColor(listOf(UI_color, UI_dark_color))
+val UI_extra_dark_color = averageColor(listOf(UI_dark_color, Color.Black))
+val UI_dark_x2_color = averageColor(listOf(UI_dark_color, UI_extra_dark_color))
 
 @Composable
 fun MainMenuContent(
@@ -218,7 +221,11 @@ fun MainMenuContent(
                     horizontalArrangement = Arrangement.SpaceAround
                 ) {
                     if (appStatus == AppStatus.HABITS_LIST) {
-                        Row(verticalAlignment = Alignment.CenterVertically) {
+                        Row(
+                            verticalAlignment = Alignment.CenterVertically,
+                            modifier = Modifier.background(UI_light_color, RoundedCornerShape(40.dp))
+                                .padding(horizontal = 15.dp)
+                        ) {
                             IconButton(onClick = {
                                 viewModel.setStatus(AppStatus.HABITS_LIST)
                             }) {
@@ -250,7 +257,11 @@ fun MainMenuContent(
                         }
                     }
                     if (appStatus == AppStatus.TABLE) {
-                        Row(verticalAlignment = Alignment.CenterVertically) {
+                        Row(
+                            verticalAlignment = Alignment.CenterVertically,
+                            modifier = Modifier.background(UI_light_color, RoundedCornerShape(40.dp))
+                                .padding(horizontal = 15.dp)
+                        ) {
                             IconButton(onClick = {
                                 viewModel.setStatus(AppStatus.TABLE_UPDATER)
                             }) {
@@ -282,7 +293,11 @@ fun MainMenuContent(
                         }
                     }
                     if (appStatus == AppStatus.SOUL_STATISTICS) {
-                        Row(verticalAlignment = Alignment.CenterVertically) {
+                        Row(
+                            verticalAlignment = Alignment.CenterVertically,
+                            modifier = Modifier.background(UI_light_color, RoundedCornerShape(40.dp))
+                                .padding(horizontal = 15.dp)
+                        ) {
                             IconButton(onClick = {
                                 viewModel.setStatus(AppStatus.SOUL_STATISTICS)
                             }) {
