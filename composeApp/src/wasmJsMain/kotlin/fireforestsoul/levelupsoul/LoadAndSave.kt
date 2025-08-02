@@ -38,6 +38,7 @@ actual fun saveValue() {
     localStorage.setItem("soul_level", soul_level.toString())
     localStorage.setItem("soul_last_level_change_date", soul_last_level_change_date.toString())
     localStorage.setItem("language", language.toString())
+    localStorage.setItem("withExponent", withExponent.toString())
 }
 
 actual fun loadValue() {
@@ -108,6 +109,10 @@ actual fun loadValue() {
 
                     if (oldAppVersion >= 1000001000) {
                         language = enumValueOf<Languages>(localStorage.getItem("language").toString())
+
+                        if (oldAppVersion > 1001000000) {
+                            withExponent = localStorage.getItem("withExponent").toBoolean()
+                        }
                     }
                 }
             }
