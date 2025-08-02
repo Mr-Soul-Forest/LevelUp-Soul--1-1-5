@@ -324,7 +324,7 @@ fun CreateHabit(viewModel: AppViewModel) {
                                 onValueChange = { needGoal = it },
                                 label = {
                                     Text(
-                                        "$ts_Example: ${habit.needGoal}",
+                                        "$ts_Example: ${habit.needGoal.toBestString()}",
                                         fontSize = 12.sp,
                                         color = textNoSeeColor
                                     )

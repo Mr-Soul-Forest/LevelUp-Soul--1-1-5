@@ -79,6 +79,8 @@ var ts_habits_list = "habits list"
 var ts_habits_table = "habits table"
 var ts_soul_statistic = "soul statistic"
 var ts_Settings = "Settings"
+var ts_Write_with_an_exponent = "Write with an exponent"
+var ts_Write_without_exponents = "Write without exponents"
 
 fun changeLanguage() {
     if (language == Languages.RU) {
@@ -161,6 +163,8 @@ fun changeLanguage() {
         ts_habits_table = "таблица привычек"
         ts_soul_statistic = "статистика души"
         ts_Settings = "Настройки"
+        ts_Write_with_an_exponent = "Запись в экспоненциальной форме"
+        ts_Write_without_exponents = "Запись в десятичной форме"
     } else {
         ts_Edit = "Edit"
         ts_Cancel = "Cancel"
@@ -241,5 +245,7 @@ fun changeLanguage() {
         ts_habits_table = "habits table"
         ts_soul_statistic = "soul statistic"
         ts_Settings = "Settings"
+        ts_Write_with_an_exponent = "Write with an exponent"
+        ts_Write_without_exponents = "Write without exponents"
     }
 }

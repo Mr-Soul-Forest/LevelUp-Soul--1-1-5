@@ -54,7 +54,7 @@ fun EditHabit(viewModel: AppViewModel) {
     var typeOfColorHabits by remember { mutableStateOf(habits[habit_statistics_and_edit_x].typeOfColorHabits) }
     var colorGood by remember { mutableStateOf(habits[habit_statistics_and_edit_x].colorGood) }
     var typeOfGoalHabits by remember { mutableStateOf(habits[habit_statistics_and_edit_x].typeOfGoalHabits) }
-    var needGoal by remember { mutableStateOf(habits[habit_statistics_and_edit_x].needGoal.toString()) }
+    var needGoal by remember { mutableStateOf(habits[habit_statistics_and_edit_x].needGoal.toBestString()) }
     var nameOfUnitsOfDimension by remember { mutableStateOf(habits[habit_statistics_and_edit_x].nameOfUnitsOfDimension) }
     var needDays by remember { mutableStateOf(habits[habit_statistics_and_edit_x].needDays.toString()) }
     var changeLevel by remember { mutableStateOf(habits[habit_statistics_and_edit_x].changeLevel) }
@@ -321,7 +321,7 @@ fun EditHabit(viewModel: AppViewModel) {
                                 onValueChange = { needGoal = it },
                                 label = {
                                     Text(
-                                        "$ts_Old: ${habits[habit_statistics_and_edit_x].needGoal}",
+                                        "$ts_Old: ${habits[habit_statistics_and_edit_x].needGoal.toBestString()}",
                                         fontSize = 12.sp,
                                         color = textNoSeeColor
                                     )

@@ -16,6 +16,8 @@ import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonColors
+import androidx.compose.material3.Checkbox
+import androidx.compose.material3.CheckboxDefaults
 import androidx.compose.material3.DropdownMenu
 import androidx.compose.material3.DropdownMenuItem
 import androidx.compose.material3.IconButton
@@ -470,6 +472,7 @@ fun SettingsDialog() {
     }
 
     var typeOfColor by remember { mutableStateOf(soul_color_type) }
+    var exponent by remember { mutableStateOf(withExponent) }
 
     if (showDialog) {
         AlertDialog(
@@ -580,11 +583,28 @@ fun SettingsDialog() {
                             }
                         }
                     }
+                    Row(verticalAlignment = Alignment.CenterVertically) {
+                        Checkbox(
+                            checked = exponent,
+                            onCheckedChange = { exponent = it },
+                            colors = CheckboxDefaults.colors(
+                                checkedColor = textNoSeeColor,
+                                uncheckedColor = textNoSeeColor,
+                                checkmarkColor = textSeeUiColor
+                            )
+                        )
+                        Text(
+                            text = if (exponent) ts_Write_with_an_exponent else ts_Write_without_exponents,
+                            fontSize = 16.sp,
+                            color = textSeeUiColor
+                        )
+                    }
                 }
             },
             confirmButton = {
                 Button(
                     onClick = {
+                        withExponent = exponent
                         showDialog = false
                     },
                     colors = ButtonColors(
@@ -823,7 +843,7 @@ fun AnimatedBarChart(
                         .height(totalHeight)
                 ) {
                     Text(
-                        text = "$value",
+                        text = value.toBestString(),
                         fontSize = 11.sp,
                         color = textSeeUiColor,
                         modifier = Modifier.padding(bottom = 4.dp)

@@ -162,7 +162,7 @@ fun HabitStatistics(viewModel: AppViewModel) {
                     ) {
                         Text(
                             text = "$ts_You_need " + habits[habit_statistics_and_edit_x].typeOfGoalHabits.toString()
-                                .lowercase() + " ${habits[habit_statistics_and_edit_x].needGoal} ${habits[habit_statistics_and_edit_x].nameOfUnitsOfDimension} $ts_in ${habits[habit_statistics_and_edit_x].needDays} $ts_days",
+                                .lowercase() + " ${habits[habit_statistics_and_edit_x].needGoal.toBestString()} ${habits[habit_statistics_and_edit_x].nameOfUnitsOfDimension} $ts_in ${habits[habit_statistics_and_edit_x].needDays} $ts_days",
                             fontSize = 16.sp,
                             color = textSeeUiColor
                         )
@@ -551,7 +551,7 @@ fun HabitStatistics(viewModel: AppViewModel) {
                                                 verticalArrangement = Arrangement.spacedBy(2.dp)
                                             ) {
                                                 Text(
-                                                    text = "${habits[habit_statistics_and_edit_x].needGoal}",
+                                                    text = habits[habit_statistics_and_edit_x].needGoal.toBestString(),
                                                     fontSize = 16.sp,
                                                     color = textSeeUiColor
                                                 )
@@ -562,7 +562,7 @@ fun HabitStatistics(viewModel: AppViewModel) {
                                                     fontWeight = FontWeight.Black
                                                 )
                                                 Text(
-                                                    text = "$needGoalChanged",
+                                                    text = needGoalChanged.toBestString(),
                                                     fontSize = 16.sp,
                                                     color = if (progressUp) Color.Green else Color.Red
                                                 )
