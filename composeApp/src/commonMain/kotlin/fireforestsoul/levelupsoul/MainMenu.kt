@@ -157,16 +157,7 @@ fun MainMenuContent(
                             countdownDate = it
                         }
 
-                        IconButton(onClick = {
-
-                        }) {
-                            Image(
-                                painter = painterResource(Res.drawable.settings),
-                                contentDescription = ts_Settings,
-                                modifier = Modifier.size(28.dp),
-                                colorFilter = ColorFilter.tint(getSoulRealColor())
-                            )
-                        }
+                        SettingsDialog()
 
                         var expanded0 by remember { mutableStateOf(false) }
 

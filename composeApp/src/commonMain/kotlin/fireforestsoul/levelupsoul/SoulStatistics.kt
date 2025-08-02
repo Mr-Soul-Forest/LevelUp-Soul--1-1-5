@@ -16,10 +16,6 @@ import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.foundation.verticalScroll
-import androidx.compose.material3.Button
-import androidx.compose.material3.ButtonColors
-import androidx.compose.material3.DropdownMenu
-import androidx.compose.material3.DropdownMenuItem
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextFieldDefaults
@@ -47,7 +43,6 @@ import kotlin.math.max
 fun SoulStatisticsContent() {
     val verticalScroll = rememberScrollState()
     val spaceCell = 8.dp
-    var soulColor by remember { mutableStateOf(soul_color) }
 
     var maxDays = 0
     for (habit in habits) {
@@ -70,112 +65,8 @@ fun SoulStatisticsContent() {
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
 
-            /**
-             * Soul: `soulName`>[soul_name]
-             *
-             * Color: [soul_color] `typeOfColorHabits`>[soul_color_type]
-             *
-             * PPS: [progressPeriod]>`progressPeriodSetting`
-             */
             var progressPeriod by remember { mutableStateOf(maxDays.toString()) }
             var progressPeriodSetting by remember { mutableStateOf(maxDays) }
-            var typeOfColor by remember { mutableStateOf(soul_color_type) }
-            Row(
-                horizontalArrangement = Arrangement.spacedBy(20.dp),
-                verticalAlignment = Alignment.CenterVertically
-            ) {
-                var soulName by remember { mutableStateOf(soul_name) }
-
-                Text(
-                    text = "$ts_Soul:",
-                    fontSize = 16.sp,
-                    color = textSeeUiColor
-                )
-                OutlinedTextField(
-                    value = soulName,
-                    onValueChange = {
-                        soulName = it
-                        soul_name = soulName
-                    },
-                    label = {
-                        Text(
-                            ts_Mr,
-                            fontSize = 12.sp,
-                            color = textNoSeeColor
-                        )
-                    },
-                    keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Text),
-                    singleLine = true,
-                    textStyle = TextStyle(
-                        fontSize = 14.sp,
-                        color = textSeeUiColor
-                    ),
-                    shape = RoundedCornerShape(15.dp),
-                    colors = TextFieldDefaults.colors(
-                        focusedTextColor = textSeeUiColor,
-                        unfocusedTextColor = textNoSeeColor,
-                        disabledTextColor = textNoSeeColor,
-                        focusedContainerColor = UI_dark_x2_color,
-                        unfocusedContainerColor = UI_dark_x2_color,
-                        disabledContainerColor = UI_dark_x2_color,
-                        cursorColor = textSeeUiColor,
-                        focusedIndicatorColor = Color.Transparent,
-                        unfocusedIndicatorColor = Color.Transparent,
-                        disabledIndicatorColor = Color.Transparent
-                    ),
-                    modifier = Modifier.height(55.dp)
-                )
-            }
-            Row(
-                horizontalArrangement = Arrangement.spacedBy(20.dp),
-                verticalAlignment = Alignment.CenterVertically
-            ) {
-                var expanded by remember { mutableStateOf(false) }
-
-                ColorPickerBox(Color.White) {
-                    soul_color = it
-                    soulColor = it
-                }
-                Column {
-                    Button(
-                        onClick = { expanded = true },
-                        colors = ButtonColors(
-                            containerColor = UI_extra_dark_color,
-                            contentColor = textSeeUiColor,
-                            disabledContainerColor = UI_extra_dark_color,
-                            disabledContentColor = textNoSeeColor
-                        )
-                    ) {
-                        Text(
-                            "$ts_type: ${typeOfColor.name}",
-                            fontSize = 16.sp,
-                            color = textSeeUiColor,
-                        )
-                    }
-                    DropdownMenu(
-                        expanded = expanded,
-                        onDismissRequest = { expanded = false },
-                        modifier = Modifier.background(Color.Black)
-                    ) {
-                        TypeOfColorHabits.entries.forEach { mode ->
-                            DropdownMenuItem(
-                                onClick = {
-                                    typeOfColor = mode
-                                    soul_color_type = mode
-                                    expanded = false
-                                },
-                                text = {
-                                    Text(
-                                        text = mode.name,
-                                        fontSize = 16.sp,
-                                        color = textNoSeeColor
-                                    )
-                                }
-                            )
-                        }
-                    }
-                }
-            }
             Row(
                 horizontalArrangement = Arrangement.spacedBy(20.dp),
                 verticalAlignment = Alignment.CenterVertically
@@ -441,7 +332,8 @@ fun SoulStatisticsContent() {
 
                     goodProgress = 0f
                     if (progressAll(maxDays) >= 0.8) {
-                        for (x in (maxDays - (Clock.System.now().toLocalDateTime(TimeZone.currentSystemDefault()).date.toEpochDays() - soul_last_level_change_date.toEpochDays())) until maxDays) {
+                        for (x in (maxDays - (Clock.System.now()
+                            .toLocalDateTime(TimeZone.currentSystemDefault()).date.toEpochDays() - soul_last_level_change_date.toEpochDays())) until maxDays) {
                             if (x >= 0) {
                                 if (progressAll(maxDays, startIndex = x) >= 0.8) {
                                     goodProgress++
@@ -452,7 +344,8 @@ fun SoulStatisticsContent() {
                         }
                         progressUp = true
                     } else if (progressAll(maxDays) <= 0.2) {
-                        for (x in (maxDays - (Clock.System.now().toLocalDateTime(TimeZone.currentSystemDefault()).date.toEpochDays() - soul_last_level_change_date.toEpochDays())) until maxDays) {
+                        for (x in (maxDays - (Clock.System.now()
+                            .toLocalDateTime(TimeZone.currentSystemDefault()).date.toEpochDays() - soul_last_level_change_date.toEpochDays())) until maxDays) {
                             if (x >= 0) {
                                 if (progress(maxDays, startIndex = x) <= 0.2) {
                                     goodProgress++

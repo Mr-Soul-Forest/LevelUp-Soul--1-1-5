@@ -16,6 +16,8 @@ import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonColors
+import androidx.compose.material3.DropdownMenu
+import androidx.compose.material3.DropdownMenuItem
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Slider
@@ -453,14 +455,182 @@ fun DatePickerDialog(
 }
 
 @Composable
+fun SettingsDialog() {
+    var showDialog by remember { mutableStateOf(false) }
+
+    IconButton(onClick = {
+        showDialog = true
+    }) {
+        Image(
+            painter = painterResource(Res.drawable.settings),
+            contentDescription = ts_Settings,
+            modifier = Modifier.size(28.dp),
+            colorFilter = ColorFilter.tint(getSoulRealColor())
+        )
+    }
+
+    var typeOfColor by remember { mutableStateOf(soul_color_type) }
+
+    if (showDialog) {
+        AlertDialog(
+            containerColor = UI_dark_color,
+            onDismissRequest = { showDialog = false },
+            title = {
+                Text(
+                    ts_Settings,
+                    fontSize = 16.sp,
+                    fontWeight = FontWeight.Bold,
+                    color = textSeeUiColor
+                )
+            },
+            text = {
+                Column {
+                    Row(
+                        horizontalArrangement = Arrangement.spacedBy(20.dp),
+                        verticalAlignment = Alignment.CenterVertically
+                    ) {
+                        var soulName by remember { mutableStateOf(soul_name) }
+
+                        Text(
+                            text = "$ts_Soul:",
+                            fontSize = 16.sp,
+                            color = textSeeUiColor
+                        )
+                        OutlinedTextField(
+                            value = soulName,
+                            onValueChange = {
+                                soulName = it
+                                soul_name = soulName
+                            },
+                            label = {
+                                Text(
+                                    ts_Mr,
+                                    fontSize = 12.sp,
+                                    color = textNoSeeColor
+                                )
+                            },
+                            keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Text),
+                            singleLine = true,
+                            textStyle = TextStyle(
+                                fontSize = 14.sp,
+                                color = textSeeUiColor
+                            ),
+                            shape = RoundedCornerShape(15.dp),
+                            colors = TextFieldDefaults.colors(
+                                focusedTextColor = textSeeUiColor,
+                                unfocusedTextColor = textNoSeeColor,
+                                disabledTextColor = textNoSeeColor,
+                                focusedContainerColor = UI_dark_x2_color,
+                                unfocusedContainerColor = UI_dark_x2_color,
+                                disabledContainerColor = UI_dark_x2_color,
+                                cursorColor = textSeeUiColor,
+                                focusedIndicatorColor = Color.Transparent,
+                                unfocusedIndicatorColor = Color.Transparent,
+                                disabledIndicatorColor = Color.Transparent
+                            ),
+                            modifier = Modifier.height(55.dp)
+                        )
+                    }
+                    Row(
+                        horizontalArrangement = Arrangement.spacedBy(20.dp),
+                        verticalAlignment = Alignment.CenterVertically
+                    ) {
+                        var expanded by remember { mutableStateOf(false) }
+
+                        ColorPickerBox(Color.White) {
+                            soul_color = it
+                        }
+                        Column {
+                            Button(
+                                onClick = { expanded = true },
+                                colors = ButtonColors(
+                                    containerColor = UI_extra_dark_color,
+                                    contentColor = textSeeUiColor,
+                                    disabledContainerColor = UI_extra_dark_color,
+                                    disabledContentColor = textNoSeeColor
+                                )
+                            ) {
+                                Text(
+                                    "$ts_type: ${typeOfColor.name}",
+                                    fontSize = 16.sp,
+                                    color = textSeeUiColor,
+                                )
+                            }
+                            DropdownMenu(
+                                expanded = expanded,
+                                onDismissRequest = { expanded = false },
+                                modifier = Modifier.background(Color.Black)
+                            ) {
+                                TypeOfColorHabits.entries.forEach { mode ->
+                                    DropdownMenuItem(
+                                        onClick = {
+                                            typeOfColor = mode
+                                            soul_color_type = mode
+                                            expanded = false
+                                        },
+                                        text = {
+                                            Text(
+                                                text = mode.name,
+                                                fontSize = 16.sp,
+                                                color = textNoSeeColor
+                                            )
+                                        }
+                                    )
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            confirmButton = {
+                Button(
+                    onClick = {
+                        showDialog = false
+                    },
+                    colors = ButtonColors(
+                        containerColor = UI_color,
+                        contentColor = textSeeUiColor,
+                        disabledContainerColor = Color.Transparent,
+                        disabledContentColor = Color.Transparent
+                    )
+                ) {
+                    Text(
+                        text = "✅ $ts_Apply",
+                        fontSize = 16.sp,
+                        color = Color(150, 200, 150),
+                    )
+                }
+            },
+            dismissButton = {
+                TextButton(
+                    onClick = { showDialog = false },
+                    colors = ButtonColors(
+                        containerColor = UI_color,
+                        contentColor = textSeeUiColor,
+                        disabledContainerColor = Color.Transparent,
+                        disabledContentColor = Color.Transparent
+                    )
+                ) {
+                    Text(
+                        "❌ $ts_Cancel",
+                        fontSize = 16.sp,
+                        color = Color(200, 150, 150),
+                    )
+                }
+            }
+        )
+    }
+}
+
+@Composable
 fun DonutChart(
     values: List<Float>,
     colors: List<Color>,
     modifier: Modifier = Modifier,
-    strokeWidth: Dp = 40.dp // ширина "кольца"
+    strokeWidth: Dp = 40.dp
 ) {
     val total = values.sum()
-    var startAngle = -90f // начать сверху
+    var startAngle = -90f
 
     Canvas(modifier = modifier) {
         values.forEachIndexed { i, value ->
