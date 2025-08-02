@@ -36,6 +36,7 @@ actual fun saveValue() {
         out.println(soul_level.toString())
         out.println(soul_last_level_change_date.toString())
         out.println(language.toString())
+        out.println(withExponent).toString()
     }
 }
 
@@ -140,6 +141,11 @@ actual fun loadValue() {
                         if (oldAppVersion >= 1000001000) {
                             language = enumValueOf<Languages>(input.getOrNull(index).toString())
                             index++
+
+                            if (oldAppVersion >= 1001000000) {
+                                withExponent = input.getOrNull(index).toBoolean()
+                                index++
+                            }
                         }
                     }
                 }
