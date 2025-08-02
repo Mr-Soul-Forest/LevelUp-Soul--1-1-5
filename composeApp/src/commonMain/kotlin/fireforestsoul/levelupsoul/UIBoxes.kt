@@ -249,20 +249,15 @@ fun DeleteHabitConfirm(index: Int, onDeleteConfirmed: () -> Unit) {
 @Composable
 fun DatePickerDialog(
     initialDate: LocalDate,
-    viewModel: AppViewModel,
     onConfirm: (LocalDate) -> Unit
 ) {
-    val appStatus by viewModel.appStatus.collectAsState()
-
     var showDialog by remember { mutableStateOf(false) }
     var day by remember { mutableStateOf(initialDate.dayOfMonth.toString()) }
     var month by remember { mutableStateOf(initialDate.monthNumber.toString()) }
     var year by remember { mutableStateOf(initialDate.year.toString()) }
 
     IconButton(onClick = {
-        if (appStatus == AppStatus.TABLE) {
-            showDialog = true
-        }
+        showDialog = true
     }) {
         Image(
             painter = painterResource(Res.drawable.calendar),
@@ -643,7 +638,9 @@ fun AnimatedBarChart(
         Row(verticalAlignment = Alignment.Bottom) {
             data.forEachIndexed { index, value ->
                 val animatedHeight by animateDpAsState(
-                    targetValue = (barMaxHeight * value.toString().toFloat() / maxY.toString().toFloat()).coerceAtLeast(1.dp),
+                    targetValue = (barMaxHeight * value.toString().toFloat() / maxY.toString().toFloat()).coerceAtLeast(
+                        1.dp
+                    ),
                     animationSpec = tween(durationMillis = 600),
                     label = "barHeight"
                 )
@@ -785,9 +782,12 @@ fun SoulGrid(
                         } else {
                             val (value, state) = cell
                             val color = Color(
-                                ((colorBest.red * state).saveDiv(if (habits.isNotEmpty()) habits.size else 1)).toString().toFloat(),
-                                ((colorBest.green * state).saveDiv(if (habits.isNotEmpty()) habits.size else 1)).toString().toFloat(),
-                                ((colorBest.blue * state).saveDiv(if (habits.isNotEmpty()) habits.size else 1)).toString().toFloat()
+                                ((colorBest.red * state).saveDiv(if (habits.isNotEmpty()) habits.size else 1)).toString()
+                                    .toFloat(),
+                                ((colorBest.green * state).saveDiv(if (habits.isNotEmpty()) habits.size else 1)).toString()
+                                    .toFloat(),
+                                ((colorBest.blue * state).saveDiv(if (habits.isNotEmpty()) habits.size else 1)).toString()
+                                    .toFloat()
                             )
                             Box(
                                 modifier = Modifier

@@ -78,6 +78,7 @@ var ts_Close = "Close"
 var ts_habits_list = "habits list"
 var ts_habits_table = "habits table"
 var ts_soul_statistic = "soul statistic"
+var ts_Settings = "Settings"
 
 fun changeLanguage() {
     if (language == Languages.RU) {
@@ -159,6 +160,7 @@ fun changeLanguage() {
         ts_habits_list = "список привычек"
         ts_habits_table = "таблица привычек"
         ts_soul_statistic = "статистика души"
+        ts_Settings = "Настройки"
     } else {
         ts_Edit = "Edit"
         ts_Cancel = "Cancel"
@@ -238,6 +240,6 @@ fun changeLanguage() {
         ts_habits_list = "habits list"
         ts_habits_table = "habits table"
         ts_soul_statistic = "soul statistic"
-
+        ts_Settings = "Settings"
     }
 }

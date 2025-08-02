@@ -97,7 +97,7 @@ fun MainMenuContent(
                     .fillMaxWidth()
                     .background(UI_color)
             ) {
-                if (appStatus == AppStatus.TABLE || appStatus == AppStatus.TABLE_UPDATER) {
+                if (appStatus == AppStatus.TABLE || appStatus == AppStatus.TABLE_UPDATER || appStatus == AppStatus.HABITS_LIST) {
                     Row(
                         modifier = Modifier
                             .height(48.dp)
@@ -118,10 +118,8 @@ fun MainMenuContent(
                         )
                         if ("Android" !in getPlatform().name) {
                             IconButton(onClick = {
-                                if (appStatus == AppStatus.TABLE) {
-                                    saveValue()
-                                    export()
-                                }
+                                saveValue()
+                                export()
                             }) {
                                 Image(
                                     painter = painterResource(Res.drawable.export),
@@ -131,12 +129,10 @@ fun MainMenuContent(
                                 )
                             }
                             IconButton(onClick = {
-                                if (appStatus == AppStatus.TABLE) {
-                                    saveValue()
-                                    import {
-                                        countFilesLoad = 0
-                                        viewModel.setStatus(AppStatus.LOADING)
-                                    }
+                                saveValue()
+                                import {
+                                    countFilesLoad = 0
+                                    viewModel.setStatus(AppStatus.LOADING)
                                 }
                             }) {
                                 Image(
@@ -148,9 +144,7 @@ fun MainMenuContent(
                             }
                         }
                         IconButton(onClick = {
-                            if (appStatus == AppStatus.TABLE) {
-                                viewModel.setStatus(AppStatus.CREATE_HABIT)
-                            }
+                            viewModel.setStatus(AppStatus.CREATE_HABIT)
                         }) {
                             Image(
                                 painter = painterResource(Res.drawable.add_habit),
@@ -159,8 +153,19 @@ fun MainMenuContent(
                                 colorFilter = ColorFilter.tint(getSoulRealColor())
                             )
                         }
-                        DatePickerDialog(countdownDate, viewModel) {
+                        DatePickerDialog(countdownDate) {
                             countdownDate = it
+                        }
+
+                        IconButton(onClick = {
+
+                        }) {
+                            Image(
+                                painter = painterResource(Res.drawable.settings),
+                                contentDescription = ts_Settings,
+                                modifier = Modifier.size(28.dp),
+                                colorFilter = ColorFilter.tint(getSoulRealColor())
+                            )
                         }
 
                         var expanded0 by remember { mutableStateOf(false) }
