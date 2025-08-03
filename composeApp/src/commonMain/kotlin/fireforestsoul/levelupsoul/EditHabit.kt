@@ -14,6 +14,7 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.systemBars
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.KeyboardOptions
@@ -51,6 +52,7 @@ fun EditHabit(viewModel: AppViewModel) {
     var expanded1 by remember { mutableStateOf(false) }
 
     var nameOfHabit by remember { mutableStateOf(habits[habit_statistics_and_edit_x].nameOfHabit) }
+    var icon by remember { mutableStateOf(habits[habit_statistics_and_edit_x].iconChar) }
     var typeOfColorHabits by remember { mutableStateOf(habits[habit_statistics_and_edit_x].typeOfColorHabits) }
     var colorGood by remember { mutableStateOf(habits[habit_statistics_and_edit_x].colorGood) }
     var typeOfGoalHabits by remember { mutableStateOf(habits[habit_statistics_and_edit_x].typeOfGoalHabits) }
@@ -124,6 +126,7 @@ fun EditHabit(viewModel: AppViewModel) {
                             habits[habit_statistics_and_edit_x].changeLevel = changeLevel
                             habits[habit_statistics_and_edit_x].changeNeedGoalWithLevel = changeNeedGoalWithLevel
                             habits[habit_statistics_and_edit_x].changeNeedDaysWithLevel = changeNeedDaysWithLevel
+                            habits[habit_statistics_and_edit_x].iconChar = icon
                             habits[habit_statistics_and_edit_x].update()
                             viewModel.setStatus(AppStatus.HABIT_STATISTICS)
                         }
@@ -182,6 +185,48 @@ fun EditHabit(viewModel: AppViewModel) {
                                 unfocusedIndicatorColor = Color.Transparent,
                                 disabledIndicatorColor = Color.Transparent
                             ),
+                        )
+                    }
+                    //icon
+                    Row(
+                        verticalAlignment = Alignment.CenterVertically,
+                        horizontalArrangement = Arrangement.spacedBy(spaceX),
+                    ) {
+                        Text(
+                            text = "$ts_Icon ($ts_one_symbol): ",
+                            fontSize = 16.sp,
+                            color = textSeeUiColor
+                        )
+                        OutlinedTextField(
+                            value = icon,
+                            onValueChange = { icon = it },
+                            label = {
+                                Text(
+                                    habits[habit_statistics_and_edit_x].iconChar,
+                                    fontSize = 12.sp,
+                                    color = textNoSeeColor
+                                )
+                            },
+                            keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Text),
+                            singleLine = true,
+                            textStyle = TextStyle(
+                                fontSize = 16.sp,
+                                color = textSeeUiColor
+                            ),
+                            shape = RoundedCornerShape(15.dp),
+                            colors = TextFieldDefaults.colors(
+                                focusedTextColor = textSeeUiColor,
+                                unfocusedTextColor = textNoSeeColor,
+                                disabledTextColor = textNoSeeColor,
+                                focusedContainerColor = UI_extra_dark_color,
+                                unfocusedContainerColor = UI_extra_dark_color,
+                                disabledContainerColor = UI_extra_dark_color,
+                                cursorColor = textSeeUiColor,
+                                focusedIndicatorColor = Color.Transparent,
+                                unfocusedIndicatorColor = Color.Transparent,
+                                disabledIndicatorColor = Color.Transparent
+                            ),
+                            modifier = Modifier.width(75.dp)
                         )
                     }
                     //colors

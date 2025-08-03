@@ -127,6 +127,7 @@ fun CreateHabit(viewModel: AppViewModel) {
                             habit.changeLevel = changeLevel
                             habit.changeNeedGoalWithLevel = changeNeedGoalWithLevel
                             habit.changeNeedDaysWithLevel = changeNeedDaysWithLevel
+                            habit.iconChar = icon
                             habit.update()
                             habits.add(habit)
                             viewModel.setStatus(AppStatus.TABLE)
@@ -228,7 +229,7 @@ fun CreateHabit(viewModel: AppViewModel) {
                                 unfocusedIndicatorColor = Color.Transparent,
                                 disabledIndicatorColor = Color.Transparent
                             ),
-                            modifier = Modifier.width(50.dp)
+                            modifier = Modifier.width(75.dp)
                         )
                     }
                     //colors
