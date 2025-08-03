@@ -81,6 +81,8 @@ var ts_soul_statistic = "soul statistic"
 var ts_Settings = "Settings"
 var ts_Write_with_an_exponent = "Write with an exponent"
 var ts_Write_without_exponents = "Write without exponents"
+var ts_Icon = "Icon"
+var ts_one_symbol = "one symbol"
 
 fun changeLanguage() {
     if (language == Languages.RU) {
@@ -165,6 +167,8 @@ fun changeLanguage() {
         ts_Settings = "Настройки"
         ts_Write_with_an_exponent = "Запись в экспоненциальной форме"
         ts_Write_without_exponents = "Запись в десятичной форме"
+        ts_Icon = "Иконка"
+        ts_one_symbol = "один символ"
     } else {
         ts_Edit = "Edit"
         ts_Cancel = "Cancel"
@@ -247,5 +251,7 @@ fun changeLanguage() {
         ts_Settings = "Settings"
         ts_Write_with_an_exponent = "Write with an exponent"
         ts_Write_without_exponents = "Write without exponents"
+        ts_Icon = "Icon"
+        ts_one_symbol = "one symbol"
     }
 }

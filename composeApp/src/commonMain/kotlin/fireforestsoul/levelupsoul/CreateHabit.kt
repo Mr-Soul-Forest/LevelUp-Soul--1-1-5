@@ -14,6 +14,7 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.systemBars
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.KeyboardOptions
@@ -52,6 +53,7 @@ fun CreateHabit(viewModel: AppViewModel) {
 
     val habit = Habit()
     var nameOfHabit by remember { mutableStateOf("") }
+    var icon by remember { mutableStateOf("🆕") }
     var typeOfColorHabits by remember { mutableStateOf(TypeOfColorHabits.ADAPTIVE) }
     var colorGood by remember { mutableStateOf(habit.colorGood) }
     var typeOfGoalHabits by remember { mutableStateOf(habit.typeOfGoalHabits) }
@@ -185,6 +187,48 @@ fun CreateHabit(viewModel: AppViewModel) {
                                 unfocusedIndicatorColor = Color.Transparent,
                                 disabledIndicatorColor = Color.Transparent
                             ),
+                        )
+                    }
+                    //icon
+                    Row(
+                        verticalAlignment = Alignment.CenterVertically,
+                        horizontalArrangement = Arrangement.spacedBy(spaceX),
+                    ) {
+                        Text(
+                            text = "$ts_Icon ($ts_one_symbol): ",
+                            fontSize = 16.sp,
+                            color = textSeeUiColor
+                        )
+                        OutlinedTextField(
+                            value = icon,
+                            onValueChange = { icon = it },
+                            label = {
+                                Text(
+                                    habit.iconChar,
+                                    fontSize = 12.sp,
+                                    color = textNoSeeColor
+                                )
+                            },
+                            keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Text),
+                            singleLine = true,
+                            textStyle = TextStyle(
+                                fontSize = 16.sp,
+                                color = textSeeUiColor
+                            ),
+                            shape = RoundedCornerShape(15.dp),
+                            colors = TextFieldDefaults.colors(
+                                focusedTextColor = textSeeUiColor,
+                                unfocusedTextColor = textNoSeeColor,
+                                disabledTextColor = textNoSeeColor,
+                                focusedContainerColor = UI_extra_dark_color,
+                                unfocusedContainerColor = UI_extra_dark_color,
+                                disabledContainerColor = UI_extra_dark_color,
+                                cursorColor = textSeeUiColor,
+                                focusedIndicatorColor = Color.Transparent,
+                                unfocusedIndicatorColor = Color.Transparent,
+                                disabledIndicatorColor = Color.Transparent
+                            ),
+                            modifier = Modifier.width(50.dp)
                         )
                     }
                     //colors
