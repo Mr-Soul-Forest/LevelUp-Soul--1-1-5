@@ -23,6 +23,7 @@ actual fun saveValue() {
             out.println(habits[x].startDate.toString())
             out.println(habits[x].lastLevelChangeDate.toString())
             out.println(habits[x].level.toString())
+            out.println(habits[x].iconChar)
             out.println(habits[x].habitDay.size.toString())
             for (y in 0 until habits[x].habitDay.size) {
                 out.println(habits[x].habitDay[y].today.toString())
@@ -104,6 +105,12 @@ actual fun loadValue() {
                         index++
                         habits[x].level = input.getOrNull(index)?.toInt()!!
                         index++
+
+                        if (oldAppVersion >= 1001000000) {
+                            habits[x].iconChar = input.getOrNull(index).toString()
+                            index++
+                        }
+
                     }
 
                     val habitDaySize = input.getOrNull(index)?.toInt()!!
