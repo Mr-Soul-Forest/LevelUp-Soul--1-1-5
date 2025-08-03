@@ -22,6 +22,7 @@ actual fun saveValue() {
         localStorage.setItem("habits-$x-startDate", habits[x].startDate.toString())
         localStorage.setItem("habits-$x-lastLevelChangeDate", habits[x].lastLevelChangeDate.toString())
         localStorage.setItem("habits-$x-level", habits[x].level.toString())
+        localStorage.setItem("habits-$x-iconChar", habits[x].iconChar)
         localStorage.setItem("habits-$x-habitDay-size", habits[x].habitDay.size.toString())
         for (y in 0 until habits[x].habitDay.size) {
             localStorage.setItem("habits-$x-habitDay-$y-today", habits[x].habitDay[y].today.toString())
@@ -83,6 +84,10 @@ actual fun loadValue() {
                     habits[x].lastLevelChangeDate =
                         localStorage.getItem("habits-$x-lastLevelChangeDate")?.let { LocalDate.parse(it) }!!
                     habits[x].level = localStorage.getItem("habits-$x-level")?.toInt()!!
+
+                    if (oldAppVersion >= 1001000000) {
+                        habits[x].iconChar = localStorage.getItem("habits-$x-iconChar").toString()
+                    }
                 }
 
                 val habitDaySize = localStorage.getItem("habits-$x-habitDay-size")?.toInt()!!
