@@ -6,7 +6,7 @@ import com.ionspin.kotlin.bignum.decimal.RoundingMode
 import com.ionspin.kotlin.bignum.decimal.toBigDecimal
 
 private val mode = DecimalMode(
-    scale = 10,
+    decimalPrecision = 50,
     roundingMode = RoundingMode.ROUND_HALF_TO_EVEN
 )
 
