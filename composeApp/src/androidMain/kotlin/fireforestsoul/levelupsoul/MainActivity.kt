@@ -18,6 +18,23 @@ class MainActivity : ComponentActivity() {
         setContent {
             val viewModel = remember { AppViewModel() }
             App(viewModel)
+
+            BackHandler(enabled = true) {
+                when (viewModel.appStatus.value) {
+                    AppStatus.TABLE -> {
+                        saveValue()
+                        viewModel.setStatus(AppStatus.LOADING)
+                    }
+
+                    AppStatus.EDIT_HABIT -> {
+                        viewModel.setStatus(AppStatus.HABIT_STATISTICS)
+                    }
+
+                    else -> {
+                        viewModel.setStatus(AppStatus.TABLE)
+                    }
+                }
+            }
         }
     }
 
@@ -32,22 +49,4 @@ class MainActivity : ComponentActivity() {
 fun AppAndroidPreview() {
     val viewModel = remember { AppViewModel() }
     App(viewModel)
-
-    BackHandler(
-        enabled = true,
-        onBack = {
-            when (viewModel.appStatus.value) {
-                AppStatus.TABLE -> {
-                    saveValue()
-                    viewModel.setStatus(AppStatus.LOADING)
-                }
-                AppStatus.EDIT_HABIT -> {
-                    viewModel.setStatus(AppStatus.HABIT_STATISTICS)
-                }
-                else -> {
-                    viewModel.setStatus(AppStatus.TABLE)
-                }
-            }
-        }
-    )
 }
