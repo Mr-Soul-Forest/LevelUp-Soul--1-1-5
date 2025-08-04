@@ -40,6 +40,7 @@ actual fun saveValue() {
             putString("habits-$x-startDate", habits[x].startDate.toString())
             putString("habits-$x-lastLevelChangeDate", habits[x].lastLevelChangeDate.toString())
             putString("habits-$x-level", habits[x].level.toString())
+            putString("habits-$x-iconChar", habits[x].iconChar)
             putString("habits-$x-habitDay-size", habits[x].habitDay.size.toString())
             for (y in habits[x].habitDay.indices) {
                 putString("habits-$x-habitDay-$y-today", habits[x].habitDay[y].today.toString())
@@ -133,6 +134,10 @@ actual fun loadValue() {
                     prefs.getString("habits-$x-lastLevelChangeDate", "2025-01-01")
                         ?.let { LocalDate.parse(it) }!!
                 habits[x].level = prefs.getString("habits-$x-level", "0")?.toInt()!!
+
+                if (oldAppVersion >= 1001000000) {
+                    habits[x].iconChar = prefs.getString("habits-$x-iconChar", " ").toString()
+                }
             }
 
             val habitDaySize = prefs.getString("habits-$x-habitDay-size", null)?.toIntOrNull() ?: 0
