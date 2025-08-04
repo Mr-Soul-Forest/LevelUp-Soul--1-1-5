@@ -59,14 +59,15 @@ import androidx.compose.animation.scaleIn
 import androidx.compose.animation.scaleOut
 import androidx.compose.animation.shrinkHorizontally
 import androidx.compose.animation.with
+import androidx.compose.foundation.rememberScrollState
 import androidx.compose.ui.graphics.painter.Painter
 
 val textNoSeeColor = Color(127, 127, 127)
 val textSeeUiColor = Color(255, 255, 255)
 
 val UI_light_color = Color(37, 40, 44)
-val UI_color = Color(25, 28, 23)
-val UI_dark_color = Color(19, 20, 24)
+val UI_color = Color(26, 28, 32)
+val UI_dark_color = Color(18, 20, 24)
 
 val UI_dark_x05_color = averageColor(listOf(UI_color, UI_dark_color))
 val UI_extra_dark_color = averageColor(listOf(UI_dark_color, Color.Black))
@@ -265,11 +266,15 @@ fun MainMenuContent(
             }
         }
     ) { paddingValues ->
+        val verticalScrollForHabitsListContent = rememberScrollState()
+
         Box(modifier = Modifier.padding(paddingValues)) {
             if (appStatus == AppStatus.TABLE || appStatus == AppStatus.TABLE_UPDATER)
                 TableContent(viewModel, verticalScrollForTableContent, horizontalScrollForTableContent, countdownDate)
             if (appStatus == AppStatus.SOUL_STATISTICS)
                 SoulStatisticsContent()
+            if (appStatus == AppStatus.HABITS_LIST)
+                HabitsListContent(verticalScrollForHabitsListContent)
         }
     }
 }
