@@ -17,6 +17,7 @@ fun App(viewModel: AppViewModel) {
     val showMainMenu = when (appStatus) {
         AppStatus.TABLE,
         AppStatus.TABLE_UPDATER,
+        AppStatus.HABITS_LIST_UPDATER,
         AppStatus.SOUL_STATISTICS,
         AppStatus.HABITS_LIST -> true
 
@@ -33,6 +34,11 @@ fun App(viewModel: AppViewModel) {
                 if (appStatus == AppStatus.TABLE_UPDATER) {
                     LaunchedEffect(Unit) {
                         viewModel.setStatus(AppStatus.TABLE)
+                    }
+                }
+                if (appStatus == AppStatus.HABITS_LIST_UPDATER) {
+                    LaunchedEffect(Unit) {
+                        viewModel.setStatus(AppStatus.HABITS_LIST)
                     }
                 }
             }

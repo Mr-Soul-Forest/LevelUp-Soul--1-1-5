@@ -273,7 +273,7 @@ fun MainMenuContent(
                 TableContent(viewModel, verticalScrollForTableContent, horizontalScrollForTableContent, countdownDate)
             if (appStatus == AppStatus.SOUL_STATISTICS)
                 SoulStatisticsContent()
-            if (appStatus == AppStatus.HABITS_LIST)
+            if (appStatus == AppStatus.HABITS_LIST || appStatus == AppStatus.HABITS_LIST_UPDATER)
                 HabitsListContent(verticalScrollForHabitsListContent, viewModel)
         }
     }

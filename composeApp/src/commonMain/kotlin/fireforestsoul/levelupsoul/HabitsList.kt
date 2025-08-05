@@ -65,7 +65,7 @@ fun HabitsListContent(verticalScrollState: ScrollState, viewModel: AppViewModel)
                             fontWeight = FontWeight.Black
                         )
                         Column(
-                            verticalArrangement = Arrangement.spacedBy(7.66.dp),
+                            verticalArrangement = Arrangement.SpaceBetween,
                             horizontalAlignment = Alignment.Start,
                             modifier = Modifier.fillMaxSize()
                                 .padding(top = 7.28.dp)
@@ -73,11 +73,25 @@ fun HabitsListContent(verticalScrollState: ScrollState, viewModel: AppViewModel)
                             Text(
                                 text = habits[x].nameOfHabit,
                                 fontSize = 16.5.sp,
-                                fontWeight = FontWeight.W700,
+                                fontWeight = FontWeight.W500,
                                 color = textSeeUiColor,
                                 maxLines = 1,
                                 overflow = TextOverflow.Ellipsis
                             )
+                            Column(
+                                modifier = Modifier.fillMaxWidth()
+                                    .height(41.76.dp),
+                                horizontalAlignment = Alignment.Start,
+                                verticalArrangement = Arrangement.SpaceBetween
+                            ) {
+                                Text(
+                                    text = "$ts_Completed ${habits[x].habitDay[habits[x].habitDay.size - 1].today.toBestString()} ${habits[x].nameOfUnitsOfDimension}",
+                                    color = textNoSeeColor,
+                                    fontSize = 14.sp,
+                                    maxLines = 1,
+                                    overflow = TextOverflow.Ellipsis
+                                )
+                            }
                         }
                     }
                 }

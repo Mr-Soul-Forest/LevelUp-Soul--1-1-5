@@ -13,7 +13,8 @@ enum class AppStatus {
     EDIT_HABIT,
     TABLE_UPDATER,
     SOUL_STATISTICS,
-    HABITS_LIST
+    HABITS_LIST,
+    HABITS_LIST_UPDATER
 }
 
 const val app_version: Long = 1001000000 //version(001).001.000.000
