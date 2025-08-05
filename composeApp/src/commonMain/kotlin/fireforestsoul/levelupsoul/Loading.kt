@@ -43,16 +43,13 @@ fun loading(viewModel: AppViewModel) {
     indexToDateUpdate = countFilesLoad - 2
     if (countFilesLoad == 1) {
         loadValue()
-    }
-    else if (indexToDateUpdate >= 0 && indexToDateUpdate < habits.size - 1) {
+    } else if (indexToDateUpdate >= 0 && indexToDateUpdate < habits.size - 1) {
         habits[indexToDateUpdate].updateDate(false)
-    }
-    else if (indexToDateUpdate == habits.size - 1) {
+    } else if (indexToDateUpdate == habits.size - 1) {
         habits[indexToDateUpdate].updateDate(true)
-    }
-    else if (countFilesLoad != 0) {
+    } else if (countFilesLoad != 0) {
         changeLanguage()
-        viewModel.setStatus(AppStatus.TABLE)
+        viewModel.setStatus(AppStatus.HABITS_LIST)
     }
 
     countFilesLoad++
