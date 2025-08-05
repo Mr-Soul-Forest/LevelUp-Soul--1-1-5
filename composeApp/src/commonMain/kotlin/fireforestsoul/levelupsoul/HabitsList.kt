@@ -86,7 +86,6 @@ fun HabitsListContent(verticalScrollState: ScrollState, viewModel: AppViewModel)
                             verticalArrangement = Arrangement.SpaceBetween,
                             horizontalAlignment = Alignment.Start,
                             modifier = Modifier.fillMaxSize()
-                                .padding(top = 7.28.dp)
                         ) {
                             Text(
                                 text = habits[x].nameOfHabit,
@@ -104,7 +103,7 @@ fun HabitsListContent(verticalScrollState: ScrollState, viewModel: AppViewModel)
 
                             Column(
                                 modifier = Modifier.fillMaxWidth()
-                                    .height(41.76.dp)
+                                    .height(48.dp)
                                     .clickable {
                                         showDialog = true
                                     },
@@ -148,6 +147,23 @@ fun HabitsListContent(verticalScrollState: ScrollState, viewModel: AppViewModel)
                                             )
                                     )
                                 }
+                                Text(
+                                    text = if (habits[x].typeOfGoalHabits == TypeOfGoalHabits.AT_LEAST)
+                                        if (habits[x].habitDay[habits[x].habitDay.size - 1].totalOfAPeriod < habits[x].needGoal)
+                                            "$ts_You_need ${(habits[x].needGoal - habits[x].habitDay[habits[x].habitDay.size - 1].totalOfAPeriod).toBestString()} ${habits[x].nameOfUnitsOfDimension} $ts_more"
+                                        else
+                                            ts_Its_all_done
+                                    else
+                                        if (habits[x].habitDay[habits[x].habitDay.size - 1].totalOfAPeriod <= habits[x].needGoal)
+                                            "$ts_You_can_have ${(habits[x].needGoal - habits[x].habitDay[habits[x].habitDay.size - 1].totalOfAPeriod).toBestString()} ${habits[x].nameOfUnitsOfDimension} $ts_more"
+                                        else
+                                            ts_You_failed,
+                                    color = textNoSeeColor,
+                                    fontSize = 13.sp,
+                                    maxLines = 1,
+                                    overflow = TextOverflow.Ellipsis,
+                                    style = TextStyle(shadow = Shadow(blurRadius = 1f))
+                                )
                             }
                             if (showDialog) {
                                 AlertDialog(

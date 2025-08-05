@@ -84,6 +84,8 @@ var ts_Write_without_exponents = "Write without exponents"
 var ts_Icon = "Icon"
 var ts_one_symbol = "one symbol"
 var ts_Completed = "Completed"
+var ts_Its_all_done = "It's all done ✔"
+var ts_You_failed = "You failed ❌"
 
 fun changeLanguage() {
     if (language == Languages.RU) {
@@ -171,6 +173,8 @@ fun changeLanguage() {
         ts_Icon = "Иконка"
         ts_one_symbol = "один символ"
         ts_Completed = "Завершено"
+        ts_Its_all_done = "Всё готово ✔"
+        ts_You_failed = "Вы не справились ❌"
     } else {
         ts_Edit = "Edit"
         ts_Cancel = "Cancel"
@@ -256,5 +260,7 @@ fun changeLanguage() {
         ts_Icon = "Icon"
         ts_one_symbol = "one symbol"
         ts_Completed = "Completed"
+        ts_Its_all_done = "It's all done ✔"
+        ts_You_failed = "You failed ❌"
     }
 }
