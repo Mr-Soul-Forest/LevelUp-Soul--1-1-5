@@ -274,7 +274,7 @@ fun MainMenuContent(
             if (appStatus == AppStatus.SOUL_STATISTICS)
                 SoulStatisticsContent()
             if (appStatus == AppStatus.HABITS_LIST)
-                HabitsListContent(verticalScrollForHabitsListContent)
+                HabitsListContent(verticalScrollForHabitsListContent, viewModel)
         }
     }
 }
