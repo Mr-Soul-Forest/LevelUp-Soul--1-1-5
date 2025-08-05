@@ -856,7 +856,7 @@ fun HabitStatistics(viewModel: AppViewModel) {
                                 for (value in habitSeria(habit_statistics_and_edit_x)) {
                                     Box(
                                         modifier = Modifier
-                                            .width(with(LocalDensity.current) { (columnWidth / maxValue * value).toDp() })
+                                            .width(with(LocalDensity.current) { (columnWidth / (if (maxValue != 0) maxValue else 1) * value).toDp() })
                                             .background(
                                                 seeColor,
                                                 RoundedCornerShape(15.dp)

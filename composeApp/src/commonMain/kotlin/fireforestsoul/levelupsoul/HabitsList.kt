@@ -128,6 +128,7 @@ fun HabitsListContent(verticalScrollState: ScrollState, viewModel: AppViewModel)
                                         )
                                         .shadow(5.dp)
                                 ) {
+                                    val needToday = habits[x].needGoal - habits[x].habitDay[habits[x].habitDay.size - 1].totalOfAPeriod + habits[x].habitDay[habits[x].habitDay.size - 1].today
                                     Box(
                                         modifier = Modifier.fillMaxHeight()
                                             .background(
@@ -139,8 +140,8 @@ fun HabitsListContent(verticalScrollState: ScrollState, viewModel: AppViewModel)
                                             )
                                             .width(
                                                 if (habits[x].habitDay[habits[x].habitDay.size - 1].totalOfAPeriod <= habits[x].needGoal)
-                                                    maxWidth * ("1".toBigDecimal()
-                                                        .saveDiv(habits[x].needGoal - habits[x].habitDay[habits[x].habitDay.size - 1].totalOfAPeriod + habits[x].habitDay[habits[x].habitDay.size - 1].today) * habits[x].habitDay[habits[x].habitDay.size - 1].today).toString()
+                                                    maxWidth * (1.toBigDecimal()
+                                                        .saveDiv(if (needToday != "0".toBigDecimal()) needToday else 1.toBigDecimal()) * habits[x].habitDay[habits[x].habitDay.size - 1].today).toString()
                                                         .toFloat()
                                                 else
                                                     maxWidth

@@ -654,7 +654,7 @@ fun DonutChart(
 
     Canvas(modifier = modifier) {
         values.forEachIndexed { i, value ->
-            val sweepAngle = (value / total) * 360f
+            val sweepAngle = (value / (if (total != 0f) total else 1f)) * 360f
             drawArc(
                 color = colors.getOrElse(i) { UI_dark_x05_color },
                 startAngle = startAngle,
@@ -747,12 +747,12 @@ fun AnimatedLineChart(
         val chartWidth = constraints.maxWidth.toFloat()
         val chartHeight = constraints.maxHeight.toFloat()
 
-        val spacing = chartWidth / (data.size).coerceAtLeast(1)
+        val spacing = chartWidth / (if (data.isNotEmpty()) data.size else 1).coerceAtLeast(1)
 
         val points = data.mapIndexed { index, value ->
             Offset(
                 x = index * spacing + spacing / 2,
-                y = chartHeight * (1 - (value / yMax))
+                y = chartHeight * (1 - (value / (if (yMax != 0f)yMax else 1f)))
             )
         }
 
@@ -762,7 +762,7 @@ fun AnimatedLineChart(
                     .fillMaxSize()
             ) {
                 for (i in 0..ySteps) {
-                    val y = chartHeight * (i.toFloat() / ySteps)
+                    val y = chartHeight * (i.toFloat() / (if (ySteps != 0)ySteps else 1))
                     drawLine(
                         color = gridColor,
                         start = Offset(0f, y),
@@ -828,7 +828,7 @@ fun AnimatedBarChart(
         Row(verticalAlignment = Alignment.Bottom) {
             data.forEachIndexed { index, value ->
                 val animatedHeight by animateDpAsState(
-                    targetValue = (barMaxHeight * value.toString().toFloat() / maxY.toString().toFloat()).coerceAtLeast(
+                    targetValue = (barMaxHeight * value.toString().toFloat() / (if (maxY.toString().toFloat() != 0f) maxY.toString().toFloat() else 1f)).coerceAtLeast(
                         1.dp
                     ),
                     animationSpec = tween(durationMillis = 600),

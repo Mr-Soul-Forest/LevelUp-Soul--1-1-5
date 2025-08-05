@@ -71,7 +71,7 @@ fun TableContent(viewModel: AppViewModel, verticalScroll: ScrollState, horizonta
             .fillMaxSize()
             .background(UI_dark_color)
     ) {
-        val maxCellX = ((maxWidth - firstCellSizeX) / (nextCellSizeX + spacedCell)).toInt()
+        val maxCellX = ((maxWidth - firstCellSizeX) / (if (nextCellSizeX + spacedCell != 0.dp) (nextCellSizeX + spacedCell) else 1.dp)).toInt()
 
         Row(
             verticalAlignment = Alignment.CenterVertically,
