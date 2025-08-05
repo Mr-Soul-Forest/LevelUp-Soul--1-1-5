@@ -21,6 +21,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 
@@ -63,6 +64,21 @@ fun HabitsListContent(verticalScrollState: ScrollState, viewModel: AppViewModel)
                             fontFamily = FontFamily.Monospace,
                             fontWeight = FontWeight.Black
                         )
+                        Column(
+                            verticalArrangement = Arrangement.spacedBy(7.66.dp),
+                            horizontalAlignment = Alignment.Start,
+                            modifier = Modifier.fillMaxSize()
+                                .padding(top = 7.28.dp)
+                        ) {
+                            Text(
+                                text = habits[x].nameOfHabit,
+                                fontSize = 16.5.sp,
+                                fontWeight = FontWeight.W700,
+                                color = textSeeUiColor,
+                                maxLines = 1,
+                                overflow = TextOverflow.Ellipsis
+                            )
+                        }
                     }
                 }
             }
