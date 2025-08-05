@@ -62,7 +62,7 @@ import androidx.compose.animation.with
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.ui.graphics.painter.Painter
 
-val textNoSeeColor = Color(127, 127, 127)
+val textNoSeeColor = Color(106, 118, 127)
 val textSeeUiColor = Color(255, 255, 255)
 
 val UI_light_color = Color(37, 40, 44)
