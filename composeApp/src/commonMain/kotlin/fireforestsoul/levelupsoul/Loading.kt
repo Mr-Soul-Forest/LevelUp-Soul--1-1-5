@@ -49,7 +49,7 @@ fun loading(viewModel: AppViewModel) {
         habits[indexToDateUpdate].updateDate(true)
     } else if (countFilesLoad != 0) {
         changeLanguage()
-        viewModel.setStatus(AppStatus.HABITS_LIST)
+        viewModel.setStatus(backStatus)
     }
 
     countFilesLoad++

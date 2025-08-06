@@ -50,7 +50,14 @@ expect fun export()
 expect fun import(onImported: () -> Unit)
 
 @Composable
-fun TableContent(viewModel: AppViewModel, verticalScroll: ScrollState, horizontalScroll: ScrollState, countdownDate: LocalDate) {
+fun TableContent(
+    viewModel: AppViewModel,
+    verticalScroll: ScrollState,
+    horizontalScroll: ScrollState,
+    countdownDate: LocalDate
+) {
+    backStatus = AppStatus.TABLE_UPDATER
+
     val firstCellSizeX = 200.dp
     val firstCellSizeY = 40.dp
     val nextCellSizeX = 45.dp
@@ -71,7 +78,8 @@ fun TableContent(viewModel: AppViewModel, verticalScroll: ScrollState, horizonta
             .fillMaxSize()
             .background(UI_dark_color)
     ) {
-        val maxCellX = ((maxWidth - firstCellSizeX) / (if (nextCellSizeX + spacedCell != 0.dp) (nextCellSizeX + spacedCell) else 1.dp)).toInt()
+        val maxCellX =
+            ((maxWidth - firstCellSizeX) / (if (nextCellSizeX + spacedCell != 0.dp) (nextCellSizeX + spacedCell) else 1.dp)).toInt()
 
         Row(
             verticalAlignment = Alignment.CenterVertically,
@@ -111,8 +119,10 @@ fun TableContent(viewModel: AppViewModel, verticalScroll: ScrollState, horizonta
                             horizontalArrangement = Arrangement.spacedBy(3.dp),
                             verticalAlignment = Alignment.CenterVertically
                         ) {
-                            Box(contentAlignment = Alignment.Center,
-                                modifier = Modifier.padding(start = 8.dp)) {
+                            Box(
+                                contentAlignment = Alignment.Center,
+                                modifier = Modifier.padding(start = 8.dp)
+                            ) {
                                 DonutChart(
                                     values = listOf(progress(y), 1f - progress(y)),
                                     colors = listOf(seeColor, noSeeColor),
@@ -316,7 +326,8 @@ fun TableContent(viewModel: AppViewModel, verticalScroll: ScrollState, horizonta
                                                                 modifier = Modifier.clickable {
                                                                     val value = inputText.toDoubleOrNull()
                                                                     if (value != null) {
-                                                                        habits[y].habitDay[xIndex].today = inputText.toBigDecimal()
+                                                                        habits[y].habitDay[xIndex].today =
+                                                                            inputText.toBigDecimal()
                                                                         habits[y].update()
                                                                     }
                                                                     showDialog = false

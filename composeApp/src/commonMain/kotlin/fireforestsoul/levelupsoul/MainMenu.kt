@@ -154,8 +154,10 @@ fun MainMenuContent(
                                 colorFilter = ColorFilter.tint(getSoulRealColor())
                             )
                         }
-                        DatePickerDialog(countdownDate) {
-                            countdownDate = it
+                        if (appStatus == AppStatus.TABLE || appStatus == AppStatus.TABLE_UPDATER) {
+                            DatePickerDialog(countdownDate) {
+                                countdownDate = it
+                            }
                         }
 
                         SettingsDialog()

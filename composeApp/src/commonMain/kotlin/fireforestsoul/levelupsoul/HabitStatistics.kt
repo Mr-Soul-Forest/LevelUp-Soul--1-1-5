@@ -106,7 +106,7 @@ fun HabitStatistics(viewModel: AppViewModel) {
                         .height(48.dp)
                         .background(UI_color)
                         .clickable {
-                            viewModel.setStatus(AppStatus.TABLE)
+                            viewModel.setStatus(backStatus)
                         },
                     contentAlignment = Alignment.Center
                 ) {

@@ -44,6 +44,7 @@ import com.ionspin.kotlin.bignum.decimal.toBigDecimal
 
 @Composable
 fun HabitsListContent(verticalScrollState: ScrollState, viewModel: AppViewModel) {
+    backStatus = AppStatus.HABITS_LIST_UPDATER
     Box(
         modifier = Modifier.fillMaxSize()
             .background(UI_dark_color)
@@ -128,7 +129,8 @@ fun HabitsListContent(verticalScrollState: ScrollState, viewModel: AppViewModel)
                                         )
                                         .shadow(5.dp)
                                 ) {
-                                    val needToday = habits[x].needGoal - habits[x].habitDay[habits[x].habitDay.size - 1].totalOfAPeriod + habits[x].habitDay[habits[x].habitDay.size - 1].today
+                                    val needToday =
+                                        habits[x].needGoal - habits[x].habitDay[habits[x].habitDay.size - 1].totalOfAPeriod + habits[x].habitDay[habits[x].habitDay.size - 1].today
                                     Box(
                                         modifier = Modifier.fillMaxHeight()
                                             .background(

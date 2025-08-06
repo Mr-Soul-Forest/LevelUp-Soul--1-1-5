@@ -21,18 +21,10 @@ class MainActivity : ComponentActivity() {
 
             BackHandler(enabled = true) {
                 when (viewModel.appStatus.value) {
-                    AppStatus.TABLE -> {
-                        saveValue()
-                        viewModel.setStatus(AppStatus.LOADING)
-                    }
-
-                    AppStatus.EDIT_HABIT -> {
-                        viewModel.setStatus(AppStatus.HABIT_STATISTICS)
-                    }
-
-                    else -> {
-                        viewModel.setStatus(AppStatus.TABLE)
-                    }
+                    AppStatus.LOADING -> {}
+                    AppStatus.TABLE -> { viewModel.setStatus(AppStatus.HABITS_LIST) }
+                    AppStatus.HABITS_LIST -> { viewModel.setStatus(AppStatus.TABLE) }
+                    else -> { viewModel.setStatus(backStatus) }
                 }
             }
         }
