@@ -20,7 +20,7 @@ operator fun BigDecimal.div(other: Double): BigDecimal {
 
 fun BigDecimal.saveDiv(other: BigDecimal): BigDecimal {
     if (other == BigDecimal.ZERO)
-        return BigDecimal.ZERO
+        return this
     return this.divide(other, mode)
 }
 

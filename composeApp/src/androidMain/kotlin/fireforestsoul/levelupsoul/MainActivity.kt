@@ -22,9 +22,17 @@ class MainActivity : ComponentActivity() {
             BackHandler(enabled = true) {
                 when (viewModel.appStatus.value) {
                     AppStatus.LOADING -> {}
-                    AppStatus.TABLE -> { viewModel.setStatus(AppStatus.HABITS_LIST) }
-                    AppStatus.HABITS_LIST -> { viewModel.setStatus(AppStatus.TABLE) }
-                    else -> { viewModel.setStatus(backStatus) }
+                    AppStatus.TABLE -> {
+                        viewModel.setStatus(AppStatus.HABITS_LIST)
+                    }
+
+                    AppStatus.HABITS_LIST -> {
+                        viewModel.setStatus(AppStatus.TABLE)
+                    }
+
+                    else -> {
+                        viewModel.setStatus(backStatus)
+                    }
                 }
             }
         }
