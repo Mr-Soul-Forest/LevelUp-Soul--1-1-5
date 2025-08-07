@@ -35,12 +35,14 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.onGloballyPositioned
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.KeyboardType
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -57,44 +59,75 @@ fun HabitStatistics(viewModel: AppViewModel) {
     Box(
         modifier = Modifier
             .fillMaxSize()
-            .background(UI_dark_color)
+            .background(UI_dark_x2_color)
     ) {
         Scaffold(
-            modifier = Modifier.padding(WindowInsets.systemBars.asPaddingValues()),
+            modifier = Modifier
+                .padding(WindowInsets.systemBars.asPaddingValues())
+                .background(UI_dark_x2_color),
             topBar = {
                 Box(
                     modifier = Modifier
                         .fillMaxWidth()
-                        .background(UI_color)
-                        .height(48.dp),
-                    contentAlignment = Alignment.Center
+                        .background(UI_dark_x2_color)
+                        .padding(10.dp, 10.dp, 10.dp)
                 ) {
-                    Row(
-                        verticalAlignment = Alignment.CenterVertically,
-                        horizontalArrangement = Arrangement.SpaceAround,
-                        modifier = Modifier.fillMaxWidth()
-                    ) {
-                        Text(
-                            text = "$ts_Habit <${habits[habit_statistics_and_edit_x].nameOfHabit}> $ts_statistic",
-                            fontSize = 16.sp,
-                            fontWeight = FontWeight.Bold,
-                            color = textSeeUiColor,
-                            maxLines = 1,
-                            overflow = TextOverflow.Ellipsis,
-                            modifier = Modifier
-                                .padding(start = 15.dp)
-                                .weight(1f)
-                        )
-                        IconButton(onClick = {
-                            viewModel.setStatus(AppStatus.EDIT_HABIT)
-                        }) {
-                            Image(
-                                painter = painterResource(Res.drawable.edit_a_habit),
-                                contentDescription = ts_Edit_a_habit,
-                                modifier = Modifier
-                                    .clip(RoundedCornerShape(10.dp))
-                                    .size(28.dp),
+                    Box(
+                        modifier = Modifier
+                            .background(
+                                Brush.linearGradient(
+                                    listOf(
+                                        averageColor(
+                                            listOf(
+                                                seeColorByIndex(
+                                                    habit_statistics_and_edit_x
+                                                ), noSeeColorByIndex(habit_statistics_and_edit_x)
+                                            )
+                                        ),
+                                        averageColor(
+                                            listOf(
+                                                noSeeColorByIndex(habit_statistics_and_edit_x),
+                                                UI_dark_x05_color
+                                            )
+                                        )
+                                    )
+                                ), RoundedCornerShape(20.dp)
                             )
+                            .border(4.dp, UI_dark_x05_color, RoundedCornerShape(20.dp))
+                            .fillMaxWidth()
+                            .padding(4.dp),
+                        contentAlignment = Alignment.Center
+                    ) {
+                        Row(
+                            verticalAlignment = Alignment.CenterVertically,
+                            horizontalArrangement = Arrangement.SpaceAround,
+                            modifier = Modifier
+                                .fillMaxWidth()
+                                .border(2.dp, seeColorByIndex(habit_statistics_and_edit_x), RoundedCornerShape(20.dp))
+                        ) {
+                            Text(
+                                text = "$ts_Habit \"${habits[habit_statistics_and_edit_x].nameOfHabit}\" $ts_statistic",
+                                fontSize = 17.sp,
+                                fontWeight = FontWeight.W600,
+                                color = textSeeUiColor,
+                                maxLines = 1,
+                                overflow = TextOverflow.Ellipsis,
+                                modifier = Modifier
+                                    .padding(start = 15.dp)
+                                    .weight(1f),
+                                textAlign = TextAlign.Center
+                            )
+                            IconButton(onClick = {
+                                viewModel.setStatus(AppStatus.EDIT_HABIT)
+                            }) {
+                                Image(
+                                    painter = painterResource(Res.drawable.edit_a_habit),
+                                    contentDescription = ts_Edit_a_habit,
+                                    modifier = Modifier
+                                        .clip(RoundedCornerShape(10.dp))
+                                        .size(28.dp),
+                                )
+                            }
                         }
                     }
                 }
@@ -128,7 +161,7 @@ fun HabitStatistics(viewModel: AppViewModel) {
                 modifier = Modifier
                     .padding(paddingValues)
                     .fillMaxSize()
-                    .background(UI_dark_color)
+                    .background(UI_dark_x2_color)
                     .verticalScroll(verticalScroll)
             ) {
                 Column(
@@ -145,7 +178,7 @@ fun HabitStatistics(viewModel: AppViewModel) {
                     Box(
                         modifier = Modifier
                             .fillMaxWidth()
-                            .background(UI_color, RoundedCornerShape(20.dp))
+                            .background(UI_dark_x05_color, RoundedCornerShape(20.dp))
                             .height(48.dp),
                         contentAlignment = Alignment.Center
                     ) {
