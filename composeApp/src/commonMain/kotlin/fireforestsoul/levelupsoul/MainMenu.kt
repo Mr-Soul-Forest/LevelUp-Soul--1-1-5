@@ -72,6 +72,7 @@ val UI_dark_color = Color(18, 20, 24)
 val UI_dark_x05_color = averageColor(listOf(UI_color, UI_dark_color))
 val UI_extra_dark_color = averageColor(listOf(UI_dark_color, Color.Black))
 val UI_dark_x2_color = averageColor(listOf(UI_dark_color, UI_extra_dark_color))
+val UI_extra_light_color = averageColor(listOf(UI_light_color, Color.White))
 
 @Composable
 fun MainMenuContent(

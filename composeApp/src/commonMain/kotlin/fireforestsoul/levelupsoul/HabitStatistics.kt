@@ -152,10 +152,11 @@ fun HabitStatistics(viewModel: AppViewModel) {
                     modifier = Modifier
                         .fillMaxWidth()
                         .height(48.dp)
-                        .background(UI_color)
+                        .background(UI_dark_x05_color)
                         .clickable {
                             viewModel.setStatus(backStatus)
-                        },
+                        }
+                        .border(2.dp, UI_light_color),
                     contentAlignment = Alignment.Center
                 ) {
                     Text(
