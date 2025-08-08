@@ -111,7 +111,16 @@ fun HabitStatistics(viewModel: AppViewModel) {
                                 text = "$ts_Habit \"${habits[habit_statistics_and_edit_x].nameOfHabit}\" $ts_statistic",
                                 fontSize = 17.sp,
                                 fontWeight = FontWeight.W600,
-                                color = textSeeUiColor,
+                                color = checkBackgroundBright(
+                                    averageColor(
+                                        listOf(
+                                            seeColorByIndex(habit_statistics_and_edit_x),
+                                            noSeeColorByIndex(habit_statistics_and_edit_x),
+                                            noSeeColorByIndex(habit_statistics_and_edit_x)
+                                        )
+                                    ),
+                                    textSeeUiColor
+                                ),
                                 maxLines = 1,
                                 overflow = TextOverflow.Ellipsis,
                                 modifier = Modifier
