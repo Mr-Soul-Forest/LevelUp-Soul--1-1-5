@@ -47,7 +47,7 @@ fun HabitsListContent(verticalScrollState: ScrollState, viewModel: AppViewModel)
     backStatus = AppStatus.HABITS_LIST_UPDATER
     Box(
         modifier = Modifier.fillMaxSize()
-            .background(UI_dark_color)
+            .background(UIC_dark)
             .verticalScroll(verticalScrollState)
     ) {
         Column(
@@ -60,7 +60,7 @@ fun HabitsListContent(verticalScrollState: ScrollState, viewModel: AppViewModel)
                 Box(
                     modifier = Modifier.fillMaxWidth()
                         .height(101.15.dp)
-                        .background(UI_color, RoundedCornerShape(13.03.dp))
+                        .background(UIC, RoundedCornerShape(13.03.dp))
                         .clickable {
                             habit_statistics_and_edit_x = x
                             viewModel.setStatus(AppStatus.HABIT_STATISTICS)
@@ -92,7 +92,7 @@ fun HabitsListContent(verticalScrollState: ScrollState, viewModel: AppViewModel)
                                 text = habits[x].nameOfHabit,
                                 fontSize = 16.5.sp,
                                 fontWeight = FontWeight.W500,
-                                color = textSeeUiColor,
+                                color = UICT_see,
                                 maxLines = 1,
                                 overflow = TextOverflow.Ellipsis,
                                 style = TextStyle(shadow = Shadow(blurRadius = 1f))
@@ -113,7 +113,7 @@ fun HabitsListContent(verticalScrollState: ScrollState, viewModel: AppViewModel)
                             ) {
                                 Text(
                                     text = "$ts_Completed ${habits[x].habitDay[habits[x].habitDay.size - 1].today.toBestString()} ${habits[x].nameOfUnitsOfDimension}",
-                                    color = textNoSeeColor,
+                                    color = UICT_no_see,
                                     fontSize = 13.sp,
                                     maxLines = 1,
                                     overflow = TextOverflow.Ellipsis,
@@ -123,7 +123,7 @@ fun HabitsListContent(verticalScrollState: ScrollState, viewModel: AppViewModel)
                                     modifier = Modifier.fillMaxWidth()
                                         .height(5.75.dp)
                                         .background(
-                                            if (habits[x].typeOfGoalHabits == TypeOfGoalHabits.AT_LEAST) UI_light_color
+                                            if (habits[x].typeOfGoalHabits == TypeOfGoalHabits.AT_LEAST) UIC_light
                                             else seeColorByIndex(x),
                                             RoundedCornerShape(2.88.dp)
                                         )
@@ -137,7 +137,7 @@ fun HabitsListContent(verticalScrollState: ScrollState, viewModel: AppViewModel)
                                                 if (habits[x].typeOfGoalHabits == TypeOfGoalHabits.AT_LEAST) seeColorByIndex(
                                                     x
                                                 )
-                                                else UI_light_color,
+                                                else UIC_light,
                                                 RoundedCornerShape(2.88.dp)
                                             )
                                             .width(
@@ -161,7 +161,7 @@ fun HabitsListContent(verticalScrollState: ScrollState, viewModel: AppViewModel)
                                             "$ts_You_can_have ${(habits[x].needGoal - habits[x].habitDay[habits[x].habitDay.size - 1].totalOfAPeriod).toBestString()} ${habits[x].nameOfUnitsOfDimension} $ts_more"
                                         else
                                             ts_You_failed,
-                                    color = textNoSeeColor,
+                                    color = UICT_no_see,
                                     fontSize = 13.sp,
                                     maxLines = 1,
                                     overflow = TextOverflow.Ellipsis,
@@ -170,14 +170,14 @@ fun HabitsListContent(verticalScrollState: ScrollState, viewModel: AppViewModel)
                             }
                             if (showDialog) {
                                 AlertDialog(
-                                    containerColor = UI_color,
+                                    containerColor = UIC,
                                     onDismissRequest = { showDialog = false },
                                     title = {
                                         Text(
                                             text = "$ts_Do_you_want_to_set_a_value_for \"${habits[x].nameOfHabit}\"?",
                                             fontWeight = FontWeight.Normal,
                                             fontSize = 16.sp,
-                                            color = textSeeUiColor
+                                            color = UICT_see
                                         )
                                     },
                                     text = {
@@ -189,7 +189,7 @@ fun HabitsListContent(verticalScrollState: ScrollState, viewModel: AppViewModel)
                                                     "$ts_Old: ${habits[x].habitDay[habits[x].habitDay.size - 1].today.toBestString()}",
                                                     fontSize = 12.sp,
                                                     fontWeight = FontWeight.Normal,
-                                                    color = textNoSeeColor
+                                                    color = UICT_no_see
                                                 )
                                             },
                                             keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
@@ -197,17 +197,17 @@ fun HabitsListContent(verticalScrollState: ScrollState, viewModel: AppViewModel)
                                             textStyle = TextStyle(
                                                 fontSize = 16.sp,
                                                 fontWeight = FontWeight.Normal,
-                                                color = textSeeUiColor
+                                                color = UICT_see
                                             ),
                                             shape = RoundedCornerShape(15.dp),
                                             colors = TextFieldDefaults.colors(
-                                                focusedTextColor = textSeeUiColor,
-                                                unfocusedTextColor = textNoSeeColor,
-                                                disabledTextColor = textNoSeeColor,
-                                                focusedContainerColor = UI_dark_color,
-                                                unfocusedContainerColor = UI_dark_color,
-                                                disabledContainerColor = UI_dark_color,
-                                                cursorColor = textSeeUiColor,
+                                                focusedTextColor = UICT_see,
+                                                unfocusedTextColor = UICT_no_see,
+                                                disabledTextColor = UICT_no_see,
+                                                focusedContainerColor = UIC_dark,
+                                                unfocusedContainerColor = UIC_dark,
+                                                disabledContainerColor = UIC_dark,
+                                                cursorColor = UICT_see,
                                                 focusedIndicatorColor = Color.Transparent,
                                                 unfocusedIndicatorColor = Color.Transparent,
                                                 disabledIndicatorColor = Color.Transparent

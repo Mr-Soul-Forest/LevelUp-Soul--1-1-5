@@ -73,13 +73,13 @@ fun ColorPickerBox(
         var blue by remember { mutableStateOf((currentColor.blue * 255).toInt()) }
 
         AlertDialog(
-            containerColor = UI_extra_dark_color,
+            containerColor = UIC_extra_dark,
             onDismissRequest = { showDialog = false },
             title = {
                 Text(
                     ts_Color_picker,
                     fontSize = 16.sp,
-                    color = textSeeUiColor
+                    color = UICT_see
                 )
             },
             text = {
@@ -87,7 +87,7 @@ fun ColorPickerBox(
                     Text(
                         "$ts_Red: $red",
                         fontSize = 16.sp,
-                        color = textSeeUiColor
+                        color = UICT_see
                     )
                     Slider(
                         value = red.toFloat(),
@@ -112,7 +112,7 @@ fun ColorPickerBox(
                     Text(
                         "$ts_Green: $green",
                         fontSize = 16.sp,
-                        color = textSeeUiColor
+                        color = UICT_see
                     )
                     Slider(
                         value = green.toFloat(),
@@ -137,7 +137,7 @@ fun ColorPickerBox(
                     Text(
                         "$ts_Blue: $blue",
                         fontSize = 16.sp,
-                        color = textSeeUiColor
+                        color = UICT_see
                     )
                     Slider(
                         value = blue.toFloat(),
@@ -202,27 +202,27 @@ fun DeleteHabitConfirm(index: Int, onDeleteConfirmed: () -> Unit) {
             text = "\uD83D\uDDD1 $ts_Delete",
             fontSize = 16.sp,
             fontWeight = FontWeight.Bold,
-            color = textSeeUiColor
+            color = UICT_see
         )
     }
 
     if (showDialog) {
         AlertDialog(
-            containerColor = UI_extra_dark_color,
+            containerColor = UIC_extra_dark,
             onDismissRequest = { showDialog = false },
             title = {
                 Text(
                     text = "\uD83D\uDDD1 $ts_Delete_habit_confirm",
                     fontSize = 16.sp,
                     fontWeight = FontWeight.Bold,
-                    color = textSeeUiColor,
+                    color = UICT_see,
                 )
             },
             text = {
                 Text(
                     text = "$ts_Are_you_sure_you_want_to_remove_the <${habits[index].nameOfHabit}>",
                     fontSize = 16.sp,
-                    color = textSeeUiColor,
+                    color = UICT_see,
                 )
             },
             confirmButton = {
@@ -273,14 +273,14 @@ fun DatePickerDialog(
 
     if (showDialog) {
         AlertDialog(
-            containerColor = UI_dark_color,
+            containerColor = UIC_dark,
             onDismissRequest = { showDialog = false },
             title = {
                 Text(
                     ts_Date_selection,
                     fontSize = 16.sp,
                     fontWeight = FontWeight.Bold,
-                    color = textSeeUiColor
+                    color = UICT_see
                 )
             },
             text = {
@@ -293,24 +293,24 @@ fun DatePickerDialog(
                                 Text(
                                     ts_Day,
                                     fontSize = 12.sp,
-                                    color = textNoSeeColor
+                                    color = UICT_no_see
                                 )
                             },
                             keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
                             singleLine = true,
                             textStyle = TextStyle(
                                 fontSize = 16.sp,
-                                color = textSeeUiColor
+                                color = UICT_see
                             ),
                             shape = RoundedCornerShape(15.dp),
                             colors = TextFieldDefaults.colors(
-                                focusedTextColor = textSeeUiColor,
-                                unfocusedTextColor = textNoSeeColor,
-                                disabledTextColor = textNoSeeColor,
-                                focusedContainerColor = UI_color,
-                                unfocusedContainerColor = UI_color,
-                                disabledContainerColor = UI_color,
-                                cursorColor = textSeeUiColor,
+                                focusedTextColor = UICT_see,
+                                unfocusedTextColor = UICT_no_see,
+                                disabledTextColor = UICT_no_see,
+                                focusedContainerColor = UIC,
+                                unfocusedContainerColor = UIC,
+                                disabledContainerColor = UIC,
+                                cursorColor = UICT_see,
                                 focusedIndicatorColor = Color.Transparent,
                                 unfocusedIndicatorColor = Color.Transparent,
                                 disabledIndicatorColor = Color.Transparent
@@ -325,24 +325,24 @@ fun DatePickerDialog(
                                 Text(
                                     ts_Month,
                                     fontSize = 12.sp,
-                                    color = textNoSeeColor
+                                    color = UICT_no_see
                                 )
                             },
                             keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
                             singleLine = true,
                             textStyle = TextStyle(
                                 fontSize = 16.sp,
-                                color = textSeeUiColor
+                                color = UICT_see
                             ),
                             shape = RoundedCornerShape(15.dp),
                             colors = TextFieldDefaults.colors(
-                                focusedTextColor = textSeeUiColor,
-                                unfocusedTextColor = textNoSeeColor,
-                                disabledTextColor = textNoSeeColor,
-                                focusedContainerColor = UI_color,
-                                unfocusedContainerColor = UI_color,
-                                disabledContainerColor = UI_color,
-                                cursorColor = textSeeUiColor,
+                                focusedTextColor = UICT_see,
+                                unfocusedTextColor = UICT_no_see,
+                                disabledTextColor = UICT_no_see,
+                                focusedContainerColor = UIC,
+                                unfocusedContainerColor = UIC,
+                                disabledContainerColor = UIC,
+                                cursorColor = UICT_see,
                                 focusedIndicatorColor = Color.Transparent,
                                 unfocusedIndicatorColor = Color.Transparent,
                                 disabledIndicatorColor = Color.Transparent
@@ -357,24 +357,24 @@ fun DatePickerDialog(
                                 Text(
                                     ts_Year,
                                     fontSize = 12.sp,
-                                    color = textNoSeeColor
+                                    color = UICT_no_see
                                 )
                             },
                             keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
                             singleLine = true,
                             textStyle = TextStyle(
                                 fontSize = 16.sp,
-                                color = textSeeUiColor
+                                color = UICT_see
                             ),
                             shape = RoundedCornerShape(15.dp),
                             colors = TextFieldDefaults.colors(
-                                focusedTextColor = textSeeUiColor,
-                                unfocusedTextColor = textNoSeeColor,
-                                disabledTextColor = textNoSeeColor,
-                                focusedContainerColor = UI_color,
-                                unfocusedContainerColor = UI_color,
-                                disabledContainerColor = UI_color,
-                                cursorColor = textSeeUiColor,
+                                focusedTextColor = UICT_see,
+                                unfocusedTextColor = UICT_no_see,
+                                disabledTextColor = UICT_no_see,
+                                focusedContainerColor = UIC,
+                                unfocusedContainerColor = UIC,
+                                disabledContainerColor = UIC,
+                                cursorColor = UICT_see,
                                 focusedIndicatorColor = Color.Transparent,
                                 unfocusedIndicatorColor = Color.Transparent,
                                 disabledIndicatorColor = Color.Transparent
@@ -400,8 +400,8 @@ fun DatePickerDialog(
                         }
                     },
                     colors = ButtonColors(
-                        containerColor = UI_color,
-                        contentColor = textSeeUiColor,
+                        containerColor = UIC,
+                        contentColor = UICT_see,
                         disabledContainerColor = Color.Transparent,
                         disabledContentColor = Color.Transparent
                     )
@@ -420,8 +420,8 @@ fun DatePickerDialog(
                     TextButton(
                         onClick = { showDialog = false },
                         colors = ButtonColors(
-                            containerColor = UI_color,
-                            contentColor = textSeeUiColor,
+                            containerColor = UIC,
+                            contentColor = UICT_see,
                             disabledContainerColor = Color.Transparent,
                             disabledContentColor = Color.Transparent
                         )
@@ -438,8 +438,8 @@ fun DatePickerDialog(
                             onConfirm(Clock.System.now().toLocalDateTime(TimeZone.currentSystemDefault()).date)
                         },
                         colors = ButtonColors(
-                            containerColor = UI_color,
-                            contentColor = textSeeUiColor,
+                            containerColor = UIC,
+                            contentColor = UICT_see,
                             disabledContainerColor = Color.Transparent,
                             disabledContentColor = Color.Transparent
                         )
@@ -476,14 +476,14 @@ fun SettingsDialog() {
 
     if (showDialog) {
         AlertDialog(
-            containerColor = UI_dark_color,
+            containerColor = UIC_dark,
             onDismissRequest = { showDialog = false },
             title = {
                 Text(
                     ts_Settings,
                     fontSize = 16.sp,
                     fontWeight = FontWeight.Bold,
-                    color = textSeeUiColor
+                    color = UICT_see
                 )
             },
             text = {
@@ -497,7 +497,7 @@ fun SettingsDialog() {
                         Text(
                             text = "$ts_Soul:",
                             fontSize = 16.sp,
-                            color = textSeeUiColor
+                            color = UICT_see
                         )
                         OutlinedTextField(
                             value = soulName,
@@ -509,24 +509,24 @@ fun SettingsDialog() {
                                 Text(
                                     ts_Mr,
                                     fontSize = 12.sp,
-                                    color = textNoSeeColor
+                                    color = UICT_no_see
                                 )
                             },
                             keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Text),
                             singleLine = true,
                             textStyle = TextStyle(
                                 fontSize = 14.sp,
-                                color = textSeeUiColor
+                                color = UICT_see
                             ),
                             shape = RoundedCornerShape(15.dp),
                             colors = TextFieldDefaults.colors(
-                                focusedTextColor = textSeeUiColor,
-                                unfocusedTextColor = textNoSeeColor,
-                                disabledTextColor = textNoSeeColor,
-                                focusedContainerColor = UI_dark_x2_color,
-                                unfocusedContainerColor = UI_dark_x2_color,
-                                disabledContainerColor = UI_dark_x2_color,
-                                cursorColor = textSeeUiColor,
+                                focusedTextColor = UICT_see,
+                                unfocusedTextColor = UICT_no_see,
+                                disabledTextColor = UICT_no_see,
+                                focusedContainerColor = UIC_dark_x2,
+                                unfocusedContainerColor = UIC_dark_x2,
+                                disabledContainerColor = UIC_dark_x2,
+                                cursorColor = UICT_see,
                                 focusedIndicatorColor = Color.Transparent,
                                 unfocusedIndicatorColor = Color.Transparent,
                                 disabledIndicatorColor = Color.Transparent
@@ -547,16 +547,16 @@ fun SettingsDialog() {
                             Button(
                                 onClick = { expanded = true },
                                 colors = ButtonColors(
-                                    containerColor = UI_extra_dark_color,
-                                    contentColor = textSeeUiColor,
-                                    disabledContainerColor = UI_extra_dark_color,
-                                    disabledContentColor = textNoSeeColor
+                                    containerColor = UIC_extra_dark,
+                                    contentColor = UICT_see,
+                                    disabledContainerColor = UIC_extra_dark,
+                                    disabledContentColor = UICT_no_see
                                 )
                             ) {
                                 Text(
                                     "$ts_type: ${typeOfColor.name}",
                                     fontSize = 16.sp,
-                                    color = textSeeUiColor,
+                                    color = UICT_see,
                                 )
                             }
                             DropdownMenu(
@@ -575,7 +575,7 @@ fun SettingsDialog() {
                                             Text(
                                                 text = mode.name,
                                                 fontSize = 16.sp,
-                                                color = textNoSeeColor
+                                                color = UICT_no_see
                                             )
                                         }
                                     )
@@ -588,15 +588,15 @@ fun SettingsDialog() {
                             checked = exponent,
                             onCheckedChange = { exponent = it },
                             colors = CheckboxDefaults.colors(
-                                checkedColor = textNoSeeColor,
-                                uncheckedColor = textNoSeeColor,
-                                checkmarkColor = textSeeUiColor
+                                checkedColor = UICT_no_see,
+                                uncheckedColor = UICT_no_see,
+                                checkmarkColor = UICT_see
                             )
                         )
                         Text(
                             text = if (exponent) ts_Write_with_an_exponent else ts_Write_without_exponents,
                             fontSize = 16.sp,
-                            color = textSeeUiColor
+                            color = UICT_see
                         )
                     }
                 }
@@ -608,8 +608,8 @@ fun SettingsDialog() {
                         showDialog = false
                     },
                     colors = ButtonColors(
-                        containerColor = UI_color,
-                        contentColor = textSeeUiColor,
+                        containerColor = UIC,
+                        contentColor = UICT_see,
                         disabledContainerColor = Color.Transparent,
                         disabledContentColor = Color.Transparent
                     )
@@ -625,8 +625,8 @@ fun SettingsDialog() {
                 TextButton(
                     onClick = { showDialog = false },
                     colors = ButtonColors(
-                        containerColor = UI_color,
-                        contentColor = textSeeUiColor,
+                        containerColor = UIC,
+                        contentColor = UICT_see,
                         disabledContainerColor = Color.Transparent,
                         disabledContentColor = Color.Transparent
                     )
@@ -656,7 +656,7 @@ fun DonutChart(
         values.forEachIndexed { i, value ->
             val sweepAngle = (value / (if (total != 0f) total else 1f)) * 360f
             drawArc(
-                color = colors.getOrElse(i) { UI_dark_x05_color },
+                color = colors.getOrElse(i) { UIC_dark_x05 },
                 startAngle = startAngle,
                 sweepAngle = sweepAngle,
                 useCenter = false,
@@ -674,35 +674,35 @@ fun PPSInfoDialog() {
     Text(
         text = "\uD83D\uDEC8 $ts_PPS: ",
         fontSize = 16.sp,
-        color = textSeeUiColor,
+        color = UICT_see,
         modifier = Modifier.clickable { showDialog = true }
     )
 
     if (showDialog) {
         AlertDialog(
-            containerColor = UI_dark_color,
+            containerColor = UIC_dark,
             onDismissRequest = { showDialog = false },
             title = {
                 Text(
                     "$ts_PPS $ts_Info",
                     fontSize = 16.sp,
                     fontWeight = FontWeight.Bold,
-                    color = textSeeUiColor
+                    color = UICT_see
                 )
             },
             text = {
                 Text(
                     ts_PPS_means_Progress_Period_Settings_By_default_progress_is_the_,
                     fontSize = 16.sp,
-                    color = textSeeUiColor
+                    color = UICT_see
                 )
             },
             confirmButton = {
                 Button(
                     onClick = { showDialog = false },
                     colors = ButtonColors(
-                        containerColor = UI_color,
-                        contentColor = textSeeUiColor,
+                        containerColor = UIC,
+                        contentColor = UICT_see,
                         disabledContainerColor = Color.Transparent,
                         disabledContentColor = Color.Transparent
                     )
@@ -736,8 +736,8 @@ fun AnimatedLineChart(
         )
     }
 
-    val backgroundColor = UI_dark_x2_color
-    val gridColor = textSeeUiColor.copy(alpha = 0.15f)
+    val backgroundColor = UIC_dark_x2
+    val gridColor = UICT_see.copy(alpha = 0.15f)
 
     BoxWithConstraints(
         modifier = modifier
@@ -815,7 +815,7 @@ fun AnimatedBarChart(
     BoxWithConstraints(
         modifier = modifier
             .clip(RoundedCornerShape(20.dp))
-            .background(UI_dark_x2_color)
+            .background(UIC_dark_x2)
             .horizontalScroll(scrollState)
     ) {
         val totalHeight = maxHeight
@@ -845,7 +845,7 @@ fun AnimatedBarChart(
                     Text(
                         text = value.toBestString(),
                         fontSize = 11.sp,
-                        color = textSeeUiColor,
+                        color = UICT_see,
                         modifier = Modifier.padding(bottom = 4.dp)
                     )
                     Box(
@@ -859,7 +859,7 @@ fun AnimatedBarChart(
                     Text(
                         text = labels.getOrNull(index) ?: "",
                         fontSize = 11.sp,
-                        color = textNoSeeColor,
+                        color = UICT_no_see,
                         maxLines = 1
                     )
                 }
@@ -877,7 +877,7 @@ fun HabitGrid(
     startDate: LocalDate,
     modifier: Modifier = Modifier
 ) {
-    val backgroundColor = UI_dark_x2_color
+    val backgroundColor = UIC_dark_x2
     val boxSize = 20.dp
     val space = 4.dp
 
@@ -944,7 +944,7 @@ fun SoulGrid(
     val values: List<Int> = listDaysNumbers(oldestHabit)
     val startDate = oldestHabit.startDate
 
-    val backgroundColor = UI_dark_x2_color
+    val backgroundColor = UIC_dark_x2
     val boxSize = 20.dp
     val space = 4.dp
     val horizontalScroll = rememberScrollState()

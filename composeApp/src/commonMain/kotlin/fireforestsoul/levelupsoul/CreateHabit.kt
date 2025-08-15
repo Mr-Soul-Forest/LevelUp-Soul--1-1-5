@@ -71,7 +71,7 @@ fun CreateHabit(viewModel: AppViewModel) {
     Box(
         modifier = Modifier
             .fillMaxSize()
-            .background(UI_dark_color)
+            .background(UIC_dark)
     ) {
         Scaffold(
             modifier = Modifier.padding(WindowInsets.systemBars.asPaddingValues()),
@@ -79,7 +79,7 @@ fun CreateHabit(viewModel: AppViewModel) {
                 Box(
                     modifier = Modifier
                         .fillMaxWidth()
-                        .background(UI_color)
+                        .background(UIC)
                         .height(48.dp),
                     contentAlignment = Alignment.Center
                 ) {
@@ -87,7 +87,7 @@ fun CreateHabit(viewModel: AppViewModel) {
                         text = ts_Create_habit,
                         fontSize = 16.sp,
                         fontWeight = FontWeight.Bold,
-                        color = textSeeUiColor,
+                        color = UICT_see,
                         modifier = Modifier.padding(start = 15.dp)
                     )
                 }
@@ -99,7 +99,7 @@ fun CreateHabit(viewModel: AppViewModel) {
                     modifier = Modifier
                         .fillMaxWidth()
                         .height(48.dp)
-                        .background(UI_color)
+                        .background(UIC)
                         .padding(horizontal = 50.dp)
                 ) {
                     Text(
@@ -140,7 +140,7 @@ fun CreateHabit(viewModel: AppViewModel) {
                 modifier = Modifier
                     .padding(paddingValues)
                     .fillMaxSize()
-                    .background(UI_dark_color)
+                    .background(UIC_dark)
             ) {
                 Column(
                     modifier = Modifier
@@ -157,7 +157,7 @@ fun CreateHabit(viewModel: AppViewModel) {
                         Text(
                             text = "$ts_Title: ",
                             fontSize = 16.sp,
-                            color = textSeeUiColor
+                            color = UICT_see
                         )
                         OutlinedTextField(
                             value = nameOfHabit,
@@ -166,24 +166,24 @@ fun CreateHabit(viewModel: AppViewModel) {
                                 Text(
                                     "$ts_Example: ${habit.nameOfHabit}",
                                     fontSize = 12.sp,
-                                    color = textNoSeeColor
+                                    color = UICT_no_see
                                 )
                             },
                             keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Text),
                             singleLine = true,
                             textStyle = TextStyle(
                                 fontSize = 16.sp,
-                                color = textSeeUiColor
+                                color = UICT_see
                             ),
                             shape = RoundedCornerShape(15.dp),
                             colors = TextFieldDefaults.colors(
-                                focusedTextColor = textSeeUiColor,
-                                unfocusedTextColor = textNoSeeColor,
-                                disabledTextColor = textNoSeeColor,
-                                focusedContainerColor = UI_extra_dark_color,
-                                unfocusedContainerColor = UI_extra_dark_color,
-                                disabledContainerColor = UI_extra_dark_color,
-                                cursorColor = textSeeUiColor,
+                                focusedTextColor = UICT_see,
+                                unfocusedTextColor = UICT_no_see,
+                                disabledTextColor = UICT_no_see,
+                                focusedContainerColor = UIC_extra_dark,
+                                unfocusedContainerColor = UIC_extra_dark,
+                                disabledContainerColor = UIC_extra_dark,
+                                cursorColor = UICT_see,
                                 focusedIndicatorColor = Color.Transparent,
                                 unfocusedIndicatorColor = Color.Transparent,
                                 disabledIndicatorColor = Color.Transparent
@@ -198,7 +198,7 @@ fun CreateHabit(viewModel: AppViewModel) {
                         Text(
                             text = "$ts_Icon ($ts_one_symbol): ",
                             fontSize = 16.sp,
-                            color = textSeeUiColor
+                            color = UICT_see
                         )
                         OutlinedTextField(
                             value = icon,
@@ -207,24 +207,24 @@ fun CreateHabit(viewModel: AppViewModel) {
                                 Text(
                                     habit.iconChar,
                                     fontSize = 12.sp,
-                                    color = textNoSeeColor
+                                    color = UICT_no_see
                                 )
                             },
                             keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Text),
                             singleLine = true,
                             textStyle = TextStyle(
                                 fontSize = 16.sp,
-                                color = textSeeUiColor
+                                color = UICT_see
                             ),
                             shape = RoundedCornerShape(15.dp),
                             colors = TextFieldDefaults.colors(
-                                focusedTextColor = textSeeUiColor,
-                                unfocusedTextColor = textNoSeeColor,
-                                disabledTextColor = textNoSeeColor,
-                                focusedContainerColor = UI_extra_dark_color,
-                                unfocusedContainerColor = UI_extra_dark_color,
-                                disabledContainerColor = UI_extra_dark_color,
-                                cursorColor = textSeeUiColor,
+                                focusedTextColor = UICT_see,
+                                unfocusedTextColor = UICT_no_see,
+                                disabledTextColor = UICT_no_see,
+                                focusedContainerColor = UIC_extra_dark,
+                                unfocusedContainerColor = UIC_extra_dark,
+                                disabledContainerColor = UIC_extra_dark,
+                                cursorColor = UICT_see,
                                 focusedIndicatorColor = Color.Transparent,
                                 unfocusedIndicatorColor = Color.Transparent,
                                 disabledIndicatorColor = Color.Transparent
@@ -240,28 +240,28 @@ fun CreateHabit(viewModel: AppViewModel) {
                         Text(
                             text = "$ts_Color: ",
                             fontSize = 16.sp,
-                            color = textSeeUiColor,
+                            color = UICT_see,
                         )
                         Column {
                             Button(
                                 onClick = { expanded0 = true },
                                 colors = ButtonColors(
-                                    containerColor = UI_extra_dark_color,
-                                    contentColor = textSeeUiColor,
-                                    disabledContainerColor = UI_extra_dark_color,
-                                    disabledContentColor = textNoSeeColor
+                                    containerColor = UIC_extra_dark,
+                                    contentColor = UICT_see,
+                                    disabledContainerColor = UIC_extra_dark,
+                                    disabledContentColor = UICT_no_see
                                 )
                             ) {
                                 Text(
                                     "$ts_type: ${typeOfColorHabits.name}",
                                     fontSize = 16.sp,
-                                    color = textSeeUiColor,
+                                    color = UICT_see,
                                 )
                             }
                             DropdownMenu(
                                 expanded = expanded0,
                                 onDismissRequest = { expanded0 = false },
-                                modifier = Modifier.background(UI_extra_dark_color)
+                                modifier = Modifier.background(UIC_extra_dark)
                             ) {
                                 TypeOfColorHabits.entries.forEach { mode ->
                                     DropdownMenuItem(
@@ -273,7 +273,7 @@ fun CreateHabit(viewModel: AppViewModel) {
                                             Text(
                                                 text = mode.name,
                                                 fontSize = 16.sp,
-                                                color = textNoSeeColor
+                                                color = UICT_no_see
                                             )
                                         }
                                     )
@@ -289,7 +289,7 @@ fun CreateHabit(viewModel: AppViewModel) {
                     Box(
                         modifier = Modifier
                             .fillMaxWidth()
-                            .background(UI_color, RoundedCornerShape(20.dp))
+                            .background(UIC, RoundedCornerShape(20.dp))
                             .height(48.dp),
                         contentAlignment = Alignment.Center
                     ) {
@@ -297,7 +297,7 @@ fun CreateHabit(viewModel: AppViewModel) {
                             text = ts_Goal,
                             fontSize = 16.sp,
                             fontWeight = FontWeight.Bold,
-                            color = textSeeUiColor,
+                            color = UICT_see,
                         )
                     }
                     Column(
@@ -313,28 +313,28 @@ fun CreateHabit(viewModel: AppViewModel) {
                             Text(
                                 text = "$ts_Type: ",
                                 fontSize = 16.sp,
-                                color = textSeeUiColor,
+                                color = UICT_see,
                             )
                             Column {
                                 Button(
                                     onClick = { expanded1 = true },
                                     colors = ButtonColors(
-                                        containerColor = UI_extra_dark_color,
-                                        contentColor = textSeeUiColor,
-                                        disabledContainerColor = UI_extra_dark_color,
-                                        disabledContentColor = textNoSeeColor
+                                        containerColor = UIC_extra_dark,
+                                        contentColor = UICT_see,
+                                        disabledContainerColor = UIC_extra_dark,
+                                        disabledContentColor = UICT_no_see
                                     )
                                 ) {
                                     Text(
                                         "$ts_type: ${typeOfGoalHabits.name}",
                                         fontSize = 16.sp,
-                                        color = textSeeUiColor,
+                                        color = UICT_see,
                                     )
                                 }
                                 DropdownMenu(
                                     expanded = expanded1,
                                     onDismissRequest = { expanded1 = false },
-                                    modifier = Modifier.background(UI_extra_dark_color)
+                                    modifier = Modifier.background(UIC_extra_dark)
                                 ) {
                                     TypeOfGoalHabits.entries.forEach { mode ->
                                         DropdownMenuItem(
@@ -346,7 +346,7 @@ fun CreateHabit(viewModel: AppViewModel) {
                                                 Text(
                                                     text = mode.name,
                                                     fontSize = 16.sp,
-                                                    color = textNoSeeColor
+                                                    color = UICT_no_see
                                                 )
                                             }
                                         )
@@ -362,7 +362,7 @@ fun CreateHabit(viewModel: AppViewModel) {
                             Text(
                                 text = "$ts_Count: ",
                                 fontSize = 16.sp,
-                                color = textSeeUiColor,
+                                color = UICT_see,
                             )
                             OutlinedTextField(
                                 value = needGoal,
@@ -371,24 +371,24 @@ fun CreateHabit(viewModel: AppViewModel) {
                                     Text(
                                         "$ts_Example: ${habit.needGoal.toBestString()}",
                                         fontSize = 12.sp,
-                                        color = textNoSeeColor
+                                        color = UICT_no_see
                                     )
                                 },
                                 keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
                                 singleLine = true,
                                 textStyle = TextStyle(
                                     fontSize = 16.sp,
-                                    color = textSeeUiColor
+                                    color = UICT_see
                                 ),
                                 shape = RoundedCornerShape(15.dp),
                                 colors = TextFieldDefaults.colors(
-                                    focusedTextColor = textSeeUiColor,
-                                    unfocusedTextColor = textNoSeeColor,
-                                    disabledTextColor = textNoSeeColor,
-                                    focusedContainerColor = UI_extra_dark_color,
-                                    unfocusedContainerColor = UI_extra_dark_color,
-                                    disabledContainerColor = UI_extra_dark_color,
-                                    cursorColor = textSeeUiColor,
+                                    focusedTextColor = UICT_see,
+                                    unfocusedTextColor = UICT_no_see,
+                                    disabledTextColor = UICT_no_see,
+                                    focusedContainerColor = UIC_extra_dark,
+                                    unfocusedContainerColor = UIC_extra_dark,
+                                    disabledContainerColor = UIC_extra_dark,
+                                    cursorColor = UICT_see,
                                     focusedIndicatorColor = Color.Transparent,
                                     unfocusedIndicatorColor = Color.Transparent,
                                     disabledIndicatorColor = Color.Transparent
@@ -401,24 +401,24 @@ fun CreateHabit(viewModel: AppViewModel) {
                                     Text(
                                         "$ts_Example: ${habit.nameOfUnitsOfDimension}",
                                         fontSize = 12.sp,
-                                        color = textNoSeeColor
+                                        color = UICT_no_see
                                     )
                                 },
                                 keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Text),
                                 singleLine = true,
                                 textStyle = TextStyle(
                                     fontSize = 16.sp,
-                                    color = textSeeUiColor
+                                    color = UICT_see
                                 ),
                                 shape = RoundedCornerShape(15.dp),
                                 colors = TextFieldDefaults.colors(
-                                    focusedTextColor = textSeeUiColor,
-                                    unfocusedTextColor = textNoSeeColor,
-                                    disabledTextColor = textNoSeeColor,
-                                    focusedContainerColor = UI_extra_dark_color,
-                                    unfocusedContainerColor = UI_extra_dark_color,
-                                    disabledContainerColor = UI_extra_dark_color,
-                                    cursorColor = textSeeUiColor,
+                                    focusedTextColor = UICT_see,
+                                    unfocusedTextColor = UICT_no_see,
+                                    disabledTextColor = UICT_no_see,
+                                    focusedContainerColor = UIC_extra_dark,
+                                    unfocusedContainerColor = UIC_extra_dark,
+                                    disabledContainerColor = UIC_extra_dark,
+                                    cursorColor = UICT_see,
                                     focusedIndicatorColor = Color.Transparent,
                                     unfocusedIndicatorColor = Color.Transparent,
                                     disabledIndicatorColor = Color.Transparent
@@ -433,7 +433,7 @@ fun CreateHabit(viewModel: AppViewModel) {
                             Text(
                                 text = "$ts_Period: ",
                                 fontSize = 16.sp,
-                                color = textSeeUiColor,
+                                color = UICT_see,
                             )
                             OutlinedTextField(
                                 value = needDays,
@@ -442,24 +442,24 @@ fun CreateHabit(viewModel: AppViewModel) {
                                     Text(
                                         "$ts_Example: ${habit.needDays}",
                                         fontSize = 12.sp,
-                                        color = textNoSeeColor
+                                        color = UICT_no_see
                                     )
                                 },
                                 keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
                                 singleLine = true,
                                 textStyle = TextStyle(
                                     fontSize = 16.sp,
-                                    color = textSeeUiColor
+                                    color = UICT_see
                                 ),
                                 shape = RoundedCornerShape(15.dp),
                                 colors = TextFieldDefaults.colors(
-                                    focusedTextColor = textSeeUiColor,
-                                    unfocusedTextColor = textNoSeeColor,
-                                    disabledTextColor = textNoSeeColor,
-                                    focusedContainerColor = UI_extra_dark_color,
-                                    unfocusedContainerColor = UI_extra_dark_color,
-                                    disabledContainerColor = UI_extra_dark_color,
-                                    cursorColor = textSeeUiColor,
+                                    focusedTextColor = UICT_see,
+                                    unfocusedTextColor = UICT_no_see,
+                                    disabledTextColor = UICT_no_see,
+                                    focusedContainerColor = UIC_extra_dark,
+                                    unfocusedContainerColor = UIC_extra_dark,
+                                    disabledContainerColor = UIC_extra_dark,
+                                    cursorColor = UICT_see,
                                     focusedIndicatorColor = Color.Transparent,
                                     unfocusedIndicatorColor = Color.Transparent,
                                     disabledIndicatorColor = Color.Transparent
@@ -468,7 +468,7 @@ fun CreateHabit(viewModel: AppViewModel) {
                             Text(
                                 text = " $ts_days",
                                 fontSize = 16.sp,
-                                color = textSeeUiColor,
+                                color = UICT_see,
                             )
                         }
                     }
@@ -477,7 +477,7 @@ fun CreateHabit(viewModel: AppViewModel) {
                     Box(
                         modifier = Modifier
                             .fillMaxWidth()
-                            .background(UI_color, RoundedCornerShape(20.dp))
+                            .background(UIC, RoundedCornerShape(20.dp))
                             .height(48.dp),
                         contentAlignment = Alignment.Center
                     ) {
@@ -485,7 +485,7 @@ fun CreateHabit(viewModel: AppViewModel) {
                             text = ts_Level,
                             fontSize = 16.sp,
                             fontWeight = FontWeight.Bold,
-                            color = textSeeUiColor,
+                            color = UICT_see,
                         )
                     }
                     Column(
@@ -497,15 +497,15 @@ fun CreateHabit(viewModel: AppViewModel) {
                                 checked = changeLevel,
                                 onCheckedChange = { changeLevel = it },
                                 colors = CheckboxDefaults.colors(
-                                    checkedColor = textNoSeeColor,
-                                    uncheckedColor = textNoSeeColor,
-                                    checkmarkColor = textSeeUiColor
+                                    checkedColor = UICT_no_see,
+                                    uncheckedColor = UICT_no_see,
+                                    checkmarkColor = UICT_see
                                 )
                             )
                             Text(
                                 text = if (changeLevel) ts_Change_level else ts_No_change_level,
                                 fontSize = 16.sp,
-                                color = textSeeUiColor
+                                color = UICT_see
                             )
                         }
                         Row(verticalAlignment = Alignment.CenterVertically) {
@@ -513,15 +513,15 @@ fun CreateHabit(viewModel: AppViewModel) {
                                 checked = changeNeedGoalWithLevel,
                                 onCheckedChange = { changeNeedGoalWithLevel = it },
                                 colors = CheckboxDefaults.colors(
-                                    checkedColor = textNoSeeColor,
-                                    uncheckedColor = textNoSeeColor,
-                                    checkmarkColor = textSeeUiColor
+                                    checkedColor = UICT_no_see,
+                                    uncheckedColor = UICT_no_see,
+                                    checkmarkColor = UICT_see
                                 )
                             )
                             Text(
                                 text = if (changeNeedGoalWithLevel) ts_Change_goal_with_level else ts_No_change_goal_with_level,
                                 fontSize = 16.sp,
-                                color = textSeeUiColor
+                                color = UICT_see
                             )
                         }
                         Row(verticalAlignment = Alignment.CenterVertically) {
@@ -529,15 +529,15 @@ fun CreateHabit(viewModel: AppViewModel) {
                                 checked = changeNeedDaysWithLevel,
                                 onCheckedChange = { changeNeedDaysWithLevel = it },
                                 colors = CheckboxDefaults.colors(
-                                    checkedColor = textNoSeeColor,
-                                    uncheckedColor = textNoSeeColor,
-                                    checkmarkColor = textSeeUiColor
+                                    checkedColor = UICT_no_see,
+                                    uncheckedColor = UICT_no_see,
+                                    checkmarkColor = UICT_see
                                 )
                             )
                             Text(
                                 text = if (changeNeedDaysWithLevel) ts_Change_period_for_goal_with_level else ts_No_change_period_for_goal_with_level,
                                 fontSize = 16.sp,
-                                color = textSeeUiColor
+                                color = UICT_see
                             )
                         }
                     }

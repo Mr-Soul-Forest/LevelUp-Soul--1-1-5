@@ -76,7 +76,7 @@ fun TableContent(
     BoxWithConstraints(
         modifier = Modifier
             .fillMaxSize()
-            .background(UI_dark_color)
+            .background(UIC_dark)
     ) {
         val maxCellX =
             ((maxWidth - firstCellSizeX) / (if (nextCellSizeX + spacedCell != 0.dp) (nextCellSizeX + spacedCell) else 1.dp)).toInt()
@@ -190,7 +190,7 @@ fun TableContent(
                                         x,
                                         DateTimeUnit.DAY
                                     )).dayOfMonth.toString(),
-                                    color = textNoSeeColor,
+                                    color = UICT_no_see,
                                     fontWeight = FontWeight.Bold,
                                     fontSize = dataSellFontSize
                                 )
@@ -199,7 +199,7 @@ fun TableContent(
                                         x,
                                         DateTimeUnit.DAY
                                     )).dayOfWeek.toString().take(3),
-                                    color = textNoSeeColor,
+                                    color = UICT_no_see,
                                     fontWeight = FontWeight.Bold,
                                     fontSize = dataSellFontSize
                                 )
@@ -258,7 +258,7 @@ fun TableContent(
 
                                                 if (showDialog) {
                                                     AlertDialog(
-                                                        containerColor = UI_color,
+                                                        containerColor = UIC,
                                                         onDismissRequest = { showDialog = false },
                                                         title = {
                                                             val dateToSet = habits[y].startDate.plus(
@@ -268,7 +268,7 @@ fun TableContent(
                                                                 text = "$ts_Do_you_want_to_set_a_value_for ${dateToSet.month} ${dateToSet.dayOfMonth}, ${dateToSet.year} $ts_for_habit ${habits[y].nameOfHabit}?",
                                                                 fontWeight = FontWeight.Normal,
                                                                 fontSize = 16.sp,
-                                                                color = textSeeUiColor
+                                                                color = UICT_see
                                                             )
                                                         },
                                                         text = {
@@ -280,7 +280,7 @@ fun TableContent(
                                                                         "$ts_Old: ${habits[y].habitDay[xIndex].today.toBestString()}",
                                                                         fontSize = 12.sp,
                                                                         fontWeight = FontWeight.Normal,
-                                                                        color = textNoSeeColor
+                                                                        color = UICT_no_see
                                                                     )
                                                                 },
                                                                 keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
@@ -288,17 +288,17 @@ fun TableContent(
                                                                 textStyle = TextStyle(
                                                                     fontSize = 16.sp,
                                                                     fontWeight = FontWeight.Normal,
-                                                                    color = textSeeUiColor
+                                                                    color = UICT_see
                                                                 ),
                                                                 shape = RoundedCornerShape(15.dp),
                                                                 colors = TextFieldDefaults.colors(
-                                                                    focusedTextColor = textSeeUiColor,
-                                                                    unfocusedTextColor = textNoSeeColor,
-                                                                    disabledTextColor = textNoSeeColor,
-                                                                    focusedContainerColor = UI_dark_color,
-                                                                    unfocusedContainerColor = UI_dark_color,
-                                                                    disabledContainerColor = UI_dark_color,
-                                                                    cursorColor = textSeeUiColor,
+                                                                    focusedTextColor = UICT_see,
+                                                                    unfocusedTextColor = UICT_no_see,
+                                                                    disabledTextColor = UICT_no_see,
+                                                                    focusedContainerColor = UIC_dark,
+                                                                    unfocusedContainerColor = UIC_dark,
+                                                                    disabledContainerColor = UIC_dark,
+                                                                    cursorColor = UICT_see,
                                                                     focusedIndicatorColor = Color.Transparent,
                                                                     unfocusedIndicatorColor = Color.Transparent,
                                                                     disabledIndicatorColor = Color.Transparent

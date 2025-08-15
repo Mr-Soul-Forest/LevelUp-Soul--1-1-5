@@ -62,18 +62,6 @@ import androidx.compose.animation.with
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.ui.graphics.painter.Painter
 
-val textNoSeeColor = Color(106, 118, 127)
-val textSeeUiColor = Color(255, 255, 255)
-
-val UI_light_color = Color(37, 40, 44)
-val UI_color = Color(26, 28, 32)
-val UI_dark_color = Color(18, 20, 24)
-
-val UI_dark_x05_color = averageColor(listOf(UI_color, UI_dark_color))
-val UI_extra_dark_color = averageColor(listOf(UI_dark_color, Color.Black))
-val UI_dark_x2_color = averageColor(listOf(UI_dark_color, UI_extra_dark_color))
-val UI_extra_light_color = averageColor(listOf(UI_light_color, Color.White))
-
 @Composable
 fun MainMenuContent(
     viewModel: AppViewModel, verticalScrollForTableContent: ScrollState, horizontalScrollForTableContent: ScrollState
@@ -87,7 +75,7 @@ fun MainMenuContent(
 
     Box(
         modifier = Modifier
-            .background(UI_color)
+            .background(UIC)
             .fillMaxSize()
     )
     Scaffold(
@@ -97,7 +85,7 @@ fun MainMenuContent(
             Box(
                 modifier = Modifier
                     .fillMaxWidth()
-                    .background(UI_color)
+                    .background(UIC)
             ) {
                 if (appStatus == AppStatus.TABLE || appStatus == AppStatus.TABLE_UPDATER || appStatus == AppStatus.HABITS_LIST) {
                     Row(
@@ -113,7 +101,7 @@ fun MainMenuContent(
                             fontSize = 16.sp,
                             fontWeight = FontWeight.Bold,
                             fontFamily = FontFamily.Default,
-                            color = textSeeUiColor,
+                            color = UICT_see,
                             maxLines = 1,
                             overflow = TextOverflow.Ellipsis,
                             modifier = Modifier.weight(0.8f)
@@ -169,9 +157,9 @@ fun MainMenuContent(
                             Text(
                                 language.name,
                                 fontSize = 16.sp,
-                                color = averageColor(listOf(textSeeUiColor, getSoulRealColor())),
+                                color = averageColor(listOf(UICT_see, getSoulRealColor())),
                                 modifier = Modifier
-                                    .border(1.dp, textNoSeeColor, RoundedCornerShape(10.dp))
+                                    .border(1.dp, UICT_no_see, RoundedCornerShape(10.dp))
                                     .clickable { expanded0 = true }
                                     .padding(5.dp),
                                 textAlign = TextAlign.Center
@@ -180,7 +168,7 @@ fun MainMenuContent(
                                 expanded = expanded0,
                                 onDismissRequest = { expanded0 = false },
                                 modifier = Modifier
-                                    .background(UI_color)
+                                    .background(UIC)
                                     .width(50.dp)
                             ) {
                                 Languages.entries.forEach { mode ->
@@ -196,7 +184,7 @@ fun MainMenuContent(
                                             Text(
                                                 text = mode.name,
                                                 fontSize = 16.sp,
-                                                color = textNoSeeColor
+                                                color = UICT_no_see
                                             )
                                         }
                                     )
@@ -218,7 +206,7 @@ fun MainMenuContent(
                             text = ts_Soul_statistic,
                             fontSize = 16.sp,
                             fontWeight = FontWeight.Bold,
-                            color = textSeeUiColor
+                            color = UICT_see
                         )
                     }
                 }
@@ -228,7 +216,7 @@ fun MainMenuContent(
             Box(
                 modifier = Modifier
                     .fillMaxWidth()
-                    .background(UI_color)
+                    .background(UIC)
             ) {
                 Row(
                     modifier = Modifier
@@ -295,7 +283,7 @@ fun AnimatedTabItem(
     inactiveColor: Color
 ) {
     val backgroundColor by animateColorAsState(
-        targetValue = if (isActive) UI_light_color else Color.Transparent,
+        targetValue = if (isActive) UIC_light else Color.Transparent,
         animationSpec = spring(
             stiffness = Spring.StiffnessLow,
             dampingRatio = Spring.DampingRatioMediumBouncy
@@ -303,7 +291,7 @@ fun AnimatedTabItem(
     )
 
     val iconColor by animateColorAsState(
-        targetValue = if (isActive) textSeeUiColor else inactiveColor,
+        targetValue = if (isActive) UICT_see else inactiveColor,
         animationSpec = tween(durationMillis = 300)
     )
 

@@ -15,7 +15,7 @@ class Habit(
     var needGoal: BigDecimal = 1.toBigDecimal(),
     var needDays: Int = 1,
     var typeOfColorHabits: TypeOfColorHabits = TypeOfColorHabits.ADAPTIVE,
-    var colorGood: Color = textSeeUiColor,
+    var colorGood: Color = UICT_see,
     var changeLevel: Boolean = true,
     var changeNeedGoalWithLevel: Boolean = false,
     var changeNeedDaysWithLevel: Boolean = false,

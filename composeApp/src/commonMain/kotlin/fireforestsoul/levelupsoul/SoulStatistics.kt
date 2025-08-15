@@ -54,7 +54,7 @@ fun SoulStatisticsContent() {
     Box(
         modifier = Modifier
             .fillMaxSize()
-            .background(UI_dark_color)
+            .background(UIC_dark)
             .verticalScroll(verticalScroll)
     ) {
         Column(
@@ -79,24 +79,24 @@ fun SoulStatisticsContent() {
                         Text(
                             "$ts_For_all_time 0",
                             fontSize = 12.sp,
-                            color = textNoSeeColor
+                            color = UICT_no_see
                         )
                     },
                     keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
                     singleLine = true,
                     textStyle = TextStyle(
                         fontSize = 14.sp,
-                        color = textSeeUiColor
+                        color = UICT_see
                     ),
                     shape = RoundedCornerShape(15.dp),
                     colors = TextFieldDefaults.colors(
-                        focusedTextColor = textSeeUiColor,
-                        unfocusedTextColor = textNoSeeColor,
-                        disabledTextColor = textNoSeeColor,
-                        focusedContainerColor = UI_dark_x2_color,
-                        unfocusedContainerColor = UI_dark_x2_color,
-                        disabledContainerColor = UI_dark_x2_color,
-                        cursorColor = textSeeUiColor,
+                        focusedTextColor = UICT_see,
+                        unfocusedTextColor = UICT_no_see,
+                        disabledTextColor = UICT_no_see,
+                        focusedContainerColor = UIC_dark_x2,
+                        unfocusedContainerColor = UIC_dark_x2,
+                        disabledContainerColor = UIC_dark_x2,
+                        cursorColor = UICT_see,
                         focusedIndicatorColor = Color.Transparent,
                         unfocusedIndicatorColor = Color.Transparent,
                         disabledIndicatorColor = Color.Transparent
@@ -106,7 +106,7 @@ fun SoulStatisticsContent() {
                 Text(
                     text = ts_Set,
                     fontSize = 16.sp,
-                    color = textSeeUiColor,
+                    color = UICT_see,
                     modifier = Modifier
                         .background(Color(25, 50, 25), RoundedCornerShape(15.dp))
                         .clickable {
@@ -128,7 +128,7 @@ fun SoulStatisticsContent() {
             Box(
                 modifier = Modifier
                     .fillMaxWidth()
-                    .background(UI_color, RoundedCornerShape(20.dp))
+                    .background(UIC, RoundedCornerShape(20.dp))
                     .height(48.dp),
                 contentAlignment = Alignment.Center
             ) {
@@ -136,7 +136,7 @@ fun SoulStatisticsContent() {
                     text = ts_Progress,
                     fontSize = 16.sp,
                     fontWeight = FontWeight.Bold,
-                    color = textSeeUiColor,
+                    color = UICT_see,
                 )
             }
             Box(
@@ -171,7 +171,7 @@ fun SoulStatisticsContent() {
                         Text(
                             text = ts_day,
                             fontSize = 12.sp,
-                            color = textSeeUiColor
+                            color = UICT_see
                         )
                         Box(contentAlignment = Alignment.Center) {
                             val progressWeek =
@@ -191,7 +191,7 @@ fun SoulStatisticsContent() {
                         Text(
                             text = ts_week,
                             fontSize = 12.sp,
-                            color = textSeeUiColor
+                            color = UICT_see
                         )
                     }
                     Column(
@@ -240,7 +240,7 @@ fun SoulStatisticsContent() {
                         Text(
                             text = ts_month,
                             fontSize = 12.sp,
-                            color = textSeeUiColor
+                            color = UICT_see
                         )
                         Box(contentAlignment = Alignment.Center) {
                             val progressYear =
@@ -260,7 +260,7 @@ fun SoulStatisticsContent() {
                         Text(
                             text = ts_year,
                             fontSize = 12.sp,
-                            color = textSeeUiColor
+                            color = UICT_see
                         )
                     }
                 }
@@ -306,7 +306,7 @@ fun SoulStatisticsContent() {
             Box(
                 modifier = Modifier
                     .fillMaxWidth()
-                    .background(UI_color, RoundedCornerShape(20.dp))
+                    .background(UIC, RoundedCornerShape(20.dp))
                     .height(48.dp),
                 contentAlignment = Alignment.Center
             ) {
@@ -314,7 +314,7 @@ fun SoulStatisticsContent() {
                     text = ts_Level,
                     fontSize = 16.sp,
                     fontWeight = FontWeight.Bold,
-                    color = textSeeUiColor,
+                    color = UICT_see,
                 )
             }
             Box(
@@ -380,7 +380,7 @@ fun SoulStatisticsContent() {
                                 text = if (goodProgress == 0f) "$soul_level" else (if (progressUp) "$soul_level ⬆" else "$soul_level ⬇"),
                                 fontSize = 16.sp,
                                 fontWeight = if (goodProgress == 0f) FontWeight.Normal else FontWeight.Bold,
-                                color = if (goodProgress == 0f) textSeeUiColor else (if (progressUp) Color.Green else Color.Red)
+                                color = if (goodProgress == 0f) UICT_see else (if (progressUp) Color.Green else Color.Red)
                             )
                         }
                     }
@@ -393,7 +393,7 @@ fun SoulStatisticsContent() {
             Box(
                 modifier = Modifier
                     .fillMaxWidth()
-                    .background(UI_color, RoundedCornerShape(20.dp))
+                    .background(UIC, RoundedCornerShape(20.dp))
                     .height(48.dp),
                 contentAlignment = Alignment.Center
             ) {
@@ -401,7 +401,7 @@ fun SoulStatisticsContent() {
                     text = ts_Progress_graph,
                     fontSize = 16.sp,
                     fontWeight = FontWeight.Bold,
-                    color = textSeeUiColor,
+                    color = UICT_see,
                 )
             }
             Box(
@@ -443,24 +443,24 @@ fun SoulStatisticsContent() {
                                 Text(
                                     "$ts_Period:",
                                     fontSize = 12.sp,
-                                    color = textNoSeeColor
+                                    color = UICT_no_see
                                 )
                             },
                             keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
                             singleLine = true,
                             textStyle = TextStyle(
                                 fontSize = 14.sp,
-                                color = textSeeUiColor
+                                color = UICT_see
                             ),
                             shape = RoundedCornerShape(15.dp),
                             colors = TextFieldDefaults.colors(
-                                focusedTextColor = textSeeUiColor,
-                                unfocusedTextColor = textNoSeeColor,
-                                disabledTextColor = textNoSeeColor,
-                                focusedContainerColor = UI_dark_x2_color,
-                                unfocusedContainerColor = UI_dark_x2_color,
-                                disabledContainerColor = UI_dark_x2_color,
-                                cursorColor = textSeeUiColor,
+                                focusedTextColor = UICT_see,
+                                unfocusedTextColor = UICT_no_see,
+                                disabledTextColor = UICT_no_see,
+                                focusedContainerColor = UIC_dark_x2,
+                                unfocusedContainerColor = UIC_dark_x2,
+                                disabledContainerColor = UIC_dark_x2,
+                                cursorColor = UICT_see,
                                 focusedIndicatorColor = Color.Transparent,
                                 unfocusedIndicatorColor = Color.Transparent,
                                 disabledIndicatorColor = Color.Transparent
@@ -474,24 +474,24 @@ fun SoulStatisticsContent() {
                                 Text(
                                     "$ts_Step:",
                                     fontSize = 12.sp,
-                                    color = textNoSeeColor
+                                    color = UICT_no_see
                                 )
                             },
                             keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
                             singleLine = true,
                             textStyle = TextStyle(
                                 fontSize = 14.sp,
-                                color = textSeeUiColor
+                                color = UICT_see
                             ),
                             shape = RoundedCornerShape(15.dp),
                             colors = TextFieldDefaults.colors(
-                                focusedTextColor = textSeeUiColor,
-                                unfocusedTextColor = textNoSeeColor,
-                                disabledTextColor = textNoSeeColor,
-                                focusedContainerColor = UI_dark_x2_color,
-                                unfocusedContainerColor = UI_dark_x2_color,
-                                disabledContainerColor = UI_dark_x2_color,
-                                cursorColor = textSeeUiColor,
+                                focusedTextColor = UICT_see,
+                                unfocusedTextColor = UICT_no_see,
+                                disabledTextColor = UICT_no_see,
+                                focusedContainerColor = UIC_dark_x2,
+                                unfocusedContainerColor = UIC_dark_x2,
+                                disabledContainerColor = UIC_dark_x2,
+                                cursorColor = UICT_see,
                                 focusedIndicatorColor = Color.Transparent,
                                 unfocusedIndicatorColor = Color.Transparent,
                                 disabledIndicatorColor = Color.Transparent
@@ -501,7 +501,7 @@ fun SoulStatisticsContent() {
                         Text(
                             text = ts_Set,
                             fontSize = 16.sp,
-                            color = textSeeUiColor,
+                            color = UICT_see,
                             modifier = Modifier
                                 .background(Color(25, 50, 25), RoundedCornerShape(15.dp))
                                 .clickable {
@@ -532,7 +532,7 @@ fun SoulStatisticsContent() {
             Box(
                 modifier = Modifier
                     .fillMaxWidth()
-                    .background(UI_color, RoundedCornerShape(20.dp))
+                    .background(UIC, RoundedCornerShape(20.dp))
                     .height(48.dp),
                 contentAlignment = Alignment.Center
             ) {
@@ -540,7 +540,7 @@ fun SoulStatisticsContent() {
                     text = ts_Results,
                     fontSize = 16.sp,
                     fontWeight = FontWeight.Bold,
-                    color = textSeeUiColor,
+                    color = UICT_see,
                 )
             }
             Box(
@@ -579,24 +579,24 @@ fun SoulStatisticsContent() {
                                 Text(
                                     "$ts_Step:",
                                     fontSize = 12.sp,
-                                    color = textNoSeeColor
+                                    color = UICT_no_see
                                 )
                             },
                             keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
                             singleLine = true,
                             textStyle = TextStyle(
                                 fontSize = 14.sp,
-                                color = textSeeUiColor
+                                color = UICT_see
                             ),
                             shape = RoundedCornerShape(15.dp),
                             colors = TextFieldDefaults.colors(
-                                focusedTextColor = textSeeUiColor,
-                                unfocusedTextColor = textNoSeeColor,
-                                disabledTextColor = textNoSeeColor,
-                                focusedContainerColor = UI_dark_x2_color,
-                                unfocusedContainerColor = UI_dark_x2_color,
-                                disabledContainerColor = UI_dark_x2_color,
-                                cursorColor = textSeeUiColor,
+                                focusedTextColor = UICT_see,
+                                unfocusedTextColor = UICT_no_see,
+                                disabledTextColor = UICT_no_see,
+                                focusedContainerColor = UIC_dark_x2,
+                                unfocusedContainerColor = UIC_dark_x2,
+                                disabledContainerColor = UIC_dark_x2,
+                                cursorColor = UICT_see,
                                 focusedIndicatorColor = Color.Transparent,
                                 unfocusedIndicatorColor = Color.Transparent,
                                 disabledIndicatorColor = Color.Transparent
@@ -606,7 +606,7 @@ fun SoulStatisticsContent() {
                         Text(
                             text = ts_Set,
                             fontSize = 16.sp,
-                            color = textSeeUiColor,
+                            color = UICT_see,
                             modifier = Modifier
                                 .background(Color(25, 50, 25), RoundedCornerShape(15.dp))
                                 .clickable {

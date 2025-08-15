@@ -1,6 +1,5 @@
 package fireforestsoul.levelupsoul
 
-import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
@@ -21,7 +20,6 @@ import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.foundation.verticalScroll
-import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Scaffold
@@ -34,25 +32,19 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.clip
-import androidx.compose.ui.graphics.BlendMode
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.graphics.ColorFilter
 import androidx.compose.ui.layout.onGloballyPositioned
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.KeyboardType
-import androidx.compose.ui.text.style.TextAlign
-import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.ionspin.kotlin.bignum.decimal.toBigDecimal
 import kotlinx.datetime.Clock
 import kotlinx.datetime.TimeZone
 import kotlinx.datetime.toLocalDateTime
-import org.jetbrains.compose.resources.painterResource
 
 var habit_statistics_and_edit_x = 0
 
@@ -61,108 +53,31 @@ fun HabitStatistics(viewModel: AppViewModel) {
     Box(
         modifier = Modifier
             .fillMaxSize()
-            .background(UI_dark_x2_color)
+            .background(UIC_dark_x2)
     ) {
         Scaffold(
             modifier = Modifier
                 .padding(WindowInsets.systemBars.asPaddingValues())
-                .background(UI_dark_x2_color),
+                .background(Brush.linearGradient(listOf(UIC_black))),
             topBar = {
-                Box(
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .background(UI_dark_x2_color)
-                        .padding(10.dp, 10.dp, 10.dp)
-                ) {
-                    Box(
-                        modifier = Modifier
-                            .background(
-                                Brush.linearGradient(
-                                    listOf(
-                                        averageColor(
-                                            listOf(
-                                                seeColorByIndex(
-                                                    habit_statistics_and_edit_x
-                                                ), noSeeColorByIndex(habit_statistics_and_edit_x)
-                                            )
-                                        ),
-                                        averageColor(
-                                            listOf(
-                                                noSeeColorByIndex(habit_statistics_and_edit_x),
-                                                UI_dark_x05_color
-                                            )
-                                        )
-                                    )
-                                ), RoundedCornerShape(20.dp)
-                            )
-                            .border(4.dp, UI_dark_x05_color, RoundedCornerShape(20.dp))
-                            .fillMaxWidth()
-                            .padding(4.dp),
-                        contentAlignment = Alignment.Center
-                    ) {
-                        Row(
-                            verticalAlignment = Alignment.CenterVertically,
-                            horizontalArrangement = Arrangement.SpaceAround,
-                            modifier = Modifier
-                                .fillMaxWidth()
-                                .border(2.dp, seeColorByIndex(habit_statistics_and_edit_x), RoundedCornerShape(20.dp))
-                        ) {
-                            Text(
-                                text = "$ts_Habit \"${habits[habit_statistics_and_edit_x].nameOfHabit}\" $ts_statistic",
-                                fontSize = 17.sp,
-                                fontWeight = FontWeight.W600,
-                                color = checkBackgroundBright(
-                                    averageColor(
-                                        listOf(
-                                            seeColorByIndex(habit_statistics_and_edit_x),
-                                            noSeeColorByIndex(habit_statistics_and_edit_x),
-                                            noSeeColorByIndex(habit_statistics_and_edit_x)
-                                        )
-                                    ),
-                                    textSeeUiColor
-                                ),
-                                maxLines = 1,
-                                overflow = TextOverflow.Ellipsis,
-                                modifier = Modifier
-                                    .padding(start = 15.dp)
-                                    .weight(1f),
-                                textAlign = TextAlign.Center
-                            )
-                            IconButton(onClick = {
-                                viewModel.setStatus(AppStatus.EDIT_HABIT)
-                            }) {
-                                Image(
-                                    painter = painterResource(Res.drawable.edit_a_habit),
-                                    contentDescription = ts_Edit_a_habit,
-                                    modifier = Modifier
-                                        .clip(RoundedCornerShape(10.dp))
-                                        .size(28.dp),
-                                    colorFilter = ColorFilter.tint(
-                                        seeColorByIndex(habit_statistics_and_edit_x),
-                                        BlendMode.Modulate
-                                    )
-                                )
-                            }
-                        }
-                    }
-                }
+
             },
             bottomBar = {
                 Box(
                     modifier = Modifier
                         .fillMaxWidth()
                         .height(48.dp)
-                        .background(UI_dark_x05_color)
+                        .background(UIC_dark_x05)
                         .clickable {
                             viewModel.setStatus(backStatus)
                         }
-                        .border(2.dp, UI_light_color),
+                        .border(2.dp, UIC_light),
                     contentAlignment = Alignment.Center
                 ) {
                     Text(
                         text = "⟵",
                         fontSize = 25.sp,
-                        color = textSeeUiColor
+                        color = UICT_see
                     )
                 }
             }
@@ -177,7 +92,7 @@ fun HabitStatistics(viewModel: AppViewModel) {
                 modifier = Modifier
                     .padding(paddingValues)
                     .fillMaxSize()
-                    .background(UI_dark_x2_color)
+                    .background(UIC_dark_x2)
                     .verticalScroll(verticalScroll)
             ) {
                 Column(
@@ -194,7 +109,7 @@ fun HabitStatistics(viewModel: AppViewModel) {
                     Box(
                         modifier = Modifier
                             .fillMaxWidth()
-                            .background(UI_dark_x05_color, RoundedCornerShape(20.dp))
+                            .background(UIC_dark_x05, RoundedCornerShape(20.dp))
                             .height(48.dp),
                         contentAlignment = Alignment.Center
                     ) {
@@ -202,7 +117,7 @@ fun HabitStatistics(viewModel: AppViewModel) {
                             text = ts_Goal,
                             fontSize = 16.sp,
                             fontWeight = FontWeight.Bold,
-                            color = textSeeUiColor,
+                            color = UICT_see,
                         )
                     }
                     Column(
@@ -213,7 +128,7 @@ fun HabitStatistics(viewModel: AppViewModel) {
                             text = "$ts_You_need " + habits[habit_statistics_and_edit_x].typeOfGoalHabits.toString()
                                 .lowercase() + " ${habits[habit_statistics_and_edit_x].needGoal.toBestString()} ${habits[habit_statistics_and_edit_x].nameOfUnitsOfDimension} $ts_in ${habits[habit_statistics_and_edit_x].needDays} $ts_days",
                             fontSize = 16.sp,
-                            color = textSeeUiColor
+                            color = UICT_see
                         )
                         Row(
                             horizontalArrangement = Arrangement.spacedBy(20.dp),
@@ -227,24 +142,24 @@ fun HabitStatistics(viewModel: AppViewModel) {
                                     Text(
                                         "$ts_For_all_time 0",
                                         fontSize = 12.sp,
-                                        color = textNoSeeColor
+                                        color = UICT_no_see
                                     )
                                 },
                                 keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
                                 singleLine = true,
                                 textStyle = TextStyle(
                                     fontSize = 14.sp,
-                                    color = textSeeUiColor
+                                    color = UICT_see
                                 ),
                                 shape = RoundedCornerShape(15.dp),
                                 colors = TextFieldDefaults.colors(
-                                    focusedTextColor = textSeeUiColor,
-                                    unfocusedTextColor = textNoSeeColor,
-                                    disabledTextColor = textNoSeeColor,
-                                    focusedContainerColor = UI_dark_x2_color,
-                                    unfocusedContainerColor = UI_dark_x2_color,
-                                    disabledContainerColor = UI_dark_x2_color,
-                                    cursorColor = textSeeUiColor,
+                                    focusedTextColor = UICT_see,
+                                    unfocusedTextColor = UICT_no_see,
+                                    disabledTextColor = UICT_no_see,
+                                    focusedContainerColor = UIC_dark_x2,
+                                    unfocusedContainerColor = UIC_dark_x2,
+                                    disabledContainerColor = UIC_dark_x2,
+                                    cursorColor = UICT_see,
                                     focusedIndicatorColor = Color.Transparent,
                                     unfocusedIndicatorColor = Color.Transparent,
                                     disabledIndicatorColor = Color.Transparent
@@ -254,7 +169,7 @@ fun HabitStatistics(viewModel: AppViewModel) {
                             Text(
                                 text = ts_Set,
                                 fontSize = 16.sp,
-                                color = textSeeUiColor,
+                                color = UICT_see,
                                 modifier = Modifier
                                     .background(Color(25, 50, 25), RoundedCornerShape(15.dp))
                                     .clickable {
@@ -274,7 +189,7 @@ fun HabitStatistics(viewModel: AppViewModel) {
                     Box(
                         modifier = Modifier
                             .fillMaxWidth()
-                            .background(UI_color, RoundedCornerShape(20.dp))
+                            .background(UIC, RoundedCornerShape(20.dp))
                             .height(48.dp),
                         contentAlignment = Alignment.Center
                     ) {
@@ -282,7 +197,7 @@ fun HabitStatistics(viewModel: AppViewModel) {
                             text = ts_Progress,
                             fontSize = 16.sp,
                             fontWeight = FontWeight.Bold,
-                            color = textSeeUiColor,
+                            color = UICT_see,
                         )
                     }
                     Box(
@@ -317,7 +232,7 @@ fun HabitStatistics(viewModel: AppViewModel) {
                                 Text(
                                     text = ts_day,
                                     fontSize = 12.sp,
-                                    color = textSeeUiColor
+                                    color = UICT_see
                                 )
                                 Box(contentAlignment = Alignment.Center) {
                                     val progressWeek =
@@ -337,7 +252,7 @@ fun HabitStatistics(viewModel: AppViewModel) {
                                 Text(
                                     text = ts_week,
                                     fontSize = 12.sp,
-                                    color = textSeeUiColor
+                                    color = UICT_see
                                 )
                             }
                             Column(
@@ -381,7 +296,7 @@ fun HabitStatistics(viewModel: AppViewModel) {
                                 Text(
                                     text = ts_month,
                                     fontSize = 12.sp,
-                                    color = textSeeUiColor
+                                    color = UICT_see
                                 )
                                 Box(contentAlignment = Alignment.Center) {
                                     val progressYear =
@@ -401,7 +316,7 @@ fun HabitStatistics(viewModel: AppViewModel) {
                                 Text(
                                     text = ts_year,
                                     fontSize = 12.sp,
-                                    color = textSeeUiColor
+                                    color = UICT_see
                                 )
                             }
                         }
@@ -412,7 +327,7 @@ fun HabitStatistics(viewModel: AppViewModel) {
                         Box(
                             modifier = Modifier
                                 .fillMaxWidth()
-                                .background(UI_color, RoundedCornerShape(20.dp))
+                                .background(UIC, RoundedCornerShape(20.dp))
                                 .height(48.dp),
                             contentAlignment = Alignment.Center
                         ) {
@@ -420,7 +335,7 @@ fun HabitStatistics(viewModel: AppViewModel) {
                                 text = ts_Level,
                                 fontSize = 16.sp,
                                 fontWeight = FontWeight.Bold,
-                                color = textSeeUiColor,
+                                color = UICT_see,
                             )
                         }
                         Box(
@@ -499,10 +414,10 @@ fun HabitStatistics(viewModel: AppViewModel) {
                                             modifier = Modifier
                                                 .border(
                                                     width = 1.dp,
-                                                    color = textNoSeeColor,
+                                                    color = UICT_no_see,
                                                     shape = RoundedCornerShape(8.dp)
                                                 )
-                                                .background(UI_color, RoundedCornerShape(8.dp)),
+                                                .background(UIC, RoundedCornerShape(8.dp)),
                                             contentAlignment = Alignment.Center
                                         ) {
                                             Text(
@@ -519,25 +434,25 @@ fun HabitStatistics(viewModel: AppViewModel) {
                                                 Text(
                                                     text = "${habits[habit_statistics_and_edit_x].needDays}",
                                                     fontSize = 16.sp,
-                                                    color = textSeeUiColor
+                                                    color = UICT_see
                                                 )
                                                 Text(
                                                     text = "⬇",
                                                     fontSize = 16.sp,
-                                                    color = if (progressUp) Color.Green else Color.Red,
+                                                    color = if (progressUp) UIC_green else UIC_red,
                                                     fontWeight = FontWeight.Black
                                                 )
                                                 Text(
                                                     text = "$needDaysChanged",
                                                     fontSize = 16.sp,
-                                                    color = if (progressUp) Color.Green else Color.Red
+                                                    color = if (progressUp) UIC_green else UIC_red
                                                 )
                                             }
                                         }
                                     }
                                     Text(
                                         text = "$ts_Period:",
-                                        color = textNoSeeColor,
+                                        color = UICT_no_see,
                                         style = MaterialTheme.typography.bodySmall,
                                         fontSize = 14.sp,
                                         modifier = Modifier
@@ -568,7 +483,7 @@ fun HabitStatistics(viewModel: AppViewModel) {
                                             text = if (goodProgress == 0f) "${habits[habit_statistics_and_edit_x].level}" else (if (progressUp) "${habits[habit_statistics_and_edit_x].level} ⬆" else "${habits[habit_statistics_and_edit_x].level} ⬇"),
                                             fontSize = 16.sp,
                                             fontWeight = if (goodProgress == 0f) FontWeight.Normal else FontWeight.Bold,
-                                            color = if (goodProgress == 0f) textSeeUiColor else (if (progressUp) Color.Green else Color.Red)
+                                            color = if (goodProgress == 0f) UICT_see else (if (progressUp) UIC_green else UIC_red)
                                         )
                                     }
                                 }
@@ -582,10 +497,10 @@ fun HabitStatistics(viewModel: AppViewModel) {
                                             modifier = Modifier
                                                 .border(
                                                     width = 1.dp,
-                                                    color = textNoSeeColor,
+                                                    color = UICT_no_see,
                                                     shape = RoundedCornerShape(8.dp)
                                                 )
-                                                .background(UI_color, RoundedCornerShape(8.dp)),
+                                                .background(UIC, RoundedCornerShape(8.dp)),
                                             contentAlignment = Alignment.Center
                                         ) {
                                             Text(
@@ -602,25 +517,25 @@ fun HabitStatistics(viewModel: AppViewModel) {
                                                 Text(
                                                     text = habits[habit_statistics_and_edit_x].needGoal.toBestString(),
                                                     fontSize = 16.sp,
-                                                    color = textSeeUiColor
+                                                    color = UICT_see
                                                 )
                                                 Text(
                                                     text = "⬇",
                                                     fontSize = 16.sp,
-                                                    color = if (progressUp) Color.Green else Color.Red,
+                                                    color = if (progressUp) UIC_green else UIC_red,
                                                     fontWeight = FontWeight.Black
                                                 )
                                                 Text(
                                                     text = needGoalChanged.toBestString(),
                                                     fontSize = 16.sp,
-                                                    color = if (progressUp) Color.Green else Color.Red
+                                                    color = if (progressUp) UIC_green else UIC_red
                                                 )
                                             }
                                         }
                                     }
                                     Text(
                                         text = " $ts_Goal: ",
-                                        color = textNoSeeColor,
+                                        color = UICT_no_see,
                                         style = MaterialTheme.typography.bodySmall,
                                         fontSize = 14.sp,
                                         modifier = Modifier
@@ -635,7 +550,7 @@ fun HabitStatistics(viewModel: AppViewModel) {
                     Box(
                         modifier = Modifier
                             .fillMaxWidth()
-                            .background(UI_color, RoundedCornerShape(20.dp))
+                            .background(UIC, RoundedCornerShape(20.dp))
                             .height(48.dp),
                         contentAlignment = Alignment.Center
                     ) {
@@ -643,7 +558,7 @@ fun HabitStatistics(viewModel: AppViewModel) {
                             text = ts_Progress_graph,
                             fontSize = 16.sp,
                             fontWeight = FontWeight.Bold,
-                            color = textSeeUiColor,
+                            color = UICT_see,
                         )
                     }
                     Box(
@@ -685,24 +600,24 @@ fun HabitStatistics(viewModel: AppViewModel) {
                                         Text(
                                             "$ts_Period:",
                                             fontSize = 12.sp,
-                                            color = textNoSeeColor
+                                            color = UICT_no_see
                                         )
                                     },
                                     keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
                                     singleLine = true,
                                     textStyle = TextStyle(
                                         fontSize = 14.sp,
-                                        color = textSeeUiColor
+                                        color = UICT_see
                                     ),
                                     shape = RoundedCornerShape(15.dp),
                                     colors = TextFieldDefaults.colors(
-                                        focusedTextColor = textSeeUiColor,
-                                        unfocusedTextColor = textNoSeeColor,
-                                        disabledTextColor = textNoSeeColor,
-                                        focusedContainerColor = UI_dark_x2_color,
-                                        unfocusedContainerColor = UI_dark_x2_color,
-                                        disabledContainerColor = UI_dark_x2_color,
-                                        cursorColor = textSeeUiColor,
+                                        focusedTextColor = UICT_see,
+                                        unfocusedTextColor = UICT_no_see,
+                                        disabledTextColor = UICT_no_see,
+                                        focusedContainerColor = UIC_dark_x2,
+                                        unfocusedContainerColor = UIC_dark_x2,
+                                        disabledContainerColor = UIC_dark_x2,
+                                        cursorColor = UICT_see,
                                         focusedIndicatorColor = Color.Transparent,
                                         unfocusedIndicatorColor = Color.Transparent,
                                         disabledIndicatorColor = Color.Transparent
@@ -716,24 +631,24 @@ fun HabitStatistics(viewModel: AppViewModel) {
                                         Text(
                                             "$ts_Step:",
                                             fontSize = 12.sp,
-                                            color = textNoSeeColor
+                                            color = UICT_no_see
                                         )
                                     },
                                     keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
                                     singleLine = true,
                                     textStyle = TextStyle(
                                         fontSize = 14.sp,
-                                        color = textSeeUiColor
+                                        color = UICT_see
                                     ),
                                     shape = RoundedCornerShape(15.dp),
                                     colors = TextFieldDefaults.colors(
-                                        focusedTextColor = textSeeUiColor,
-                                        unfocusedTextColor = textNoSeeColor,
-                                        disabledTextColor = textNoSeeColor,
-                                        focusedContainerColor = UI_dark_x2_color,
-                                        unfocusedContainerColor = UI_dark_x2_color,
-                                        disabledContainerColor = UI_dark_x2_color,
-                                        cursorColor = textSeeUiColor,
+                                        focusedTextColor = UICT_see,
+                                        unfocusedTextColor = UICT_no_see,
+                                        disabledTextColor = UICT_no_see,
+                                        focusedContainerColor = UIC_dark_x2,
+                                        unfocusedContainerColor = UIC_dark_x2,
+                                        disabledContainerColor = UIC_dark_x2,
+                                        cursorColor = UICT_see,
                                         focusedIndicatorColor = Color.Transparent,
                                         unfocusedIndicatorColor = Color.Transparent,
                                         disabledIndicatorColor = Color.Transparent
@@ -743,7 +658,7 @@ fun HabitStatistics(viewModel: AppViewModel) {
                                 Text(
                                     text = ts_Set,
                                     fontSize = 16.sp,
-                                    color = textSeeUiColor,
+                                    color = UICT_see,
                                     modifier = Modifier
                                         .background(Color(25, 50, 25), RoundedCornerShape(15.dp))
                                         .clickable {
@@ -770,7 +685,7 @@ fun HabitStatistics(viewModel: AppViewModel) {
                     Box(
                         modifier = Modifier
                             .fillMaxWidth()
-                            .background(UI_color, RoundedCornerShape(20.dp))
+                            .background(UIC, RoundedCornerShape(20.dp))
                             .height(48.dp),
                         contentAlignment = Alignment.Center
                     ) {
@@ -778,7 +693,7 @@ fun HabitStatistics(viewModel: AppViewModel) {
                             text = ts_Results,
                             fontSize = 16.sp,
                             fontWeight = FontWeight.Bold,
-                            color = textSeeUiColor,
+                            color = UICT_see,
                         )
                     }
                     Box(
@@ -813,24 +728,24 @@ fun HabitStatistics(viewModel: AppViewModel) {
                                         Text(
                                             "$ts_Step:",
                                             fontSize = 12.sp,
-                                            color = textNoSeeColor
+                                            color = UICT_no_see
                                         )
                                     },
                                     keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
                                     singleLine = true,
                                     textStyle = TextStyle(
                                         fontSize = 14.sp,
-                                        color = textSeeUiColor
+                                        color = UICT_see
                                     ),
                                     shape = RoundedCornerShape(15.dp),
                                     colors = TextFieldDefaults.colors(
-                                        focusedTextColor = textSeeUiColor,
-                                        unfocusedTextColor = textNoSeeColor,
-                                        disabledTextColor = textNoSeeColor,
-                                        focusedContainerColor = UI_dark_x2_color,
-                                        unfocusedContainerColor = UI_dark_x2_color,
-                                        disabledContainerColor = UI_dark_x2_color,
-                                        cursorColor = textSeeUiColor,
+                                        focusedTextColor = UICT_see,
+                                        unfocusedTextColor = UICT_no_see,
+                                        disabledTextColor = UICT_no_see,
+                                        focusedContainerColor = UIC_dark_x2,
+                                        unfocusedContainerColor = UIC_dark_x2,
+                                        disabledContainerColor = UIC_dark_x2,
+                                        cursorColor = UICT_see,
                                         focusedIndicatorColor = Color.Transparent,
                                         unfocusedIndicatorColor = Color.Transparent,
                                         disabledIndicatorColor = Color.Transparent
@@ -840,7 +755,7 @@ fun HabitStatistics(viewModel: AppViewModel) {
                                 Text(
                                     text = ts_Set,
                                     fontSize = 16.sp,
-                                    color = textSeeUiColor,
+                                    color = UICT_see,
                                     modifier = Modifier
                                         .background(Color(25, 50, 25), RoundedCornerShape(15.dp))
                                         .clickable {
@@ -873,7 +788,7 @@ fun HabitStatistics(viewModel: AppViewModel) {
                         Box(
                             modifier = Modifier
                                 .fillMaxWidth()
-                                .background(UI_color, RoundedCornerShape(20.dp))
+                                .background(UIC, RoundedCornerShape(20.dp))
                                 .height(48.dp),
                             contentAlignment = Alignment.Center
                         ) {
@@ -881,7 +796,7 @@ fun HabitStatistics(viewModel: AppViewModel) {
                                 text = ts_Seria,
                                 fontSize = 16.sp,
                                 fontWeight = FontWeight.Bold,
-                                color = textSeeUiColor,
+                                color = UICT_see,
                             )
                         }
                         Box(
@@ -915,7 +830,7 @@ fun HabitStatistics(viewModel: AppViewModel) {
                                         Text(
                                             text = "$value",
                                             fontSize = 15.sp,
-                                            color = if (seeColor.red * 255 + seeColor.green * 255 + seeColor.blue * 255 < 383) Color.White else Color.Black,
+                                            color = if (seeColor.red * 255 + seeColor.green * 255 + seeColor.blue * 255 < 383) UIC_white else UIC_black,
                                         )
                                     }
                                 }
