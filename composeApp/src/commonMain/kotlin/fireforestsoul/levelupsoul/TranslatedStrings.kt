@@ -86,6 +86,8 @@ var ts_one_symbol = "one symbol"
 var ts_Completed = "Completed"
 var ts_Its_all_done = "It's all done ✔"
 var ts_You_failed = "You failed ❌"
+var ts_Go_back = "Go back"
+var ts_Statistic = "Statistic"
 
 fun changeLanguage() {
     if (language == Languages.RU) {
@@ -175,6 +177,8 @@ fun changeLanguage() {
         ts_Completed = "Завершено"
         ts_Its_all_done = "Всё готово ✔"
         ts_You_failed = "Вы не справились ❌"
+        ts_Go_back = "Назад"
+        ts_Statistic = "Статистика"
     } else {
         ts_Edit = "Edit"
         ts_Cancel = "Cancel"
@@ -262,5 +266,7 @@ fun changeLanguage() {
         ts_Completed = "Completed"
         ts_Its_all_done = "It's all done ✔"
         ts_You_failed = "You failed ❌"
+        ts_Go_back = "Go back"
+        ts_Statistic = "Statistic"
     }
 }

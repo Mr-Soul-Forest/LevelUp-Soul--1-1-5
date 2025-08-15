@@ -1,12 +1,15 @@
 package fireforestsoul.levelupsoul
 
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.BoxWithConstraints
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.foundation.layout.asPaddingValues
 import androidx.compose.foundation.layout.fillMaxSize
@@ -20,6 +23,7 @@ import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.foundation.verticalScroll
+import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Scaffold
@@ -32,19 +36,24 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.ColorFilter
 import androidx.compose.ui.layout.onGloballyPositioned
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.text.TextStyle
+import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.KeyboardType
+import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.ionspin.kotlin.bignum.decimal.toBigDecimal
 import kotlinx.datetime.Clock
 import kotlinx.datetime.TimeZone
 import kotlinx.datetime.toLocalDateTime
+import org.jetbrains.compose.resources.painterResource
 
 var habit_statistics_and_edit_x = 0
 
@@ -53,14 +62,110 @@ fun HabitStatistics(viewModel: AppViewModel) {
     Box(
         modifier = Modifier
             .fillMaxSize()
-            .background(UIC_dark_x2)
+            .background(Brush.verticalGradient(listOf(UIC_dark, UIC_black)))
     ) {
         Scaffold(
             modifier = Modifier
                 .padding(WindowInsets.systemBars.asPaddingValues())
-                .background(Brush.linearGradient(listOf(UIC_black))),
+                .background(Brush.verticalGradient(listOf(UIC_dark, UIC_black))),
             topBar = {
+                BoxWithConstraints(
+                    modifier = Modifier.fillMaxWidth()
+                ) {
+                    val maxWidthBox = maxWidth
 
+                    IconButton(
+                        { viewModel.setStatus(backStatus) },
+                        modifier = Modifier.padding(14.dp, 12.dp)
+                    ) {
+                        Image(
+                            painter = painterResource(Res.drawable.back),
+                            contentDescription = ts_Go_back,
+                            colorFilter = ColorFilter.tint(UIC),
+                            modifier = Modifier.size(30.8.dp)
+                                .clip(RoundedCornerShape(15.4.dp))
+                        )
+                    }
+                    Column(
+                        modifier = Modifier.fillMaxWidth()
+                            .padding(top = 52.dp, bottom = 10.8.dp),
+                        verticalArrangement = Arrangement.SpaceAround,
+                        horizontalAlignment = Alignment.CenterHorizontally
+                    ) {
+                        Text(
+                            text = "«${habits[habit_statistics_and_edit_x].nameOfHabit}»",
+                            color = UICT_see,
+                            maxLines = 1,
+                            overflow = TextOverflow.Ellipsis,
+                            fontWeight = FontWeight.ExtraBold,
+                            fontFamily = FontFamily.Monospace,
+                            fontSize = 28.33.sp
+                        )
+                        Text(
+                            text = ts_statistic,
+                            color = UICT_no_see,
+                            maxLines = 1,
+                            overflow = TextOverflow.Ellipsis,
+                            fontFamily = FontFamily.Monospace,
+                            fontSize = 12.sp
+                        )
+                        Spacer(modifier = Modifier.height(57.6.dp))
+                        Row(
+                            modifier = Modifier.fillMaxWidth()
+                                .padding(horizontal = 66.4.dp),
+                            horizontalArrangement = Arrangement.SpaceAround
+                        ) {
+                            Box(
+                                modifier = Modifier.size(maxWidthBox * 0.33f, 40.dp)
+                                    .background(
+                                        seeColorByIndex(habit_statistics_and_edit_x),
+                                        RoundedCornerShape(27.2.dp)
+                                    )
+                                    .border(
+                                        0.8.dp,
+                                        seeColorByIndex(habit_statistics_and_edit_x),
+                                        RoundedCornerShape(27.2.dp)
+                                    ),
+                                contentAlignment = Alignment.Center
+                            ) {
+                                Text(
+                                    text = ts_Statistic,
+                                    color = checkBackgroundBright(
+                                        seeColorByIndex(habit_statistics_and_edit_x),
+                                        UICT_see
+                                    ),
+                                    maxLines = 1,
+                                    overflow = TextOverflow.Ellipsis,
+                                    fontFamily = FontFamily.Monospace,
+                                    fontSize = 16.sp
+                                )
+                            }
+                            Box(
+                                modifier = Modifier.size(maxWidthBox * 0.33f, 40.dp)
+                                    .background(Color.Transparent)
+                                    .border(
+                                        0.8.dp,
+                                        seeColorByIndex(habit_statistics_and_edit_x),
+                                        RoundedCornerShape(27.2.dp)
+                                    )
+                                    .clickable { viewModel.setStatus(AppStatus.EDIT_HABIT) },
+                                contentAlignment = Alignment.Center
+                            ) {
+                                Text(
+                                    text = ts_Edit,
+                                    color = checkBackgroundBright(
+                                        seeColorByIndex(habit_statistics_and_edit_x),
+                                        UICT_see
+                                    ),
+                                    maxLines = 1,
+                                    overflow = TextOverflow.Ellipsis,
+                                    fontFamily = FontFamily.Monospace,
+                                    fontSize = 16.sp
+                                )
+                            }
+                        }
+                    }
+                }
             },
             bottomBar = {
                 Box(
@@ -82,6 +187,20 @@ fun HabitStatistics(viewModel: AppViewModel) {
                 }
             }
         ) { paddingValues ->
+
+            Box(
+                modifier = Modifier.fillMaxWidth()
+                    .background(
+                        Brush.verticalGradient(
+                            listOf(
+                                UIC_black,
+                                noSeeColorByIndex(habit_statistics_and_edit_x)
+                            )
+                        )
+                    )
+                    .height(paddingValues.calculateTopPadding() + 66.4.dp)
+            )
+
             val verticalScroll = rememberScrollState()
             val spaceCell = 8.dp
 
@@ -92,7 +211,7 @@ fun HabitStatistics(viewModel: AppViewModel) {
                 modifier = Modifier
                     .padding(paddingValues)
                     .fillMaxSize()
-                    .background(UIC_dark_x2)
+                    .background(UIC_dark_x2, RoundedCornerShape(topStart = 66.4.dp, topEnd = 66.4.dp))
                     .verticalScroll(verticalScroll)
             ) {
                 Column(

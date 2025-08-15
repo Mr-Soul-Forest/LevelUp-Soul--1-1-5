@@ -105,7 +105,7 @@ android {
         minSdk = libs.versions.android.minSdk.get().toInt()
         targetSdk = libs.versions.android.targetSdk.get().toInt()
         versionCode = 3
-        versionName = "1.1.0"
+        versionName = "1.1.1"
         setProperty("archivesBaseName", "LevelUpSoul-v$versionName")
     }
     packaging {
@@ -162,7 +162,7 @@ compose.desktop {
             )
 
             packageName = "LevelUpSoul"
-            packageVersion = "1.1.0"
+            packageVersion = "1.1.1"
 
             linux {
                 iconFile.set(project.file("src/desktopMain/resources/app_icon.png"))

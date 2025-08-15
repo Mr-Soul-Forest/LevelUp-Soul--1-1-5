@@ -17,7 +17,7 @@ enum class AppStatus {
     HABITS_LIST_UPDATER
 }
 
-const val app_version: Long = 1001000000 //version(001).001.000.000
+const val app_version: Long = 1001001000 //version(001).001.001.000
 
 const val save_file_name = "LevelUp-Soul.FireForestSouls-saving"
 
