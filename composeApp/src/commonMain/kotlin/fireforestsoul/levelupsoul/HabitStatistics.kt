@@ -67,6 +67,9 @@ fun HabitStatistics(viewModel: AppViewModel) {
             .fillMaxSize()
             .background(Brush.verticalGradient(listOf(UIC_dark, UIC_black)))
     ) {
+
+        var habitStatisticsStatus by remember { mutableStateOf(HabitStatisticsStatus.GOAL) }
+
         Scaffold(
             modifier = Modifier
                 .padding(WindowInsets.systemBars.asPaddingValues())
@@ -1018,4 +1021,15 @@ fun HabitStatistics(viewModel: AppViewModel) {
             }
         }
     }
+}
+
+enum class HabitStatisticsStatus {
+    GOAL,
+    PROGRESS,
+    LEVEL,
+    PROGRESS_GRAPH,
+    BAR_CHART,
+    CALENDAR,
+    STRIKES,
+    DISTRIBUTION_BY_DAY_OF_THE_WEEK
 }
