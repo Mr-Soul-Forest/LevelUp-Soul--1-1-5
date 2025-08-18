@@ -88,6 +88,10 @@ var ts_Its_all_done = "It's all done ✔"
 var ts_You_failed = "You failed ❌"
 var ts_Go_back = "Go back"
 var ts_Statistic = "Statistic"
+var ts_Bar_chart = "Bar chart"
+var ts_Calendar = "Calendar"
+var ts_Streaks = "Streaks"
+var ts_Distribution_by_day_of_the_week = "Distribution by day of the week"
 
 fun changeLanguage() {
     if (language == Languages.RU) {
@@ -179,6 +183,10 @@ fun changeLanguage() {
         ts_You_failed = "Вы не справились ❌"
         ts_Go_back = "Назад"
         ts_Statistic = "Статистика"
+        ts_Bar_chart = "Столбчатая диаграмма"
+        ts_Calendar = "Календарь"
+        ts_Streaks = "Серии"
+        ts_Distribution_by_day_of_the_week = "Распределение по дням недели"
     } else {
         ts_Edit = "Edit"
         ts_Cancel = "Cancel"
@@ -268,5 +276,9 @@ fun changeLanguage() {
         ts_You_failed = "You failed ❌"
         ts_Go_back = "Go back"
         ts_Statistic = "Statistic"
+        ts_Bar_chart = "Bar chart"
+        ts_Calendar = "Calendar"
+        ts_Streaks = "Streaks"
+        ts_Distribution_by_day_of_the_week = "Distribution by day of the week"
     }
 }

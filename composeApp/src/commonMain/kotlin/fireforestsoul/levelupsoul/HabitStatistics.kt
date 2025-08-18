@@ -39,9 +39,11 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.draw.rotate
+import androidx.compose.ui.graphics.BlendMode
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.ColorFilter
+import androidx.compose.ui.graphics.painter.Painter
 import androidx.compose.ui.layout.layout
 import androidx.compose.ui.layout.onGloballyPositioned
 import androidx.compose.ui.platform.LocalDensity
@@ -243,7 +245,54 @@ fun HabitStatistics(viewModel: AppViewModel) {
                         verticalAlignment = Alignment.CenterVertically,
                         horizontalArrangement = Arrangement.SpaceAround
                     ) {
-
+                        HabitStatisticsStatusIcon(
+                            habitStatisticsStatus = HabitStatisticsStatus.GOAL,
+                            statusNow = habitStatisticsStatus,
+                            icon = painterResource(Res.drawable.habit_statistic__goal),
+                            contentDescription = ts_Goal
+                        ) { habitStatisticsStatus = HabitStatisticsStatus.GOAL }
+                        HabitStatisticsStatusIcon(
+                            habitStatisticsStatus = HabitStatisticsStatus.PROGRESS,
+                            statusNow = habitStatisticsStatus,
+                            icon = painterResource(Res.drawable.habit_statistic__progress),
+                            contentDescription = ts_Progress
+                        ) { habitStatisticsStatus = HabitStatisticsStatus.PROGRESS }
+                        HabitStatisticsStatusIcon(
+                            habitStatisticsStatus = HabitStatisticsStatus.LEVEL,
+                            statusNow = habitStatisticsStatus,
+                            icon = painterResource(Res.drawable.habit_statistic__level),
+                            contentDescription = ts_Level
+                        ) { habitStatisticsStatus = HabitStatisticsStatus.LEVEL }
+                        HabitStatisticsStatusIcon(
+                            habitStatisticsStatus = HabitStatisticsStatus.PROGRESS_GRAPH,
+                            statusNow = habitStatisticsStatus,
+                            icon = painterResource(Res.drawable.habit_statistic__progress_graph),
+                            contentDescription = ts_Progress_graph
+                        ) { habitStatisticsStatus = HabitStatisticsStatus.PROGRESS_GRAPH }
+                        HabitStatisticsStatusIcon(
+                            habitStatisticsStatus = HabitStatisticsStatus.BAR_CHART,
+                            statusNow = habitStatisticsStatus,
+                            icon = painterResource(Res.drawable.habit_statistic__bar_chart),
+                            contentDescription = ts_Bar_chart
+                        ) { habitStatisticsStatus = HabitStatisticsStatus.BAR_CHART }
+                        HabitStatisticsStatusIcon(
+                            habitStatisticsStatus = HabitStatisticsStatus.CALENDAR,
+                            statusNow = habitStatisticsStatus,
+                            icon = painterResource(Res.drawable.habit_statistic__calendar),
+                            contentDescription = ts_Calendar
+                        ) { habitStatisticsStatus = HabitStatisticsStatus.CALENDAR }
+                        HabitStatisticsStatusIcon(
+                            habitStatisticsStatus = HabitStatisticsStatus.STREAKS,
+                            statusNow = habitStatisticsStatus,
+                            icon = painterResource(Res.drawable.habit_statistic__streaks),
+                            contentDescription = ts_Streaks
+                        ) { habitStatisticsStatus = HabitStatisticsStatus.STREAKS }
+                        HabitStatisticsStatusIcon(
+                            habitStatisticsStatus = HabitStatisticsStatus.DISTRIBUTION_BY_DAY_OF_THE_WEEK,
+                            statusNow = habitStatisticsStatus,
+                            icon = painterResource(Res.drawable.habit_statistic__distribution_by_day_of_the_week),
+                            contentDescription = ts_Distribution_by_day_of_the_week
+                        ) { habitStatisticsStatus = HabitStatisticsStatus.DISTRIBUTION_BY_DAY_OF_THE_WEEK }
                     }
                 }
             }
@@ -1023,13 +1072,34 @@ fun HabitStatistics(viewModel: AppViewModel) {
     }
 }
 
-enum class HabitStatisticsStatus {
+private enum class HabitStatisticsStatus {
     GOAL,
     PROGRESS,
     LEVEL,
     PROGRESS_GRAPH,
     BAR_CHART,
     CALENDAR,
-    STRIKES,
+    STREAKS,
     DISTRIBUTION_BY_DAY_OF_THE_WEEK
+}
+
+@Composable
+private fun HabitStatisticsStatusIcon(
+    habitStatisticsStatus: HabitStatisticsStatus = HabitStatisticsStatus.GOAL,
+    statusNow: HabitStatisticsStatus = HabitStatisticsStatus.GOAL,
+    icon: Painter,
+    contentDescription: String,
+    onClick: () -> Unit
+) {
+    Image(
+        painter = icon,
+        contentDescription = contentDescription,
+        modifier = Modifier.size(35.56.dp)
+            .clickable(onClick = onClick),
+        colorFilter = if (habitStatisticsStatus == statusNow) {
+            ColorFilter.tint(noSeeColorByIndex(habit_statistics_and_edit_x), BlendMode.Modulate)
+        } else {
+            ColorFilter.tint(UIC_dark, BlendMode.Modulate)
+        }
+    )
 }
