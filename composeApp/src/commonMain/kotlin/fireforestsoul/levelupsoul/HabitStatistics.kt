@@ -37,9 +37,11 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.draw.rotate
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.ColorFilter
+import androidx.compose.ui.layout.layout
 import androidx.compose.ui.layout.onGloballyPositioned
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.text.TextStyle
@@ -69,8 +71,17 @@ fun HabitStatistics(viewModel: AppViewModel) {
                 .padding(WindowInsets.systemBars.asPaddingValues())
                 .background(Brush.verticalGradient(listOf(UIC_dark, UIC_black))),
             topBar = {
+                var maxHeightBox by remember { mutableStateOf(0.dp) }
+
                 BoxWithConstraints(
                     modifier = Modifier.fillMaxWidth()
+                        .layout { measurable, constraints ->
+                            val placeable = measurable.measure(constraints)
+                            maxHeightBox = placeable.height.toDp()
+                            layout(placeable.width, placeable.height) {
+                                placeable.place(0, 0)
+                            }
+                        }
                 ) {
                     val maxWidthBox = maxWidth
 
@@ -164,6 +175,49 @@ fun HabitStatistics(viewModel: AppViewModel) {
                                 )
                             }
                         }
+                    }
+
+                    Box(
+                        modifier = Modifier.padding(
+                            start = maxWidthBox / 1080 * 801.79f,
+                            top = maxHeightBox / 536 * 54.07f
+                        )
+                    ) {
+                        Text(
+                            text = habits[habit_statistics_and_edit_x].iconChar,
+                            color = seeColorByIndex(habit_statistics_and_edit_x),
+                            fontSize = 50.sp,
+                            fontWeight = FontWeight.Black,
+                            modifier = Modifier.rotate(-28.79f)
+                        )
+                    }
+                    Box(
+                        modifier = Modifier.padding(
+                            start = maxWidthBox / 1080 * 51.32f,
+                            top = maxHeightBox / 536 * 181.29f
+                        )
+                    ) {
+                        Text(
+                            text = habits[habit_statistics_and_edit_x].iconChar,
+                            color = seeColorByIndex(habit_statistics_and_edit_x),
+                            fontSize = 42.67.sp,
+                            fontWeight = FontWeight.Black,
+                            modifier = Modifier.rotate(33.94f)
+                        )
+                    }
+                    Box(
+                        modifier = Modifier.padding(
+                            start = maxWidthBox / 1080 * 677.25f,
+                            top = maxHeightBox / 536 * 288.99f
+                        )
+                    ) {
+                        Text(
+                            text = habits[habit_statistics_and_edit_x].iconChar,
+                            color = seeColorByIndex(habit_statistics_and_edit_x),
+                            fontSize = 26.67.sp,
+                            fontWeight = FontWeight.Black,
+                            modifier = Modifier.rotate(-17.23f)
+                        )
                     }
                 }
             },
