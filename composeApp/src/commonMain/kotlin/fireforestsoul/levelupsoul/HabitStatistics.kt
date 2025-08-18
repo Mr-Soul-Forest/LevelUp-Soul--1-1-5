@@ -4,6 +4,7 @@ import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.horizontalScroll
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.BoxWithConstraints
@@ -225,19 +226,22 @@ fun HabitStatistics(viewModel: AppViewModel) {
                 Box(
                     modifier = Modifier
                         .fillMaxWidth()
-                        .height(48.dp)
-                        .background(UIC_dark_x05)
-                        .clickable {
-                            viewModel.setStatus(backStatus)
-                        }
-                        .border(2.dp, UIC_light),
+                        .background(UIC_dark)
+                        .padding(horizontal = 15.56.dp)
+                        .padding(bottom = 13.78.dp),
                     contentAlignment = Alignment.Center
                 ) {
-                    Text(
-                        text = "⟵",
-                        fontSize = 25.sp,
-                        color = UICT_see
-                    )
+                    Row(
+                        modifier = Modifier.fillMaxWidth()
+                            .background(UIC_light, RoundedCornerShape(20.89.dp))
+                            .padding(horizontal = 20.89.dp)
+                            .height(48.44.dp)
+                            .horizontalScroll(rememberScrollState()),
+                        verticalAlignment = Alignment.CenterVertically,
+                        horizontalArrangement = Arrangement.SpaceAround
+                    ) {
+
+                    }
                 }
             }
         ) { paddingValues ->
