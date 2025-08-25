@@ -455,6 +455,52 @@ private fun PPSSetVector(
                     RoundedCornerShape(88.89.dp)
                 )
         )
+        Column(
+            horizontalAlignment = Alignment.CenterHorizontally,
+            verticalArrangement = Arrangement.Center,
+            modifier = Modifier.fillMaxSize()
+        ) {
+            Text(
+                text = "$ts_PPS (0 $ts_for_full_time):",
+                fontFamily = JetBrainsFont(),
+                fontWeight = FontWeight.Thin,
+                fontSize = 12.8.sp,
+                color = UICT_no_see,
+                maxLines = 1,
+                overflow = TextOverflow.Ellipsis
+            )
+            Spacer(modifier = Modifier.size(4.dp))
+            Row(
+                verticalAlignment = Alignment.Bottom
+            ) {
+                Text(
+                    text = pps.toString(),
+                    fontFamily = JetBrainsFont(),
+                    fontWeight = FontWeight.Bold,
+                    fontSize = 16.sp,
+                    color = UIC_green,
+                    maxLines = 1
+                )
+                Text(
+                    text = "/" + habits[habit_statistics_and_edit_x].habitDay.size.toString(),
+                    fontFamily = JetBrainsFont(),
+                    fontWeight = FontWeight.Thin,
+                    fontSize = 9.4.sp,
+                    color = UICT_no_see,
+                    maxLines = 1,
+                    overflow = TextOverflow.Ellipsis
+                )
+                Text(
+                    text = " $ts_days",
+                    fontFamily = JetBrainsFont(),
+                    fontWeight = FontWeight.Bold,
+                    fontSize = 16.sp,
+                    color = UIC_green,
+                    maxLines = 1,
+                    overflow = TextOverflow.Ellipsis
+                )
+            }
+        }
     }
 }
 

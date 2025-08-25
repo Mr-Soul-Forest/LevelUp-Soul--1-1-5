@@ -99,6 +99,7 @@ var ts_No_more = "No more"
 var ts_goal = "goal"
 var ts_period = "period"
 var ts_for_statistic = "for statistic"
+var ts_for_full_time = "for full time"
 
 fun changeLanguage() {
     if (language == Languages.RU) {
@@ -201,6 +202,7 @@ fun changeLanguage() {
         ts_goal = "цель"
         ts_period = "период"
         ts_for_statistic = "для статистики"
+        ts_for_full_time = "для полного времени"
     } else {
         ts_Edit = "Edit"
         ts_Cancel = "Cancel"
@@ -301,6 +303,6 @@ fun changeLanguage() {
         ts_goal = "goal"
         ts_period = "period"
         ts_for_statistic = "for statistic"
-
+        ts_for_full_time = "for full time"
     }
 }
