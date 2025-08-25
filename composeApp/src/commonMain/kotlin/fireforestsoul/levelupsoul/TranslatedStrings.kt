@@ -92,6 +92,8 @@ var ts_Bar_chart = "Bar chart"
 var ts_Calendar = "Calendar"
 var ts_Streaks = "Streaks"
 var ts_Distribution_by_day_of_the_week = "Distribution by day of the week"
+var ts_Type_of_goal = "Type of goal"
+var ts_Needed_for_the_goal = "Needed for the goal"
 
 fun changeLanguage() {
     if (language == Languages.RU) {
@@ -187,6 +189,8 @@ fun changeLanguage() {
         ts_Calendar = "Календарь"
         ts_Streaks = "Серии"
         ts_Distribution_by_day_of_the_week = "Распределение по дням недели"
+        ts_Type_of_goal = "Тип цели"
+        ts_Needed_for_the_goal = "Необходимо для цели"
     } else {
         ts_Edit = "Edit"
         ts_Cancel = "Cancel"
@@ -280,5 +284,7 @@ fun changeLanguage() {
         ts_Calendar = "Calendar"
         ts_Streaks = "Streaks"
         ts_Distribution_by_day_of_the_week = "Distribution by day of the week"
+        ts_Type_of_goal = "Type of goal"
+        ts_Needed_for_the_goal = "Needed for the goal"
     }
 }

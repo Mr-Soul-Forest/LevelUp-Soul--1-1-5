@@ -309,28 +309,37 @@ fun HabitStatistics(viewModel: AppViewModel) {
                     .background(UIC_dark_x2, RoundedCornerShape(topStart = 66.4.dp, topEnd = 66.4.dp))
                     .verticalScroll(verticalScroll)
             ) {
-                Box(
-                    modifier = Modifier.fillMaxWidth().height(66.4.dp),
-                    contentAlignment = Alignment.Center
+                Column(
+                    modifier = Modifier.fillMaxWidth(),
+                    horizontalAlignment = Alignment.CenterHorizontally
                 ) {
-                    Text(
-                        text = when (habitStatisticsStatus) {
-                            HabitStatisticsStatus.GOAL -> ts_Goal
-                            HabitStatisticsStatus.LEVEL -> ts_Level
-                            HabitStatisticsStatus.STREAKS -> ts_Streaks
-                            HabitStatisticsStatus.CALENDAR -> ts_Calendar
-                            HabitStatisticsStatus.PROGRESS -> ts_Progress
-                            HabitStatisticsStatus.BAR_CHART -> ts_Results
-                            HabitStatisticsStatus.PROGRESS_GRAPH -> ts_Progress_graph
-                            HabitStatisticsStatus.DISTRIBUTION_BY_DAY_OF_THE_WEEK -> ts_Distribution_by_day_of_the_week
-                        },
-                        fontFamily = JetBrainsFont(),
-                        maxLines = 1,
-                        overflow = TextOverflow.Ellipsis,
-                        fontWeight = FontWeight.Medium,
-                        fontSize = 16.sp,
-                        color = UICT_see
-                    )
+                    Box(
+                        modifier = Modifier.fillMaxWidth().height(66.4.dp),
+                        contentAlignment = Alignment.Center
+                    ) {
+                        Text(
+                            text = when (habitStatisticsStatus) {
+                                HabitStatisticsStatus.GOAL -> ts_Goal
+                                HabitStatisticsStatus.LEVEL -> ts_Level
+                                HabitStatisticsStatus.STREAKS -> ts_Streaks
+                                HabitStatisticsStatus.CALENDAR -> ts_Calendar
+                                HabitStatisticsStatus.PROGRESS -> ts_Progress
+                                HabitStatisticsStatus.BAR_CHART -> ts_Results
+                                HabitStatisticsStatus.PROGRESS_GRAPH -> ts_Progress_graph
+                                HabitStatisticsStatus.DISTRIBUTION_BY_DAY_OF_THE_WEEK -> ts_Distribution_by_day_of_the_week
+                            },
+                            fontFamily = JetBrainsFont(),
+                            maxLines = 1,
+                            overflow = TextOverflow.Ellipsis,
+                            fontWeight = FontWeight.Medium,
+                            fontSize = 16.sp,
+                            color = UICT_see
+                        )
+                    }
+                    when (habitStatisticsStatus) {
+                        HabitStatisticsStatus.GOAL -> GoalContent()
+                        else -> {}
+                    }
                 }
             }
         }
@@ -378,6 +387,57 @@ private fun HabitStatisticsStatusIcon(
                     UIC_light_x05
                 ), BlendMode.Modulate
             )
+        )
+    }
+}
+
+@Composable
+private fun GoalParamItem(
+    res: Painter,
+    contentDescription: String
+) {
+    Row(
+        horizontalArrangement = Arrangement.spacedBy(22.67.dp),
+        verticalAlignment = Alignment.CenterVertically,
+        modifier = Modifier.fillMaxWidth()
+    ) {
+        Box(
+            modifier = Modifier.size(44.44.dp)
+                .background(UIC_extra_light, RoundedCornerShape(22.22.dp)),
+            contentAlignment = Alignment.Center
+        ) {
+            Image(
+                painter = res,
+                contentDescription = contentDescription,
+                modifier = Modifier.size(35.56.dp),
+                colorFilter = ColorFilter.tint(UIC_light, BlendMode.Modulate)
+            )
+        }
+    }
+}
+
+@Composable
+private fun GoalContent() {
+    Column(
+        verticalArrangement = Arrangement.spacedBy(24.89.dp),
+        modifier = Modifier.fillMaxWidth()
+            .padding(horizontal = 33.2.dp)
+    ) {
+        GoalParamItem(
+            painterResource(Res.drawable.habit_statistic__goal__type_of_goal),
+            ts_Type_of_goal
+        )
+        GoalParamItem(
+            painterResource(Res.drawable.habit_statistic__goal__need_goal),
+            ts_Needed_for_the_goal
+        )
+        GoalParamItem(
+            painterResource(Res.drawable.habit_statistic__goal__period),
+            ts_Period
+        )
+        GoalParamItem(
+            painterResource(Res.drawable.habit_statistic__goal__PPS),
+            ts_PPS
         )
     }
 }
