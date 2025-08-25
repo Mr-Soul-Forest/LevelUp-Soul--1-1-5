@@ -103,7 +103,7 @@ fun HabitStatistics(viewModel: AppViewModel) {
                             overflow = TextOverflow.Ellipsis,
                             fontWeight = FontWeight.ExtraBold,
                             fontFamily = JetBrainsFont(),
-                            fontSize = 28.33.sp
+                            fontSize = 34.sp
                         )
                         Text(
                             text = ts_statistic,
@@ -111,7 +111,7 @@ fun HabitStatistics(viewModel: AppViewModel) {
                             maxLines = 1,
                             overflow = TextOverflow.Ellipsis,
                             fontFamily = JetBrainsFont(),
-                            fontSize = 12.sp
+                            fontSize = 14.4.sp
                         )
                         Spacer(modifier = Modifier.height(57.6.dp))
                         Row(
@@ -141,7 +141,7 @@ fun HabitStatistics(viewModel: AppViewModel) {
                                     maxLines = 1,
                                     overflow = TextOverflow.Ellipsis,
                                     fontFamily = JetBrainsFont(),
-                                    fontSize = 16.sp
+                                    fontSize = 19.2.sp
                                 )
                             }
                             Box(
@@ -164,7 +164,7 @@ fun HabitStatistics(viewModel: AppViewModel) {
                                     maxLines = 1,
                                     overflow = TextOverflow.Ellipsis,
                                     fontFamily = JetBrainsFont(),
-                                    fontSize = 16.sp
+                                    fontSize = 19.2.sp
                                 )
                             }
                         }
@@ -179,7 +179,7 @@ fun HabitStatistics(viewModel: AppViewModel) {
                         Text(
                             text = habits[habit_statistics_and_edit_x].iconChar,
                             color = seeColorByIndex(habit_statistics_and_edit_x),
-                            fontSize = 50.sp,
+                            fontSize = 60.sp,
                             fontWeight = FontWeight.Black,
                             modifier = Modifier.rotate(-28.79f),
                             fontFamily = JetBrainsFont()
@@ -194,7 +194,7 @@ fun HabitStatistics(viewModel: AppViewModel) {
                         Text(
                             text = habits[habit_statistics_and_edit_x].iconChar,
                             color = seeColorByIndex(habit_statistics_and_edit_x),
-                            fontSize = 42.67.sp,
+                            fontSize = 51.2.sp,
                             fontWeight = FontWeight.Black,
                             modifier = Modifier.rotate(33.94f),
                             fontFamily = JetBrainsFont()
@@ -209,7 +209,7 @@ fun HabitStatistics(viewModel: AppViewModel) {
                         Text(
                             text = habits[habit_statistics_and_edit_x].iconChar,
                             color = seeColorByIndex(habit_statistics_and_edit_x),
-                            fontSize = 26.67.sp,
+                            fontSize = 34.sp,
                             fontWeight = FontWeight.Black,
                             modifier = Modifier.rotate(-17.23f),
                             fontFamily = JetBrainsFont()
@@ -307,7 +307,7 @@ fun HabitStatistics(viewModel: AppViewModel) {
                 modifier = Modifier
                     .padding(paddingValues)
                     .fillMaxSize()
-                    .background(UIC_dark_x2, RoundedCornerShape(topStart = 66.4.dp, topEnd = 66.4.dp))
+                    .background(UIC_dark, RoundedCornerShape(topStart = 66.4.dp, topEnd = 66.4.dp))
                     .verticalScroll(verticalScroll)
             ) {
                 Column(
@@ -333,7 +333,7 @@ fun HabitStatistics(viewModel: AppViewModel) {
                             maxLines = 1,
                             overflow = TextOverflow.Ellipsis,
                             fontWeight = FontWeight.Medium,
-                            fontSize = 16.sp,
+                            fontSize = 19.2.sp,
                             color = UICT_see
                         )
                     }
@@ -396,7 +396,8 @@ private fun HabitStatisticsStatusIcon(
 private fun GoalParamItem(
     res: Painter,
     contentDescription: String,
-    text: String
+    text: String,
+    smallText: String
 ) {
     Row(
         horizontalArrangement = Arrangement.spacedBy(22.67.dp),
@@ -420,8 +421,19 @@ private fun GoalParamItem(
                 text = text,
                 fontFamily = JetBrainsFont(),
                 fontWeight = FontWeight.Medium,
-                fontSize = 16.sp,
-                color = UICT_see
+                fontSize = 19.2.sp,
+                color = UICT_see,
+                maxLines = 1,
+                overflow = TextOverflow.Ellipsis
+            )
+            Text(
+                text = smallText,
+                fontFamily = JetBrainsFont(),
+                fontWeight = FontWeight.ExtraLight,
+                fontSize = 12.8.sp,
+                color = UICT_no_see,
+                maxLines = 1,
+                overflow = TextOverflow.Ellipsis
             )
         }
     }
@@ -440,22 +452,26 @@ private fun GoalContent(
             painterResource(Res.drawable.habit_statistic__goal__type_of_goal),
             ts_Type_of_goal,
             if (habits[habit_statistics_and_edit_x].typeOfGoalHabits == TypeOfGoalHabits.AT_LEAST) ts_At_least
-            else ts_No_more
+            else ts_No_more,
+            ts_type
         )
         GoalParamItem(
             painterResource(Res.drawable.habit_statistic__goal__need_goal),
             ts_Needed_for_the_goal,
-            habits[habit_statistics_and_edit_x].needGoal.toBestString() + " " + habits[habit_statistics_and_edit_x].nameOfUnitsOfDimension
+            habits[habit_statistics_and_edit_x].needGoal.toBestString() + " " + habits[habit_statistics_and_edit_x].nameOfUnitsOfDimension,
+            ts_goal
         )
         GoalParamItem(
             painterResource(Res.drawable.habit_statistic__goal__period),
             ts_Period,
-            habits[habit_statistics_and_edit_x].needDays.toString() + " " + ts_days
+            habits[habit_statistics_and_edit_x].needDays.toString() + " " + ts_days,
+            ts_period
         )
         GoalParamItem(
             painterResource(Res.drawable.habit_statistic__goal__PPS),
             ts_PPS,
-            "$pps $ts_days"
+            "$pps $ts_days",
+            "$ts_PPS $ts_for_statistic"
         )
     }
 }

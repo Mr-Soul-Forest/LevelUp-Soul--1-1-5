@@ -96,6 +96,9 @@ var ts_Type_of_goal = "Type of goal"
 var ts_Needed_for_the_goal = "Needed for the goal"
 var ts_At_least = "At least"
 var ts_No_more = "No more"
+var ts_goal = "goal"
+var ts_period = "period"
+var ts_for_statistic = "for statistic"
 
 fun changeLanguage() {
     if (language == Languages.RU) {
@@ -195,6 +198,9 @@ fun changeLanguage() {
         ts_Needed_for_the_goal = "Необходимо для цели"
         ts_At_least = "Как минимум"
         ts_No_more = "Не более"
+        ts_goal = "цель"
+        ts_period = "период"
+        ts_for_statistic = "для статистики"
     } else {
         ts_Edit = "Edit"
         ts_Cancel = "Cancel"
@@ -292,5 +298,9 @@ fun changeLanguage() {
         ts_Needed_for_the_goal = "Needed for the goal"
         ts_At_least = "At least"
         ts_No_more = "No more"
+        ts_goal = "goal"
+        ts_period = "period"
+        ts_for_statistic = "for statistic"
+
     }
 }
