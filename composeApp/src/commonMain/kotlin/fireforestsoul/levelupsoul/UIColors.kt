@@ -19,3 +19,10 @@ val UIC_dark_x2 = averageColor(listOf(UIC_dark, UIC_extra_dark)) //13(.5) 15 18
 val UIC_extra_light = averageColor(listOf(UIC_light, UIC_white)) //146 147(.5) 149(.5)
 val UIC_light_x2 = averageColor(listOf(UIC_light, UIC_extra_light)) //91(.5) 93(.75) 96(.75)
 val UIC_light_x05 = averageColor(listOf(UIC, UIC_light)) //31(.5) 34 38
+
+val UIC_x2green = UIC_dark.copy(green = if (UIC_dark.green * 2f <= 1f) UIC_dark.green * 2f else 1f)
+val UIC_x2green_x1o5white = Color(
+    if (UIC_x2green.red * 1.5f <= 1f) UIC_x2green.red * 1.5f else 1f,
+    if (UIC_x2green.green * 1.5f <= 1f) UIC_x2green.green * 1.5f else 1f,
+    if (UIC_x2green.blue * 1.5f <= 1f) UIC_x2green.blue * 1.5f else 1f
+)

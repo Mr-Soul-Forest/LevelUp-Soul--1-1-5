@@ -440,6 +440,25 @@ private fun GoalParamItem(
 }
 
 @Composable
+private fun PPSSetVector(
+    pps: Int
+) {
+    Box(
+        modifier = Modifier.fillMaxWidth().height(50.22.dp)
+            .background(UIC_x2green, RoundedCornerShape(88.89.dp))
+    ) {
+        Box(
+            modifier = Modifier.fillMaxWidth(pps.toFloat() / habits[habit_statistics_and_edit_x].habitDay.size.toFloat())
+                .height(50.22.dp)
+                .background(
+                    Brush.horizontalGradient(listOf(UIC_x2green, UIC_x2green_x1o5white)),
+                    RoundedCornerShape(88.89.dp)
+                )
+        )
+    }
+}
+
+@Composable
 private fun GoalContent(
     pps: Int
 ) {
@@ -473,5 +492,6 @@ private fun GoalContent(
             "$pps $ts_days",
             "$ts_PPS $ts_for_statistic"
         )
+        PPSSetVector(pps)
     }
 }
