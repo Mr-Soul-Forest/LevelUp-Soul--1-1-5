@@ -94,6 +94,8 @@ var ts_Streaks = "Streaks"
 var ts_Distribution_by_day_of_the_week = "Distribution by day of the week"
 var ts_Type_of_goal = "Type of goal"
 var ts_Needed_for_the_goal = "Needed for the goal"
+var ts_At_least = "At least"
+var ts_No_more = "No more"
 
 fun changeLanguage() {
     if (language == Languages.RU) {
@@ -191,6 +193,8 @@ fun changeLanguage() {
         ts_Distribution_by_day_of_the_week = "Распределение по дням недели"
         ts_Type_of_goal = "Тип цели"
         ts_Needed_for_the_goal = "Необходимо для цели"
+        ts_At_least = "Как минимум"
+        ts_No_more = "Не более"
     } else {
         ts_Edit = "Edit"
         ts_Cancel = "Cancel"
@@ -286,5 +290,7 @@ fun changeLanguage() {
         ts_Distribution_by_day_of_the_week = "Distribution by day of the week"
         ts_Type_of_goal = "Type of goal"
         ts_Needed_for_the_goal = "Needed for the goal"
+        ts_At_least = "At least"
+        ts_No_more = "No more"
     }
 }

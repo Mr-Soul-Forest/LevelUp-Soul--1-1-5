@@ -57,6 +57,7 @@ fun HabitStatistics(viewModel: AppViewModel) {
     ) {
 
         var habitStatisticsStatus by remember { mutableStateOf(HabitStatisticsStatus.GOAL) }
+        var progressPeriodSetting by remember { mutableStateOf(habits[habit_statistics_and_edit_x].habitDay.size) }
 
         Scaffold(
             modifier = Modifier
@@ -337,7 +338,7 @@ fun HabitStatistics(viewModel: AppViewModel) {
                         )
                     }
                     when (habitStatisticsStatus) {
-                        HabitStatisticsStatus.GOAL -> GoalContent()
+                        HabitStatisticsStatus.GOAL -> GoalContent(progressPeriodSetting)
                         else -> {}
                     }
                 }
@@ -394,7 +395,8 @@ private fun HabitStatisticsStatusIcon(
 @Composable
 private fun GoalParamItem(
     res: Painter,
-    contentDescription: String
+    contentDescription: String,
+    text: String
 ) {
     Row(
         horizontalArrangement = Arrangement.spacedBy(22.67.dp),
@@ -413,11 +415,22 @@ private fun GoalParamItem(
                 colorFilter = ColorFilter.tint(UIC_light, BlendMode.Modulate)
             )
         }
+        Column {
+            Text(
+                text = text,
+                fontFamily = JetBrainsFont(),
+                fontWeight = FontWeight.Medium,
+                fontSize = 16.sp,
+                color = UICT_see
+            )
+        }
     }
 }
 
 @Composable
-private fun GoalContent() {
+private fun GoalContent(
+    pps: Int
+) {
     Column(
         verticalArrangement = Arrangement.spacedBy(24.89.dp),
         modifier = Modifier.fillMaxWidth()
@@ -425,19 +438,24 @@ private fun GoalContent() {
     ) {
         GoalParamItem(
             painterResource(Res.drawable.habit_statistic__goal__type_of_goal),
-            ts_Type_of_goal
+            ts_Type_of_goal,
+            if (habits[habit_statistics_and_edit_x].typeOfGoalHabits == TypeOfGoalHabits.AT_LEAST) ts_At_least
+            else ts_No_more
         )
         GoalParamItem(
             painterResource(Res.drawable.habit_statistic__goal__need_goal),
-            ts_Needed_for_the_goal
+            ts_Needed_for_the_goal,
+            habits[habit_statistics_and_edit_x].needGoal.toBestString() + " " + habits[habit_statistics_and_edit_x].nameOfUnitsOfDimension
         )
         GoalParamItem(
             painterResource(Res.drawable.habit_statistic__goal__period),
-            ts_Period
+            ts_Period,
+            habits[habit_statistics_and_edit_x].needDays.toString() + " " + ts_days
         )
         GoalParamItem(
             painterResource(Res.drawable.habit_statistic__goal__PPS),
-            ts_PPS
+            ts_PPS,
+            "$pps $ts_days"
         )
     }
 }
