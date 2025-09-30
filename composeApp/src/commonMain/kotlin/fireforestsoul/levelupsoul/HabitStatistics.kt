@@ -1,3 +1,12 @@
+/**Copyright 2025 Forge-of-Ovorldule (https://github.com/Forge-of-Ovorldule) and Mr-Soul-Forest (https://github.com/Mr-Soul-Forest)
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ */
+
 package fireforestsoul.levelupsoul
 
 import androidx.compose.foundation.Image
@@ -22,6 +31,9 @@ import androidx.compose.foundation.layout.systemBars
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
+import androidx.compose.material3.AlertDialog
+import androidx.compose.material3.Button
+import androidx.compose.material3.ButtonColors
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
@@ -397,7 +409,8 @@ private fun GoalParamItem(
     res: Painter,
     contentDescription: String,
     text: String,
-    smallText: String
+    smallText: String,
+    isPPS: Boolean = false
 ) {
     Row(
         horizontalArrangement = Arrangement.spacedBy(22.67.dp),
@@ -426,15 +439,17 @@ private fun GoalParamItem(
                 maxLines = 1,
                 overflow = TextOverflow.Ellipsis
             )
-            Text(
-                text = smallText,
-                fontFamily = JetBrainsFont(),
-                fontWeight = FontWeight.ExtraLight,
-                fontSize = 12.8.sp,
-                color = UICT_no_see,
-                maxLines = 1,
-                overflow = TextOverflow.Ellipsis
-            )
+            if (isPPS) PPSInfoDialog(smallText)
+            else
+                Text(
+                    text = smallText,
+                    fontFamily = JetBrainsFont(),
+                    fontWeight = FontWeight.ExtraLight,
+                    fontSize = 12.8.sp,
+                    color = UICT_no_see,
+                    maxLines = 1,
+                    overflow = TextOverflow.Ellipsis
+                )
         }
     }
 }
@@ -536,8 +551,75 @@ private fun GoalContent(
             painterResource(Res.drawable.habit_statistic__goal__PPS),
             ts_PPS,
             "$pps $ts_days",
-            "$ts_PPS $ts_for_statistic"
+            " $ts_PPS $ts_for_statistic",
+            true
         )
         PPSSetVector(pps)
+    }
+}
+
+@Composable
+fun PPSInfoDialog(smallText: String) {
+    var showDialog by remember { mutableStateOf(false) }
+
+    Row(
+        verticalAlignment = Alignment.CenterVertically,
+        modifier = Modifier.clickable { showDialog = true }
+    )
+    {
+        Image(
+            painter = painterResource(Res.drawable.info),
+            contentDescription = ts_Info,
+            colorFilter = ColorFilter.tint(UICT_no_see),
+            modifier = Modifier.size(12.8.dp)
+        )
+        Text(
+            text = smallText,
+            fontFamily = JetBrainsFont(),
+            fontWeight = FontWeight.ExtraLight,
+            fontSize = 12.8.sp,
+            color = UICT_no_see,
+            maxLines = 1,
+            overflow = TextOverflow.Ellipsis
+        )
+    }
+
+    if (showDialog) {
+        AlertDialog(
+            containerColor = UIC_dark,
+            onDismissRequest = { showDialog = false },
+            title = {
+                Text(
+                    "$ts_PPS $ts_Info",
+                    fontSize = 16.sp,
+                    fontWeight = FontWeight.Bold,
+                    color = UICT_see
+                )
+            },
+            text = {
+                Text(
+                    ts_PPS_means_Progress_Period_Settings_By_default_progress_is_the_,
+                    fontSize = 16.sp,
+                    color = UICT_see
+                )
+            },
+            confirmButton = {
+                Button(
+                    onClick = { showDialog = false },
+                    colors = ButtonColors(
+                        containerColor = UIC,
+                        contentColor = UICT_see,
+                        disabledContainerColor = Color.Transparent,
+                        disabledContentColor = Color.Transparent
+                    )
+                ) {
+                    Text(
+                        text = ts_Close,
+                        fontSize = 16.sp,
+                        color = Color(150, 150, 200),
+                    )
+                }
+            }
+        )
     }
 }
