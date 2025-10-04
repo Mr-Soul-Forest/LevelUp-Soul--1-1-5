@@ -38,6 +38,11 @@ fun reversColor(color: Color): Color {
     return Color(1f - color.red, 1f - color.green, 1f - color.blue, color.alpha)
 }
 
+fun reversNoBiggerColor(color: Color): Color {
+    val maxColor = maxOf(color.red, color.green, color.blue)
+    return Color(maxColor - color.red, maxColor - color.green, maxColor - color.blue)
+}
+
 fun checkBackgroundBright(background: Color, ifDark: Color, ifLight: Color = reversColor(ifDark)): Color {
     return if ((background.red + background.green + background.blue) * 255 < 382.5) ifDark else ifLight
 }

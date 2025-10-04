@@ -17,13 +17,13 @@ import kotlinx.datetime.plus
 
 fun progress(
     index: Int,
-    days: Int = habits[index].habitDay.size,
+    pps: Int = habits[index].habitDay.size,
     startIndex: Int = habits[index].habitDay.size - 1
 ): Float {
     var correctly = 0f
     var correctlyDays = 0
-    for (indexY in (startIndex - days + 1)..(startIndex)) {
-        if (indexY in 0..(habits[index].habitDay.size - 1)) {
+    for (indexY in (startIndex - pps + 1)..(startIndex)) {
+        if (indexY in 0..<habits[index].habitDay.size) {
             if (habits[index].habitDay[indexY].correctly)
                 correctly++
             correctlyDays++
@@ -45,13 +45,13 @@ fun progress(
 
 fun progress(
     habit: Habit,
-    days: Int = habit.habitDay.size,
+    pps: Int = habit.habitDay.size,
     startIndex: Int = habit.habitDay.size - 1
 ): Float {
     var correctly = 0f
     var correctlyDays = 0
-    for (indexY in (startIndex - days + 1)..(startIndex)) {
-        if (indexY in 0..(habit.habitDay.size - 1)) {
+    for (indexY in (startIndex - pps + 1)..(startIndex)) {
+        if (indexY in 0..<habit.habitDay.size) {
             if (habit.habitDay[indexY].correctly)
                 correctly++
             correctlyDays++
@@ -62,14 +62,14 @@ fun progress(
 
 fun progressAll(
     maxDays: Int,
-    days: Int = maxDays,
+    pps: Int = maxDays,
     startIndex: Int = maxDays - 1
 ): Float {
     var correctly = 0f
     for (x in 0 until habits.size) {
         correctly += progress(
             x,
-            if (days >= maxDays) habits[x].habitDay.size else days,
+            if (pps >= maxDays) habits[x].habitDay.size else pps,
             habits[x].habitDay.size - maxDays + startIndex
         )
     }
@@ -79,13 +79,13 @@ fun progressAll(
 fun plusProgress(
     index: Int,
     period: Int,
-    days: Int = habits[index].habitDay.size,
+    pps: Int = habits[index].habitDay.size,
     startIndex: Int = habits[index].habitDay.size - 1
 ): Float {
-    return progress(index, days, startIndex) -
+    return progress(index, pps, startIndex) -
             progress(
                 index,
-                days,
+                pps,
                 startIndex - period
             )
 }

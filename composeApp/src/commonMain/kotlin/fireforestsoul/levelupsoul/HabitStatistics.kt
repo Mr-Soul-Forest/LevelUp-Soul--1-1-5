@@ -9,6 +9,7 @@
 
 package fireforestsoul.levelupsoul
 
+import androidx.compose.foundation.Canvas
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
@@ -51,16 +52,20 @@ import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.rotate
+import androidx.compose.ui.geometry.Size
 import androidx.compose.ui.graphics.BlendMode
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.ColorFilter
+import androidx.compose.ui.graphics.StrokeCap
+import androidx.compose.ui.graphics.drawscope.Stroke
 import androidx.compose.ui.graphics.painter.Painter
 import androidx.compose.ui.layout.layout
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.style.TextOverflow
+import androidx.compose.ui.unit.Dp
 import kotlinx.coroutines.delay
 import org.jetbrains.compose.resources.painterResource
 
@@ -368,6 +373,8 @@ fun HabitStatistics(viewModel: AppViewModel) {
                             }
                         }
 
+                        HabitStatisticsStatus.PROGRESS -> ProgressContent(progressPeriodSetting)
+
                         else -> {}
                     }
                 }
@@ -422,145 +429,211 @@ private fun HabitStatisticsStatusIcon(
 }
 
 @Composable
-private fun GoalParamItem(
-    res: Painter,
-    contentDescription: String,
-    text: String,
-    smallText: String,
-    isPPS: Boolean = false
-) {
-    Row(
-        horizontalArrangement = Arrangement.spacedBy(22.67.dp),
-        verticalAlignment = Alignment.CenterVertically,
-        modifier = Modifier.fillMaxWidth()
-    ) {
-        Box(
-            modifier = Modifier.size(44.44.dp)
-                .background(UIC_extra_light, RoundedCornerShape(22.22.dp)),
-            contentAlignment = Alignment.Center
-        ) {
-            Image(
-                painter = res,
-                contentDescription = contentDescription,
-                modifier = Modifier.size(35.56.dp),
-                colorFilter = ColorFilter.tint(UIC_light, BlendMode.Modulate)
-            )
-        }
-        Column {
-            Text(
-                text = text,
-                fontFamily = JetBrainsFont(),
-                fontWeight = FontWeight.Medium,
-                fontSize = 19.2.sp,
-                color = UICT_see,
-                maxLines = 1,
-                overflow = TextOverflow.Ellipsis
-            )
-            if (isPPS) PPSInfoDialog(smallText)
-            else
-                Text(
-                    text = smallText,
-                    fontFamily = JetBrainsFont(),
-                    fontWeight = FontWeight.ExtraLight,
-                    fontSize = 12.8.sp,
-                    color = UICT_no_see,
-                    maxLines = 1,
-                    overflow = TextOverflow.Ellipsis
-                )
-        }
-    }
-}
-
-@Composable
-private fun PPSSetVector(
+private fun GoalContent(
     pps: Int
 ) {
-    var pssForHabitStatistic by remember { mutableStateOf(pps.toString()) }
+    @Composable
+    fun PPSInfoDialog(smallText: String) {
+        var showDialog by remember { mutableStateOf(false) }
 
-    Box(
-        modifier = Modifier.fillMaxWidth().height(50.22.dp)
-            .background(UIC_x2green, RoundedCornerShape(88.89.dp))
-            .clip(RoundedCornerShape(88.89.dp))
-    ) {
-        Box(
-            modifier = Modifier.fillMaxWidth(pps.toFloat() / habits[habit_statistics_and_edit_x].habitDay.size.toFloat())
-                .height(50.22.dp)
-                .background(
-                    Brush.horizontalGradient(listOf(UIC_x2green, UIC_x2green_x1o5white)),
-                    RoundedCornerShape(88.89.dp)
-                )
+        Row(
+            verticalAlignment = Alignment.CenterVertically,
+            modifier = Modifier.clickable { showDialog = true }
         )
-        Column(
-            horizontalAlignment = Alignment.CenterHorizontally,
-            verticalArrangement = Arrangement.Center,
-            modifier = Modifier.fillMaxSize()
-        ) {
+        {
+            Image(
+                painter = painterResource(Res.drawable.info),
+                contentDescription = ts_Info,
+                colorFilter = ColorFilter.tint(UICT_no_see),
+                modifier = Modifier.size(12.8.dp)
+            )
             Text(
-                text = "$ts_PPS (0 $ts_for_full_time):",
+                text = smallText,
                 fontFamily = JetBrainsFont(),
-                fontWeight = FontWeight.Thin,
+                fontWeight = FontWeight.ExtraLight,
                 fontSize = 12.8.sp,
                 color = UICT_no_see,
                 maxLines = 1,
                 overflow = TextOverflow.Ellipsis
             )
-            Spacer(modifier = Modifier.size(4.dp))
-            BasicTextField(
-                value = pssForHabitStatistic,
-                onValueChange = {
-                    pssForHabitStatistic = it
-                    pps_for_habit_statistic = it.toIntOrNull() ?: habits[habit_statistics_and_edit_x].habitDay.size
-                    if (pps_for_habit_statistic == 0) pps_for_habit_statistic =
-                        habits[habit_statistics_and_edit_x].habitDay.size
+        }
+
+        if (showDialog) {
+            AlertDialog(
+                containerColor = UIC_dark,
+                onDismissRequest = { showDialog = false },
+                title = {
+                    Text(
+                        "$ts_PPS $ts_Info",
+                        fontSize = 16.sp,
+                        fontWeight = FontWeight.Bold,
+                        color = UICT_see
+                    )
                 },
-                modifier = Modifier.fillMaxWidth(),
-                textStyle = TextStyle(
-                    fontFamily = JetBrainsFont(),
-                    fontWeight = FontWeight.Bold,
-                    fontSize = 16.sp,
-                    color = UIC_green
-                ),
-                singleLine = true,
-                decorationBox = {
-                    Box(
-                        modifier = Modifier.fillMaxWidth(),
-                        contentAlignment = Alignment.Center
+                text = {
+                    Text(
+                        ts_PPS_means_Progress_Period_Settings_By_default_progress_is_the_,
+                        fontSize = 16.sp,
+                        color = UICT_see
+                    )
+                },
+                confirmButton = {
+                    Button(
+                        onClick = { showDialog = false },
+                        colors = ButtonColors(
+                            containerColor = UIC,
+                            contentColor = UICT_see,
+                            disabledContainerColor = Color.Transparent,
+                            disabledContentColor = Color.Transparent
+                        )
                     ) {
-                        Row(
-                            verticalAlignment = Alignment.Bottom
-                        ) {
-                            it()
-                            Text(
-                                text = "/" + habits[habit_statistics_and_edit_x].habitDay.size.toString(),
-                                fontFamily = JetBrainsFont(),
-                                fontWeight = FontWeight.Thin,
-                                fontSize = 9.4.sp,
-                                color = UICT_no_see,
-                                maxLines = 1,
-                                overflow = TextOverflow.Ellipsis
-                            )
-                            Text(
-                                text = " $ts_days",
-                                fontFamily = JetBrainsFont(),
-                                fontWeight = FontWeight.Bold,
-                                fontSize = 16.sp,
-                                color = UIC_green,
-                                maxLines = 1,
-                                overflow = TextOverflow.Ellipsis
-                            )
-                        }
+                        Text(
+                            text = ts_Close,
+                            fontSize = 16.sp,
+                            color = Color(150, 150, 200),
+                        )
                     }
-                },
-                keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number)
+                }
             )
         }
     }
-}
 
-@Composable
-private fun GoalContent(
-    pps: Int
-) {
+    @Composable
+    fun GoalParamItem(
+        res: Painter,
+        contentDescription: String,
+        text: String,
+        smallText: String,
+        isPPS: Boolean = false
+    ) {
+        Row(
+            horizontalArrangement = Arrangement.spacedBy(22.67.dp),
+            verticalAlignment = Alignment.CenterVertically,
+            modifier = Modifier.fillMaxWidth()
+        ) {
+            Box(
+                modifier = Modifier.size(44.44.dp)
+                    .background(UIC_extra_light, RoundedCornerShape(22.22.dp)),
+                contentAlignment = Alignment.Center
+            ) {
+                Image(
+                    painter = res,
+                    contentDescription = contentDescription,
+                    modifier = Modifier.size(35.56.dp),
+                    colorFilter = ColorFilter.tint(UIC_light, BlendMode.Modulate)
+                )
+            }
+            Column {
+                Text(
+                    text = text,
+                    fontFamily = JetBrainsFont(),
+                    fontWeight = FontWeight.Medium,
+                    fontSize = 19.2.sp,
+                    color = UICT_see,
+                    maxLines = 1,
+                    overflow = TextOverflow.Ellipsis
+                )
+                if (isPPS) PPSInfoDialog(smallText)
+                else
+                    Text(
+                        text = smallText,
+                        fontFamily = JetBrainsFont(),
+                        fontWeight = FontWeight.ExtraLight,
+                        fontSize = 12.8.sp,
+                        color = UICT_no_see,
+                        maxLines = 1,
+                        overflow = TextOverflow.Ellipsis
+                    )
+            }
+        }
+    }
+
+    @Composable
+    fun PPSSetVector(
+        pps: Int
+    ) {
+        var pssForHabitStatistic by remember { mutableStateOf(pps.toString()) }
+
+        Box(
+            modifier = Modifier.fillMaxWidth().height(50.22.dp)
+                .background(UIC_x2green, RoundedCornerShape(88.89.dp))
+                .clip(RoundedCornerShape(88.89.dp))
+        ) {
+            Box(
+                modifier = Modifier.fillMaxWidth(pps.toFloat() / habits[habit_statistics_and_edit_x].habitDay.size.toFloat())
+                    .height(50.22.dp)
+                    .background(
+                        Brush.horizontalGradient(listOf(UIC_x2green, UIC_x2green_x1o5white)),
+                        RoundedCornerShape(88.89.dp)
+                    )
+            )
+            Column(
+                horizontalAlignment = Alignment.CenterHorizontally,
+                verticalArrangement = Arrangement.Center,
+                modifier = Modifier.fillMaxSize()
+            ) {
+                Text(
+                    text = "$ts_PPS (0 $ts_for_full_time):",
+                    fontFamily = JetBrainsFont(),
+                    fontWeight = FontWeight.Thin,
+                    fontSize = 12.8.sp,
+                    color = UICT_no_see,
+                    maxLines = 1,
+                    overflow = TextOverflow.Ellipsis
+                )
+                Spacer(modifier = Modifier.size(4.dp))
+                BasicTextField(
+                    value = pssForHabitStatistic,
+                    onValueChange = {
+                        pssForHabitStatistic = it
+                        pps_for_habit_statistic = it.toIntOrNull() ?: habits[habit_statistics_and_edit_x].habitDay.size
+                        if (pps_for_habit_statistic == 0) pps_for_habit_statistic =
+                            habits[habit_statistics_and_edit_x].habitDay.size
+                    },
+                    modifier = Modifier.fillMaxWidth(),
+                    textStyle = TextStyle(
+                        fontFamily = JetBrainsFont(),
+                        fontWeight = FontWeight.Bold,
+                        fontSize = 16.sp,
+                        color = UIC_green
+                    ),
+                    singleLine = true,
+                    decorationBox = {
+                        Box(
+                            modifier = Modifier.fillMaxWidth(),
+                            contentAlignment = Alignment.Center
+                        ) {
+                            Row(
+                                verticalAlignment = Alignment.Bottom
+                            ) {
+                                it()
+                                Text(
+                                    text = "/" + habits[habit_statistics_and_edit_x].habitDay.size.toString(),
+                                    fontFamily = JetBrainsFont(),
+                                    fontWeight = FontWeight.Thin,
+                                    fontSize = 9.4.sp,
+                                    color = UICT_no_see,
+                                    maxLines = 1,
+                                    overflow = TextOverflow.Ellipsis
+                                )
+                                Text(
+                                    text = " $ts_days",
+                                    fontFamily = JetBrainsFont(),
+                                    fontWeight = FontWeight.Bold,
+                                    fontSize = 16.sp,
+                                    color = UIC_green,
+                                    maxLines = 1,
+                                    overflow = TextOverflow.Ellipsis
+                                )
+                            }
+                        }
+                    },
+                    keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number)
+                )
+            }
+        }
+    }
+
     Column(
         verticalArrangement = Arrangement.spacedBy(24.89.dp),
         modifier = Modifier.fillMaxWidth()
@@ -597,67 +670,202 @@ private fun GoalContent(
 }
 
 @Composable
-fun PPSInfoDialog(smallText: String) {
-    var showDialog by remember { mutableStateOf(false) }
-
-    Row(
-        verticalAlignment = Alignment.CenterVertically,
-        modifier = Modifier.clickable { showDialog = true }
-    )
-    {
-        Image(
-            painter = painterResource(Res.drawable.info),
-            contentDescription = ts_Info,
-            colorFilter = ColorFilter.tint(UICT_no_see),
-            modifier = Modifier.size(12.8.dp)
-        )
-        Text(
-            text = smallText,
-            fontFamily = JetBrainsFont(),
-            fontWeight = FontWeight.ExtraLight,
-            fontSize = 12.8.sp,
-            color = UICT_no_see,
-            maxLines = 1,
-            overflow = TextOverflow.Ellipsis
-        )
-    }
-
-    if (showDialog) {
-        AlertDialog(
-            containerColor = UIC_dark,
-            onDismissRequest = { showDialog = false },
-            title = {
+private fun ProgressContent(
+    pps: Int
+) {
+    @Composable
+    fun DonutChart(
+        progress: Float,
+        modifier: Modifier = Modifier,
+        strokeWidth: Dp = 20.dp,
+        trackColor: Color = noSeeColorByIndex(habit_statistics_and_edit_x),
+        progressColor: Color = seeColorByIndex(habit_statistics_and_edit_x),
+        label: String = ts_all,
+        withLabel: Boolean = false,
+        bottomLabel: String = "",
+        withBottomLabel: Boolean = !withLabel,
+        isPlusProgress: Boolean = !withLabel,
+        isBottonLabel: Boolean = true
+    ) {
+        Column(
+            horizontalAlignment = Alignment.CenterHorizontally,
+            verticalArrangement = Arrangement.spacedBy(8.8.dp)
+        ) {
+            if (withBottomLabel && !isBottonLabel) {
                 Text(
-                    "$ts_PPS $ts_Info",
-                    fontSize = 16.sp,
-                    fontWeight = FontWeight.Bold,
-                    color = UICT_see
+                    text = bottomLabel,
+                    fontSize = 12.8.sp,
+                    color = UICT_no_see,
+                    maxLines = 1,
+                    overflow = TextOverflow.Ellipsis,
+                    fontFamily = JetBrainsFont()
                 )
-            },
-            text = {
-                Text(
-                    ts_PPS_means_Progress_Period_Settings_By_default_progress_is_the_,
-                    fontSize = 16.sp,
-                    color = UICT_see
-                )
-            },
-            confirmButton = {
-                Button(
-                    onClick = { showDialog = false },
-                    colors = ButtonColors(
-                        containerColor = UIC,
-                        contentColor = UICT_see,
-                        disabledContainerColor = Color.Transparent,
-                        disabledContentColor = Color.Transparent
+            }
+            Box(
+                modifier = modifier,
+                contentAlignment = Alignment.Center
+            ) {
+                Canvas(modifier = Modifier.fillMaxSize()) {
+                    val stroke = Stroke(width = strokeWidth.toPx(), cap = StrokeCap.Round)
+
+                    drawArc(
+                        color = trackColor,
+                        startAngle = -90f,
+                        sweepAngle = 360f,
+                        useCenter = false,
+                        style = stroke,
+                        size = Size(size.width, size.height)
                     )
-                ) {
-                    Text(
-                        text = ts_Close,
-                        fontSize = 16.sp,
-                        color = Color(150, 150, 200),
+
+                    drawArc(
+                        color = progressColor,
+                        startAngle = -90f,
+                        sweepAngle = 360f * progress,
+                        useCenter = false,
+                        style = stroke,
+                        size = Size(size.width, size.height)
                     )
                 }
+
+                Column(horizontalAlignment = Alignment.CenterHorizontally) {
+                    if (withLabel) {
+                        Text(
+                            text = label,
+                            fontSize = 12.8.sp,
+                            color = UICT_no_see,
+                            maxLines = 1,
+                            overflow = TextOverflow.Ellipsis,
+                            fontFamily = JetBrainsFont()
+                        )
+                    }
+                    if (isPlusProgress) {
+                        Text(
+                            text = (if (progress >= 0) "+" else "") + "${(progress * 100).toInt()}%",
+                            fontSize = 14.4.sp,
+                            fontWeight = FontWeight.ExtraBold,
+                            fontFamily = JetBrainsFont(),
+                            maxLines = 1,
+                            overflow = TextOverflow.Ellipsis,
+                            color = if (progress >= 0) UIC_green else UIC_red
+                        )
+                    } else {
+                        Text(
+                            text = "${(progress * 100).toInt()}%",
+                            fontSize = 25.6.sp,
+                            fontWeight = FontWeight.ExtraBold,
+                            fontFamily = JetBrainsFont(),
+                            maxLines = 1,
+                            overflow = TextOverflow.Ellipsis,
+                            color = UICT_see
+                        )
+                    }
+                    if (withLabel) {
+                        Text(
+                            text = label,
+                            fontSize = 12.8.sp,
+                            color = Color.Transparent,
+                            maxLines = 1,
+                            overflow = TextOverflow.Ellipsis,
+                            fontFamily = JetBrainsFont()
+                        )
+                    }
+                }
             }
+            if (withBottomLabel && isBottonLabel) {
+                Text(
+                    text = bottomLabel,
+                    fontSize = 12.8.sp,
+                    color = UICT_no_see,
+                    maxLines = 1,
+                    overflow = TextOverflow.Ellipsis,
+                    fontFamily = JetBrainsFont()
+                )
+            }
+        }
+    }
+
+    Box(
+        contentAlignment = Alignment.Center,
+        modifier = Modifier.fillMaxSize().padding(horizontal = 33.2.dp)
+    ) {
+        DonutChart(
+            progress(habit_statistics_and_edit_x, pps),
+            Modifier.size(180.dp),
+            20.dp,
+            withLabel = true
         )
+        Column(
+            horizontalAlignment = Alignment.CenterHorizontally,
+            verticalArrangement = Arrangement.spacedBy(66.dp)
+        ) {
+            Row(
+                modifier = Modifier.fillMaxWidth(),
+                horizontalArrangement = Arrangement.SpaceBetween,
+                verticalAlignment = Alignment.CenterVertically
+            ) {
+                var progress = plusProgress(habit_statistics_and_edit_x, 1, pps)
+                DonutChart(
+                    progress = progress,
+                    strokeWidth = 10.dp,
+                    isBottonLabel = true,
+                    trackColor = if (progress >= 0f) noSeeColorByIndex(habit_statistics_and_edit_x) else reversNoBiggerColor(
+                        noSeeColorByIndex(habit_statistics_and_edit_x)
+                    ),
+                    progressColor = if (progress >= 0f) seeColorByIndex(habit_statistics_and_edit_x) else reversNoBiggerColor(
+                        seeColorByIndex(habit_statistics_and_edit_x)
+                    ),
+                    modifier = Modifier.size(90.dp),
+                    bottomLabel = ts_day
+                )
+                progress = plusProgress(habit_statistics_and_edit_x, 7, pps)
+                DonutChart(
+                    progress = progress,
+                    strokeWidth = 10.dp,
+                    isBottonLabel = true,
+                    trackColor = if (progress >= 0f) noSeeColorByIndex(habit_statistics_and_edit_x) else reversNoBiggerColor(
+                        noSeeColorByIndex(habit_statistics_and_edit_x)
+                    ),
+                    progressColor = if (progress >= 0f) seeColorByIndex(habit_statistics_and_edit_x) else reversNoBiggerColor(
+                        seeColorByIndex(habit_statistics_and_edit_x)
+                    ),
+                    modifier = Modifier.size(90.dp),
+                    bottomLabel = ts_week
+                )
+            }
+            Row(
+                modifier = Modifier.fillMaxWidth(),
+                horizontalArrangement = Arrangement.SpaceBetween,
+                verticalAlignment = Alignment.CenterVertically
+            ) {
+                var progress = plusProgress(habit_statistics_and_edit_x, 30, pps)
+                DonutChart(
+                    progress = progress,
+                    strokeWidth = 10.dp,
+                    isBottonLabel = false,
+                    trackColor = if (progress >= 0f) noSeeColorByIndex(habit_statistics_and_edit_x) else reversNoBiggerColor(
+                        noSeeColorByIndex(habit_statistics_and_edit_x)
+                    ),
+                    progressColor = if (progress >= 0f) seeColorByIndex(habit_statistics_and_edit_x) else reversNoBiggerColor(
+                        seeColorByIndex(habit_statistics_and_edit_x)
+                    ),
+                    modifier = Modifier.size(90.dp),
+                    bottomLabel = ts_month
+                )
+                progress = plusProgress(habit_statistics_and_edit_x, 365, pps)
+                DonutChart(
+                    progress = progress,
+                    strokeWidth = 10.dp,
+                    isBottonLabel = false,
+                    trackColor = if (progress >= 0f) noSeeColorByIndex(habit_statistics_and_edit_x) else reversNoBiggerColor(
+                        noSeeColorByIndex(habit_statistics_and_edit_x)
+                    ),
+                    progressColor = if (progress >= 0f) seeColorByIndex(habit_statistics_and_edit_x) else reversNoBiggerColor(
+                        seeColorByIndex(habit_statistics_and_edit_x)
+                    ),
+                    modifier = Modifier.size(90.dp),
+                    bottomLabel = ts_year
+                )
+            }
+        }
     }
 }
