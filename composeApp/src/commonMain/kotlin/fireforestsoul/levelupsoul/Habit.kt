@@ -92,7 +92,10 @@ class Habit(
                                 TypeOfGoalHabits.AT_LEAST -> phantomNeedDays *= "0.8".toBigDecimal()
                                 TypeOfGoalHabits.NO_MORE -> phantomNeedDays /= "0.8".toBigDecimal()
                             }
-                            needDays = if (phantomNeedDays % 1 != BigDecimal.ZERO) phantomNeedDays.intValue(false) + 1 else phantomNeedDays.intValue(false)
+                            needDays =
+                                if (phantomNeedDays % 1 != BigDecimal.ZERO) phantomNeedDays.intValue(false) + 1 else phantomNeedDays.intValue(
+                                    false
+                                )
                         }
                         if (changeNeedGoalWithLevel) {
                             when (typeOfGoalHabits) {
@@ -117,7 +120,10 @@ class Habit(
                                 TypeOfGoalHabits.AT_LEAST -> phantomNeedDays /= 0.8
                                 TypeOfGoalHabits.NO_MORE -> phantomNeedDays *= "0.8".toBigDecimal()
                             }
-                            needDays = if (phantomNeedDays % 1 != BigDecimal.ZERO) phantomNeedDays.intValue(false) + 1 else phantomNeedDays.intValue(false)
+                            needDays =
+                                if (phantomNeedDays % 1 != BigDecimal.ZERO) phantomNeedDays.intValue(false) + 1 else phantomNeedDays.intValue(
+                                    false
+                                )
                         }
                         if (changeNeedGoalWithLevel) {
                             when (typeOfGoalHabits) {
@@ -129,5 +135,25 @@ class Habit(
                 }
             }
         }
+    }
+
+    fun getToLevelUp(pps: Int): Float {
+        var end = habitDay.size - 20
+        end = if (end < 0) 0 else end
+        end =
+            if (end < lastLevelChangeDate.toEpochDays() - startDate.toEpochDays()) lastLevelChangeDate.toEpochDays() - startDate.toEpochDays() else end
+
+        var progress = 0f
+        val isProgressUp = if (progress(this, pps) <= 0.2f) false else true
+        for (index in (habitDay.size - 1) downTo end) {
+            if (isProgressUp) {
+                if (progress(this, pps, index) >= 0.8f) progress++
+                else break
+            } else {
+                if (progress(this, pps, index) <= 0.2f) progress--
+                else break
+            }
+        }
+        return progress / 20f
     }
 }

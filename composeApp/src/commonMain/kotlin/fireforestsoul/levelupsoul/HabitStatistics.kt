@@ -46,7 +46,6 @@ import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonColors
 import androidx.compose.material3.IconButton
-import androidx.compose.material3.ModalBottomSheet
 import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
@@ -273,12 +272,14 @@ fun HabitStatistics(viewModel: AppViewModel) {
                             icon = painterResource(Res.drawable.habit_statistic__progress),
                             contentDescription = ts_Progress
                         ) { habitStatisticsStatus = HabitStatisticsStatus.PROGRESS }
-                        HabitStatisticsStatusIcon(
-                            habitStatisticsStatus = HabitStatisticsStatus.LEVEL,
-                            statusNow = habitStatisticsStatus,
-                            icon = painterResource(Res.drawable.habit_statistic__level),
-                            contentDescription = ts_Level
-                        ) { habitStatisticsStatus = HabitStatisticsStatus.LEVEL }
+                        if (habits[habit_statistics_and_edit_x].changeLevel) {
+                            HabitStatisticsStatusIcon(
+                                habitStatisticsStatus = HabitStatisticsStatus.LEVEL,
+                                statusNow = habitStatisticsStatus,
+                                icon = painterResource(Res.drawable.habit_statistic__level),
+                                contentDescription = ts_Level
+                            ) { habitStatisticsStatus = HabitStatisticsStatus.LEVEL }
+                        }
                         HabitStatisticsStatusIcon(
                             habitStatisticsStatus = HabitStatisticsStatus.PROGRESS_GRAPH,
                             statusNow = habitStatisticsStatus,
@@ -913,6 +914,47 @@ private fun LevelContent(
         }
     }
 
+    @Composable
+    fun DonutChart(isGood: Boolean) {
+        Box(
+            modifier = Modifier.size(180.dp),
+            contentAlignment = Alignment.Center
+        ) {
+            Canvas(modifier = Modifier.fillMaxSize()) {
+                val stroke = Stroke(width = 20.dp.toPx(), cap = StrokeCap.Round)
+
+                drawArc(
+                    color = if (isGood) noSeeColorByIndex(habit_statistics_and_edit_x)
+                    else reversNoBiggerColor(noSeeColorByIndex(habit_statistics_and_edit_x)),
+                    startAngle = -90f,
+                    sweepAngle = 360f,
+                    useCenter = false,
+                    style = stroke,
+                    size = Size(size.width, size.height)
+                )
+
+                drawArc(
+                    color = if (isGood) seeColorByIndex(habit_statistics_and_edit_x)
+                    else reversNoBiggerColor(seeColorByIndex(habit_statistics_and_edit_x)),
+                    startAngle = -90f,
+                    sweepAngle = 360f * habits[habit_statistics_and_edit_x].getToLevelUp(pps),
+                    useCenter = false,
+                    style = stroke,
+                    size = Size(size.width, size.height)
+                )
+            }
+            Text(
+                text = habits[habit_statistics_and_edit_x].level.toString(),
+                fontSize = 25.6.sp,
+                color = UICT_see,
+                maxLines = 1,
+                overflow = TextOverflow.Ellipsis,
+                fontFamily = JetBrainsFont(),
+                fontWeight = FontWeight.ExtraBold
+            )
+        }
+    }
+
     Column(
         modifier = Modifier.padding(top = 22.dp)
             .fillMaxWidth(),
@@ -922,13 +964,19 @@ private fun LevelContent(
         Box(
             modifier = Modifier.fillMaxWidth(),
         ) {
-            val isGood = if (progress(habit_statistics_and_edit_x, pps) >= 0.8f) true else false
+            val isGood = if (progress(habit_statistics_and_edit_x, pps) <= 0.2f) false else true
             CircleImage(isGood, 0.1666f, 20.dp, 49.2.dp)
             CircleImage(isGood, 0.237f, 89.6.dp, 16.4.dp)
             CircleImage(isGood, 0.1296f, 147.2.dp, 33.2.dp)
             CircleImage(isGood, 0.8055f, 29.2.dp, 25.2.dp)
             CircleImage(isGood, 0.9462f, 44.dp, 14.8.dp)
             CircleImage(isGood, 0.8981f, 114.4.dp, 41.6.dp)
+            Box(
+                modifier = Modifier.fillMaxWidth(),
+                contentAlignment = Alignment.Center
+            ) {
+                DonutChart(isGood)
+            }
         }
     }
 }
