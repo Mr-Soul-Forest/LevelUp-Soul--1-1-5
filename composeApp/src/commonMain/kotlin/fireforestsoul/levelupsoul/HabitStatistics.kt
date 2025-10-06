@@ -46,6 +46,7 @@ import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonColors
 import androidx.compose.material3.IconButton
+import androidx.compose.material3.ModalBottomSheet
 import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
@@ -110,7 +111,7 @@ fun HabitStatistics(viewModel: AppViewModel) {
                         Image(
                             painter = painterResource(Res.drawable.back),
                             contentDescription = ts_Go_back,
-                            colorFilter = ColorFilter.tint(UIC),
+                            colorFilter = ColorFilter.tint(UIC, BlendMode.Modulate),
                             modifier = Modifier.size(30.8.dp)
                                 .clip(RoundedCornerShape(15.4.dp))
                         )
@@ -374,6 +375,7 @@ fun HabitStatistics(viewModel: AppViewModel) {
                         }
 
                         HabitStatisticsStatus.PROGRESS -> ProgressContent(progressPeriodSetting)
+                        HabitStatisticsStatus.LEVEL -> LevelContent(progressPeriodSetting)
 
                         else -> {}
                     }
@@ -444,7 +446,7 @@ private fun GoalContent(
             Image(
                 painter = painterResource(Res.drawable.info),
                 contentDescription = ts_Info,
-                colorFilter = ColorFilter.tint(UICT_no_see),
+                colorFilter = ColorFilter.tint(UICT_no_see, BlendMode.Modulate),
                 modifier = Modifier.size(12.8.dp)
             )
             Text(
@@ -638,6 +640,7 @@ private fun GoalContent(
         verticalArrangement = Arrangement.spacedBy(24.89.dp),
         modifier = Modifier.fillMaxWidth()
             .padding(horizontal = 33.2.dp)
+            .padding(top = 27.2.dp)
     ) {
         GoalParamItem(
             painterResource(Res.drawable.habit_statistic__goal__type_of_goal),
@@ -786,7 +789,7 @@ private fun ProgressContent(
 
     Box(
         contentAlignment = Alignment.Center,
-        modifier = Modifier.fillMaxSize().padding(horizontal = 33.2.dp)
+        modifier = Modifier.fillMaxSize().padding(horizontal = 37.6.dp).padding(top = 8.8.dp)
     ) {
         DonutChart(
             progress(habit_statistics_and_edit_x, pps),
@@ -866,6 +869,66 @@ private fun ProgressContent(
                     bottomLabel = ts_year
                 )
             }
+        }
+    }
+}
+
+@Composable
+private fun LevelContent(
+    pps: Int
+) {
+    @Composable
+    fun CircleImage(
+        isGood: Boolean,
+        kX: Float,
+        paddingY: Dp,
+        size: Dp
+    ) {
+        Box(
+            modifier = Modifier.padding(top = paddingY)
+                .fillMaxWidth(kX),
+            contentAlignment = Alignment.TopEnd
+        ) {
+            Box(
+                modifier = Modifier.size(size)
+                    .background(
+                        if (isGood) seeColorByIndex(habit_statistics_and_edit_x)
+                        else reversNoBiggerColor(seeColorByIndex(habit_statistics_and_edit_x)),
+                        RoundedCornerShape(size / 2)
+                    )
+                    .clip(RoundedCornerShape(size / 2)),
+                contentAlignment = Alignment.Center
+            ) {
+                Image(
+                    painter = painterResource(if (isGood) Res.drawable.habit_statistic__level__up else Res.drawable.habit_statistic__level__down),
+                    contentDescription = ts_Level,
+                    colorFilter = ColorFilter.tint(
+                        if (isGood) noSeeColorByIndex(habit_statistics_and_edit_x)
+                        else reversNoBiggerColor(noSeeColorByIndex(habit_statistics_and_edit_x)),
+                        BlendMode.Modulate
+                    ),
+                    modifier = Modifier.size(size / 2)
+                )
+            }
+        }
+    }
+
+    Column(
+        modifier = Modifier.padding(top = 22.dp)
+            .fillMaxWidth(),
+        horizontalAlignment = Alignment.CenterHorizontally,
+        verticalArrangement = Arrangement.spacedBy(42.8.dp)
+    ) {
+        Box(
+            modifier = Modifier.fillMaxWidth(),
+        ) {
+            val isGood = if (progress(habit_statistics_and_edit_x, pps) >= 0.8f) true else false
+            CircleImage(isGood, 0.1666f, 20.dp, 49.2.dp)
+            CircleImage(isGood, 0.237f, 89.6.dp, 16.4.dp)
+            CircleImage(isGood, 0.1296f, 147.2.dp, 33.2.dp)
+            CircleImage(isGood, 0.8055f, 29.2.dp, 25.2.dp)
+            CircleImage(isGood, 0.9462f, 44.dp, 14.8.dp)
+            CircleImage(isGood, 0.8981f, 114.4.dp, 41.6.dp)
         }
     }
 }
