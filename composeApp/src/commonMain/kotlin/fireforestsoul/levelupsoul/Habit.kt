@@ -35,6 +35,7 @@ class Habit(
     var lastLevelChangeDate: LocalDate = startDate
     var level: Int = 0
     var habitDay: MutableList<HabitDay> = MutableList(1) { HabitDay(0.toBigDecimal()) }
+    var phantomNeedDays = needDays.toBigDecimal()
 
     fun updateDate(sort: Boolean = true) {
         val today = Clock.System.now().toLocalDateTime(TimeZone.currentSystemDefault()).date
@@ -60,7 +61,7 @@ class Habit(
     }
 
     fun update(sort: Boolean = true) {
-        for (i in 0..(habitDay.size - 1)) {
+        for (i in 0..<habitDay.size) {
             updateHabitDay(i)
         }
 
@@ -87,13 +88,17 @@ class Habit(
                         level++
                         lastLevelChangeDate = Clock.System.now().toLocalDateTime(TimeZone.currentSystemDefault()).date
                         if (changeNeedDaysWithLevel) {
-                            if (typeOfGoalHabits == TypeOfGoalHabits.AT_LEAST) needDays =
-                                if ((needDays * 0.8).toInt() > 0) (needDays * 0.8).toInt() else 1
-                            else if (typeOfGoalHabits == TypeOfGoalHabits.NO_MORE) needDays = (needDays / 0.8).toInt()
+                            when (typeOfGoalHabits) {
+                                TypeOfGoalHabits.AT_LEAST -> phantomNeedDays *= "0.8".toBigDecimal()
+                                TypeOfGoalHabits.NO_MORE -> phantomNeedDays /= "0.8".toBigDecimal()
+                            }
+                            needDays = if (phantomNeedDays % 1 != BigDecimal.ZERO) phantomNeedDays.intValue(false) + 1 else phantomNeedDays.intValue(false)
                         }
                         if (changeNeedGoalWithLevel) {
-                            if (typeOfGoalHabits == TypeOfGoalHabits.AT_LEAST) needGoal /= "0.8".toBigDecimal()
-                            else if (typeOfGoalHabits == TypeOfGoalHabits.NO_MORE) needGoal *= "0.8".toBigDecimal()
+                            when (typeOfGoalHabits) {
+                                TypeOfGoalHabits.AT_LEAST -> needGoal /= "0.8".toBigDecimal()
+                                TypeOfGoalHabits.NO_MORE -> needGoal *= "0.8".toBigDecimal()
+                            }
                         }
                     }
                 } else if (progress(this) <= 0.2) {
@@ -108,13 +113,17 @@ class Habit(
                         level--
                         lastLevelChangeDate = Clock.System.now().toLocalDateTime(TimeZone.currentSystemDefault()).date
                         if (changeNeedDaysWithLevel) {
-                            if (typeOfGoalHabits == TypeOfGoalHabits.AT_LEAST) needDays = (needDays / 0.8).toInt()
-                            else if (typeOfGoalHabits == TypeOfGoalHabits.NO_MORE) needDays =
-                                if ((needDays * 0.8).toInt() > 0) (needDays * 0.8).toInt() else 1
+                            when (typeOfGoalHabits) {
+                                TypeOfGoalHabits.AT_LEAST -> phantomNeedDays /= 0.8
+                                TypeOfGoalHabits.NO_MORE -> phantomNeedDays *= "0.8".toBigDecimal()
+                            }
+                            needDays = if (phantomNeedDays % 1 != BigDecimal.ZERO) phantomNeedDays.intValue(false) + 1 else phantomNeedDays.intValue(false)
                         }
                         if (changeNeedGoalWithLevel) {
-                            if (typeOfGoalHabits == TypeOfGoalHabits.AT_LEAST) needGoal *= "0.8".toBigDecimal()
-                            else if (typeOfGoalHabits == TypeOfGoalHabits.NO_MORE) needGoal /= "0.8".toBigDecimal()
+                            when (typeOfGoalHabits) {
+                                TypeOfGoalHabits.AT_LEAST -> needGoal *= "0.8".toBigDecimal()
+                                TypeOfGoalHabits.NO_MORE -> needGoal /= "0.8".toBigDecimal()
+                            }
                         }
                     }
                 }

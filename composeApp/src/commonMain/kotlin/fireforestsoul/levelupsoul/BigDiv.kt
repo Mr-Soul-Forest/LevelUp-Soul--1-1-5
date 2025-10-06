@@ -29,14 +29,18 @@ operator fun BigDecimal.div(other: Double): BigDecimal {
 
 fun BigDecimal.saveDiv(other: BigDecimal): BigDecimal {
     if (other == BigDecimal.ZERO)
-        return this
+        return BigDecimal.ONE
     return this.divide(other, mode)
 }
 
 fun BigDecimal.saveDiv(other: Int): BigDecimal {
+    if (other == 0)
+        return BigDecimal.ONE
     return this.divide(other.toBigDecimal(), mode)
 }
 
 fun BigDecimal.saveDiv(other: Long): BigDecimal {
+    if (other == 0L)
+        return BigDecimal.ONE
     return this.divide(other.toBigDecimal(), mode)
 }
