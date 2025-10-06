@@ -955,6 +955,22 @@ private fun LevelContent(
         }
     }
 
+    @Composable
+    fun paramElement(
+        subtitle: String,
+        text: Unit
+    ) {
+        Column(
+            modifier = Modifier.fillMaxWidth()
+                .height(45.2.dp)
+                .background(UIC_dark.multiply(g = 2f), RoundedCornerShape(22.6.dp)),
+            horizontalAlignment = Alignment.CenterHorizontally,
+            verticalArrangement = Arrangement.SpaceAround
+        ) {
+
+        }
+    }
+
     Column(
         modifier = Modifier.padding(top = 22.dp)
             .fillMaxWidth(),
@@ -977,6 +993,13 @@ private fun LevelContent(
             ) {
                 DonutChart(isGood)
             }
+        }
+        Column(
+            modifier = Modifier.fillMaxWidth()
+                .padding(horizontal = 29.2.dp),
+            verticalArrangement = Arrangement.spacedBy(12.dp)
+        ) {
+
         }
     }
 }

@@ -46,3 +46,17 @@ fun reversNoBiggerColor(color: Color): Color {
 fun checkBackgroundBright(background: Color, ifDark: Color, ifLight: Color = reversColor(ifDark)): Color {
     return if ((background.red + background.green + background.blue) * 255 < 382.5) ifDark else ifLight
 }
+
+fun Color.multiply(
+    r: Float = 1f,
+    g: Float = 1f,
+    b: Float = 1f,
+    a: Float = 1f
+): Color {
+    return Color(
+        if (this.red * r > 1f) 1f else this.red * r,
+        if (this.green * g > 1f) 1f else this.green * g,
+        if (this.blue * b > 1f) 1f else this.blue * b,
+        if (this.alpha * a > 1f) 1f else this.alpha * a
+    )
+}
