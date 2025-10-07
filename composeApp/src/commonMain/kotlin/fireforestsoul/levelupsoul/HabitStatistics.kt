@@ -1224,6 +1224,20 @@ private fun ProgressGraphContent(
         verticalArrangement = Arrangement.spacedBy(36.dp)
     ) {
         SmoothLineChart(listProgress(habit_statistics_and_edit_x, period, step, pps))
-        SelectSmooth()
+        Column(
+            modifier = Modifier.fillMaxWidth(),
+            verticalArrangement = Arrangement.spacedBy(12.dp)
+        ) {
+            SelectSmooth()
+            ValueSetVector(
+                period,
+                habits[habit_statistics_and_edit_x].habitDay.size,
+                "$ts_Period (0 $ts_For_all_time)",
+                ts_days
+            ) {
+                period = it.toIntOrNull() ?: habits[habit_statistics_and_edit_x].habitDay.size
+                if (period == 0) period = habits[habit_statistics_and_edit_x].habitDay.size
+            }
+        }
     }
 }
