@@ -958,16 +958,29 @@ private fun LevelContent(
     @Composable
     fun paramElement(
         subtitle: String,
-        text: Unit
+        isGood: Boolean,
+        bottomFun: @Composable () -> Unit
     ) {
+        val background =
+            if (!habits[habit_statistics_and_edit_x].changeLevel || isGood) UIC_dark.multiply(g = 2f)
+            else UIC_dark.multiply(r = 2f)
         Column(
             modifier = Modifier.fillMaxWidth()
                 .height(45.2.dp)
-                .background(UIC_dark.multiply(g = 2f), RoundedCornerShape(22.6.dp)),
+                .background(background, RoundedCornerShape(22.6.dp)),
             horizontalAlignment = Alignment.CenterHorizontally,
             verticalArrangement = Arrangement.SpaceAround
         ) {
-
+            Text(
+                text = subtitle,
+                fontSize = 12.8.sp,
+                color = UICT_no_see,
+                maxLines = 1,
+                overflow = TextOverflow.Ellipsis,
+                fontFamily = JetBrainsFont(),
+                fontWeight = FontWeight.Thin
+            )
+            bottomFun()
         }
     }
 
@@ -977,10 +990,10 @@ private fun LevelContent(
         horizontalAlignment = Alignment.CenterHorizontally,
         verticalArrangement = Arrangement.spacedBy(42.8.dp)
     ) {
+        val isGood = if (progress(habit_statistics_and_edit_x, pps) <= 0.2f) false else true
         Box(
             modifier = Modifier.fillMaxWidth(),
         ) {
-            val isGood = if (progress(habit_statistics_and_edit_x, pps) <= 0.2f) false else true
             CircleImage(isGood, 0.1666f, 20.dp, 49.2.dp)
             CircleImage(isGood, 0.237f, 89.6.dp, 16.4.dp)
             CircleImage(isGood, 0.1296f, 147.2.dp, 33.2.dp)
@@ -999,7 +1012,124 @@ private fun LevelContent(
                 .padding(horizontal = 29.2.dp),
             verticalArrangement = Arrangement.spacedBy(12.dp)
         ) {
-
+            paramElement(ts_Goal, isGood) {
+                if (habits[habit_statistics_and_edit_x].changeNeedGoalWithLevel) {
+                    Row {
+                        Text(
+                            text = habits[habit_statistics_and_edit_x].needGoal.toBestString() + " " + habits[habit_statistics_and_edit_x].nameOfUnitsOfDimension + " ",
+                            fontSize = 16.sp,
+                            color = UICT_see,
+                            maxLines = 1,
+                            overflow = TextOverflow.Ellipsis,
+                            fontFamily = JetBrainsFont(),
+                            fontWeight = FontWeight.Normal
+                        )
+                        Text(
+                            text = "-> " + habits[habit_statistics_and_edit_x].getNeedGoalWhenNewLevel(pps)
+                                .toBestString() + " " + habits[habit_statistics_and_edit_x].nameOfUnitsOfDimension,
+                            fontSize = 16.sp,
+                            color = if (isGood) UIC_green else UIC_red,
+                            maxLines = 1,
+                            overflow = TextOverflow.Ellipsis,
+                            fontFamily = JetBrainsFont(),
+                            fontWeight = FontWeight.Bold
+                        )
+                    }
+                } else {
+                    Text(
+                        text = habits[habit_statistics_and_edit_x].needGoal.toBestString() + " " + habits[habit_statistics_and_edit_x].nameOfUnitsOfDimension,
+                        fontSize = 16.sp,
+                        color = UICT_see,
+                        maxLines = 1,
+                        overflow = TextOverflow.Ellipsis,
+                        fontFamily = JetBrainsFont(),
+                        fontWeight = FontWeight.Normal
+                    )
+                }
+            }
+            paramElement(ts_Period, isGood) {
+                if (habits[habit_statistics_and_edit_x].changeNeedDaysWithLevel) {
+                    Row {
+                        Text(
+                            text = habits[habit_statistics_and_edit_x].needDays.toString(),
+                            fontSize = 16.sp,
+                            color = UICT_see,
+                            maxLines = 1,
+                            overflow = TextOverflow.Ellipsis,
+                            fontFamily = JetBrainsFont(),
+                            fontWeight = FontWeight.Normal
+                        )
+                        var textToSubString =
+                            (habits[habit_statistics_and_edit_x].phantomNeedDays - habits[habit_statistics_and_edit_x].phantomNeedDays.intValue(
+                                false
+                            )).toBestString()
+                        if (textToSubString.length >= 3)
+                            Text(
+                                text = " (${habits[habit_statistics_and_edit_x].phantomNeedDays.toBestString()})",
+                                fontSize = 16.sp,
+                                color = UICT_no_see,
+                                maxLines = 1,
+                                overflow = TextOverflow.Ellipsis,
+                                fontFamily = JetBrainsFont(),
+                                fontWeight = FontWeight.Thin
+                            )
+                        Text(
+                            text = " $ts_days ",
+                            fontSize = 16.sp,
+                            color = UICT_see,
+                            maxLines = 1,
+                            overflow = TextOverflow.Ellipsis,
+                            fontFamily = JetBrainsFont(),
+                            fontWeight = FontWeight.Normal
+                        )
+                        Text(
+                            text = "-> " + habits[habit_statistics_and_edit_x].getNeedDaysWhenNewLevel(pps).toString(),
+                            fontSize = 16.sp,
+                            color = if (isGood) UIC_green else UIC_red,
+                            maxLines = 1,
+                            overflow = TextOverflow.Ellipsis,
+                            fontFamily = JetBrainsFont(),
+                            fontWeight = FontWeight.Bold
+                        )
+                        textToSubString =
+                            (habits[habit_statistics_and_edit_x].getPhantomNeedDaysWhenNewLevel(pps) - habits[habit_statistics_and_edit_x].getPhantomNeedDaysWhenNewLevel(
+                                pps
+                            ).intValue(false)).toBestString()
+                        if (textToSubString.length >= 3)
+                            Text(
+                                text = " (${
+                                    habits[habit_statistics_and_edit_x].getPhantomNeedDaysWhenNewLevel(pps)
+                                        .toBestString()
+                                })",
+                                fontSize = 16.sp,
+                                color = UICT_no_see,
+                                maxLines = 1,
+                                overflow = TextOverflow.Ellipsis,
+                                fontFamily = JetBrainsFont(),
+                                fontWeight = FontWeight.Thin
+                            )
+                        Text(
+                            text = " $ts_days",
+                            fontSize = 16.sp,
+                            color = if (isGood) UIC_green else UIC_red,
+                            maxLines = 1,
+                            overflow = TextOverflow.Ellipsis,
+                            fontFamily = JetBrainsFont(),
+                            fontWeight = FontWeight.Bold
+                        )
+                    }
+                } else {
+                    Text(
+                        text = habits[habit_statistics_and_edit_x].needDays.toString() + " " + ts_days,
+                        fontSize = 16.sp,
+                        color = UICT_see,
+                        maxLines = 1,
+                        overflow = TextOverflow.Ellipsis,
+                        fontFamily = JetBrainsFont(),
+                        fontWeight = FontWeight.Normal
+                    )
+                }
+            }
         }
     }
 }

@@ -137,7 +137,7 @@ class Habit(
         }
     }
 
-    fun getToLevelUp(pps: Int): Float {
+    fun getToLevelUp(pps: Int = habitDay.size - 1): Float {
         var end = habitDay.size - 20
         end = if (end < 0) 0 else end
         end =
@@ -155,5 +155,57 @@ class Habit(
             }
         }
         return progress / 20f
+    }
+
+    fun getNeedGoalWhenNewLevel(pps: Int = habitDay.size - 1): BigDecimal {
+        val isProgressUp = if (progress(this, pps) <= 0.2f) false else true
+        if (changeNeedGoalWithLevel) {
+            return if (isProgressUp) {
+                when (typeOfGoalHabits) {
+                    TypeOfGoalHabits.AT_LEAST -> needGoal / "0.8".toBigDecimal()
+                    TypeOfGoalHabits.NO_MORE -> needGoal * "0.8".toBigDecimal()
+                }
+            } else {
+                when (typeOfGoalHabits) {
+                    TypeOfGoalHabits.AT_LEAST -> needGoal * "0.8".toBigDecimal()
+                    TypeOfGoalHabits.NO_MORE -> needGoal / "0.8".toBigDecimal()
+                }
+            }
+        }
+        return needGoal
+    }
+
+    fun getPhantomNeedDaysWhenNewLevel(pps: Int = habitDay.size - 1): BigDecimal {
+        val isProgressUp = if (progress(this, pps) <= 0.2f) false else true
+        if (changeNeedDaysWithLevel) {
+            return if (isProgressUp) {
+                when (typeOfGoalHabits) {
+                    TypeOfGoalHabits.AT_LEAST -> phantomNeedDays * "0.8".toBigDecimal()
+                    TypeOfGoalHabits.NO_MORE -> phantomNeedDays / "0.8".toBigDecimal()
+                }
+            } else {
+                when (typeOfGoalHabits) {
+                    TypeOfGoalHabits.AT_LEAST -> phantomNeedDays / 0.8
+                    TypeOfGoalHabits.NO_MORE -> phantomNeedDays * "0.8".toBigDecimal()
+                }
+            }
+        }
+        return phantomNeedDays
+    }
+
+    fun getNeedDaysWhenNewLevel(pps: Int = habitDay.size - 1): Int {
+        if (changeNeedDaysWithLevel) {
+            return if (getPhantomNeedDaysWhenNewLevel(pps) % 1 != BigDecimal.ZERO) getPhantomNeedDaysWhenNewLevel(pps).intValue(
+                false
+            ) + 1 else getPhantomNeedDaysWhenNewLevel(pps).intValue(
+                false
+            )
+        }
+        return needDays
+    }
+
+    fun loadNeedDays(value: Int) {
+        needDays = value
+        phantomNeedDays = value.toBigDecimal()
     }
 }
