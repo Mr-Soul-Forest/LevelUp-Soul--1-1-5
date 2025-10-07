@@ -21,7 +21,6 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.rememberScrollState
-import androidx.compose.foundation.text.BasicTextField
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.Text
@@ -42,7 +41,6 @@ import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.foundation.layout.asPaddingValues
 import androidx.compose.foundation.layout.systemBars
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonColors
 import androidx.compose.material3.IconButton
@@ -65,9 +63,7 @@ import androidx.compose.ui.graphics.StrokeJoin
 import androidx.compose.ui.graphics.drawscope.Stroke
 import androidx.compose.ui.graphics.painter.Painter
 import androidx.compose.ui.layout.layout
-import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.Dp
 import kotlinx.coroutines.delay
@@ -556,92 +552,6 @@ private fun GoalContent(
         }
     }
 
-    @Composable
-    fun PPSSetVector(
-        pps: Int
-    ) {
-        var pssForHabitStatistic by remember { mutableStateOf(pps.toString()) }
-
-        Box(
-            modifier = Modifier.fillMaxWidth().height(50.22.dp)
-                .background(UIC_x2green, RoundedCornerShape(88.89.dp))
-                .clip(RoundedCornerShape(88.89.dp))
-        ) {
-            Box(
-                modifier = Modifier.fillMaxWidth(pps.toFloat() / habits[habit_statistics_and_edit_x].habitDay.size.toFloat())
-                    .height(50.22.dp)
-                    .background(
-                        Brush.horizontalGradient(listOf(UIC_x2green, UIC_x2green_x1o5white)),
-                        RoundedCornerShape(88.89.dp)
-                    )
-            )
-            Column(
-                horizontalAlignment = Alignment.CenterHorizontally,
-                verticalArrangement = Arrangement.Center,
-                modifier = Modifier.fillMaxSize()
-            ) {
-                Text(
-                    text = "$ts_PPS (0 $ts_for_full_time):",
-                    fontFamily = JetBrainsFont(),
-                    fontWeight = FontWeight.Thin,
-                    fontSize = 12.8.sp,
-                    color = UICT_no_see,
-                    maxLines = 1,
-                    overflow = TextOverflow.Ellipsis
-                )
-                Spacer(modifier = Modifier.size(4.dp))
-                BasicTextField(
-                    value = pssForHabitStatistic,
-                    onValueChange = {
-                        pssForHabitStatistic = it
-                        pps_for_habit_statistic = it.toIntOrNull() ?: habits[habit_statistics_and_edit_x].habitDay.size
-                        if (pps_for_habit_statistic == 0) pps_for_habit_statistic =
-                            habits[habit_statistics_and_edit_x].habitDay.size
-                    },
-                    modifier = Modifier.fillMaxWidth(),
-                    textStyle = TextStyle(
-                        fontFamily = JetBrainsFont(),
-                        fontWeight = FontWeight.Bold,
-                        fontSize = 16.sp,
-                        color = UIC_green
-                    ),
-                    singleLine = true,
-                    decorationBox = {
-                        Box(
-                            modifier = Modifier.fillMaxWidth(),
-                            contentAlignment = Alignment.Center
-                        ) {
-                            Row(
-                                verticalAlignment = Alignment.Bottom
-                            ) {
-                                it()
-                                Text(
-                                    text = "/" + habits[habit_statistics_and_edit_x].habitDay.size.toString(),
-                                    fontFamily = JetBrainsFont(),
-                                    fontWeight = FontWeight.Thin,
-                                    fontSize = 9.4.sp,
-                                    color = UICT_no_see,
-                                    maxLines = 1,
-                                    overflow = TextOverflow.Ellipsis
-                                )
-                                Text(
-                                    text = " $ts_days",
-                                    fontFamily = JetBrainsFont(),
-                                    fontWeight = FontWeight.Bold,
-                                    fontSize = 16.sp,
-                                    color = UIC_green,
-                                    maxLines = 1,
-                                    overflow = TextOverflow.Ellipsis
-                                )
-                            }
-                        }
-                    },
-                    keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number)
-                )
-            }
-        }
-    }
-
     Column(
         verticalArrangement = Arrangement.spacedBy(24.89.dp),
         modifier = Modifier.fillMaxWidth()
@@ -674,7 +584,16 @@ private fun GoalContent(
             " $ts_PPS $ts_for_statistic",
             true
         )
-        PPSSetVector(pps)
+        ValueSetVector(
+            pps,
+            habits[habit_statistics_and_edit_x].habitDay.size,
+            "$ts_PPS (0 $ts_for_full_time):",
+            ts_days
+        ) {
+            pps_for_habit_statistic = it.toIntOrNull() ?: habits[habit_statistics_and_edit_x].habitDay.size
+            if (pps_for_habit_statistic == 0) pps_for_habit_statistic =
+                habits[habit_statistics_and_edit_x].habitDay.size
+        }
     }
 }
 
@@ -1146,6 +1065,78 @@ private fun ProgressGraphContent(
     var isSmooth by remember { mutableStateOf(true) }
 
     @Composable
+    fun SelectSmooth() {
+        @Composable
+        fun SelectedElement(smooth: Boolean = isSmooth, isSecond: Boolean = false) {
+            Box(
+                modifier = Modifier.fillMaxWidth(if (isSecond) 1f else 0.5f)
+                    .height(35.6.dp)
+                    .background(
+                        Brush.linearGradient(
+                            listOf(
+                                noSeeColorByIndex(habit_statistics_and_edit_x),
+                                noSeeColorByIndex(habit_statistics_and_edit_x).multiply(0.2f, 0.2f, 0.2f)
+                            ), Offset(0f, 0f), Offset.Infinite
+                        ),
+                        RoundedCornerShape(17.8.dp)
+                    )
+                    .border(0.4.dp, seeColorByIndex(habit_statistics_and_edit_x), RoundedCornerShape(17.8.dp)),
+                contentAlignment = Alignment.Center
+            ) {
+                Text(
+                    text = if (smooth) ts_Smooth else ts_Linear,
+                    fontSize = 16.sp,
+                    color = UICT_see,
+                    maxLines = 1,
+                    overflow = TextOverflow.Ellipsis,
+                    fontFamily = JetBrainsFont(),
+                    fontWeight = FontWeight.ExtraBold
+                )
+            }
+        }
+
+        @Composable
+        fun UnselectedElement(smooth: Boolean = isSmooth, isSecond: Boolean = false) {
+            Box(
+                modifier = Modifier.fillMaxWidth(if (isSecond) 1f else 0.5f)
+                    .height(35.6.dp)
+                    .clip(RoundedCornerShape(17.8.dp))
+                    .clickable { isSmooth = !smooth },
+                contentAlignment = Alignment.Center
+            ) {
+                Text(
+                    text = if (isSmooth) ts_Linear else ts_Smooth,
+                    fontSize = 16.sp,
+                    color = UICT_no_see,
+                    maxLines = 1,
+                    overflow = TextOverflow.Ellipsis,
+                    fontFamily = JetBrainsFont(),
+                    fontWeight = FontWeight.Thin
+                )
+            }
+        }
+
+        Row(
+            modifier = Modifier.fillMaxWidth()
+                .height(45.2.dp)
+                .background(
+                    noSeeColorByIndex(habit_statistics_and_edit_x).multiply(0.4f, 0.4f, 0.4f, 0.4f),
+                    RoundedCornerShape(22.7.dp)
+                )
+                .padding(horizontal = 6.4.dp),
+            verticalAlignment = Alignment.CenterVertically
+        ) {
+            if (isSmooth) {
+                SelectedElement()
+                UnselectedElement(isSecond = true)
+            } else {
+                UnselectedElement()
+                SelectedElement(isSecond = true)
+            }
+        }
+    }
+
+    @Composable
     fun SmoothLineChart(
         data: List<Float>,
         modifier: Modifier = Modifier.fillMaxWidth().height(180.8.dp),
@@ -1233,5 +1224,6 @@ private fun ProgressGraphContent(
         verticalArrangement = Arrangement.spacedBy(36.dp)
     ) {
         SmoothLineChart(listProgress(habit_statistics_and_edit_x, period, step, pps))
+        SelectSmooth()
     }
 }

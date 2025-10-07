@@ -110,6 +110,8 @@ var ts_period = "period"
 var ts_for_statistic = "for statistic"
 var ts_for_full_time = "for full time"
 var ts_all = "all"
+var ts_Smooth = "Smooth"
+var ts_Linear = "Linear"
 
 fun changeLanguage() {
     if (language == Languages.RU) {
@@ -214,6 +216,8 @@ fun changeLanguage() {
         ts_for_statistic = "для статистики"
         ts_for_full_time = "для полного времени"
         ts_all = "всё"
+        ts_Smooth = "Плавно"
+        ts_Linear = "Линейно"
     } else {
         ts_Edit = "Edit"
         ts_Cancel = "Cancel"
@@ -316,5 +320,7 @@ fun changeLanguage() {
         ts_for_statistic = "for statistic"
         ts_for_full_time = "for full time"
         ts_all = "all"
+        ts_Smooth = "Smooth"
+        ts_Linear = "Linear"
     }
 }

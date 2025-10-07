@@ -21,6 +21,7 @@ import androidx.compose.foundation.horizontalScroll
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.text.BasicTextField
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.Button
@@ -41,6 +42,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.geometry.Offset
+import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.ColorFilter
 import androidx.compose.ui.graphics.PathEffect
@@ -48,6 +50,8 @@ import androidx.compose.ui.graphics.drawscope.Stroke
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.KeyboardType
+import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -761,7 +765,7 @@ fun AnimatedLineChart(
         val points = data.mapIndexed { index, value ->
             Offset(
                 x = index * spacing + spacing / 2,
-                y = chartHeight * (1 - (value / (if (yMax != 0f)yMax else 1f)))
+                y = chartHeight * (1 - (value / (if (yMax != 0f) yMax else 1f)))
             )
         }
 
@@ -771,7 +775,7 @@ fun AnimatedLineChart(
                     .fillMaxSize()
             ) {
                 for (i in 0..ySteps) {
-                    val y = chartHeight * (i.toFloat() / (if (ySteps != 0)ySteps else 1))
+                    val y = chartHeight * (i.toFloat() / (if (ySteps != 0) ySteps else 1))
                     drawLine(
                         color = gridColor,
                         start = Offset(0f, y),
@@ -837,7 +841,9 @@ fun AnimatedBarChart(
         Row(verticalAlignment = Alignment.Bottom) {
             data.forEachIndexed { index, value ->
                 val animatedHeight by animateDpAsState(
-                    targetValue = (barMaxHeight * value.toString().toFloat() / (if (maxY.toString().toFloat() != 0f) maxY.toString().toFloat() else 1f)).coerceAtLeast(
+                    targetValue = (barMaxHeight * value.toString().toFloat() / (if (maxY.toString()
+                            .toFloat() != 0f
+                    ) maxY.toString().toFloat() else 1f)).coerceAtLeast(
                         1.dp
                     ),
                     animationSpec = tween(durationMillis = 600),
@@ -871,68 +877,6 @@ fun AnimatedBarChart(
                         color = UICT_no_see,
                         maxLines = 1
                     )
-                }
-            }
-        }
-    }
-}
-
-@Composable
-fun HabitGrid(
-    values: List<Int>,
-    states: List<Boolean>,
-    trueColor: Color,
-    falseColor: Color,
-    startDate: LocalDate,
-    modifier: Modifier = Modifier
-) {
-    val backgroundColor = UIC_dark_x2
-    val boxSize = 20.dp
-    val space = 4.dp
-
-    val horizontalScroll = rememberScrollState()
-
-    val dayOfWeekOffset = (startDate.dayOfWeek.isoDayNumber + 6) % 7
-
-    val paddedValues = List(dayOfWeekOffset) { null } + values.mapIndexed { i, v -> v to states[i] }
-
-    val weeks = paddedValues.chunked(7)
-
-    Box(
-        modifier = modifier
-            .clip(RoundedCornerShape(16.dp))
-            .background(backgroundColor)
-            .padding(8.dp)
-            .horizontalScroll(horizontalScroll)
-    ) {
-        LaunchedEffect(Unit) {
-            horizontalScroll.scrollTo(horizontalScroll.maxValue)
-        }
-
-        Row(horizontalArrangement = Arrangement.spacedBy(space)) {
-            for (col in weeks) {
-                Column(verticalArrangement = Arrangement.spacedBy(space)) {
-                    for (cell in col) {
-                        if (cell == null) {
-                            Spacer(modifier = Modifier.size(boxSize))
-                        } else {
-                            val (value, state) = cell
-                            val color = if (state) trueColor else falseColor
-                            Box(
-                                modifier = Modifier
-                                    .size(boxSize)
-                                    .clip(RoundedCornerShape(5.dp))
-                                    .background(color),
-                                contentAlignment = Alignment.Center
-                            ) {
-                                Text(
-                                    text = value.toString(),
-                                    color = if (trueColor.red * 255 + trueColor.green * 255 + trueColor.blue * 255 < 383) Color.White else Color.Black,
-                                    fontSize = 10.sp
-                                )
-                            }
-                        }
-                    }
                 }
             }
         }
@@ -1005,6 +949,97 @@ fun SoulGrid(
                     }
                 }
             }
+        }
+    }
+}
+
+@Composable
+fun ValueSetVector(
+    value: Int,
+    maxValue: Int,
+    subtitle: String,
+    label: String,
+    isGreen: Boolean = false,
+    labelIsBold: Boolean = false,
+    onValueChange: (stringValue: String) -> Unit
+) {
+    var stringValue by remember { mutableStateOf(value.toString()) }
+
+    Box(
+        modifier = Modifier.fillMaxWidth().height(50.22.dp)
+            .background(UIC_x2green, RoundedCornerShape(88.89.dp))
+            .clip(RoundedCornerShape(88.89.dp))
+    ) {
+        Box(
+            modifier = Modifier.fillMaxWidth(value.toFloat() / maxValue.toFloat())
+                .height(50.22.dp)
+                .background(
+                    Brush.horizontalGradient(listOf(UIC_x2green, UIC_x2green_x1o5white)),
+                    RoundedCornerShape(88.89.dp)
+                )
+        )
+        Column(
+            horizontalAlignment = Alignment.CenterHorizontally,
+            verticalArrangement = Arrangement.Center,
+            modifier = Modifier.fillMaxSize()
+        ) {
+            Text(
+                text = subtitle,
+                fontFamily = JetBrainsFont(),
+                fontWeight = FontWeight.Thin,
+                fontSize = 12.8.sp,
+                color = UICT_no_see,
+                maxLines = 1,
+                overflow = TextOverflow.Ellipsis
+            )
+            Spacer(modifier = Modifier.size(4.dp))
+            BasicTextField(
+                value = stringValue,
+                onValueChange = {
+                    stringValue = it
+                    onValueChange(it)
+                },
+                modifier = Modifier.fillMaxWidth(),
+                textStyle = TextStyle(
+                    fontFamily = JetBrainsFont(),
+                    fontWeight = FontWeight.Bold,
+                    fontSize = 16.sp,
+                    color = if (isGreen) UIC_green else UICT_see,
+                    textAlign = TextAlign.End
+                ),
+                singleLine = true,
+                decorationBox = {
+                    Box(
+                        modifier = Modifier.fillMaxWidth(),
+                        contentAlignment = Alignment.Center
+                    ) {
+                        Row(
+                            verticalAlignment = Alignment.Bottom
+                        ) {
+                            it()
+                            Text(
+                                text = "/$maxValue",
+                                fontFamily = JetBrainsFont(),
+                                fontWeight = FontWeight.Thin,
+                                fontSize = 9.4.sp,
+                                color = UICT_no_see,
+                                maxLines = 1,
+                                overflow = TextOverflow.Ellipsis
+                            )
+                            Text(
+                                text = " $label" + " ".repeat(if (10 - stringValue.length > 0) 10 - stringValue.length else 0),
+                                fontFamily = JetBrainsFont(),
+                                fontWeight = if (labelIsBold) FontWeight.Bold else FontWeight.Normal,
+                                fontSize = 16.sp,
+                                color = if (isGreen) UIC_green else UICT_see,
+                                maxLines = 1,
+                                overflow = TextOverflow.Ellipsis
+                            )
+                        }
+                    }
+                },
+                keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number)
+            )
         }
     }
 }
