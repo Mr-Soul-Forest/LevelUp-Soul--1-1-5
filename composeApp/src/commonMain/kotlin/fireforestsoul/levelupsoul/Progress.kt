@@ -108,14 +108,14 @@ fun listProgress(
     index: Int,
     period: Int,
     step: Int,
-    days: Int = habits[index].habitDay.size
+    pps: Int = habits[index].habitDay.size
 ): List<Float> {
     var y = habits[index].habitDay.size - period
-    val list = mutableListOf(progress(index, days, y))
+    val list = mutableListOf(progress(index, pps, y))
     y += step
     while (y < habits[index].habitDay.size) {
         if (y >= 0)
-            list.add(progress(index, days, y))
+            list.add(progress(index, pps, y))
         y += step
     }
     return list

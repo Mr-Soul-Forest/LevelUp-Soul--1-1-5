@@ -52,12 +52,16 @@ import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.rotate
+import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.geometry.Size
 import androidx.compose.ui.graphics.BlendMode
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.ColorFilter
+import androidx.compose.ui.graphics.Path
+import androidx.compose.ui.graphics.PathEffect
 import androidx.compose.ui.graphics.StrokeCap
+import androidx.compose.ui.graphics.StrokeJoin
 import androidx.compose.ui.graphics.drawscope.Stroke
 import androidx.compose.ui.graphics.painter.Painter
 import androidx.compose.ui.layout.layout
@@ -377,6 +381,7 @@ fun HabitStatistics(viewModel: AppViewModel) {
 
                         HabitStatisticsStatus.PROGRESS -> ProgressContent(progressPeriodSetting)
                         HabitStatisticsStatus.LEVEL -> LevelContent(progressPeriodSetting)
+                        HabitStatisticsStatus.PROGRESS_GRAPH -> ProgressGraphContent(progressPeriodSetting)
 
                         else -> {}
                     }
@@ -1131,5 +1136,102 @@ private fun LevelContent(
                 }
             }
         }
+    }
+}
+
+@Composable
+private fun ProgressGraphContent(
+    pps: Int
+) {
+    var isSmooth by remember { mutableStateOf(true) }
+
+    @Composable
+    fun SmoothLineChart(
+        data: List<Float>,
+        modifier: Modifier = Modifier.fillMaxWidth().height(180.8.dp),
+        lineColor: Color = seeColorByIndex(habit_statistics_and_edit_x),
+        gradientStart: Color = noSeeColorByIndex(habit_statistics_and_edit_x),
+        gradientEnd: Color = UIC_dark,
+        gridColor: Color = UIC_light,
+        strokeWidth: Dp = 2.dp,
+        gridLines: Int = 6
+    ) {
+        if (data.isEmpty()) return
+
+        Canvas(modifier = modifier) {
+            val path = Path()
+            val gradientPath = Path()
+
+            val maxY = 1f
+            val minY = 0f
+            val range = (maxY - minY).takeIf { it != 0f } ?: 1f
+
+            val chartWidth = size.width
+            val chartHeight = size.height
+            val stepX = chartWidth / (data.size - 1)
+
+            val gridSpacing = chartHeight / (gridLines - 1)
+            repeat(gridLines) { i ->
+                val y = chartHeight - i * gridSpacing
+                drawLine(
+                    color = gridColor,
+                    start = Offset(0f, y),
+                    end = Offset(chartWidth, y),
+                    strokeWidth = 2f,
+                    pathEffect = PathEffect.dashPathEffect(floatArrayOf(3f, 3f))
+                )
+            }
+
+            val points = data.mapIndexed { i, y ->
+                Offset(i * stepX, chartHeight - (y - minY) / range * chartHeight)
+            }
+
+            path.moveTo(points.first().x, points.first().y)
+            for (i in 1 until points.size) {
+                val prev = points[i - 1]
+                val cur = points[i]
+                if (isSmooth) {
+                    val midX = (prev.x + cur.x) / 2f
+                    path.quadraticTo(prev.x, prev.y, midX, (prev.y + cur.y) / 2f)
+                } else {
+                    path.lineTo(cur.x, cur.y)
+                }
+            }
+            path.lineTo(points.last().x, points.last().y)
+
+            gradientPath.addPath(path)
+            gradientPath.lineTo(points.last().x, chartHeight)
+            gradientPath.lineTo(points.first().x, chartHeight)
+            gradientPath.close()
+
+            val brush = Brush.verticalGradient(
+                colors = listOf(gradientStart, gradientEnd),
+                startY = 0f,
+                endY = chartHeight
+            )
+
+            drawPath(
+                path = gradientPath,
+                brush = brush
+            )
+
+            drawPath(
+                path = path,
+                color = lineColor,
+                style = Stroke(width = strokeWidth.toPx(), cap = StrokeCap.Round, join = StrokeJoin.Round)
+            )
+        }
+    }
+
+    var period by remember { mutableStateOf(habits[habit_statistics_and_edit_x].habitDay.size) }
+    var step by remember { mutableStateOf(1) }
+
+    Column(
+        modifier = Modifier.fillMaxWidth()
+            .padding(horizontal = 29.2.dp)
+            .padding(top = 36.8.dp),
+        verticalArrangement = Arrangement.spacedBy(36.dp)
+    ) {
+        SmoothLineChart(listProgress(habit_statistics_and_edit_x, period, step, pps))
     }
 }
