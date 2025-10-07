@@ -18,11 +18,11 @@ import kotlinx.datetime.plus
 fun progress(
     index: Int,
     pps: Int = habits[index].habitDay.size,
-    startIndex: Int = habits[index].habitDay.size - 1
+    endIndex: Int = habits[index].habitDay.size - 1
 ): Float {
     var correctly = 0f
     var correctlyDays = 0
-    for (indexY in (startIndex - pps + 1)..(startIndex)) {
+    for (indexY in (endIndex - pps + 1)..(endIndex)) {
         if (indexY in 0..<habits[index].habitDay.size) {
             if (habits[index].habitDay[indexY].correctly)
                 correctly++
@@ -105,19 +105,26 @@ fun plusProgressAll(
 }
 
 fun listProgress(
-    index: Int,
+    habitIndex: Int,
     period: Int,
     step: Int,
-    pps: Int = habits[index].habitDay.size
+    pps: Int = habits[habitIndex].habitDay.size
 ): List<Float> {
-    var y = habits[index].habitDay.size - period
-    val list = mutableListOf(progress(index, pps, y))
-    y += step
-    while (y < habits[index].habitDay.size) {
-        if (y >= 0)
-            list.add(progress(index, pps, y))
-        y += step
+    var index = habits[habitIndex].habitDay.size - 1
+    val list = mutableListOf(progress(habitIndex, pps, index))
+    index -= step
+
+    while (index + step >= habits[habitIndex].habitDay.size - period) {
+        if (index > 0)
+            list.add(progress(habitIndex, pps, index))
+        else {
+            list.add(progress(habitIndex, pps, 0))
+            break
+        }
+        index -= step
     }
+
+    list.reverse()
     return list
 }
 

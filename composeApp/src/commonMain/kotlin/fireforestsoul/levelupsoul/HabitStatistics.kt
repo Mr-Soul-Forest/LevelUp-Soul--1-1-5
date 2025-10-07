@@ -378,6 +378,7 @@ fun HabitStatistics(viewModel: AppViewModel) {
                         HabitStatisticsStatus.PROGRESS -> ProgressContent(progressPeriodSetting)
                         HabitStatisticsStatus.LEVEL -> LevelContent(progressPeriodSetting)
                         HabitStatisticsStatus.PROGRESS_GRAPH -> ProgressGraphContent(progressPeriodSetting)
+                        HabitStatisticsStatus.BAR_CHART -> BarChartContent(progressPeriodSetting)
 
                         else -> {}
                     }
@@ -1237,6 +1238,8 @@ private fun ProgressGraphContent(
             ) {
                 period = it.toIntOrNull() ?: habits[habit_statistics_and_edit_x].habitDay.size
                 if (period <= 0) period = habits[habit_statistics_and_edit_x].habitDay.size
+                if (period > habits[habit_statistics_and_edit_x].habitDay.size + 1) period =
+                    habits[habit_statistics_and_edit_x].habitDay.size + 1
             }
             ValueSetVector(
                 step,
@@ -1246,7 +1249,35 @@ private fun ProgressGraphContent(
             ) {
                 step = it.toIntOrNull() ?: 1
                 if (step <= 0) step = 1
+                if (step > habits[habit_statistics_and_edit_x].habitDay.size - 1) step =
+                    habits[habit_statistics_and_edit_x].habitDay.size - 1
             }
+        }
+    }
+}
+
+@Composable
+private fun BarChartContent(
+    pps: Int
+) {
+    var step by remember { mutableStateOf(1) }
+
+    Column(
+        modifier = Modifier.fillMaxWidth()
+            .padding(horizontal = 29.2.dp)
+            .padding(top = 36.8.dp),
+        verticalArrangement = Arrangement.spacedBy(36.dp)
+    ) {
+        ValueSetVector(
+            step,
+            habits[habit_statistics_and_edit_x].habitDay.size - 1,
+            ts_Step,
+            ts_days
+        ) {
+            step = it.toIntOrNull() ?: 1
+            if (step <= 0) step = 1
+            if (step > habits[habit_statistics_and_edit_x].habitDay.size - 1) step =
+                habits[habit_statistics_and_edit_x].habitDay.size - 1
         }
     }
 }

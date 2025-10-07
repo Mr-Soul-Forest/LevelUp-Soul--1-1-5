@@ -356,7 +356,7 @@ fun SoulStatisticsContent() {
                         for (x in (maxDays - (Clock.System.now()
                             .toLocalDateTime(TimeZone.currentSystemDefault()).date.toEpochDays() - soul_last_level_change_date.toEpochDays())) until maxDays) {
                             if (x >= 0) {
-                                if (progress(maxDays, startIndex = x) <= 0.2) {
+                                if (progress(maxDays, endIndex = x) <= 0.2) {
                                     goodProgress++
                                 } else {
                                     goodProgress = 0f
