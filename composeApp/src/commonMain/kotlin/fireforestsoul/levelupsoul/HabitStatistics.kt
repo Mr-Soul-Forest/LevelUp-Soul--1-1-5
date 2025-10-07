@@ -591,7 +591,7 @@ private fun GoalContent(
             ts_days
         ) {
             pps_for_habit_statistic = it.toIntOrNull() ?: habits[habit_statistics_and_edit_x].habitDay.size
-            if (pps_for_habit_statistic == 0) pps_for_habit_statistic =
+            if (pps_for_habit_statistic <= 0) pps_for_habit_statistic =
                 habits[habit_statistics_and_edit_x].habitDay.size
         }
     }
@@ -1236,7 +1236,16 @@ private fun ProgressGraphContent(
                 ts_days
             ) {
                 period = it.toIntOrNull() ?: habits[habit_statistics_and_edit_x].habitDay.size
-                if (period == 0) period = habits[habit_statistics_and_edit_x].habitDay.size
+                if (period <= 0) period = habits[habit_statistics_and_edit_x].habitDay.size
+            }
+            ValueSetVector(
+                step,
+                habits[habit_statistics_and_edit_x].habitDay.size - 1,
+                ts_Step,
+                ts_days
+            ) {
+                step = it.toIntOrNull() ?: 1
+                if (step <= 0) step = 1
             }
         }
     }
