@@ -63,14 +63,14 @@ fun progress(
 fun progressAll(
     maxDays: Int,
     pps: Int = maxDays,
-    startIndex: Int = maxDays - 1
+    endIndex: Int = maxDays - 1
 ): Float {
     var correctly = 0f
     for (x in 0 until habits.size) {
         correctly += progress(
             x,
             if (pps >= maxDays) habits[x].habitDay.size else pps,
-            habits[x].habitDay.size - maxDays + startIndex
+            habits[x].habitDay.size - maxDays + endIndex
         )
     }
     return correctly / (if (habits.isNotEmpty()) habits.size else 1)
@@ -146,26 +146,29 @@ fun listProgressAll(
 }
 
 fun listToday(
-    index: Int,
+    habitIndex: Int,
     step: Int
 ): List<BigDecimal> {
-    var add0 = 0.toBigDecimal()
-    for (z in 0 until step) {
-        if (z < habits[index].habitDay.size)
-            add0 += habits[index].habitDay[z].today
+    var index = habits[habitIndex].habitDay.size - 1
+
+    var sum0 = BigDecimal.ZERO
+    for (i in (index - step + 1)..index) {
+        sum0 += habits[habitIndex].habitDay[i].today
     }
-    val list = mutableListOf(add0)
-    var y = step
-    while (y < habits[index].habitDay.size) {
-        var add = 0.toBigDecimal()
-        for (z in y until (y + step)) {
-            if (z < habits[index].habitDay.size)
-                add += habits[index].habitDay[z].today
+    index -= step
+
+    val list = mutableListOf(sum0)
+
+    while (index - step >= 0) {
+        var sum = BigDecimal.ZERO
+        for (i in (index - step + 1)..index) {
+            sum += habits[habitIndex].habitDay[i].today
         }
-        list.add(add)
-        y += step
+        list.add(sum)
+        index -= step
     }
 
+    list.reverse()
     return list
 }
 

@@ -285,7 +285,7 @@ fun SoulStatisticsContent() {
                 if (progressAll(maxDays) >= 0.8) {
                     for (x in (maxDays - 20) until maxDays) {
                         if (x >= 0) {
-                            if (progressAll(maxDays, startIndex = x) >= 0.8) {
+                            if (progressAll(maxDays, endIndex = x) >= 0.8) {
                                 goodProgress++
                             }
                         }
@@ -298,7 +298,7 @@ fun SoulStatisticsContent() {
                 } else if (progressAll(maxDays) <= 0.2) {
                     for (x in (maxDays - 20) until maxDays) {
                         if (x >= 0) {
-                            if (progressAll(maxDays, startIndex = x) <= 0.2) {
+                            if (progressAll(maxDays, endIndex = x) <= 0.2) {
                                 goodProgress++
                             }
                         }
@@ -344,7 +344,7 @@ fun SoulStatisticsContent() {
                         for (x in (maxDays - (Clock.System.now()
                             .toLocalDateTime(TimeZone.currentSystemDefault()).date.toEpochDays() - soul_last_level_change_date.toEpochDays())) until maxDays) {
                             if (x >= 0) {
-                                if (progressAll(maxDays, startIndex = x) >= 0.8) {
+                                if (progressAll(maxDays, endIndex = x) >= 0.8) {
                                     goodProgress++
                                 } else {
                                     goodProgress = 0f
@@ -356,7 +356,7 @@ fun SoulStatisticsContent() {
                         for (x in (maxDays - (Clock.System.now()
                             .toLocalDateTime(TimeZone.currentSystemDefault()).date.toEpochDays() - soul_last_level_change_date.toEpochDays())) until maxDays) {
                             if (x >= 0) {
-                                if (progress(maxDays, endIndex = x) <= 0.2) {
+                                if (progressAll(maxDays, endIndex = x) <= 0.2) {
                                     goodProgress++
                                 } else {
                                     goodProgress = 0f

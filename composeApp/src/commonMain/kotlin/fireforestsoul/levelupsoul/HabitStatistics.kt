@@ -39,7 +39,10 @@ import androidx.compose.foundation.layout.BoxWithConstraints
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.foundation.layout.asPaddingValues
+import androidx.compose.foundation.layout.fillMaxHeight
+import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.systemBars
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonColors
@@ -47,9 +50,11 @@ import androidx.compose.material3.IconButton
 import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.snapshotFlow
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.rotate
+import androidx.compose.ui.geometry.CornerRadius
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.geometry.Size
 import androidx.compose.ui.graphics.BlendMode
@@ -63,11 +68,20 @@ import androidx.compose.ui.graphics.StrokeJoin
 import androidx.compose.ui.graphics.drawscope.Stroke
 import androidx.compose.ui.graphics.painter.Painter
 import androidx.compose.ui.layout.layout
+import androidx.compose.ui.platform.LocalDensity
+import androidx.compose.ui.text.AnnotatedString
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.rememberTextMeasurer
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.Dp
+import androidx.compose.ui.unit.IntOffset
+import androidx.compose.ui.unit.times
+import com.ionspin.kotlin.bignum.decimal.BigDecimal
 import kotlinx.coroutines.delay
 import org.jetbrains.compose.resources.painterResource
+import kotlin.math.abs
+import kotlin.math.roundToInt
 
 var habit_statistics_and_edit_x = 0
 private var pps_for_habit_statistic = 0
@@ -378,7 +392,7 @@ fun HabitStatistics(viewModel: AppViewModel) {
                         HabitStatisticsStatus.PROGRESS -> ProgressContent(progressPeriodSetting)
                         HabitStatisticsStatus.LEVEL -> LevelContent(progressPeriodSetting)
                         HabitStatisticsStatus.PROGRESS_GRAPH -> ProgressGraphContent(progressPeriodSetting)
-                        HabitStatisticsStatus.BAR_CHART -> BarChartContent(progressPeriodSetting)
+                        HabitStatisticsStatus.BAR_CHART -> BarChartContent()
 
                         else -> {}
                     }
@@ -1257,9 +1271,152 @@ private fun ProgressGraphContent(
 }
 
 @Composable
-private fun BarChartContent(
-    pps: Int
-) {
+private fun BarChartContent() {
+    @Composable
+    fun BarChart(
+        values: List<BigDecimal>,
+        positiveGradient: List<Color> = listOf(
+            seeColorByIndex(habit_statistics_and_edit_x),
+            seeColorByIndex(habit_statistics_and_edit_x).multiply(0.59f, 0.59f, 0.59f)
+        ),
+        negativeGradient: List<Color> = listOf(
+            reversNoBiggerColor(seeColorByIndex(habit_statistics_and_edit_x)),
+            reversNoBiggerColor(seeColorByIndex(habit_statistics_and_edit_x).multiply(0.59f, 0.59f, 0.59f))
+        ),
+        modifier: Modifier = Modifier.height(200.dp).fillMaxWidth(),
+        barWidth: Dp = 18.dp,
+        barSpacing: Dp = 10.dp,
+        cornerRadius: Dp = 6.8.dp,
+        axisColor: Color = UIC_light,
+    ) {
+        if (values.isEmpty()) return
+
+        val scrollState = rememberScrollState()
+        val density = LocalDensity.current
+        val textMeasurer = rememberTextMeasurer()
+
+        val barWidthPx = with(density) { barWidth.toPx() }
+        val spacingPx = with(density) { barSpacing.toPx() }
+        val cornerRadiusPx = with(density) { cornerRadius.toPx() }
+        val labelOffsetPx = with(density) { 0.8.dp.toPx() }
+
+        LaunchedEffect(values) {
+            snapshotFlow { scrollState.maxValue }.collect { max ->
+                scrollState.scrollTo(max)
+            }
+        }
+
+        val totalWidthDp = (values.size * (barWidth + barSpacing))
+            .coerceAtLeast(1.dp)
+
+        Box(
+            modifier = modifier
+                .horizontalScroll(scrollState),
+            contentAlignment = Alignment.Center
+        ) {
+            Canvas(
+                modifier = Modifier
+                    .width(totalWidthDp)
+                    .fillMaxHeight()
+            ) {
+                val maxValueAbs = values.maxOf { abs(it.doubleValue(false)) }.takeIf { it != 0.0 } ?: 1.0
+                val chartHeight = size.height
+                val chartWidth = size.width
+                val zeroY = chartHeight / 2f
+
+                drawLine(
+                    color = axisColor,
+                    start = Offset(0f, zeroY),
+                    end = Offset(chartWidth, zeroY),
+                    strokeWidth = 2f,
+                    pathEffect = PathEffect.dashPathEffect(floatArrayOf(3f, 3f))
+                )
+
+                values.forEachIndexed { i, value ->
+                    val v = value.doubleValue(false).toFloat()
+                    val x = i * (barWidthPx + spacingPx)
+                    val heightRatio = v / maxValueAbs.toFloat()
+                    val barHeight = (chartHeight / 2f) * abs(heightRatio)
+
+                    val top = if (v >= 0f) zeroY - barHeight else zeroY
+                    val bottom = if (v >= 0f) zeroY else zeroY + barHeight
+
+                    val brush = Brush.verticalGradient(
+                        colors = if (v >= 0f) positiveGradient else negativeGradient,
+                        startY = top,
+                        endY = bottom
+                    )
+
+                    drawRoundRect(
+                        brush = brush,
+                        topLeft = Offset(x, top),
+                        size = Size(barWidthPx, bottom - top),
+                        cornerRadius = CornerRadius(cornerRadiusPx, cornerRadiusPx)
+                    )
+                }
+            }
+
+            BoxWithConstraints(
+                modifier = Modifier
+                    .width(totalWidthDp)
+                    .fillMaxHeight()
+            ) {
+                val boxHeightPx = with(density) { maxHeight.toPx() }
+                val zeroY = boxHeightPx / 2f
+                val maxValueAbs = values.maxOf { abs(it.doubleValue(false)) }.takeIf { it != 0.0 } ?: 1.0
+
+                values.forEachIndexed { i, value ->
+                    val v = value.doubleValue(false).toFloat()
+                    if (v == 0f) return@forEachIndexed
+
+                    val xCenter = i * (barWidthPx + spacingPx) + barWidthPx / 2f
+                    val heightRatio = v / maxValueAbs.toFloat()
+                    val barHeight = (boxHeightPx / 2f) * abs(heightRatio)
+
+                    val top = if (v >= 0f) zeroY - barHeight else zeroY
+                    val bottom = if (v >= 0f) zeroY else zeroY + barHeight
+
+                    val label = value.toBestString()
+
+                    val textLayout = textMeasurer.measure(
+                        text = AnnotatedString(label),
+                        style = androidx.compose.ui.text.TextStyle(
+                            fontSize = 11.2.sp,
+                            fontFamily = JetBrainsFont(),
+                            fontWeight = FontWeight.Thin,
+                            color = Color.Unspecified,
+                        ),
+                        constraints = androidx.compose.ui.unit.Constraints()
+                    )
+                    val textWidth = textLayout.size.width.toFloat()
+                    val textHeight = textLayout.size.height.toFloat()
+
+                    val labelX = (xCenter - textWidth / 2f).roundToInt()
+                    val labelY = if (v >= 0f) {
+                        (top - labelOffsetPx - textHeight).roundToInt()
+                    } else {
+                        (bottom + labelOffsetPx).roundToInt()
+                    }
+
+                    Box(
+                        modifier = Modifier
+                            .offset { IntOffset(labelX, labelY) }
+                    ) {
+                        Text(
+                            text = label,
+                            textAlign = TextAlign.Center,
+                            color = UICT_see,
+                            fontSize = 11.2.sp,
+                            fontFamily = JetBrainsFont(),
+                            fontWeight = FontWeight.Thin,
+                            maxLines = 1
+                        )
+                    }
+                }
+            }
+        }
+    }
+
     var step by remember { mutableStateOf(1) }
 
     Column(
@@ -1268,6 +1425,11 @@ private fun BarChartContent(
             .padding(top = 36.8.dp),
         verticalArrangement = Arrangement.spacedBy(36.dp)
     ) {
+        Box(contentAlignment = Alignment.Center) {
+            BarChart(
+                listToday(habit_statistics_and_edit_x, step),
+            )
+        }
         ValueSetVector(
             step,
             habits[habit_statistics_and_edit_x].habitDay.size - 1,
