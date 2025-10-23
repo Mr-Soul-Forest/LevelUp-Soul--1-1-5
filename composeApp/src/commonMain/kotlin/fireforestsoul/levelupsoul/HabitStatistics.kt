@@ -79,6 +79,7 @@ import androidx.compose.ui.unit.IntOffset
 import androidx.compose.ui.unit.times
 import com.ionspin.kotlin.bignum.decimal.BigDecimal
 import kotlinx.coroutines.delay
+import kotlinx.datetime.DayOfWeek
 import org.jetbrains.compose.resources.painterResource
 import kotlin.math.abs
 import kotlin.math.roundToInt
@@ -393,6 +394,7 @@ fun HabitStatistics(viewModel: AppViewModel) {
                         HabitStatisticsStatus.LEVEL -> LevelContent(progressPeriodSetting)
                         HabitStatisticsStatus.PROGRESS_GRAPH -> ProgressGraphContent(progressPeriodSetting)
                         HabitStatisticsStatus.BAR_CHART -> BarChartContent()
+                        HabitStatisticsStatus.CALENDAR -> CalendarContent()
 
                         else -> {}
                     }
@@ -1251,20 +1253,16 @@ private fun ProgressGraphContent(
                 ts_days
             ) {
                 period = it.toIntOrNull() ?: habits[habit_statistics_and_edit_x].habitDay.size
-                if (period <= 0) period = habits[habit_statistics_and_edit_x].habitDay.size
-                if (period > habits[habit_statistics_and_edit_x].habitDay.size + 1) period =
-                    habits[habit_statistics_and_edit_x].habitDay.size + 1
+                if (period < 2) period = 2
             }
             ValueSetVector(
                 step,
-                habits[habit_statistics_and_edit_x].habitDay.size - 1,
+                habits[habit_statistics_and_edit_x].habitDay.size,
                 ts_Step,
                 ts_days
             ) {
                 step = it.toIntOrNull() ?: 1
-                if (step <= 0) step = 1
-                if (step > habits[habit_statistics_and_edit_x].habitDay.size - 1) step =
-                    habits[habit_statistics_and_edit_x].habitDay.size - 1
+                if (step < 1) step = 1
             }
         }
     }
@@ -1275,6 +1273,7 @@ private fun BarChartContent() {
     @Composable
     fun BarChart(
         values: List<BigDecimal>,
+        dates: List<String>,
         positiveGradient: List<Color> = listOf(
             seeColorByIndex(habit_statistics_and_edit_x),
             seeColorByIndex(habit_statistics_and_edit_x).multiply(0.59f, 0.59f, 0.59f)
@@ -1306,12 +1305,10 @@ private fun BarChartContent() {
             }
         }
 
-        val totalWidthDp = (values.size * (barWidth + barSpacing))
-            .coerceAtLeast(1.dp)
+        val totalWidthDp = (values.size * (barWidth + barSpacing)).coerceAtLeast(1.dp)
 
         Box(
-            modifier = modifier
-                .horizontalScroll(scrollState),
+            modifier = modifier.horizontalScroll(scrollState),
             contentAlignment = Alignment.Center
         ) {
             Canvas(
@@ -1319,10 +1316,14 @@ private fun BarChartContent() {
                     .width(totalWidthDp)
                     .fillMaxHeight()
             ) {
-                val maxValueAbs = values.maxOf { abs(it.doubleValue(false)) }.takeIf { it != 0.0 } ?: 1.0
+                val minValue = values.minOf { it.doubleValue(false) }
+                val maxValue = values.maxOf { it.doubleValue(false) }
+                val range = maxValue - minValue
                 val chartHeight = size.height
                 val chartWidth = size.width
-                val zeroY = chartHeight / 2f
+
+                val zeroY = if (range == 0.0) chartHeight / 2f
+                else (chartHeight * (maxValue / range)).toFloat()
 
                 drawLine(
                     color = axisColor,
@@ -1335,8 +1336,7 @@ private fun BarChartContent() {
                 values.forEachIndexed { i, value ->
                     val v = value.doubleValue(false).toFloat()
                     val x = i * (barWidthPx + spacingPx)
-                    val heightRatio = v / maxValueAbs.toFloat()
-                    val barHeight = (chartHeight / 2f) * abs(heightRatio)
+                    val barHeight = (chartHeight * abs(v / range.toFloat()))
 
                     val top = if (v >= 0f) zeroY - barHeight else zeroY
                     val bottom = if (v >= 0f) zeroY else zeroY + barHeight
@@ -1362,16 +1362,18 @@ private fun BarChartContent() {
                     .fillMaxHeight()
             ) {
                 val boxHeightPx = with(density) { maxHeight.toPx() }
-                val zeroY = boxHeightPx / 2f
-                val maxValueAbs = values.maxOf { abs(it.doubleValue(false)) }.takeIf { it != 0.0 } ?: 1.0
+                val minValue = values.minOf { it.doubleValue(false) }
+                val maxValue = values.maxOf { it.doubleValue(false) }
+                val range = maxValue - minValue
+                val zeroY = if (range == 0.0) boxHeightPx / 2f
+                else (boxHeightPx * (maxValue / range)).toFloat()
 
                 values.forEachIndexed { i, value ->
                     val v = value.doubleValue(false).toFloat()
                     if (v == 0f) return@forEachIndexed
 
                     val xCenter = i * (barWidthPx + spacingPx) + barWidthPx / 2f
-                    val heightRatio = v / maxValueAbs.toFloat()
-                    val barHeight = (boxHeightPx / 2f) * abs(heightRatio)
+                    val barHeight = (boxHeightPx * abs(v / range.toFloat()))
 
                     val top = if (v >= 0f) zeroY - barHeight else zeroY
                     val bottom = if (v >= 0f) zeroY else zeroY + barHeight
@@ -1399,8 +1401,7 @@ private fun BarChartContent() {
                     }
 
                     Box(
-                        modifier = Modifier
-                            .offset { IntOffset(labelX, labelY) }
+                        modifier = Modifier.offset { IntOffset(labelX, labelY) }
                     ) {
                         Text(
                             text = label,
@@ -1412,10 +1413,43 @@ private fun BarChartContent() {
                             maxLines = 1
                         )
                     }
+
+                    val dateLabel = if (i < dates.size) dates[i] else ""
+                    if (dateLabel.isNotEmpty()) {
+                        val dateLayout = textMeasurer.measure(
+                            text = AnnotatedString(dateLabel),
+                            style = androidx.compose.ui.text.TextStyle(
+                                fontSize = 11.2.sp,
+                                fontFamily = JetBrainsFont(),
+                                fontWeight = FontWeight.Light,
+                                color = UICT_see
+                            ),
+                            constraints = androidx.compose.ui.unit.Constraints()
+                        )
+                        val dateWidth = dateLayout.size.width.toFloat()
+
+                        val dateX = (xCenter - dateWidth / 2f).roundToInt()
+                        val dateY = (zeroY + labelOffsetPx + with(density) { 2.dp.toPx() }).roundToInt()
+
+                        Box(
+                            modifier = Modifier.offset { IntOffset(dateX, dateY) }
+                        ) {
+                            Text(
+                                text = dateLabel,
+                                textAlign = TextAlign.Center,
+                                color = UICT_see,
+                                fontSize = 10.sp,
+                                fontFamily = JetBrainsFont(),
+                                fontWeight = FontWeight.Light,
+                                maxLines = 1
+                            )
+                        }
+                    }
                 }
             }
         }
     }
+
 
     var step by remember { mutableStateOf(1) }
 
@@ -1428,6 +1462,7 @@ private fun BarChartContent() {
         Box(contentAlignment = Alignment.Center) {
             BarChart(
                 listToday(habit_statistics_and_edit_x, step),
+                listTodayDates(habit_statistics_and_edit_x, step)
             )
         }
         ValueSetVector(
@@ -1437,9 +1472,107 @@ private fun BarChartContent() {
             ts_days
         ) {
             step = it.toIntOrNull() ?: 1
-            if (step <= 0) step = 1
-            if (step > habits[habit_statistics_and_edit_x].habitDay.size - 1) step =
-                habits[habit_statistics_and_edit_x].habitDay.size - 1
+            if (step < 1) step = 1
         }
+    }
+}
+
+@Composable
+fun CalendarContent() {
+    @Composable
+    fun HabitGrid(
+        startDay: Int = when (habits[habit_statistics_and_edit_x].startDate.dayOfWeek) {
+            DayOfWeek.MONDAY -> 0
+            DayOfWeek.TUESDAY -> 1
+            DayOfWeek.WEDNESDAY -> 2
+            DayOfWeek.THURSDAY -> 3
+            DayOfWeek.FRIDAY -> 4
+            DayOfWeek.SATURDAY -> 5
+            DayOfWeek.SUNDAY -> 6
+            else -> 0
+        },
+        labels: List<Int> = listDaysNumbers(habit_statistics_and_edit_x),
+        goods: List<Boolean> = listDaysBoolean(habit_statistics_and_edit_x),
+        goodColor: Color = seeColorByIndex(habit_statistics_and_edit_x),
+        badColor: Color = noSeeColorByIndex(habit_statistics_and_edit_x),
+        modifier: Modifier = Modifier
+    ) {
+        val scrollState = rememberScrollState()
+
+        LaunchedEffect(goods) {
+            snapshotFlow { scrollState.maxValue }.collect { max ->
+                scrollState.scrollTo(max)
+            }
+        }
+
+        Box(modifier = modifier.horizontalScroll(scrollState)) {
+            var index = 0
+            Row(horizontalArrangement = Arrangement.spacedBy(9.2.dp)) {
+                while (index < goods.size + startDay) {
+                    Column(verticalArrangement = Arrangement.spacedBy(9.2.dp)) {
+                        if (index < startDay) {
+                            Box(modifier = Modifier.size(18.dp))
+                        } else {
+                            Box(
+                                modifier = Modifier.size(18.dp)
+                                    .background(
+                                        if (goods[index - startDay]) goodColor else badColor,
+                                        RoundedCornerShape(3.dp)
+                                    ),
+                                contentAlignment = Alignment.Center
+                            ) {
+                                Text(
+                                    text = labels[index - startDay].toString(),
+                                    fontSize = 10.8.sp,
+                                    color = checkBackgroundBright(
+                                        if (goods[index - startDay]) goodColor else badColor,
+                                        UICT_see
+                                    ),
+                                    maxLines = 1,
+                                    fontFamily = JetBrainsFont(),
+                                    fontWeight = FontWeight.ExtraLight
+                                )
+                            }
+                        }
+                        index++
+                        while ((index) % 7 != 0 && index < goods.size + startDay) {
+                            if (index < startDay) {
+                                Box(modifier = Modifier.size(18.dp))
+                            } else {
+                                Box(
+                                    modifier = Modifier.size(18.dp)
+                                        .background(
+                                            if (goods[index - startDay]) goodColor else badColor,
+                                            RoundedCornerShape(3.dp)
+                                        ),
+                                    contentAlignment = Alignment.Center
+                                ) {
+                                    Text(
+                                        text = labels[index - startDay].toString(),
+                                        fontSize = 10.8.sp,
+                                        color = checkBackgroundBright(
+                                            if (goods[index - startDay]) goodColor else badColor,
+                                            UICT_see
+                                        ),
+                                        maxLines = 1,
+                                        fontFamily = JetBrainsFont(),
+                                        fontWeight = FontWeight.ExtraLight
+                                    )
+                                }
+                            }
+                            index++
+                        }
+                    }
+                }
+            }
+        }
+    }
+    Box(
+        modifier = Modifier.fillMaxWidth()
+            .padding(horizontal = 29.2.dp)
+            .padding(top = 32.8.dp),
+        contentAlignment = Alignment.Center
+    ) {
+        HabitGrid()
     }
 }

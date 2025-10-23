@@ -110,18 +110,19 @@ fun listProgress(
     step: Int,
     pps: Int = habits[habitIndex].habitDay.size
 ): List<Float> {
-    var index = habits[habitIndex].habitDay.size - 1
-    val list = mutableListOf(progress(habitIndex, pps, index))
-    index -= step
+    val list = mutableListOf<Float>()
 
-    while (index + step >= habits[habitIndex].habitDay.size - period) {
-        if (index > 0)
-            list.add(progress(habitIndex, pps, index))
-        else {
-            list.add(progress(habitIndex, pps, 0))
-            break
+    var sum = 0f
+    var n = 0
+    for (i in (habits[habitIndex].habitDay.size - 1) downTo (habits[habitIndex].habitDay.size - period)) {
+        sum += progress(habitIndex, pps, i)
+        n++
+        if (((i + 1) % step == 0 && step != habits[habitIndex].habitDay.size) || i == (habits[habitIndex].habitDay.size - period)) {
+            list.add(sum / n)
+            if (step > habits[habitIndex].habitDay.size - 1) list.add(sum / n)
+            sum = 0f
+            n = 0
         }
-        index -= step
     }
 
     list.reverse()
@@ -149,23 +150,15 @@ fun listToday(
     habitIndex: Int,
     step: Int
 ): List<BigDecimal> {
-    var index = habits[habitIndex].habitDay.size - 1
+    val list = mutableListOf<BigDecimal>()
 
-    var sum0 = BigDecimal.ZERO
-    for (i in (index - step + 1)..index) {
-        sum0 += habits[habitIndex].habitDay[i].today
-    }
-    index -= step
-
-    val list = mutableListOf(sum0)
-
-    while (index - step >= 0) {
-        var sum = BigDecimal.ZERO
-        for (i in (index - step + 1)..index) {
-            sum += habits[habitIndex].habitDay[i].today
+    var sum = BigDecimal.ZERO
+    for (i in (habits[habitIndex].habitDay.size - 1) downTo 0) {
+        sum += habits[habitIndex].habitDay[i].today
+        if (((i + 1) % step == 0 && step != habits[habitIndex].habitDay.size) || i == 0) {
+            list.add(sum)
+            sum = BigDecimal.ZERO
         }
-        list.add(sum)
-        index -= step
     }
 
     list.reverse()
@@ -202,22 +195,28 @@ fun listTodayAll(
 }
 
 fun listTodayDates(
-    index: Int,
+    habitIndex: Int,
     step: Int
 ): List<String> {
-    fun formatter(localDate: LocalDate): String {
-        return if (step < 7) localDate.dayOfWeek.toString().take(3)
-        else if (step < 30) localDate.dayOfMonth.toString()
-        else if (step < 365) localDate.month.toString().take(3)
-        else localDate.year.toString()
+    fun LocalDate.formatter(): String {
+        return if (step < 7) this.dayOfWeek.toString().take(3)
+        else if (step < 30) this.dayOfMonth.toString()
+        else if (step < 365) this.month.toString().take(3)
+        else this.year.toString()
     }
 
-    val list = mutableListOf(formatter(habits[index].startDate))
-    var y = step
-    while (y < habits[index].habitDay.size) {
-        list.add(formatter(habits[index].startDate.plus(y, DateTimeUnit.DAY)))
-        y += step
+    val list = mutableListOf<String>()
+
+    for (i in (habits[habitIndex].habitDay.size - 1) downTo 0) {
+        if (((i + 1) % step == 0 && step != habits[habitIndex].habitDay.size) || i == 0) {
+            list.add(
+                habits[habitIndex].startDate.plus(i, DateTimeUnit.DAY)
+                    .formatter()
+            )
+        }
     }
+
+    list.reverse()
     return list
 }
 
