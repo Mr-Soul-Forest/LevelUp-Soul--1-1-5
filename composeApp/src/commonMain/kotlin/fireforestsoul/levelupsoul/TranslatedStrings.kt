@@ -1,3 +1,12 @@
+/**Copyright 2025 Forge-of-Ovorldule (https://github.com/Forge-of-Ovorldule) and Mr-Soul-Forest (https://github.com/Mr-Soul-Forest)
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ */
+
 package fireforestsoul.levelupsoul
 
 var ts_Edit = "Edit"
@@ -100,6 +109,9 @@ var ts_goal = "goal"
 var ts_period = "period"
 var ts_for_statistic = "for statistic"
 var ts_for_full_time = "for full time"
+var ts_all = "all"
+var ts_Smooth = "Smooth"
+var ts_Linear = "Linear"
 
 fun changeLanguage() {
     if (language == Languages.RU) {
@@ -203,6 +215,9 @@ fun changeLanguage() {
         ts_period = "период"
         ts_for_statistic = "для статистики"
         ts_for_full_time = "для полного времени"
+        ts_all = "всё"
+        ts_Smooth = "Плавно"
+        ts_Linear = "Линейно"
     } else {
         ts_Edit = "Edit"
         ts_Cancel = "Cancel"
@@ -304,5 +319,8 @@ fun changeLanguage() {
         ts_period = "period"
         ts_for_statistic = "for statistic"
         ts_for_full_time = "for full time"
+        ts_all = "all"
+        ts_Smooth = "Smooth"
+        ts_Linear = "Linear"
     }
 }

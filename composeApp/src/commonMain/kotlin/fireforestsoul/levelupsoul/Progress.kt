@@ -1,3 +1,12 @@
+/**Copyright 2025 Forge-of-Ovorldule (https://github.com/Forge-of-Ovorldule) and Mr-Soul-Forest (https://github.com/Mr-Soul-Forest)
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ */
+
 package fireforestsoul.levelupsoul
 
 import com.ionspin.kotlin.bignum.decimal.BigDecimal
@@ -8,13 +17,13 @@ import kotlinx.datetime.plus
 
 fun progress(
     index: Int,
-    days: Int = habits[index].habitDay.size,
-    startIndex: Int = habits[index].habitDay.size - 1
+    pps: Int = habits[index].habitDay.size,
+    endIndex: Int = habits[index].habitDay.size - 1
 ): Float {
     var correctly = 0f
     var correctlyDays = 0
-    for (indexY in (startIndex - days + 1)..(startIndex)) {
-        if (indexY in 0..(habits[index].habitDay.size - 1)) {
+    for (indexY in (endIndex - pps + 1)..(endIndex)) {
+        if (indexY in 0..<habits[index].habitDay.size) {
             if (habits[index].habitDay[indexY].correctly)
                 correctly++
             correctlyDays++
@@ -36,13 +45,13 @@ fun progress(
 
 fun progress(
     habit: Habit,
-    days: Int = habit.habitDay.size,
+    pps: Int = habit.habitDay.size,
     startIndex: Int = habit.habitDay.size - 1
 ): Float {
     var correctly = 0f
     var correctlyDays = 0
-    for (indexY in (startIndex - days + 1)..(startIndex)) {
-        if (indexY in 0..(habit.habitDay.size - 1)) {
+    for (indexY in (startIndex - pps + 1)..(startIndex)) {
+        if (indexY in 0..<habit.habitDay.size) {
             if (habit.habitDay[indexY].correctly)
                 correctly++
             correctlyDays++
@@ -53,15 +62,15 @@ fun progress(
 
 fun progressAll(
     maxDays: Int,
-    days: Int = maxDays,
-    startIndex: Int = maxDays - 1
+    pps: Int = maxDays,
+    endIndex: Int = maxDays - 1
 ): Float {
     var correctly = 0f
     for (x in 0 until habits.size) {
         correctly += progress(
             x,
-            if (days >= maxDays) habits[x].habitDay.size else days,
-            habits[x].habitDay.size - maxDays + startIndex
+            if (pps >= maxDays) habits[x].habitDay.size else pps,
+            habits[x].habitDay.size - maxDays + endIndex
         )
     }
     return correctly / (if (habits.isNotEmpty()) habits.size else 1)
@@ -70,13 +79,13 @@ fun progressAll(
 fun plusProgress(
     index: Int,
     period: Int,
-    days: Int = habits[index].habitDay.size,
+    pps: Int = habits[index].habitDay.size,
     startIndex: Int = habits[index].habitDay.size - 1
 ): Float {
-    return progress(index, days, startIndex) -
+    return progress(index, pps, startIndex) -
             progress(
                 index,
-                days,
+                pps,
                 startIndex - period
             )
 }
@@ -96,19 +105,27 @@ fun plusProgressAll(
 }
 
 fun listProgress(
-    index: Int,
+    habitIndex: Int,
     period: Int,
     step: Int,
-    days: Int = habits[index].habitDay.size
+    pps: Int = habits[habitIndex].habitDay.size
 ): List<Float> {
-    var y = habits[index].habitDay.size - period
-    val list = mutableListOf(progress(index, days, y))
-    y += step
-    while (y < habits[index].habitDay.size) {
-        if (y >= 0)
-            list.add(progress(index, days, y))
-        y += step
+    val list = mutableListOf<Float>()
+
+    var sum = 0f
+    var n = 0
+    for (i in (habits[habitIndex].habitDay.size - 1) downTo (habits[habitIndex].habitDay.size - period)) {
+        sum += progress(habitIndex, pps, i)
+        n++
+        if (((i + 1) % step == 0 && step != habits[habitIndex].habitDay.size) || i == (habits[habitIndex].habitDay.size - period)) {
+            list.add(sum / n)
+            if (step > habits[habitIndex].habitDay.size - 1) list.add(sum / n)
+            sum = 0f
+            n = 0
+        }
     }
+
+    list.reverse()
     return list
 }
 
@@ -130,26 +147,21 @@ fun listProgressAll(
 }
 
 fun listToday(
-    index: Int,
+    habitIndex: Int,
     step: Int
 ): List<BigDecimal> {
-    var add0 = 0.toBigDecimal()
-    for (z in 0 until step) {
-        if (z < habits[index].habitDay.size)
-            add0 += habits[index].habitDay[z].today
-    }
-    val list = mutableListOf(add0)
-    var y = step
-    while (y < habits[index].habitDay.size) {
-        var add = 0.toBigDecimal()
-        for (z in y until (y + step)) {
-            if (z < habits[index].habitDay.size)
-                add += habits[index].habitDay[z].today
+    val list = mutableListOf<BigDecimal>()
+
+    var sum = BigDecimal.ZERO
+    for (i in (habits[habitIndex].habitDay.size - 1) downTo 0) {
+        sum += habits[habitIndex].habitDay[i].today
+        if (((i + 1) % step == 0 && step != habits[habitIndex].habitDay.size) || i == 0) {
+            list.add(sum)
+            sum = BigDecimal.ZERO
         }
-        list.add(add)
-        y += step
     }
 
+    list.reverse()
     return list
 }
 
@@ -183,22 +195,28 @@ fun listTodayAll(
 }
 
 fun listTodayDates(
-    index: Int,
+    habitIndex: Int,
     step: Int
 ): List<String> {
-    fun formatter(localDate: LocalDate): String {
-        return if (step < 7) localDate.dayOfWeek.toString().take(3)
-        else if (step < 30) localDate.dayOfMonth.toString()
-        else if (step < 365) localDate.month.toString().take(3)
-        else localDate.year.toString()
+    fun LocalDate.formatter(): String {
+        return if (step < 7) this.dayOfWeek.toString().take(3)
+        else if (step < 30) this.dayOfMonth.toString()
+        else if (step < 365) this.month.toString().take(3)
+        else this.year.toString()
     }
 
-    val list = mutableListOf(formatter(habits[index].startDate))
-    var y = step
-    while (y < habits[index].habitDay.size) {
-        list.add(formatter(habits[index].startDate.plus(y, DateTimeUnit.DAY)))
-        y += step
+    val list = mutableListOf<String>()
+
+    for (i in (habits[habitIndex].habitDay.size - 1) downTo 0) {
+        if (((i + 1) % step == 0 && step != habits[habitIndex].habitDay.size) || i == 0) {
+            list.add(
+                habits[habitIndex].startDate.plus(i, DateTimeUnit.DAY)
+                    .formatter()
+            )
+        }
     }
+
+    list.reverse()
     return list
 }
 
@@ -257,7 +275,7 @@ fun listDaysBoolean(
     return list
 }
 
-fun habitSeria(
+fun habitStreaks(
     index: Int
 ): List<Int> {
     val list = mutableListOf(0)
@@ -276,7 +294,7 @@ fun habitSeria(
     return list
 }
 
-fun habitSeria(
+fun habitStreaks(
     habit: Habit
 ): List<Int> {
     val list = mutableListOf(0)

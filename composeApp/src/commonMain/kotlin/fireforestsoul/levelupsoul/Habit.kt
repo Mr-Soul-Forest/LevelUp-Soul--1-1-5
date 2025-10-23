@@ -1,3 +1,12 @@
+/**Copyright 2025 Forge-of-Ovorldule (https://github.com/Forge-of-Ovorldule) and Mr-Soul-Forest (https://github.com/Mr-Soul-Forest)
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ */
+
 package fireforestsoul.levelupsoul
 
 import androidx.compose.ui.graphics.Color
@@ -26,6 +35,7 @@ class Habit(
     var lastLevelChangeDate: LocalDate = startDate
     var level: Int = 0
     var habitDay: MutableList<HabitDay> = MutableList(1) { HabitDay(0.toBigDecimal()) }
+    var phantomNeedDays = needDays.toBigDecimal()
 
     fun updateDate(sort: Boolean = true) {
         val today = Clock.System.now().toLocalDateTime(TimeZone.currentSystemDefault()).date
@@ -51,12 +61,12 @@ class Habit(
     }
 
     fun update(sort: Boolean = true) {
-        for (i in 0..(habitDay.size - 1)) {
+        for (i in 0..<habitDay.size) {
             updateHabitDay(i)
         }
 
         if (sort) {
-            habits.sortByDescending { if (habitSeria(it).isNotEmpty()) habitSeria(it)[0] else 0 }
+            habits.sortByDescending { if (habitStreaks(it).isNotEmpty()) habitStreaks(it)[0] else 0 }
             habits.sortByDescending { it.level }
             habits.sortByDescending { progress(it) }
         }
@@ -78,13 +88,20 @@ class Habit(
                         level++
                         lastLevelChangeDate = Clock.System.now().toLocalDateTime(TimeZone.currentSystemDefault()).date
                         if (changeNeedDaysWithLevel) {
-                            if (typeOfGoalHabits == TypeOfGoalHabits.AT_LEAST) needDays =
-                                if ((needDays * 0.8).toInt() > 0) (needDays * 0.8).toInt() else 1
-                            else if (typeOfGoalHabits == TypeOfGoalHabits.NO_MORE) needDays = (needDays / 0.8).toInt()
+                            when (typeOfGoalHabits) {
+                                TypeOfGoalHabits.AT_LEAST -> phantomNeedDays *= "0.8".toBigDecimal()
+                                TypeOfGoalHabits.NO_MORE -> phantomNeedDays /= "0.8".toBigDecimal()
+                            }
+                            needDays =
+                                if (phantomNeedDays % 1 != BigDecimal.ZERO) phantomNeedDays.intValue(false) + 1 else phantomNeedDays.intValue(
+                                    false
+                                )
                         }
                         if (changeNeedGoalWithLevel) {
-                            if (typeOfGoalHabits == TypeOfGoalHabits.AT_LEAST) needGoal /= "0.8".toBigDecimal()
-                            else if (typeOfGoalHabits == TypeOfGoalHabits.NO_MORE) needGoal *= "0.8".toBigDecimal()
+                            when (typeOfGoalHabits) {
+                                TypeOfGoalHabits.AT_LEAST -> needGoal /= "0.8".toBigDecimal()
+                                TypeOfGoalHabits.NO_MORE -> needGoal *= "0.8".toBigDecimal()
+                            }
                         }
                     }
                 } else if (progress(this) <= 0.2) {
@@ -99,17 +116,96 @@ class Habit(
                         level--
                         lastLevelChangeDate = Clock.System.now().toLocalDateTime(TimeZone.currentSystemDefault()).date
                         if (changeNeedDaysWithLevel) {
-                            if (typeOfGoalHabits == TypeOfGoalHabits.AT_LEAST) needDays = (needDays / 0.8).toInt()
-                            else if (typeOfGoalHabits == TypeOfGoalHabits.NO_MORE) needDays =
-                                if ((needDays * 0.8).toInt() > 0) (needDays * 0.8).toInt() else 1
+                            when (typeOfGoalHabits) {
+                                TypeOfGoalHabits.AT_LEAST -> phantomNeedDays /= 0.8
+                                TypeOfGoalHabits.NO_MORE -> phantomNeedDays *= "0.8".toBigDecimal()
+                            }
+                            needDays =
+                                if (phantomNeedDays % 1 != BigDecimal.ZERO) phantomNeedDays.intValue(false) + 1 else phantomNeedDays.intValue(
+                                    false
+                                )
                         }
                         if (changeNeedGoalWithLevel) {
-                            if (typeOfGoalHabits == TypeOfGoalHabits.AT_LEAST) needGoal *= "0.8".toBigDecimal()
-                            else if (typeOfGoalHabits == TypeOfGoalHabits.NO_MORE) needGoal /= "0.8".toBigDecimal()
+                            when (typeOfGoalHabits) {
+                                TypeOfGoalHabits.AT_LEAST -> needGoal *= "0.8".toBigDecimal()
+                                TypeOfGoalHabits.NO_MORE -> needGoal /= "0.8".toBigDecimal()
+                            }
                         }
                     }
                 }
             }
         }
+    }
+
+    fun getToLevelUp(pps: Int = habitDay.size - 1): Float {
+        var end = habitDay.size - 20
+        end = if (end < 0) 0 else end
+        end =
+            if (end < lastLevelChangeDate.toEpochDays() - startDate.toEpochDays()) lastLevelChangeDate.toEpochDays() - startDate.toEpochDays() else end
+
+        var progress = 0f
+        val isProgressUp = if (progress(this, pps) <= 0.2f) false else true
+        for (index in (habitDay.size - 1) downTo end) {
+            if (isProgressUp) {
+                if (progress(this, pps, index) >= 0.8f) progress++
+                else break
+            } else {
+                if (progress(this, pps, index) <= 0.2f) progress--
+                else break
+            }
+        }
+        return progress / 20f
+    }
+
+    fun getNeedGoalWhenNewLevel(pps: Int = habitDay.size - 1): BigDecimal {
+        val isProgressUp = if (progress(this, pps) <= 0.2f) false else true
+        if (changeNeedGoalWithLevel) {
+            return if (isProgressUp) {
+                when (typeOfGoalHabits) {
+                    TypeOfGoalHabits.AT_LEAST -> needGoal / "0.8".toBigDecimal()
+                    TypeOfGoalHabits.NO_MORE -> needGoal * "0.8".toBigDecimal()
+                }
+            } else {
+                when (typeOfGoalHabits) {
+                    TypeOfGoalHabits.AT_LEAST -> needGoal * "0.8".toBigDecimal()
+                    TypeOfGoalHabits.NO_MORE -> needGoal / "0.8".toBigDecimal()
+                }
+            }
+        }
+        return needGoal
+    }
+
+    fun getPhantomNeedDaysWhenNewLevel(pps: Int = habitDay.size - 1): BigDecimal {
+        val isProgressUp = if (progress(this, pps) <= 0.2f) false else true
+        if (changeNeedDaysWithLevel) {
+            return if (isProgressUp) {
+                when (typeOfGoalHabits) {
+                    TypeOfGoalHabits.AT_LEAST -> phantomNeedDays * "0.8".toBigDecimal()
+                    TypeOfGoalHabits.NO_MORE -> phantomNeedDays / "0.8".toBigDecimal()
+                }
+            } else {
+                when (typeOfGoalHabits) {
+                    TypeOfGoalHabits.AT_LEAST -> phantomNeedDays / 0.8
+                    TypeOfGoalHabits.NO_MORE -> phantomNeedDays * "0.8".toBigDecimal()
+                }
+            }
+        }
+        return phantomNeedDays
+    }
+
+    fun getNeedDaysWhenNewLevel(pps: Int = habitDay.size - 1): Int {
+        if (changeNeedDaysWithLevel) {
+            return if (getPhantomNeedDaysWhenNewLevel(pps) % 1 != BigDecimal.ZERO) getPhantomNeedDaysWhenNewLevel(pps).intValue(
+                false
+            ) + 1 else getPhantomNeedDaysWhenNewLevel(pps).intValue(
+                false
+            )
+        }
+        return needDays
+    }
+
+    fun loadNeedDays(value: Int) {
+        needDays = value
+        phantomNeedDays = value.toBigDecimal()
     }
 }

@@ -1,3 +1,12 @@
+/**Copyright 2025 Forge-of-Ovorldule (https://github.com/Forge-of-Ovorldule) and Mr-Soul-Forest (https://github.com/Mr-Soul-Forest)
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ */
+
 package fireforestsoul.levelupsoul
 
 import androidx.compose.foundation.Image
@@ -276,7 +285,7 @@ fun SoulStatisticsContent() {
                 if (progressAll(maxDays) >= 0.8) {
                     for (x in (maxDays - 20) until maxDays) {
                         if (x >= 0) {
-                            if (progressAll(maxDays, startIndex = x) >= 0.8) {
+                            if (progressAll(maxDays, endIndex = x) >= 0.8) {
                                 goodProgress++
                             }
                         }
@@ -289,7 +298,7 @@ fun SoulStatisticsContent() {
                 } else if (progressAll(maxDays) <= 0.2) {
                     for (x in (maxDays - 20) until maxDays) {
                         if (x >= 0) {
-                            if (progressAll(maxDays, startIndex = x) <= 0.2) {
+                            if (progressAll(maxDays, endIndex = x) <= 0.2) {
                                 goodProgress++
                             }
                         }
@@ -335,7 +344,7 @@ fun SoulStatisticsContent() {
                         for (x in (maxDays - (Clock.System.now()
                             .toLocalDateTime(TimeZone.currentSystemDefault()).date.toEpochDays() - soul_last_level_change_date.toEpochDays())) until maxDays) {
                             if (x >= 0) {
-                                if (progressAll(maxDays, startIndex = x) >= 0.8) {
+                                if (progressAll(maxDays, endIndex = x) >= 0.8) {
                                     goodProgress++
                                 } else {
                                     goodProgress = 0f
@@ -347,7 +356,7 @@ fun SoulStatisticsContent() {
                         for (x in (maxDays - (Clock.System.now()
                             .toLocalDateTime(TimeZone.currentSystemDefault()).date.toEpochDays() - soul_last_level_change_date.toEpochDays())) until maxDays) {
                             if (x >= 0) {
-                                if (progress(maxDays, startIndex = x) <= 0.2) {
+                                if (progressAll(maxDays, endIndex = x) <= 0.2) {
                                     goodProgress++
                                 } else {
                                     goodProgress = 0f
