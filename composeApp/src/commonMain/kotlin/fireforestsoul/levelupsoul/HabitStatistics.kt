@@ -395,6 +395,7 @@ fun HabitStatistics(viewModel: AppViewModel) {
                         HabitStatisticsStatus.PROGRESS_GRAPH -> ProgressGraphContent(progressPeriodSetting)
                         HabitStatisticsStatus.BAR_CHART -> BarChartContent()
                         HabitStatisticsStatus.CALENDAR -> CalendarContent()
+                        HabitStatisticsStatus.STREAKS -> StreaksContent()
 
                         else -> {}
                     }
@@ -411,8 +412,8 @@ private enum class HabitStatisticsStatus {
     PROGRESS_GRAPH,
     BAR_CHART,
     CALENDAR,
-    STREAKS,
-    DISTRIBUTION_BY_DAY_OF_THE_WEEK
+    DISTRIBUTION_BY_DAY_OF_THE_WEEK,
+    STREAKS
 }
 
 @Composable
@@ -1473,6 +1474,8 @@ private fun BarChartContent() {
         ) {
             step = it.toIntOrNull() ?: 1
             if (step < 1) step = 1
+            if (step > habits[habit_statistics_and_edit_x].habitDay.size - 1) step =
+                habits[habit_statistics_and_edit_x].habitDay.size - 1
         }
     }
 }
@@ -1574,5 +1577,44 @@ fun CalendarContent() {
         contentAlignment = Alignment.Center
     ) {
         HabitGrid()
+    }
+}
+
+@Composable
+fun StreaksContent() {
+    Column(
+        modifier = Modifier.fillMaxWidth()
+            .padding(horizontal = 29.2.dp)
+            .padding(top = 32.8.dp),
+        horizontalAlignment = Alignment.CenterHorizontally,
+        verticalArrangement = Arrangement.spacedBy(11.2.dp)
+    ) {
+        val streaks = habitStreaks(habit_statistics_and_edit_x)
+        val maxStreak = streaks.max()
+
+        for (streak in streaks) {
+            val k = streak.toFloat() / maxStreak.toFloat()
+            Box(
+                modifier = Modifier.fillMaxWidth(k)
+                    .height(24.4.dp)
+                    .background(
+                        seeColorByIndex(habit_statistics_and_edit_x).multiply(k, k, k),
+                        RoundedCornerShape(8.8.dp)
+                    ),
+                contentAlignment = Alignment.Center
+            ) {
+                Text(
+                    text = "$streak $ts_days",
+                    color = checkBackgroundBright(
+                        seeColorByIndex(habit_statistics_and_edit_x).multiply(k, k, k),
+                        UICT_see
+                    ),
+                    fontSize = 12.8.sp,
+                    fontFamily = JetBrainsFont(),
+                    fontWeight = FontWeight.Thin,
+                    maxLines = 1
+                )
+            }
+        }
     }
 }

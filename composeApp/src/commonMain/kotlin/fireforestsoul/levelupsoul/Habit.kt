@@ -66,7 +66,7 @@ class Habit(
         }
 
         if (sort) {
-            habits.sortByDescending { if (habitSeria(it).isNotEmpty()) habitSeria(it)[0] else 0 }
+            habits.sortByDescending { if (habitStreaks(it).isNotEmpty()) habitStreaks(it)[0] else 0 }
             habits.sortByDescending { it.level }
             habits.sortByDescending { progress(it) }
         }

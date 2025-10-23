@@ -275,7 +275,7 @@ fun listDaysBoolean(
     return list
 }
 
-fun habitSeria(
+fun habitStreaks(
     index: Int
 ): List<Int> {
     val list = mutableListOf(0)
@@ -294,7 +294,7 @@ fun habitSeria(
     return list
 }
 
-fun habitSeria(
+fun habitStreaks(
     habit: Habit
 ): List<Int> {
     val list = mutableListOf(0)

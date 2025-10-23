@@ -21,7 +21,7 @@ fun seeColorByIndex(index: Int): Color {
     var maxSeria = 0
     for (x in 0 until habits.size) {
         maxSeria = max(
-            if (habitSeria(x).isNotEmpty()) habitSeria(x)[0] else 0,
+            if (habitStreaks(x).isNotEmpty()) habitStreaks(x)[0] else 0,
             maxSeria
         )
     }
@@ -40,9 +40,9 @@ fun seeColorByIndex(index: Int): Color {
         habits[index].colorGood
     else Color(
         (habits[index].habitDay.size.toDouble() / (if (maxDays != 0) maxDays else 1).toDouble() * 127.5).toInt()
-        + ((habits[index].level - minLevel) / (if (levels == 0) 1 else levels) * 127.5).toInt(),
+                + ((habits[index].level - minLevel) / (if (levels == 0) 1 else levels) * 127.5).toInt(),
         (progress(index) * 255.0).toInt(),
-        ((if (habitSeria(index).isNotEmpty()) habitSeria(index)[0] else 0) / (if (maxSeria != 0) maxSeria else 1) * 255.0).toInt()
+        ((if (habitStreaks(index).isNotEmpty()) habitStreaks(index)[0] else 0) / (if (maxSeria != 0) maxSeria else 1) * 255.0).toInt()
     )
 }
 
@@ -55,7 +55,7 @@ fun noSeeColorByIndex(index: Int): Color {
     )
 }
 
-fun getSeeSoulColor() : Color {
+fun getSeeSoulColor(): Color {
     var maxDays = 0
     for (habit in habits) {
         maxDays = max(habit.habitDay.size, maxDays)
@@ -68,7 +68,7 @@ fun getSeeSoulColor() : Color {
     )
 }
 
-fun getNoSeeSoulColor() : Color {
+fun getNoSeeSoulColor(): Color {
     return Color(
         getSeeSoulColor().red * 0.5f,
         getSeeSoulColor().green * 0.5f,
@@ -76,7 +76,7 @@ fun getNoSeeSoulColor() : Color {
     )
 }
 
-fun getSoulRealColor() : Color {
+fun getSoulRealColor(): Color {
     return if (soul_color_type == TypeOfColorHabits.SELECTED) soul_color
     else getSeeSoulColor()
 }
