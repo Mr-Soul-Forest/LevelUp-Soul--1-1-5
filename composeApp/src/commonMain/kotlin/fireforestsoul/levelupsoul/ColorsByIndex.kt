@@ -70,12 +70,19 @@ fun seeColorByIndex(index: Int): Color {
         ))
     }
 
+    fun getTypeOfGoalK(): Float {
+        return when (habits[index].typeOfGoalHabits) {
+            TypeOfGoalHabits.NO_MORE -> 0f
+            TypeOfGoalHabits.AT_LEAST -> 1f
+        }
+    }
+
     return if (habits[index].typeOfColorHabits == TypeOfColorHabits.SELECTED)
         habits[index].colorGood
     else Color(
         ((getProgressK() + getLevelK()) / 2 * 255).toInt(),
         ((getDaysK() + getNeedGoalK()) / 2 * 255).toInt(),
-        ((getStreakK()) / 1 * 255).toInt(),
+        ((getStreakK() + getTypeOfGoalK()) / 2 * 255).toInt(),
     )
 }
 
