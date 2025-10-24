@@ -10,6 +10,8 @@
 package fireforestsoul.levelupsoul
 
 import androidx.compose.ui.graphics.Color
+import com.ionspin.kotlin.bignum.decimal.BigDecimal
+import com.ionspin.kotlin.bignum.decimal.toBigDecimal
 import kotlin.math.max
 import kotlin.math.min
 
@@ -21,7 +23,7 @@ fun seeColorByIndex(index: Int): Color {
             maxProgress = max(progress(habit), maxProgress)
             minProgress = min(progress(habit), maxProgress)
         }
-        return (habits[index].habitDay.size - minProgress) / (if (maxProgress - minProgress == 0f) 1f else (maxProgress - minProgress))
+        return (progress(index) - minProgress) / (if (maxProgress - minProgress == 0f) 1f else (maxProgress - minProgress))
     }
 
     fun getDaysK(): Float {
@@ -35,12 +37,15 @@ fun seeColorByIndex(index: Int): Color {
     }
 
     fun getStreakK(): Float {
-        var maxStreak = Int.MIN_VALUE
-        val minStreak = 0
-        for (habit in habits) {
-            maxStreak = max(if (habitStreaks(habit).isNotEmpty()) habitStreaks(habit)[0] else 0, maxStreak)
+        if (habitStreaks(index).isNotEmpty()) {
+            var maxStreak = Int.MIN_VALUE
+            val minStreak = 0
+            for (habit in habits) {
+                maxStreak = max(if (habitStreaks(habit).isNotEmpty()) habitStreaks(habit)[0] else 0, maxStreak)
+            }
+            return (habitStreaks(index)[0] - minStreak).toFloat() / (if (maxStreak - minStreak == 0) 1f else (maxStreak - minStreak).toFloat())
         }
-        return (habits[index].habitDay.size - minStreak).toFloat() / (if (maxStreak - minStreak == 0) 1f else (maxStreak - minStreak).toFloat())
+        return 0f
     }
 
     fun getLevelK(): Float {
@@ -50,14 +55,26 @@ fun seeColorByIndex(index: Int): Color {
             maxLevel = max(habit.level, maxLevel)
             minLevel = min(habit.level, maxLevel)
         }
-        return (habits[index].habitDay.size - minLevel).toFloat() / (if (maxLevel - minLevel == 0) 1f else (maxLevel - minLevel).toFloat())
+        return (habits[index].level - minLevel).toFloat() / (if (maxLevel - minLevel == 0) 1f else (maxLevel - minLevel).toFloat())
+    }
+
+    fun getNeedGoalK(): Float {
+        var maxNeedGoal = Double.MIN_VALUE.toBigDecimal()
+        var minNeedGoal = Double.MAX_VALUE.toBigDecimal()
+        for (habit in habits) {
+            maxNeedGoal = maxOf(habit.needGoal, maxNeedGoal)
+            minNeedGoal = minOf(habit.needGoal, maxNeedGoal)
+        }
+        return (habits[index].needGoal - minNeedGoal).floatValue(false) / (if (maxNeedGoal - minNeedGoal == BigDecimal.ZERO) 1f else (maxNeedGoal - minNeedGoal).floatValue(
+            false
+        ))
     }
 
     return if (habits[index].typeOfColorHabits == TypeOfColorHabits.SELECTED)
         habits[index].colorGood
     else Color(
         ((getProgressK() + getLevelK()) / 2 * 255).toInt(),
-        ((getDaysK()) / 1 * 255).toInt(),
+        ((getDaysK() + getNeedGoalK()) / 2 * 255).toInt(),
         ((getStreakK()) / 1 * 255).toInt(),
     )
 }
