@@ -87,11 +87,17 @@ fun seeColorByIndex(index: Int): Color {
         return (habits[index].needDays - minNeedDays).toFloat() / (if (maxNeedDays - minNeedDays == 0) 1f else (maxNeedDays - minNeedDays).toFloat())
     }
 
+    fun getLevelChangeK(): Float {
+        return ((if (habits[index].changeLevel) 1f else 0f)
+                + (if (habits[index].changeNeedGoalWithLevel) 1f else 0f)
+                + (if (habits[index].changeNeedDaysWithLevel) 1f else 0f)) / 3
+    }
+
     return if (habits[index].typeOfColorHabits == TypeOfColorHabits.SELECTED)
         habits[index].colorGood
     else Color(
         ((getProgressK() + getLevelK() + getNeedDaysK()) / 3 * 255).toInt(),
-        ((getDaysK() + getNeedGoalK()) / 2 * 255).toInt(),
+        ((getDaysK() + getNeedGoalK() + getLevelChangeK()) / 3 * 255).toInt(),
         ((getStreakK() + getTypeOfGoalK()) / 2 * 255).toInt(),
     )
 }
