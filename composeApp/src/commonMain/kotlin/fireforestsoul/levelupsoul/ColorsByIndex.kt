@@ -14,45 +14,56 @@ import kotlin.math.max
 import kotlin.math.min
 
 fun seeColorByIndex(index: Int): Color {
-    var maxDays = 0
-    for (habit in habits) {
-        maxDays = max(habit.habitDay.size, maxDays)
+    fun getProgressK(): Float {
+        var maxProgress = Float.MIN_VALUE
+        var minProgress = Float.MAX_VALUE
+        for (habit in habits) {
+            maxProgress = max(progress(habit), maxProgress)
+            minProgress = min(progress(habit), maxProgress)
+        }
+        return (habits[index].habitDay.size - minProgress) / (if (maxProgress - minProgress == 0f) 1f else (maxProgress - minProgress))
     }
-    var maxSeria = 0
-    for (x in 0 until habits.size) {
-        maxSeria = max(
-            if (habitStreaks(x).isNotEmpty()) habitStreaks(x)[0] else 0,
-            maxSeria
-        )
-    }
-    var maxLevel = 0
-    var minLevel = 0
-    for (habit in habits) {
-        maxLevel = max(maxLevel, habit.level)
-        minLevel = min(minLevel, habit.level)
-    }
-    val levels = maxLevel - minLevel
 
-    /**
-     * red= 2 green= 1 blue= 1
-     */
+    fun getDaysK(): Float {
+        var maxDays = Int.MIN_VALUE
+        var minDays = Int.MAX_VALUE
+        for (habit in habits) {
+            maxDays = max(habit.habitDay.size, maxDays)
+            minDays = min(habit.habitDay.size, maxDays)
+        }
+        return (habits[index].habitDay.size - minDays).toFloat() / (if (maxDays - minDays == 0) 1f else (maxDays - minDays).toFloat())
+    }
+
+    fun getStreakK(): Float {
+        var maxStreak = Int.MIN_VALUE
+        val minStreak = 0
+        for (habit in habits) {
+            maxStreak = max(if (habitStreaks(habit).isNotEmpty()) habitStreaks(habit)[0] else 0, maxStreak)
+        }
+        return (habits[index].habitDay.size - minStreak).toFloat() / (if (maxStreak - minStreak == 0) 1f else (maxStreak - minStreak).toFloat())
+    }
+
+    fun getLevelK(): Float {
+        var maxLevel = Int.MIN_VALUE
+        var minLevel = Int.MAX_VALUE
+        for (habit in habits) {
+            maxLevel = max(habit.level, maxLevel)
+            minLevel = min(habit.level, maxLevel)
+        }
+        return (habits[index].habitDay.size - minLevel).toFloat() / (if (maxLevel - minLevel == 0) 1f else (maxLevel - minLevel).toFloat())
+    }
+
     return if (habits[index].typeOfColorHabits == TypeOfColorHabits.SELECTED)
         habits[index].colorGood
     else Color(
-        (habits[index].habitDay.size.toDouble() / (if (maxDays != 0) maxDays else 1).toDouble() * 127.5).toInt()
-                + ((habits[index].level - minLevel) / (if (levels == 0) 1 else levels) * 127.5).toInt(),
-        (progress(index) * 255.0).toInt(),
-        ((if (habitStreaks(index).isNotEmpty()) habitStreaks(index)[0] else 0) / (if (maxSeria != 0) maxSeria else 1) * 255.0).toInt()
+        ((getProgressK() + getLevelK()) / 2 * 255).toInt(),
+        ((getDaysK()) / 1 * 255).toInt(),
+        ((getStreakK()) / 1 * 255).toInt(),
     )
 }
 
 fun noSeeColorByIndex(index: Int): Color {
-    val seeColor = seeColorByIndex(index)
-    return Color(
-        seeColor.red * 0.5f,
-        seeColor.green * 0.5f,
-        seeColor.blue * 0.5f
-    )
+    return seeColorByIndex(index).multiply(0.5f, 0.5f, 0.5f)
 }
 
 fun getSeeSoulColor(): Color {
