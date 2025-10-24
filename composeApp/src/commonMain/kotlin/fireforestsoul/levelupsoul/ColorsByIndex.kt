@@ -77,10 +77,20 @@ fun seeColorByIndex(index: Int): Color {
         }
     }
 
+    fun getNeedDaysK(): Float {
+        var maxNeedDays = Int.MIN_VALUE
+        var minNeedDays = Int.MAX_VALUE
+        for (habit in habits) {
+            maxNeedDays = maxOf(habit.needDays, maxNeedDays)
+            minNeedDays = minOf(habit.needDays, maxNeedDays)
+        }
+        return (habits[index].needDays - minNeedDays).toFloat() / (if (maxNeedDays - minNeedDays == 0) 1f else (maxNeedDays - minNeedDays).toFloat())
+    }
+
     return if (habits[index].typeOfColorHabits == TypeOfColorHabits.SELECTED)
         habits[index].colorGood
     else Color(
-        ((getProgressK() + getLevelK()) / 2 * 255).toInt(),
+        ((getProgressK() + getLevelK() + getNeedDaysK()) / 3 * 255).toInt(),
         ((getDaysK() + getNeedGoalK()) / 2 * 255).toInt(),
         ((getStreakK() + getTypeOfGoalK()) / 2 * 255).toInt(),
     )
